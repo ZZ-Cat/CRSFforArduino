@@ -38,6 +38,8 @@
  *
  */
 
+volatile bool _dmaTransferDone = false;
+
 /**
  * @brief Construct a new CRSFforArduino object.
  *
@@ -74,6 +76,41 @@ bool CRSFforArduino::begin()
     memset(_buffer, 0, sizeof(_buffer));
     memset(_channels, 0, sizeof(_channels));
 
+    /* Configure the DMA. */
+    _dmaSerialRx.setTrigger(SERCOM5_DMAC_ID_RX);
+    _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
+    _dmaStatus = _dmaSerialRx.allocate();
+    if (_dmaStatus != DMA_STATUS_OK)
+    {
+        return false;
+    }
+
+    /* Configure the DMA descriptor. */
+    _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
+        (void *)(&SERCOM5->USART.DATA.reg),
+        _buffer,
+        sizeof(_buffer),
+        DMA_BEAT_SIZE_BYTE,
+        false,
+        true);
+    
+    if (_dmaSerialRxDescriptor == NULL)
+    {
+        return false;
+    }
+
+    _dmaSerialRx.loop(true);
+
+    /* Configure the DMA callback. */
+    _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
+
+    /* Start the DMA. */
+    _dmaStatus = _dmaSerialRx.startJob();
+    if (_dmaStatus != DMA_STATUS_OK)
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -103,4 +140,13 @@ bool CRSFforArduino::packetReceived()
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
     return _channels[channel];
+}
+
+void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
+{
+    // Debug.
+    // Serial.println("DMA transfer done.");
+
+    /* Set the DMA Transfer Done flag. */
+    _dmaTransferDone = true;
 }

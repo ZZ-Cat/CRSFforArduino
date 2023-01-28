@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Arduino.h"
+#include "Adafruit_ZeroDMA.h"
 
 enum __rc_channels_e
 {
@@ -129,4 +130,15 @@ class CRSFforArduino
         uint8_t _buffer[CRSF_FRAME_SIZE_MAX];
         uint8_t _bufferIndex;
         uint16_t _channels[RC_CHANNEL_COUNT];
+
+        /* DMA */
+        Adafruit_ZeroDMA _dmaSerialRx;
+        DmacDescriptor *_dmaSerialRxDescriptor;
+        ZeroDMAstatus _dmaStatus;
 };
+
+/**
+ * @brief DMA transfer done callback
+ * 
+ */
+void _dmaTransferDoneCallback(Adafruit_ZeroDMA *);
