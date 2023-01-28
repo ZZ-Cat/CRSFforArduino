@@ -111,7 +111,8 @@ bool CRSFforArduino::begin()
         return false;
     }
 
-    _dmaSerialRx.loop(true);
+    // Disabled because it is non-functional for some reason.
+    // _dmaSerialRx.loop(true);
 
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
