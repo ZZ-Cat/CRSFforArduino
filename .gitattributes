@@ -1,0 +1,4 @@
+*.c text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.ino text eol=lf linguist-language=c++

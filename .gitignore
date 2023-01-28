@@ -1,0 +1,5 @@
+# Artefacts for compiling the code
+/build/
+
+# Artefacts for Visual Studio Code
+/.vscode/
