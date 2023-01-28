@@ -153,6 +153,7 @@ bool CRSFforArduino::update()
     {
         _dmaTransferDone = false;
 
+        /*
         // Check if the packet is a CRSF frame.
         if (_buffer[0] == CRSF_ADDRESS_FLIGHT_CONTROLLER)
         {
@@ -171,6 +172,7 @@ bool CRSFforArduino::update()
                 _packetReceived = true;
             }
         }
+        */
 
         // Clear the buffer.
         memset(_buffer, 0, sizeof(_buffer));
