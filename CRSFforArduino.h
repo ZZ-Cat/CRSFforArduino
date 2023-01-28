@@ -14,6 +14,9 @@
 #include "Arduino.h"
 #include "Adafruit_ZeroDMA.h"
 
+// Uncomment this line to enable debug output.
+// #define CRSF_DEBUG
+
 enum __rc_channels_e
 {
     RC_CHANNEL_ROLL = 0,
