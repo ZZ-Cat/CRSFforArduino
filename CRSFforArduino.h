@@ -115,13 +115,15 @@ class CRSFforArduino
     public:
         CRSFforArduino(HardwareSerial *serial);
         ~CRSFforArduino();
-        void begin();
+        bool begin();
         void end();
-        void update();
+        bool update();
         bool packetReceived();
         uint16_t getChannel(uint8_t channel);
     
-    private:
+    protected:
+
+        /* CRSF */
         bool _packetReceived;
         HardwareSerial *_serial;
         uint8_t _buffer[CRSF_FRAME_SIZE_MAX];
