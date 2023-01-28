@@ -93,7 +93,7 @@ bool CRSFforArduino::begin()
         DMA_BEAT_SIZE_BYTE,
         false,
         true);
-    
+
     if (_dmaSerialRxDescriptor == NULL)
     {
         return false;
@@ -130,6 +130,48 @@ void CRSFforArduino::end()
  */
 bool CRSFforArduino::update()
 {
+    if (_dmaTransferDone == true)
+    {
+        _dmaTransferDone = false;
+
+        // Check if the packet is a CRSF frame.
+        if (_buffer[0] == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+        {
+            uint8_t payloadSize = _buffer[1] - 2;
+
+            // Check if the packet is a CRSF RC frame.
+            if (_buffer[2] == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
+            {
+                // Read the RC channels.
+                for (uint8_t i = 0; i < RC_CHANNEL_COUNT; i++)
+                {
+                    _channels[i] = _buffer[3 + (i * 2)] | (_buffer[4 + (i * 2)] << 8);
+                }
+
+                // Set the packet received flag.
+                _packetReceived = true;
+            }
+        }
+
+        // Clear the buffer.
+        memset(_buffer, 0, sizeof(_buffer));
+
+        // Restart the DMA.
+        _dmaStatus = _dmaSerialRx.startJob();
+        if (_dmaStatus != DMA_STATUS_OK)
+        {
+            return false;
+        }
+
+        // Return true to indicate that the packet was received.
+        return true;
+    }
+
+    else
+    {
+        // Return false to indicate that the packet was not received.
+        return false;
+    }
 }
 
 bool CRSFforArduino::packetReceived()
@@ -144,6 +186,8 @@ uint16_t CRSFforArduino::getChannel(uint8_t channel)
 
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
+    (void)dma;
+
     // Debug.
     // Serial.println("DMA transfer done.");
 

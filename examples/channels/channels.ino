@@ -141,8 +141,7 @@ void setup()
 
 void loop()
 {
-    crsf.update();
-    if (crsf.packetReceived())
+    if (crsf.update())
     {
         Serial.print("Channel 1: ");
         Serial.println(crsf.getChannel(1));
