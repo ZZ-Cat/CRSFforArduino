@@ -138,6 +138,7 @@ class CRSFforArduino
         bool update();
         bool packetReceived();
         uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
     
     protected:
 

@@ -221,6 +221,20 @@ uint16_t CRSFforArduino::getChannel(uint8_t channel)
     return _channels[(channel - 1) % RC_CHANNEL_COUNT];
 }
 
+uint16_t CRSFforArduino::rcToUs(uint16_t rc)
+{
+    /**
+     * @brief Converts a RC value to microseconds.
+     * min RC = 172 (988us)
+     * mid RC = 992 (1500us)
+     * max RC = 1811 (2012us)
+     * scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241
+     * offset = 988 - 172 * 0.62477120195241 = 880.53935326418548
+     * 
+     */
+    return (uint16_t)((rc * 0.62477120195241F) + 881);
+}
+
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;

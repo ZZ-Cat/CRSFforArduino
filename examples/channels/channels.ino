@@ -144,21 +144,21 @@ void loop()
     if (crsf.update())
     {
         Serial.print("RC Channels <A: ");
-        Serial.print(crsf.getChannel(1));
+        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
         Serial.print(", E: ");
-        Serial.print(crsf.getChannel(2));
+        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
         Serial.print(", T: ");
-        Serial.print(crsf.getChannel(3));
+        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
         Serial.print(", R: ");
-        Serial.print(crsf.getChannel(4));
+        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
         Serial.print(", Aux1: ");
-        Serial.print(crsf.getChannel(5));
+        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
         Serial.print(", Aux2: ");
-        Serial.print(crsf.getChannel(6));
+        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
         Serial.print(", Aux3: ");
-        Serial.print(crsf.getChannel(7));
+        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
         Serial.print(", Aux4: ");
-        Serial.print(crsf.getChannel(8));
+        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
         Serial.println(">");
     }
 }
