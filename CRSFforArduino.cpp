@@ -71,9 +71,8 @@ bool CRSFforArduino::begin()
     _serial->setTimeout(10);
 
     _packetReceived = false;
-    _bufferIndex = 0;
 
-    memset(_buffer, 0, sizeof(_buffer));
+    memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_channels, 0, sizeof(_channels));
 
     /* Configure the DMA. */
@@ -94,8 +93,8 @@ bool CRSFforArduino::begin()
     /* Configure the DMA descriptor. */
     _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
         (void *)(&SERCOM5->USART.DATA.reg),
-        _buffer,
-        sizeof(_buffer),
+        _crsfFrame.raw,
+        CRSF_FRAME_SIZE_MAX,
         DMA_BEAT_SIZE_BYTE,
         false,
         true);
@@ -175,7 +174,7 @@ bool CRSFforArduino::update()
         */
 
         // Clear the buffer.
-        memset(_buffer, 0, sizeof(_buffer));
+        memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
         // Restart the DMA.
         _dmaStatus = _dmaSerialRx.startJob();

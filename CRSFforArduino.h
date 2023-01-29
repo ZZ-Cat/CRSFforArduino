@@ -144,8 +144,6 @@ class CRSFforArduino
         /* CRSF */
         bool _packetReceived;
         HardwareSerial *_serial;
-        uint8_t _buffer[CRSF_FRAME_SIZE_MAX];
-        uint8_t _bufferIndex;
         uint16_t _channels[RC_CHANNEL_COUNT];
         __crsf_frame_t _crsfFrame;
 
