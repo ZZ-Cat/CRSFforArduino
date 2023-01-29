@@ -239,7 +239,7 @@ bool CRSFforArduino::packetReceived()
 
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
-    return _channels[channel];
+    return _channels[(channel - 1) % RC_CHANNEL_COUNT];
 }
 
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
