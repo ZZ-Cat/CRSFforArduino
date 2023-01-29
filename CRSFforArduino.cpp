@@ -230,7 +230,7 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
      * max RC = 1811 (2012us)
      * scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241
      * offset = 988 - 172 * 0.62477120195241 = 880.53935326418548
-     * 
+     *
      */
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }

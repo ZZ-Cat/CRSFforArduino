@@ -4,9 +4,9 @@
  * @brief Library for CRSF (Crossfire Serial Protocol) for Arduino.
  * @version 0.1.0
  * @date 2023-01-15
- * 
+ *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
- * 
+ *
  */
 
 #pragma once
@@ -62,13 +62,13 @@ enum __crsf_frame_payloadSize_e
 
 enum __crsf_frameLength_e
 {
-    CRSF_FRAME_LENGTH_ADDRESS = 1, // Length of the address field in bytes.
-    CRSF_FRAME_LENGTH_FRAMELENGTH = 1, // Length of the frame length field in bytes.
-    CRSF_FRAME_LENGTH_TYPE = 1, // Length of the type field in bytes.
-    CRSF_FRAME_LENGTH_CRC = 1, // Length of the CRC field in bytes.
+    CRSF_FRAME_LENGTH_ADDRESS = 1,                                               // Length of the address field in bytes.
+    CRSF_FRAME_LENGTH_FRAMELENGTH = 1,                                           // Length of the frame length field in bytes.
+    CRSF_FRAME_LENGTH_TYPE = 1,                                                  // Length of the type field in bytes.
+    CRSF_FRAME_LENGTH_CRC = 1,                                                   // Length of the CRC field in bytes.
     CRSF_FRAME_LENGTH_CRC_TYPE = CRSF_FRAME_LENGTH_TYPE + CRSF_FRAME_LENGTH_CRC, // Length of the type and CRC fields in bytes.
-    CRSF_FRAME_LENGTH_EXT_TYPE_CRC = 4, // Length of the extended Dest/Origin, type, and CRC fields in bytes.
-    CRSF_FRAME_LENGTH_NON_PAYLOAD = 4 // Combined length of all fields except the payload in bytes.
+    CRSF_FRAME_LENGTH_EXT_TYPE_CRC = 4,                                          // Length of the extended Dest/Origin, type, and CRC fields in bytes.
+    CRSF_FRAME_LENGTH_NON_PAYLOAD = 4                                            // Combined length of all fields except the payload in bytes.
 };
 
 typedef enum __crsf_frameType_e
@@ -116,9 +116,9 @@ typedef enum __crsf_address_e
 
 typedef struct __crsf_frameDefinition_s
 {
-    uint8_t deviceAddress; // Frame address.
-    uint8_t frameLength; // Frame length. Includes payload and CRC.
-    uint8_t type; // Frame type.
+    uint8_t deviceAddress;                                          // Frame address.
+    uint8_t frameLength;                                            // Frame length. Includes payload and CRC.
+    uint8_t type;                                                   // Frame type.
     uint8_t payload[CRSF_PAYLOAD_SIZE_MAX + CRSF_FRAME_LENGTH_CRC]; // Frame payload.
 } __crsf_frameDefinition_t;
 
@@ -130,32 +130,31 @@ typedef union __crsf_frame_u
 
 class CRSFforArduino
 {
-    public:
-        CRSFforArduino(HardwareSerial *serial);
-        ~CRSFforArduino();
-        bool begin();
-        void end();
-        bool update();
-        bool packetReceived();
-        uint16_t getChannel(uint8_t channel);
-        uint16_t rcToUs(uint16_t rc);
-    
-    protected:
+public:
+    CRSFforArduino(HardwareSerial *serial);
+    ~CRSFforArduino();
+    bool begin();
+    void end();
+    bool update();
+    bool packetReceived();
+    uint16_t getChannel(uint8_t channel);
+    uint16_t rcToUs(uint16_t rc);
 
-        /* CRSF */
-        bool _packetReceived;
-        HardwareSerial *_serial;
-        uint16_t _channels[RC_CHANNEL_COUNT];
-        __crsf_frame_t _crsfFrame;
+protected:
+    /* CRSF */
+    bool _packetReceived;
+    HardwareSerial *_serial;
+    uint16_t _channels[RC_CHANNEL_COUNT];
+    __crsf_frame_t _crsfFrame;
 
-        /* DMA */
-        Adafruit_ZeroDMA _dmaSerialRx;
-        DmacDescriptor *_dmaSerialRxDescriptor;
-        ZeroDMAstatus _dmaStatus;
+    /* DMA */
+    Adafruit_ZeroDMA _dmaSerialRx;
+    DmacDescriptor *_dmaSerialRxDescriptor;
+    ZeroDMAstatus _dmaStatus;
 };
 
 /**
  * @brief DMA transfer done callback
- * 
+ *
  */
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *);

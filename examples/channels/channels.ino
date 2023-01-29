@@ -4,29 +4,29 @@
  * @brief This example sketch shows how to receive RC channels from a CRSF receiver using the CRSFforArduino library.
  * @version 0.1.0
  * @date 2023-01-15
- * 
+ *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
- * 
+ *
  * @section Introduction
- * 
+ *
  * This example sketch shows how to receive RC channels from a CRSF receiver using the CRSFforArduino library.
- * 
+ *
  * @section Hardware
- * 
+ *
  * This example sketch was written for the following hardware:
  * - Adafruit Metro M4 Express
  * - RadioMaster TX16S Max (EdgeTX 2.8.0 or later)
  * - TBS Crossfire Nano Diversity Receiver
  * - TBS Crossfire Micro TX
- * 
+ *
  * @section Dependencies
- * 
+ *
  * This example sketch depends on the following libraries:
  * - Arduino.h
  * - CRSFforArduino.h
- * 
+ *
  * @section Quick Start
- * 
+ *
  * 1. Connect the CRSF receiver to the Metro M4 Express using the following pinout:
  *   - CRSF TX (CH 1) to Metro M4 Express TX (pin 1)
  *   - CRSF RX (CH 2) to Metro M4 Express RX (pin 0)
@@ -45,9 +45,9 @@
  * 7. Set the Serial Monitor baud rate to 115200.
  * 8. Set the Serial Monitor line ending to "Both NL & CR".
  * 9. Turn on your transmitter.
- * 
+ *
  * @section Binding (Optional & only needed for the first time)
- * 
+ *
  * 1. Turn on your transmitter.
  * 2. On your transmitter, open up the TBS Agent Lite app.
  *   - Radio Settings > Tools > TBS Agent Lite
@@ -60,16 +60,16 @@
  *   - The Status LED will turn solid green when the receiver is bound.
  *   - The Status LED on the Micro TX will turn solid green when the receiver is bound.
  * 5. Close TBS Agent Lite.
- * 
+ *
  * @section Output
- * 
+ *
  * The Serial Monitor will display the following output:
  * @todo Add output
- * 
+ *
  * @section Troubleshooting
- * 
+ *
  * @todo Add troubleshooting
- * 
+ *
  */
 
 #include "CRSFforArduino.h"
@@ -136,7 +136,6 @@ void setup()
     delay(1000);
     Serial.println("Ready");
     delay(1000);
-
 }
 
 void loop()
