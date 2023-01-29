@@ -81,12 +81,6 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
     {
-
-// Debug.
-#ifdef CRSF_DEBUG
-        Serial.println("DMA allocation failed.");
-#endif
-
         return false;
     }
 
@@ -101,12 +95,6 @@ bool CRSFforArduino::begin()
 
     if (_dmaSerialRxDescriptor == NULL)
     {
-
-// Debug.
-#ifdef CRSF_DEBUG
-        Serial.println("DMA descriptor allocation failed.");
-#endif
-
         return false;
     }
 
@@ -120,12 +108,6 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.startJob();
     if (_dmaStatus != DMA_STATUS_OK)
     {
-
-// Debug.
-#ifdef CRSF_DEBUG
-        Serial.println("DMA start failed.");
-#endif
-
         return false;
     }
 
@@ -197,12 +179,6 @@ bool CRSFforArduino::update()
         _dmaStatus = _dmaSerialRx.startJob();
         if (_dmaStatus != DMA_STATUS_OK)
         {
-
-// Debug.
-#ifdef CRSF_DEBUG
-            Serial.println("DMA restart failed.");
-#endif
-
             return false;
         }
 
@@ -272,11 +248,6 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;
-
-    // Debug.
-#ifdef CRSF_DEBUG
-    Serial.println("DMA transfer done.");
-#endif
 
     /* Set the DMA Transfer Done flag. */
     _dmaTransferDone = true;
