@@ -66,7 +66,7 @@ enum __crsf_frameLength_e
     CRSF_FRAME_LENGTH_FRAMELENGTH = 1,                                           // Length of the frame length field in bytes.
     CRSF_FRAME_LENGTH_TYPE = 1,                                                  // Length of the type field in bytes.
     CRSF_FRAME_LENGTH_CRC = 1,                                                   // Length of the CRC field in bytes.
-    CRSF_FRAME_LENGTH_CRC_TYPE = CRSF_FRAME_LENGTH_TYPE + CRSF_FRAME_LENGTH_CRC, // Length of the type and CRC fields in bytes.
+    CRSF_FRAME_LENGTH_TYPE_CRC = CRSF_FRAME_LENGTH_TYPE + CRSF_FRAME_LENGTH_CRC, // Length of the type and CRC fields in bytes.
     CRSF_FRAME_LENGTH_EXT_TYPE_CRC = 4,                                          // Length of the extended Dest/Origin, type, and CRC fields in bytes.
     CRSF_FRAME_LENGTH_NON_PAYLOAD = 4                                            // Combined length of all fields except the payload in bytes.
 };
