@@ -114,6 +114,20 @@ typedef enum __crsf_address_e
     CRSF_ADDRESS_CRSF_TRANSMITTER = 0xEE
 } __crsf_address_t;
 
+typedef struct __crsf_frameDefinition_s
+{
+    uint8_t deviceAddress; // Frame address.
+    uint8_t frameLength; // Frame length. Includes payload and CRC.
+    uint8_t type; // Frame type.
+    uint8_t payload[CRSF_PAYLOAD_SIZE_MAX + CRSF_FRAME_LENGTH_CRC]; // Frame payload.
+} __crsf_frameDefinition_t;
+
+typedef union __crsf_frame_u
+{
+    uint8_t raw[CRSF_FRAME_SIZE_MAX];
+    __crsf_frameDefinition_t frame;
+} __crsf_frame_t;
+
 class CRSFforArduino
 {
     public:
@@ -133,6 +147,7 @@ class CRSFforArduino
         uint8_t _buffer[CRSF_FRAME_SIZE_MAX];
         uint8_t _bufferIndex;
         uint16_t _channels[RC_CHANNEL_COUNT];
+        __crsf_frame_t _crsfFrame;
 
         /* DMA */
         Adafruit_ZeroDMA _dmaSerialRx;
