@@ -4,9 +4,9 @@
  * @brief Hardware serial driver for the Adafruit Metro M4 board.
  * @version 0.1.0
  * @date 2023-01-27
- * 
+ *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
- * 
+ *
  */
 
 #include "serial.h"
