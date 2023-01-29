@@ -184,27 +184,6 @@ bool CRSFforArduino::update()
             }
         }
 
-        /*
-        // Check if the packet is a CRSF frame.
-        if (_buffer[0] == CRSF_ADDRESS_FLIGHT_CONTROLLER)
-        {
-            uint8_t payloadSize = _buffer[1] - 2;
-
-            // Check if the packet is a CRSF RC frame.
-            if (_buffer[2] == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
-            {
-                // Read the RC channels.
-                for (uint8_t i = 0; i < RC_CHANNEL_COUNT; i++)
-                {
-                    _channels[i] = _buffer[3 + (i * 2)] | (_buffer[4 + (i * 2)] << 8);
-                }
-
-                // Set the packet received flag.
-                _packetReceived = true;
-            }
-        }
-        */
-
         // Clear the buffer.
         memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
