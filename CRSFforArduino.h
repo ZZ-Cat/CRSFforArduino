@@ -147,6 +147,10 @@ protected:
     uint16_t _channels[RC_CHANNEL_COUNT];
     __crsf_frame_t _crsfFrame;
 
+    /* CRC */
+    uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
+    uint8_t _crsfFrameCRC(void);
+
     /* DMA */
     Adafruit_ZeroDMA _dmaSerialRx;
     DmacDescriptor *_dmaSerialRxDescriptor;

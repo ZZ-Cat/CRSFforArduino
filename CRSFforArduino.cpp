@@ -152,6 +152,11 @@ bool CRSFforArduino::update()
     {
         _dmaTransferDone = false;
 
+        const int fullFrameLength = _crsfFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH;
+        const uint8_t crc = _crsfFrameCRC();
+
+        if (crc == _crsfFrame.raw[fullFrameLength - 1])
+        {
         // Check if the packet is a CRSF frame.
         if (_crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
         {
@@ -182,6 +187,7 @@ bool CRSFforArduino::update()
                 // Set the packet received flag.
                 _packetReceived = true;
             }
+        }
         }
 
         // Clear the buffer.
@@ -233,6 +239,34 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
      *
      */
     return (uint16_t)((rc * 0.62477120195241F) + 881);
+}
+
+uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
+{
+    crc ^= a;
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        if (crc & 0x80)
+        {
+            crc = (crc << 1) ^ 0xD5;
+        }
+        else
+        {
+            crc <<= 1;
+        }
+    }
+    return crc;
+}
+
+uint8_t CRSFforArduino::_crsfFrameCRC()
+{
+    // CRC includes the packet type and payload.
+    uint8_t crc = _crc8_dvb_s2(0, _crsfFrame.frame.type);
+    for (uint8_t i = 0; i < _crsfFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC; i++)
+    {
+        crc = _crc8_dvb_s2(crc, _crsfFrame.frame.payload[i]);
+    }
+    return crc;
 }
 
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
