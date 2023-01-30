@@ -75,7 +75,15 @@
  * @section Output
  *
  * The Serial Monitor will display the following output:
- * @todo Add output
+ * @code
+ * Channels Example
+ * Ready
+ * RC Channels <A: 1500, E: 1500, T: 1500, R: 1500, Aux1: 1500, Aux2: 1500, Aux3: 1500, Aux4: 1500>
+ * @endcode
+ * The values for each channel will change as you move the sticks on your transmitter.
+ * The values will be in microseconds (us).
+ * Standard range is 988us to 2012us, with 1500us being the center position.
+ * Extended range is 885us to 2115us, with 1500us being the center position.
  *
  * @section Troubleshooting
  *
