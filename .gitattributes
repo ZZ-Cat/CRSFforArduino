@@ -2,3 +2,4 @@
 *.cpp text eol=lf
 *.h text eol=lf
 *.ino text eol=lf linguist-language=c++
+*.md text eol=lf
