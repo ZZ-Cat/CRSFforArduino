@@ -168,3 +168,30 @@ Generally speaking, if your receiver supports ExpressLRS, it's automatically com
 
 As always, I believe in freedom & I want to pass that freedom onto you.
 Which is why I am proud to license CRSFforArduino to you under the GNU GPL v3.
+
+## Attributions
+
+I give credit where credit is due. Because CRSFforArduino isn't entirely my own idea, but built on the shoulders of giants. Here is a list of credits to those what helped to make this possible:
+
+- Inspiration for this library
+  - [ExpressLRS](https://github.com/ExpressLRS)
+    - [Development Team](https://github.com/orgs/ExpressLRS/people)
+    - [License](https://github.com/ExpressLRS/ExpressLRS/blob/master/LICENSE)
+    - [Source Code](https://github.com/ExpressLRS/ExpressLRS)
+    - [Website](https://www.expresslrs.org/3.0/)
+- References for CRSF implementation
+  - [BetaFlight](https://github.com/betaflight)
+    - [Development Team](https://github.com/orgs/betaflight/people)
+    - [License](https://github.com/betaflight/betaflight/blob/master/LICENSE)
+    - [Source Code](https://github.com/betaflight/betaflight)
+    - [Website](https://betaflight.com/)
+  - [RotorFlight](https://github.com/rotorflight)
+    - [Development Team](https://github.com/rotorflight#credits)
+    - [License](https://github.com/rotorflight/rotorflight-firmware/blob/master/LICENSE)
+    - [Source Code](https://github.com/rotorflight/rotorflight-firmware)
+- Third Party libraries
+  - [Adafruit Industries](https://github.com/adafruit)
+    - [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+      - [Author](https://github.com/PaintYourDragon)
+      - [License](https://github.com/adafruit/Adafruit_ZeroDMA/blob/master/LICENSE)
+    - [Website](https://www.adafruit.com/)
