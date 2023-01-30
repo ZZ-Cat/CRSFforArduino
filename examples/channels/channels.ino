@@ -85,10 +85,6 @@
  * Standard range is 988us to 2012us, with 1500us being the center position.
  * Extended range is 885us to 2115us, with 1500us being the center position.
  *
- * @section Troubleshooting
- *
- * @todo Add troubleshooting
- *
  */
 
 #include "CRSFforArduino.h"
