@@ -16,6 +16,8 @@
  * This example sketch was tested with the following hardware:
  * - Adafruit Metro M4 Express
  * - RadioMaster TX16S Max Edition (EdgeTX 2.8.0 or later)
+ * - RadioMaster RP3 ExpressLRS 2.4GHz Nano Receiver (ExpressLRS 3.2.0 or later)
+ * - RadioMaster Ranger ExpressLRS 2.4GHz Transmitter Module (ExpressLRS 3.2.0 or later)
  * - TBS Crossfire Micro TX Module
  * - TBS Crossfire Nano Diversity Receiver
  *
