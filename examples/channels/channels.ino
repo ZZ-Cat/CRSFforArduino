@@ -24,7 +24,8 @@
  * @section Dependencies
  *
  * This example sketch depends on the following libraries:
- * - Arduino.h
+ * - Adafruit_ZeroDMA (This is included with the Adafruit Metro M4 Express board package.)
+ * - Arduino.h (This is included with the Arduino IDE.)
  * - CRSFforArduino.h
  *
  * @section Quick Start
