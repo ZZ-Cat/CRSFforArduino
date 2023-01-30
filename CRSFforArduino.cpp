@@ -76,7 +76,7 @@ bool CRSFforArduino::begin()
     memset(_channels, 0, sizeof(_channels));
 
     /* Configure the DMA. */
-    _dmaSerialRx.setTrigger(SERCOM5_DMAC_ID_RX);
+    _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
@@ -86,7 +86,7 @@ bool CRSFforArduino::begin()
 
     /* Configure the DMA descriptor. */
     _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
-        (void *)(&SERCOM5->USART.DATA.reg),
+        (void *)(&SERCOM3->USART.DATA.reg),
         _crsfFrame.raw,
         CRSF_FRAME_SIZE_MAX,
         DMA_BEAT_SIZE_BYTE,

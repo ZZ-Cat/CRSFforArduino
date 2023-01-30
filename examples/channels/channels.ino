@@ -28,8 +28,8 @@
  * @section Quick Start
  *
  * 1. Connect the CRSF receiver to the Metro M4 Express using the following pinout:
- *   - CRSF TX (CH 1) to Metro M4 Express TX (pin 1)
- *   - CRSF RX (CH 2) to Metro M4 Express RX (pin 0)
+ *   - CRSF TX (CH 1) to Metro M4 Express RX (Pin 0).
+ *   - CRSF RX (CH 2) to Metro M4 Express TX (Pin 1).
  *   - CRSF GND to Metro M4 Express GND
  *   - CRSF VCC to Metro M4 Express 5V
  * 2. Connect the Metro M4 Express to your computer using a USB cable.
@@ -73,10 +73,8 @@
  */
 
 #include "CRSFforArduino.h"
-#include "wiring_private.h"
 
-Uart crsfUart = Uart(&sercom5, 1, 0, SERCOM_RX_PAD_1, UART_TX_PAD_0);
-CRSFforArduino crsf = CRSFforArduino(&crsfUart);
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
@@ -90,46 +88,24 @@ void setup()
     // Initialize the CRSFforArduino library.
     crsf.begin();
 
-    // Route the SERCOM5 peripheral to the pins 0 & 1.
-    pinPeripheral(0, PIO_SERCOM_ALT);
-    pinPeripheral(1, PIO_SERCOM_ALT);
-
     // Change the data order to MSB first.
     // This is required for the CRSF protocol.
     // The CTRLA register is enable-protected, so it must be disabled before writing to it.
-    SERCOM5->USART.CTRLA.bit.ENABLE = 0;
-    while (SERCOM5->USART.SYNCBUSY.bit.ENABLE)
+    SERCOM3->USART.CTRLA.bit.ENABLE = 0;
+    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
     {
         // Wait for synchronization to complete before proceeding.
         ;
     }
-    SERCOM5->USART.CTRLA.bit.DORD = 1;
+    SERCOM3->USART.CTRLA.bit.DORD = 1;
 
-    // Enable the SERCOM5 peripheral again.
-    SERCOM5->USART.CTRLA.bit.ENABLE = 1;
-    while (SERCOM5->USART.SYNCBUSY.bit.ENABLE)
+    // Enable the SERCOM3 peripheral again.
+    SERCOM3->USART.CTRLA.bit.ENABLE = 1;
+    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
     {
         // Wait for synchronization to complete before proceeding.
         ;
     }
-
-    // Change the interrupt priority for SERCOM5.
-    NVIC_DisableIRQ(SERCOM5_0_IRQn);
-    NVIC_DisableIRQ(SERCOM5_1_IRQn);
-    NVIC_DisableIRQ(SERCOM5_2_IRQn);
-    NVIC_DisableIRQ(SERCOM5_3_IRQn);
-    NVIC_ClearPendingIRQ(SERCOM5_0_IRQn);
-    NVIC_ClearPendingIRQ(SERCOM5_1_IRQn);
-    NVIC_ClearPendingIRQ(SERCOM5_2_IRQn);
-    NVIC_ClearPendingIRQ(SERCOM5_3_IRQn);
-    NVIC_SetPriority(SERCOM5_0_IRQn, 0);
-    NVIC_SetPriority(SERCOM5_1_IRQn, 0);
-    NVIC_SetPriority(SERCOM5_2_IRQn, 0);
-    NVIC_SetPriority(SERCOM5_3_IRQn, 0);
-    NVIC_EnableIRQ(SERCOM5_0_IRQn);
-    NVIC_EnableIRQ(SERCOM5_1_IRQn);
-    NVIC_EnableIRQ(SERCOM5_2_IRQn);
-    NVIC_EnableIRQ(SERCOM5_3_IRQn);
 
     // Show the user that the sketch is ready.
     Serial.println("Channels Example");
@@ -160,24 +136,4 @@ void loop()
         Serial.print(crsf.rcToUs(crsf.getChannel(8)));
         Serial.println(">");
     }
-}
-
-void SERCOM5_0_Handler()
-{
-    crsfUart.IrqHandler();
-}
-
-void SERCOM5_1_Handler()
-{
-    crsfUart.IrqHandler();
-}
-
-void SERCOM5_2_Handler()
-{
-    crsfUart.IrqHandler();
-}
-
-void SERCOM5_3_Handler()
-{
-    crsfUart.IrqHandler();
 }
