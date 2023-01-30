@@ -13,11 +13,11 @@
  *
  * @section Hardware
  *
- * This example sketch was written for the following hardware:
+ * This example sketch was tested with the following hardware:
  * - Adafruit Metro M4 Express
- * - RadioMaster TX16S Max (EdgeTX 2.8.0 or later)
+ * - RadioMaster TX16S Max Edition (EdgeTX 2.8.0 or later)
+ * - TBS Crossfire Micro TX Module
  * - TBS Crossfire Nano Diversity Receiver
- * - TBS Crossfire Micro TX
  *
  * @section Dependencies
  *
@@ -27,11 +27,11 @@
  *
  * @section Quick Start
  *
- * 1. Connect the CRSF receiver to the Metro M4 Express using the following pinout:
- *   - CRSF TX (CH 1) to Metro M4 Express RX (Pin 0).
- *   - CRSF RX (CH 2) to Metro M4 Express TX (Pin 1).
- *   - CRSF GND to Metro M4 Express GND
- *   - CRSF VCC to Metro M4 Express 5V
+ * 1. Connect the receiver to the Metro M4 Express using the following pinout:
+ *   - TX pin to Metro M4 Express RX (Pin 0).
+ *   - RX pin to Metro M4 Express TX (Pin 1).
+ *   - GND pin to Metro M4 Express GND.
+ *   - 5V pin to Metro M4 Express 5V.
  * 2. Connect the Metro M4 Express to your computer using a USB cable.
  * 3. Select the Metro M4 Express board and the correct port in the Arduino IDE.
  *   - Tools > Board > Adafruit Metro M4 (SAMD51)
