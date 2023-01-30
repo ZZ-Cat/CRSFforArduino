@@ -51,6 +51,14 @@
  *
  * @section Binding (Optional & only needed for the first time)
  *
+ * @par ExpressLRS:
+ * Before you begin binding, make sure that you have the latest version of ExpressLRS flashed on your transmitter and receiver.
+ * When you flash ExpressLRS, make sure that your transmitter and receiver have the same binding phrase.
+ * 1. Turn on your transmitter.
+ * 2. Power on your ELRS receiver - EG RadioMaster RP3.
+ * 3. Binding will begin automatically, and the Status LED will turn solid when the receiver is bound.
+ *
+ * @par TBS Crossfire:
  * 1. Turn on your transmitter.
  * 2. On your transmitter, open up the TBS Agent Lite app.
  *   - Radio Settings > Tools > TBS Agent Lite
