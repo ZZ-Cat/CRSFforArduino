@@ -70,6 +70,18 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
+    /* Change the data order to MSB First.
+    The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
+    The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
+    Then re-enable the peripheral again. */
+    SERCOM3->USART.CTRLA.bit.ENABLE = 0;
+    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
+        ;
+    SERCOM3->USART.CTRLA.bit.DORD = 1;
+    SERCOM3->USART.CTRLA.bit.ENABLE = 1;
+    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
+        ;
+
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);

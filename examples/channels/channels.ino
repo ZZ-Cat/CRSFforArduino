@@ -88,25 +88,6 @@ void setup()
     // Initialize the CRSFforArduino library.
     crsf.begin();
 
-    // Change the data order to MSB first.
-    // This is required for the CRSF protocol.
-    // The CTRLA register is enable-protected, so it must be disabled before writing to it.
-    SERCOM3->USART.CTRLA.bit.ENABLE = 0;
-    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
-    {
-        // Wait for synchronization to complete before proceeding.
-        ;
-    }
-    SERCOM3->USART.CTRLA.bit.DORD = 1;
-
-    // Enable the SERCOM3 peripheral again.
-    SERCOM3->USART.CTRLA.bit.ENABLE = 1;
-    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
-    {
-        // Wait for synchronization to complete before proceeding.
-        ;
-    }
-
     // Show the user that the sketch is ready.
     Serial.println("Channels Example");
     delay(1000);
