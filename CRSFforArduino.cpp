@@ -72,17 +72,21 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
+#if defined(ARDUINO_ARCH_SAMD)
+    Sercom *_sercom = _getSercom();
+
     /* Change the data order to MSB First.
     The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
     The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
     Then re-enable the peripheral again. */
-    SERCOM3->USART.CTRLA.bit.ENABLE = 0;
-    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
+    _sercom->USART.CTRLA.bit.ENABLE = 0;
+    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
         ;
-    SERCOM3->USART.CTRLA.bit.DORD = 1;
-    SERCOM3->USART.CTRLA.bit.ENABLE = 1;
-    while (SERCOM3->USART.SYNCBUSY.bit.ENABLE)
+    _sercom->USART.CTRLA.bit.DORD = 1;
+    _sercom->USART.CTRLA.bit.ENABLE = 1;
+    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
         ;
+#endif
 
     _packetReceived = false;
 
@@ -101,7 +105,9 @@ bool CRSFforArduino::begin()
 
     /* Configure the DMA descriptor. */
     _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
-        (void *)(&SERCOM3->USART.DATA.reg),
+#if defined(ARDUINO_ARCH_SAMD)
+        (void *)(&_sercom->USART.DATA.reg),
+#endif
         _crsfFrame.raw,
         CRSF_FRAME_SIZE_MAX,
         DMA_BEAT_SIZE_BYTE,
@@ -275,6 +281,80 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
     }
     return crc;
 }
+
+#if defined(ARDUINO_ARCH_SAMD)
+Sercom *CRSFforArduino::_getSercom()
+{
+    Sercom *sercom = NULL;
+
+    /* Get the SERCOM instance for the current UART.
+    This adds compatibility with most development boards on the market today. */
+
+#if defined(__SAMD21E18A__)
+
+/* Adafruit Gemma M0, QtPy M0 & Trinket M0. */
+#if defined(ADAFRUIT_GEMMA_M0) || defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
+    sercom = SERCOM0;
+#endif
+
+#elif defined(__SAMD21G18A__)
+
+/* Adafruit Crickit M0. */
+#if defined(ADAFRUIT_CRICKIT_M0)
+    sercom = SERCOM5;
+
+/* Adafruit Feather M0 , Feather M0 Express, ItsyBitsy M0 & Metro M0 Express. */
+#elif defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || \
+    defined(ADAFRUIT_METRO_M0_EXPRESS)
+    sercom = SERCOM0;
+
+/* The entire lineup of Arduino MKR boards. */
+#elif defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRGSM1400) ||   \
+    defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_MKRWAN1300) || \
+    defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRZERO) ||    \
+    defined(ARDUINO_SAMD_NANO_33_IOT)
+    sercom = SERCOM5;
+
+/* Arduino Zero. */
+#elif defined(ARDUINO_SAMD_ZERO)
+    sercom = SERCOM0;
+#endif
+
+#elif defined(__SAMD51G19A__)
+
+/* Adafruit ItsyBitsy M4 Express. */
+#if defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
+    sercom = SERCOM3;
+#endif
+
+#elif defined(__SAMD51J19A__)
+
+/* Adafruit Feather M4 Express. */
+#if defined(ADAFRUIT_FEATHER_M4_EXPRESS)
+    sercom = SERCOM5;
+    ;
+
+/* Adafruit Metro M4 Airlift Lite & Metro M4 Express. */
+#elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_METRO_M4_EXPRESS)
+    sercom = SERCOM3;
+#endif
+#elif defined(__SAMD51P20A__)
+
+/* Adafruit Grand Central M4. */
+#if defined(ADAFRUIT_GRAND_CENTRAL_M4)
+    sercom = SERCOM0;
+#endif
+#elif defined(__SAME51J19A__)
+
+/* Adafruit Feather M4 CAN. */
+#if defined(ADAFRUIT_FEATHER_M4_CAN)
+    sercom = SERCOM5;
+#endif
+#endif
+
+    return sercom;
+}
+#endif
 
 #ifdef USE_DMA
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)

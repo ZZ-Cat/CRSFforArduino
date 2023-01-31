@@ -164,6 +164,10 @@ protected:
     DmacDescriptor *_dmaSerialRxDescriptor;
     ZeroDMAstatus _dmaStatus;
 #endif
+
+#if defined(ARDUINO_ARCH_SAMD)
+    Sercom *_getSercom(void);
+#endif
 };
 
 #ifdef USE_DMA
