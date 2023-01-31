@@ -179,6 +179,8 @@ This is coming soon.
 At first, I wanted to focus primarily on the important part first: Being able to read the RC channels data.
 This was my benchmark. Now, I know that this is working, I am now focusing on getting telemetry feedback up & running.
 
+There is now a [development branch](https://github.com/ZZ-Cat/CRSFforArduino/tree/Telemetry-Feedback) where telemetry is being worked on & tested. Once this is working the way it's supposed to, it will be merged into the Main-Trunk & I will update this section to reflect this.
+
 ## Software license
 
 As always, I believe in freedom & I want to pass that freedom onto you.
