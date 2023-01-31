@@ -11,8 +11,15 @@
 
 #pragma once
 
+#if defined(ARDUINO_ARCH_SAMD)
+#define USE_DMA
+#endif
+
 #include "Arduino.h"
+
+#ifdef USE_DMA
 #include "Adafruit_ZeroDMA.h"
+#endif
 
 // Uncomment this line to enable debug output.
 // #define CRSF_DEBUG
@@ -151,14 +158,18 @@ protected:
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
     uint8_t _crsfFrameCRC(void);
 
+#ifdef USE_DMA
     /* DMA */
     Adafruit_ZeroDMA _dmaSerialRx;
     DmacDescriptor *_dmaSerialRxDescriptor;
     ZeroDMAstatus _dmaStatus;
+#endif
 };
 
+#ifdef USE_DMA
 /**
  * @brief DMA transfer done callback
  *
  */
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *);
+#endif

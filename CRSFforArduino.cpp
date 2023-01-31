@@ -38,7 +38,9 @@
  *
  */
 
+#ifdef USE_DMA
 volatile bool _dmaTransferDone = false;
+#endif
 
 /**
  * @brief Construct a new CRSFforArduino object.
@@ -87,6 +89,7 @@ bool CRSFforArduino::begin()
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_channels, 0, sizeof(_channels));
 
+#ifdef USE_DMA
     /* Configure the DMA. */
     _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
@@ -122,6 +125,7 @@ bool CRSFforArduino::begin()
     {
         return false;
     }
+#endif
 
     return true;
 }
@@ -142,9 +146,15 @@ void CRSFforArduino::end()
  */
 bool CRSFforArduino::update()
 {
+#ifdef USE_DMA
     if (_dmaTransferDone == true)
     {
         _dmaTransferDone = false;
+#else
+    while (_serial->available() > 0)
+    {
+        _serial->readBytes(_crsfFrame.raw, CRSF_FRAME_SIZE_MAX);
+#endif
 
         const int fullFrameLength = _crsfFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH;
         const uint8_t crc = _crsfFrameCRC();
@@ -187,15 +197,23 @@ bool CRSFforArduino::update()
         // Clear the buffer.
         memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
+#ifdef USE_DMA
         // Restart the DMA.
         _dmaStatus = _dmaSerialRx.startJob();
         if (_dmaStatus != DMA_STATUS_OK)
         {
             return false;
         }
+#endif
 
         // Return true to indicate that the packet was received.
         return true;
+#ifndef USE_DMA
+    }
+
+    // Return false to indicate that the packet was not received.
+    return false;
+#else
     }
 
     else
@@ -203,6 +221,7 @@ bool CRSFforArduino::update()
         // Return false to indicate that the packet was not received.
         return false;
     }
+#endif
 }
 
 bool CRSFforArduino::packetReceived()
@@ -257,6 +276,7 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
     return crc;
 }
 
+#ifdef USE_DMA
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;
@@ -264,3 +284,4 @@ void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
     /* Set the DMA Transfer Done flag. */
     _dmaTransferDone = true;
 }
+#endif
