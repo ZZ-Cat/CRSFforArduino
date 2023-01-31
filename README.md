@@ -139,21 +139,30 @@ The example sketch also demonstrates how to read RC channels data from your conn
 
 Here is a list of target development boards CRSFforArduino is compatible with:
 
-- Adafruit Feather M4 Express
-- Adafruit Feather M4 CAN Express
-- Adafruit ItsyBitsy M4 Express
-- Adafruit Metro M4 Express
-- Adafruit Metro M4 Express AirLift Lite
+- SAMD21 based boards:
+  - Adafruit Crickit M0
+  - Adafruit Feather M0 & variants
+  - Adafruit Gemma M0
+  - Adafruit ItsyBitsy M0 Express
+  - Adafruit QtPy M0
+  - Adafruit Trinket M0
+  - Arduino MKR series
+  - Arduino Zero
+- SAMD51 based boards:
+  - Adafruit Feather M4 Express
+  - Adafruit Feather M4 CAN Express
+  - Adafruit ItsyBitsy M4 Express
+  - Adafruit Metro M4 Express
+  - Adafruit Metro M4 Express AirLift Lite
+- SAME51 based boards:
+  - Adafruit Grand Central M4
 
 The current version of this library is centered around the Microchip SAM D51 & SAM E51 microcontrollers. Therefore, this library will work with any development board (with the Arduino Rev3 form factor) that has either a SAM D51 or SAM E51 microcontroller.
 
 Compatibility with other microcontroller boards may be added in the future, if there is demand for it, subject to hardware limitations of the host microcontroller itself.
 
-Generally speaking, if the host microcontroller has DMA & its UART peripherals support 400k bauds (or higher), it is a likely candidate for this library to support it.
-
-I am maintaining _minimum_ compatibility with Cortex M4F microcontrollers, as this is the bare minimum that is supported in other areas of the RC hobby (Modern flight controllers are now using Cortex M7 microcontrollers).
-
-I may try to add compatibility with SAM D21 microcontrollers & a handful of other Cortex M0+ devices in the near future, but there are no guarantees that this will work.
+Generally speaking, if the host microcontroller's UART peripheral support 400k bauds (or higher), it is a likely candidate for this library to support it.
+If the host microcontroller also has DMA, this is an added bonus. DMA is no longer required (but it is still the preferred method).
 
 ## AVR based microcontrollers are not compatible
 
