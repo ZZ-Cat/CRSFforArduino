@@ -157,11 +157,9 @@ Here is a list of target development boards CRSFforArduino is compatible with:
 - SAME51 based boards:
   - Adafruit Grand Central M4
 
-The current version of this library is centered around the Microchip SAM D51 & SAM E51 microcontrollers. Therefore, this library will work with any development board (with the Arduino Rev3 form factor) that has either a SAM D51 or SAM E51 microcontroller.
+Compatibility with other microcontroller boards may be added in the future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
 
-Compatibility with other microcontroller boards may be added in the future, if there is demand for it, subject to hardware limitations of the host microcontroller itself.
-
-Generally speaking, if the host microcontroller's UART peripheral support 400k bauds (or higher), it is a likely candidate for this library to support it.
+Generally speaking, if the host microcontroller's UART peripheral supports 420k bauds (or higher), it is a likely candidate for this library to support it.
 If the host microcontroller also has DMA, this is an added bonus. DMA is no longer required (but it is still the preferred method).
 
 ## AVR based microcontrollers are not compatible
@@ -171,7 +169,7 @@ Simply put, their capabilities are not there; & I will not be adding compatibili
 
 ## Compatible receivers
 
-Generally speaking, if your receiver supports ExpressLRS, it's automatically compatible.
+Generally speaking, if your transmitter & receiver combo supports ExpressLRS, it's automatically compatible.
 
 ## Software license
 
