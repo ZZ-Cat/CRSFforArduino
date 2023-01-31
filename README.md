@@ -171,6 +171,14 @@ Simply put, their capabilities are not there; & I will not be adding compatibili
 
 Generally speaking, if your transmitter & receiver combo supports ExpressLRS, it's automatically compatible.
 
+## Telemetry
+
+Currently, there is no telemetry feedback from the host microcontroller's side... _yet!_
+This is coming soon.
+
+At first, I wanted to focus primarily on the important part first: Being able to read the RC channels data.
+This was my benchmark. Now, I know that this is working, I am now focusing on getting telemetry feedback up & running.
+
 ## Software license
 
 As always, I believe in freedom & I want to pass that freedom onto you.
