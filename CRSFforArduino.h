@@ -146,13 +146,11 @@ public:
     bool begin();
     void end();
     bool update();
-    bool packetReceived();
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);
 
 protected:
     /* CRSF */
-    bool _packetReceived;
     HardwareSerial *_serial;
     uint16_t _channels[RC_CHANNEL_COUNT];
     __crsf_frame_t _crsfFrame;
