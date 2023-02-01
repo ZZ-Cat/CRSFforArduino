@@ -146,7 +146,11 @@ void CRSFforArduino::end()
 /**
  * @brief Updates the CRSFforArduino object.
  * It is recommended to call this function in the main loop of your sketch.
+ * This function will read the CRSF frame from the serial port and parse it.
+ * It will also update the channel data.
  *
+ * @return true If the CRSF frame was successfully read and parsed.
+ * @return false If the CRSF frame was not successfully read and parsed.
  */
 bool CRSFforArduino::update()
 {
@@ -225,11 +229,24 @@ bool CRSFforArduino::update()
 #endif
 }
 
+/**
+ * @brief Gets the value of a channel.
+ *
+ * @param channel The channel number.
+ * @return uint16_t The value of the channel.
+ *
+ */
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
     return _channels[(channel - 1) % RC_CHANNEL_COUNT];
 }
 
+/**
+ * @brief Converts an RC value to microseconds.
+ *
+ * @param rc The RC value to convert.
+ * @return uint16_t The converted value in microseconds.
+ */
 uint16_t CRSFforArduino::rcToUs(uint16_t rc)
 {
     /**
@@ -244,6 +261,13 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }
 
+/**
+ * @brief Calculates the CRC for a CRSF frame.
+ *
+ * @param crc
+ * @param a
+ * @return uint8_t
+ */
 uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
 {
     crc ^= a;
@@ -261,6 +285,11 @@ uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
     return crc;
 }
 
+/**
+ * @brief Calculates the CRC for a CRSF frame.
+ *
+ * @return uint8_t
+ */
 uint8_t CRSFforArduino::_crsfFrameCRC()
 {
     // CRC includes the packet type and payload.
@@ -341,6 +370,11 @@ uint8_t CRSFforArduino::_getDmaRxId()
 }
 #endif
 
+/**
+ * @brief Gets the SERCOM instance for the current UART.
+ *
+ * @return Sercom* The SERCOM instance.
+ */
 Sercom *CRSFforArduino::_getSercom()
 {
     Sercom *sercom = NULL;
@@ -416,6 +450,11 @@ Sercom *CRSFforArduino::_getSercom()
 #endif
 
 #ifdef USE_DMA
+/**
+ * @brief DMA transfer done callback.
+ *
+ * @param dma A pointer to the DMA instance.
+ */
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
     // Get the DMA instance that triggered the callback.
