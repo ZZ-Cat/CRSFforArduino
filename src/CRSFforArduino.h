@@ -161,7 +161,6 @@ class CRSFforArduino
 
 #ifdef USE_DMA
     /* DMA */
-    Adafruit_ZeroDMA _dmaSerialRx;
     DmacDescriptor *_dmaSerialRxDescriptor;
     ZeroDMAstatus _dmaStatus;
 #endif

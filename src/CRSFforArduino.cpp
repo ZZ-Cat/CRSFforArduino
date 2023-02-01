@@ -39,7 +39,10 @@
  */
 
 #ifdef USE_DMA
-volatile bool _dmaTransferDone = false;
+Adafruit_ZeroDMA _dmaSerialRx;
+Adafruit_ZeroDMA _dmaSerialTx;
+volatile bool _dmaSerialRxDone = false;
+volatile bool _dmaSerialTxDone = false;
 #endif
 
 /**
@@ -148,9 +151,9 @@ void CRSFforArduino::end()
 bool CRSFforArduino::update()
 {
 #ifdef USE_DMA
-    if (_dmaTransferDone == true)
+    if (_dmaSerialRxDone == true)
     {
-        _dmaTransferDone = false;
+        _dmaSerialRxDone = false;
 #else
     while (_serial->available() > 0)
     {
@@ -347,9 +350,16 @@ Sercom *CRSFforArduino::_getSercom()
 #ifdef USE_DMA
 void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
 {
-    (void)dma;
-
-    /* Set the DMA Transfer Done flag. */
-    _dmaTransferDone = true;
+    // Get the DMA instance that triggered the callback.
+    if (dma == &_dmaSerialRx)
+    {
+        // RX DMA transfer done.
+        _dmaSerialRxDone = true;
+    }
+    else if (dma == &_dmaSerialTx)
+    {
+        // TX DMA transfer done.
+        _dmaSerialTxDone = true;
+    }
 }
 #endif
