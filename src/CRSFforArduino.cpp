@@ -88,8 +88,6 @@ bool CRSFforArduino::begin()
         ;
 #endif
 
-    _packetReceived = false;
-
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_channels, 0, sizeof(_channels));
 
@@ -118,9 +116,6 @@ bool CRSFforArduino::begin()
     {
         return false;
     }
-
-    // Disabled because it is non-functional for some reason.
-    // _dmaSerialRx.loop(true);
 
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
@@ -193,9 +188,6 @@ bool CRSFforArduino::update()
                     _channels[13] = (uint16_t)((_crsfFrame.frame.payload[17] >> 7 | _crsfFrame.frame.payload[18] << 1 | _crsfFrame.frame.payload[19] << 9) & 0x07FF);
                     _channels[14] = (uint16_t)((_crsfFrame.frame.payload[19] >> 2 | _crsfFrame.frame.payload[20] << 6) & 0x07FF);
                     _channels[15] = (uint16_t)((_crsfFrame.frame.payload[20] >> 5 | _crsfFrame.frame.payload[21] << 3) & 0x07FF);
-
-                    // Set the packet received flag.
-                    _packetReceived = true;
                 }
             }
         }
@@ -228,11 +220,6 @@ bool CRSFforArduino::update()
         return false;
     }
 #endif
-}
-
-bool CRSFforArduino::packetReceived()
-{
-    return _packetReceived;
 }
 
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
@@ -332,18 +319,19 @@ Sercom *CRSFforArduino::_getSercom()
 /* Adafruit Feather M4 Express. */
 #if defined(ADAFRUIT_FEATHER_M4_EXPRESS)
     sercom = SERCOM5;
-    ;
 
 /* Adafruit Metro M4 Airlift Lite & Metro M4 Express. */
 #elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_METRO_M4_EXPRESS)
     sercom = SERCOM3;
 #endif
+
 #elif defined(__SAMD51P20A__)
 
 /* Adafruit Grand Central M4. */
 #if defined(ADAFRUIT_GRAND_CENTRAL_M4)
     sercom = SERCOM0;
 #endif
+
 #elif defined(__SAME51J19A__)
 
 /* Adafruit Feather M4 CAN. */
