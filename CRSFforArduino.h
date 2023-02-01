@@ -166,6 +166,9 @@ protected:
 #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
+#ifdef USE_DMA
+    uint8_t _getDmaRxId(void);
+#endif
     Sercom *_getSercom(void);
 #endif
 };

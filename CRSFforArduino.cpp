@@ -96,7 +96,7 @@ bool CRSFforArduino::begin()
 
 #ifdef USE_DMA
     /* Configure the DMA. */
-    _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
+    _dmaSerialRx.setTrigger(_getDmaRxId());
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
@@ -273,6 +273,74 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
 }
 
 #if defined(ARDUINO_ARCH_SAMD)
+#ifdef USE_DMA
+uint8_t CRSFforArduino::_getDmaRxId()
+{
+    uint8_t id = 0;
+
+    /* Get the DMA RX ID for the current UART.
+    This adds compatibility with most development boards on the market today. */
+
+#if defined(__SAMD21E18A__)
+
+/* Adafruit Gemma M0, QtPy M0 & Trinket M0. */
+#if defined(ADAFRUIT_GEMMA_M0) || defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
+    id = SERCOM0_DMAC_ID_RX;
+#endif
+
+#elif defined(__SAMD21G18A__)
+
+/* Adafruit Crickit M0. */
+#if defined(ADAFRUIT_CRICKIT_M0)
+    id = SERCOM5_DMAC_ID_RX;
+
+/* Adafruit Feather M0 , Feather M0 Express, ItsyBitsy M0 Express & Metro M0 Express. */
+#elif defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || \
+    defined(ADAFRUIT_METRO_M0_EXPRESS)
+    id = SERCOM0_DMAC_ID_RX;
+
+/* The entire lineup of Arduino MKR boards. */
+#elif defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRGSM1400) ||   \
+    defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_MKRWAN1300) || \
+    defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRZERO) ||    \
+    defined(ARDUINO_SAMD_NANO_33_IOT)
+    id = SERCOM5_DMAC_ID_RX;
+
+/* Arduino Zero. */
+#elif defined(ARDUINO_SAMD_ZERO)
+    id = SERCOM0_DMAC_ID_RX;
+#endif
+
+#elif defined(__SAMD51G19A__)
+
+/* Adafruit ItsyBitsy M4 Express. */
+#if defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
+    id = SERCOM3_DMAC_ID_RX;
+#endif
+
+#elif defined(__SAMD51J19A__)
+
+/* Adafruit Feather M4 Express. */
+#if defined(ADAFRUIT_FEATHER_M4_EXPRESS)
+    id = SERCOM5_DMAC_ID_RX;
+
+/* Adafruit Metro M4 Airlift Lite & Metro M4 Express. */
+#elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_METRO_M4_EXPRESS)
+    id = SERCOM3_DMAC_ID_RX;
+#endif
+
+#elif defined(__SAME51J19A__)
+
+/* Adafruit Feather M4 CAN. */
+#if defined(ADAFRUIT_FEATHER_M4_CAN)
+    id = SERCOM5_DMAC_ID_RX;
+#endif
+#endif
+
+    return id;
+}
+#endif
+
 Sercom *CRSFforArduino::_getSercom()
 {
     Sercom *sercom = NULL;
