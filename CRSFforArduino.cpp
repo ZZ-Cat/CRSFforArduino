@@ -196,11 +196,25 @@ bool CRSFforArduino::update()
                     _channels[14] = (uint16_t)((_crsfFrame.frame.payload[19] >> 2 | _crsfFrame.frame.payload[20] << 6) & 0x07FF);
                     _channels[15] = (uint16_t)((_crsfFrame.frame.payload[20] >> 5 | _crsfFrame.frame.payload[21] << 3) & 0x07FF);
                 }
+
+#if (CRSF_USE_TELEMETRY > 0)
+                // Send telemetry data.
+                _flagSendTelemetry = true;
+#endif
             }
         }
 
         // Clear the buffer.
         memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+
+#if (CRSF_USE_TELEMETRY > 0)
+        // Send telemetry data.
+        if (_flagSendTelemetry)
+        {
+            _sendTelemetry();
+            _flagSendTelemetry = false;
+        }
+#endif
 
 #ifdef USE_DMA
         // Restart the DMA.
@@ -261,6 +275,18 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }
 
+#if (CRSF_USE_TELEMETRY > 0 && CRSF_TELEMETRY_DEVICE_GPS > 0)
+void CRSFforArduino::setGPS(float latitude, float longitude, float altitude, float speed, float heading, float sats)
+{
+    _crsfGps.latitude = latitude;
+    _crsfGps.longitude = longitude;
+    _crsfGps.altitude = altitude;
+    _crsfGps.speed = speed;
+    _crsfGps.heading = heading;
+    _crsfGps.sats = sats;
+}
+#endif
+
 /**
  * @brief Calculates the CRC for a CRSF frame.
  *
@@ -300,6 +326,255 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
     }
     return crc;
 }
+
+uint8_t CRSFforArduino::_crsfGetCRC(uint8_t *data, uint8_t length)
+{
+    uint8_t crc = 0;
+    for (uint8_t i = 0; i < length; i++)
+    {
+        crc = _crc8_dvb_s2(crc, data[i]);
+    }
+    return crc;
+}
+
+#if (CRSF_USE_TELEMETRY > 0)
+void CRSFforArduino::_sendTelemetry()
+{
+    if (_telemetryFrameIndex == 0)
+    {
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+        /* GPS frame. */
+        uint8_t length = CRSF_FRAME_LENGTH_NON_PAYLOAD + CRSF_FRAME_GPS_PAYLOAD_SIZE;
+        _streamBufferClear();
+
+        // Populate the payload.
+        _streamBufferPush8u(CRSF_ADDRESS_GPS);               // Set the frame address.
+        _streamBufferPush8u(length);                         // Set the frame length.
+        _streamBufferPush8u(CRSF_FRAMETYPE_GPS);             // Set the frame type.
+        _streamBufferPush32s(_crsfGps.latitude / 60 * 1E7);  // Set the latitude.
+        _streamBufferPush32s(_crsfGps.longitude / 60 * 1E7); // Set the longitude.
+        _streamBufferPush16u(_crsfGps.speed * 1.852 * 10);   // Set the speed.
+        _streamBufferPush16u(_crsfGps.heading * 100);        // Set the heading.
+        _streamBufferPush16u(_crsfGps.altitude + 1000);      // Set the altitude.
+        _streamBufferPush8u(_crsfGps.sats);                  // Set the number of satellites.
+
+        // Calculate the CRC.
+        uint8_t crc = _crsfGetCRC(_streamBuffer + 2, length - 3);
+
+        // Populate the frame.
+        _streamBufferPush8u(crc); // Set the CRC.
+
+        // Send the frame.
+        _serial->write(_streamBuffer, length);
+#endif
+    }
+
+    // Update the telemetry frame index.
+    _telemetryFrameIndex = (_telemetryFrameIndex + 1) % 3;
+}
+
+void CRSFforArduino::_streamBufferClear()
+{
+    // Clear the buffer.
+    memset(_streamBuffer, 0, CRSF_FRAME_SIZE_MAX);
+
+    // Reset the buffer index.
+    _streamBufferIndex = 0;
+}
+
+void CRSFforArduino::_streamBufferPush8u(uint8_t data)
+{
+    // Check if the buffer is full.
+    if (_streamBufferIndex >= CRSF_FRAME_SIZE_MAX)
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = data;
+}
+
+void CRSFforArduino::_streamBufferPush16s(int16_t data)
+{
+    // Check if the buffer is full. Need two spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 1))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 8);
+}
+
+void CRSFforArduino::_streamBufferPush16u(uint16_t data)
+{
+    // Check if the buffer is full. Need two spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 1))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 8);
+}
+
+void CRSFforArduino::_streamBufferPush24s(int32_t data)
+{
+    // Check if the buffer is full. Need three spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 2))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 16);
+}
+
+void CRSFforArduino::_streamBufferPush24u(uint32_t data)
+{
+    // Check if the buffer is full. Need three spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 2))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 16);
+}
+
+void CRSFforArduino::_streamBufferPush32s(int32_t data)
+{
+    // Check if the buffer is full. Need four spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 3))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 16) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 24);
+}
+
+void CRSFforArduino::_streamBufferPush32u(uint32_t data)
+{
+    // Check if the buffer is full. Need four spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 3))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 16) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 24);
+}
+
+void CRSFforArduino::_streamBufferPush16sBigEndian(int16_t data)
+{
+    // Check if the buffer is full. Need two spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 1))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 8);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+
+void CRSFforArduino::_streamBufferPush16uBigEndian(uint16_t data)
+{
+    // Check if the buffer is full. Need two spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 1))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 8);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+
+void CRSFforArduino::_streamBufferPush24sBigEndian(int32_t data)
+{
+    // Check if the buffer is full. Need three spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 2))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 16);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+
+void CRSFforArduino::_streamBufferPush24uBigEndian(uint32_t data)
+{
+    // Check if the buffer is full. Need three spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 2))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 16);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+
+void CRSFforArduino::_streamBufferPush32sBigEndian(int32_t data)
+{
+    // Check if the buffer is full. Need four spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 3))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 24);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 16) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+
+void CRSFforArduino::_streamBufferPush32uBigEndian(uint32_t data)
+{
+    // Check if the buffer is full. Need four spaces for the data.
+    if (_streamBufferIndex >= (CRSF_FRAME_SIZE_MAX - 3))
+    {
+        // Clear the buffer.
+        _streamBufferClear();
+    }
+
+    // Push the data to the buffer.
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data >> 24);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 16) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)((data >> 8) & 0xFF);
+    _streamBuffer[_streamBufferIndex++] = (uint8_t)(data & 0xFF);
+}
+#endif
 
 #if defined(ARDUINO_ARCH_SAMD)
 #ifdef USE_DMA

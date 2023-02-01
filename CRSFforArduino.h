@@ -16,13 +16,11 @@
 #endif
 
 #include "Arduino.h"
+#include "CRSFconfig.h"
 
 #ifdef USE_DMA
 #include "Adafruit_ZeroDMA.h"
 #endif
-
-// Uncomment this line to enable debug output.
-// #define CRSF_DEBUG
 
 enum __rc_channels_e
 {
@@ -149,6 +147,13 @@ public:
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);
 
+#if (CRSF_USE_TELEMETRY > 0)
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+    /* GPS Telemetry */
+    void setGPS(float latitude, float longitude, float altitude, float speed, float heading, float sats);
+#endif
+#endif
+
 protected:
     /* CRSF */
     HardwareSerial *_serial;
@@ -158,10 +163,58 @@ protected:
     /* CRC */
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
     uint8_t _crsfFrameCRC(void);
+    uint8_t _crsfGetCRC(uint8_t *data, uint8_t length);
+
+#if (CRSF_USE_TELEMETRY > 0)
+    /* Telemetry */
+    bool _flagSendTelemetry;
+    uint32_t _telemetryInterval;
+    uint32_t _lastTelemetrySendTime;
+    uint8_t _telemetryFrameIndex;
+    void _sendTelemetry(void);
+
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+    /* GPS Telemetry Struct */
+    typedef struct __crsf_gps_s
+    {
+        float latitude;
+        float longitude;
+        float altitude;
+        float speed;
+        float heading;
+        float sats;
+    } __crsf_gps_t;
+
+    /* GPS Telemetry */
+    __crsf_gps_t _crsfGps;
+#endif
+
+    /* Stream Buffer */
+    uint8_t _streamBuffer[CRSF_FRAME_SIZE_MAX];
+    uint8_t _streamBufferIndex;
+    uint8_t _streamBufferLength;
+
+    void _streamBufferClear(void);
+    void _streamBufferPush8u(uint8_t data);
+    void _streamBufferPush16s(int16_t data);
+    void _streamBufferPush16u(uint16_t data);
+    void _streamBufferPush24s(int32_t data);
+    void _streamBufferPush24u(uint32_t data);
+    void _streamBufferPush32s(int32_t data);
+    void _streamBufferPush32u(uint32_t data);
+
+    void _streamBufferPush16sBigEndian(int16_t data);
+    void _streamBufferPush16uBigEndian(uint16_t data);
+    void _streamBufferPush24sBigEndian(int32_t data);
+    void _streamBufferPush24uBigEndian(uint32_t data);
+    void _streamBufferPush32sBigEndian(int32_t data);
+    void _streamBufferPush32uBigEndian(uint32_t data);
+#endif
 
 #ifdef USE_DMA
     /* DMA */
     DmacDescriptor *_dmaSerialRxDescriptor;
+    DmacDescriptor *_dmaSerialTxDescriptor;
     ZeroDMAstatus _dmaStatus;
 #endif
 
