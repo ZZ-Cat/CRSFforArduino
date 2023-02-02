@@ -13,6 +13,8 @@
 
 // Uncomment this line to enable debug output.
 // #define CRSF_DEBUG
+#define CRSF_DEBUG_RC 0        // Set to 1 to enable debug output for RC data.
+#define CRSF_DEBUG_TELEMETRY 0 // Set to 1 to enable debug output for telemetry.
 
 #define CRSF_USE_TELEMETRY 0                   // Set to 1 to enable telemetry support.
 #define CRSF_TELEMETRY_DEVICE_GPS 0            // Set to 1 to enable GPS telemetry support.
