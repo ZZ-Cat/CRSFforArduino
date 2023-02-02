@@ -387,7 +387,7 @@ void CRSFforArduino::_sendTelemetry()
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
 /**
  * @brief Sends GPS telemetry data.
- * 
+ *
  */
 void CRSFforArduino::_sendTelemetryGPS()
 {
