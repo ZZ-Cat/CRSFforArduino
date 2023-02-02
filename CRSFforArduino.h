@@ -209,6 +209,22 @@ protected:
     void _streamBufferPush24uBigEndian(uint32_t data);
     void _streamBufferPush32sBigEndian(int32_t data);
     void _streamBufferPush32uBigEndian(uint32_t data);
+
+    // Schedule array to determine how often each frame is sent.
+    typedef enum
+    {
+        CRSF_FRAME_START_INDEX = 0,
+        CRSF_FRAME_ATTITUDE_INDEX = CRSF_FRAME_START_INDEX,
+        CRSF_FRAME_BATTERY_SENSOR_INDEX,
+        CRSF_FRAME_FLIGHT_MODE_INDEX,
+        CRSF_FRAME_GPS_INDEX,
+        CRSF_FRAME_HEARTBEAT_INDEX,
+        CRSF_FRAME_COUNT_MAX
+    } __crsf_frameTypeIndex_e;
+
+    uint8_t _crsfFrameScheduleIndex = 0;
+    uint8_t _crsfFrameScheduleCount = 0;
+    uint8_t _crsfFrameSchedule[CRSF_FRAME_COUNT_MAX];
 #endif
 
 #ifdef USE_DMA

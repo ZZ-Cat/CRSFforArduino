@@ -123,6 +123,25 @@ bool CRSFforArduino::begin()
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
 
+#if (CRSF_USE_TELEMETRY > 0)
+    /* Configure telemetry. */
+    uint8_t index = 0;
+
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
+    _crsfFrameSchedule[index++] = CRSF_FRAME_ATTITUDE_INDEX;
+#endif
+
+#if (CRSF_TELEMETRY_DEVICE_BATTERY_SENSOR > 0)
+    _crsfFrameSchedule[index++] = CRSF_FRAME_BATTERY_SENSOR_INDEX;
+#endif
+
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+    _crsfFrameSchedule[index++] = CRSF_FRAME_GPS_INDEX;
+#endif
+
+    _crsfFrameScheduleCount = index;
+#endif
+
     /* Start the DMA. */
     _dmaStatus = _dmaSerialRx.startJob();
     if (_dmaStatus != DMA_STATUS_OK)
