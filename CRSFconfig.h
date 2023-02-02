@@ -16,8 +16,8 @@
 #define CRSF_DEBUG_RC 0        // Set to 1 to enable debug output for RC data.
 #define CRSF_DEBUG_TELEMETRY 0 // Set to 1 to enable debug output for telemetry.
 
-#define CRSF_USE_TELEMETRY 0                   // Set to 1 to enable telemetry support.
-#define CRSF_TELEMETRY_DEVICE_GPS 0            // Set to 1 to enable GPS telemetry support.
+#define CRSF_USE_TELEMETRY 1                   // Set to 1 to enable telemetry support.
+#define CRSF_TELEMETRY_DEVICE_GPS 1            // Set to 1 to enable GPS telemetry support.
 #define CRSF_TELEMETRY_DEVICE_BATTERY_SENSOR 0 // Set to 1 to enable battery sensor telemetry support.
 #define CRSF_TELEMETRY_DEVICE_VARIO_SENSOR 0   // Set to 1 to enable variometer sensor telemetry support.
 #define CRSF_TELEMETRY_DEVICE_ATTITUDE 0       // Set to 1 to enable attitude/artificial horizon telemetry support.
