@@ -376,48 +376,59 @@ void CRSFforArduino::_sendTelemetry()
     if ((thisFrameToSchedule & CRSF_FRAME_GPS_INDEX) == CRSF_FRAME_GPS_INDEX)
     {
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
-        /* GPS frame. */
-        uint8_t length = CRSF_FRAME_LENGTH_NON_PAYLOAD + CRSF_FRAME_GPS_PAYLOAD_SIZE;
-        _streamBufferClear();
-
-        // Populate the sync byte.
-        _streamBufferPush8u(CRSF_SYNC_BYTE);
-
-        // Populate the payload.
-        _streamBufferPush8u(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC); // Set the frame length.
-        _streamBufferPush8u(CRSF_FRAMETYPE_GPS);                                       // Set the frame type.
-        _streamBufferPush32sBigEndian(_crsfGps.latitude / 60 * 1E7);                   // Set the latitude.
-        _streamBufferPush32sBigEndian(_crsfGps.longitude / 60 * 1E7);                  // Set the longitude.
-        _streamBufferPush16uBigEndian(_crsfGps.speed * 1.852 * 10);                    // Set the speed.
-        _streamBufferPush16uBigEndian(_crsfGps.heading * 100);                         // Set the heading.
-        _streamBufferPush16uBigEndian(_crsfGps.altitude + 1000);                       // Set the altitude.
-        _streamBufferPush8u(_crsfGps.sats);                                            // Set the number of satellites.
-
-        // Calculate the CRC.
-        // Start at index 2, because the CRC does not include the address and length.
-        uint8_t crc = _crsfGetCRC(_streamBuffer + 2, length - 3);
-
-        // Populate the frame.
-        _streamBufferPush8u(crc); // Set the CRC.
-
-#if (CRSF_DEBUG_TELEMETRY > 0)
-        Serial.print("GPS: ");
-        for (uint8_t i = 0; i < length; i++)
-        {
-            Serial.print(_streamBuffer[i], HEX);
-            Serial.print(" ");
-        }
-        Serial.println();
-#endif
-
-        // Send the frame.
-        _serial->write(_streamBuffer, length);
+        _sendTelemetryGPS();
 #endif
     }
 
     // Update the telemetry frame index.
     _crsfFrameScheduleIndex = (_crsfFrameScheduleIndex + 1) % _crsfFrameScheduleCount;
 }
+
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+/**
+ * @brief Sends GPS telemetry data.
+ * 
+ */
+void CRSFforArduino::_sendTelemetryGPS()
+{
+    /* GPS frame. */
+    uint8_t length = CRSF_FRAME_LENGTH_NON_PAYLOAD + CRSF_FRAME_GPS_PAYLOAD_SIZE;
+    _streamBufferClear();
+
+    // Populate the sync byte.
+    _streamBufferPush8u(CRSF_SYNC_BYTE);
+
+    // Populate the payload.
+    _streamBufferPush8u(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC); // Set the frame length.
+    _streamBufferPush8u(CRSF_FRAMETYPE_GPS);                                       // Set the frame type.
+    _streamBufferPush32sBigEndian(_crsfGps.latitude / 60 * 1E7);                   // Set the latitude.
+    _streamBufferPush32sBigEndian(_crsfGps.longitude / 60 * 1E7);                  // Set the longitude.
+    _streamBufferPush16uBigEndian(_crsfGps.speed * 1.852 * 10);                    // Set the speed.
+    _streamBufferPush16uBigEndian(_crsfGps.heading * 100);                         // Set the heading.
+    _streamBufferPush16uBigEndian(_crsfGps.altitude + 1000);                       // Set the altitude.
+    _streamBufferPush8u(_crsfGps.sats);                                            // Set the number of satellites.
+
+    // Calculate the CRC.
+    // Start at index 2, because the CRC does not include the address and length.
+    uint8_t crc = _crsfGetCRC(_streamBuffer + 2, length - 3);
+
+    // Populate the frame.
+    _streamBufferPush8u(crc); // Set the CRC.
+
+#if (CRSF_DEBUG_TELEMETRY > 0)
+    Serial.print("GPS: ");
+    for (uint8_t i = 0; i < length; i++)
+    {
+        Serial.print(_streamBuffer[i], HEX);
+        Serial.print(" ");
+    }
+    Serial.println();
+#endif
+
+    // Send the frame.
+    _serial->write(_streamBuffer, length);
+}
+#endif
 
 void CRSFforArduino::_streamBufferClear()
 {

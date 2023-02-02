@@ -187,6 +187,7 @@ protected:
 
     /* GPS Telemetry */
     __crsf_gps_t _crsfGps;
+    void _sendTelemetryGPS(void);
 #endif
 
     /* Stream Buffer */
