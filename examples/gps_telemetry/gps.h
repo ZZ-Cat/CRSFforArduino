@@ -2,8 +2,8 @@
  * @file gps.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic GPS sensor class.
- * @version 0.1.0
- * @date 2023-02-01
+ * @version 0.2.0
+ * @date 2023-02-02
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

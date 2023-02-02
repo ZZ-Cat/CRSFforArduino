@@ -2,8 +2,8 @@
  * @file gps_telemetry.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch shows how to send GPS telemetry data to a CRSF receiver using the CRSFforArduino library.
- * @version 0.1.0
- * @date 2023-02-01
+ * @version 0.2.0
+ * @date 2023-02-02
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
