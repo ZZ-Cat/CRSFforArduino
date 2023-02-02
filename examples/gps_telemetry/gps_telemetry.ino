@@ -10,7 +10,7 @@
  */
 
 #include "CRSFforArduino.h"
-#include "sensors/gps.h"
+#include "gps.h"
 
 // Create a CRSFforArduino object.
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
