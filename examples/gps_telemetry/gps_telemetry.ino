@@ -35,6 +35,12 @@ void setup()
 #if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
     // Initialize the serial port & wait for the port to open.
     Serial.begin(115200);
+
+    /* The 'while' loop below will prevent the sketch from continuing until the serial port is open.
+     * This is important because the sketch will not work if the serial port is not open.
+     * If your handset is already connected to your receiver, your handset will call out something along the lines
+     * of "Sensor Lost" if the serial port is not open.
+     */
     while (!Serial)
     {
         ;
@@ -58,6 +64,7 @@ void setup()
 
 void loop()
 {
+    // Update the CRSFforArduino library.
     if (crsf.update())
     {
 #if (PRINT_RAW_RC_CHANNELS > 0)
