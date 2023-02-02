@@ -12,6 +12,12 @@
 #include "CRSFforArduino.h"
 #include "gps.h"
 
+// Create a GPS object.
+const uint32_t GPSRxPin = 4;
+const uint32_t GPSTxPin = 5;
+Uart Serial2(&sercom4, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_2);
+GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
+
 // Create a CRSFforArduino object.
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
@@ -26,6 +32,9 @@ void setup()
 
     // Initialize the CRSFforArduino library.
     crsf.begin();
+
+    // Initialize the GPS sensor.
+    gps.begin();
 
     // Show the user that the sketch is ready.
     Serial.println("GPS Telemetry Example");
@@ -56,4 +65,31 @@ void loop()
         Serial.print(crsf.rcToUs(crsf.getChannel(8)));
         Serial.println(">");
     }
+
+    // Update the GPS sensor.
+    if (gps.update())
+    {
+        // Send the GPS telemetry data to the CRSF receiver.
+        crsf.writeGPStelemetry(gps.data.latitude, gps.data.longitude, gps.data.altitude, gps.data.speed, gps.data.heading, gps.data.satellites);
+    }
+}
+
+void SERCOM4_0_Handler()
+{
+    Serial2.IrqHandler();
+}
+
+void SERCOM4_1_Handler()
+{
+    Serial2.IrqHandler();
+}
+
+void SERCOM4_2_Handler()
+{
+    Serial2.IrqHandler();
+}
+
+void SERCOM4_3_Handler()
+{
+    Serial2.IrqHandler();
 }
