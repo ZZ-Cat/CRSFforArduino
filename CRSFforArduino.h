@@ -150,7 +150,7 @@ public:
 #if (CRSF_USE_TELEMETRY > 0)
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
     /* GPS Telemetry */
-    void setGPS(float latitude, float longitude, float altitude, float speed, float heading, float sats);
+    void writeGPStelemetry(float latitude, float longitude, float altitude, float speed, float heading, float sats);
 #endif
 #endif
 

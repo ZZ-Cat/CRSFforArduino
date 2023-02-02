@@ -295,7 +295,7 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
 }
 
 #if (CRSF_USE_TELEMETRY > 0 && CRSF_TELEMETRY_DEVICE_GPS > 0)
-void CRSFforArduino::setGPS(float latitude, float longitude, float altitude, float speed, float heading, float sats)
+void CRSFforArduino::writeGPStelemetry(float latitude, float longitude, float altitude, float speed, float heading, float sats)
 {
     _crsfGps.latitude = latitude;
     _crsfGps.longitude = longitude;
