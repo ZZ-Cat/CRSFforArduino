@@ -404,7 +404,7 @@ void CRSFforArduino::_sendTelemetryGPS()
     _streamBufferPush32sBigEndian(_crsfGps.latitude / 60 * 1E7);                   // Set the latitude.
     _streamBufferPush32sBigEndian(_crsfGps.longitude / 60 * 1E7);                  // Set the longitude.
     _streamBufferPush16uBigEndian(_crsfGps.speed * 10);                            // Set the speed.
-    _streamBufferPush16uBigEndian(_crsfGps.heading * 100);                         // Set the heading.
+    _streamBufferPush16uBigEndian(_crsfGps.heading * 10);                          // Set the heading.
     _streamBufferPush16uBigEndian(_crsfGps.altitude + 1000);                       // Set the altitude.
     _streamBufferPush8u(_crsfGps.sats);                                            // Set the number of satellites.
 
