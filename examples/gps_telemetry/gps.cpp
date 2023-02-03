@@ -14,6 +14,12 @@
 
 Adafruit_ZeroDMA _dmaGpsRx;
 volatile bool _dmaGpsRxComplete = false;
+char _dmaGpsRxChar = 0;
+uint8_t _dmaGpsRxBuffer[GPS_RX_BUFFER_SIZE];
+size_t _dmaGpsRxIndex = 0;
+
+volatile size_t _dmaGpsNmeaBufferLength = 0;
+char _dmaGpsNmeaBuffer[GPS_RX_BUFFER_SIZE];
 
 /**
  * @brief Construct a new GPS object.
@@ -63,12 +69,14 @@ bool GPS::begin()
     /* Configure the DMA descriptor. */
     _dmaGpsRxDescriptor = _dmaGpsRx.addDescriptor(
         (void *)&SERCOM4->USART.DATA.reg, /* source address */
-        _dmaGpsRxBuffer,                  /* destination address */
-        GPS_RX_BUFFER_SIZE,               /* beat transfer count */
+        &_dmaGpsRxChar,                   /* destination address */
+        1,                                /* beat transfer count */
         DMA_BEAT_SIZE_BYTE,               /* beat size */
         false,                            /* increment source address */
-        true                              /* increment desination address */
+        false                             /* increment desination address */
     );
+    _dmaGpsRxDescriptor->BTCTRL.bit.BLOCKACT = DMA_BLOCK_ACTION_INT;
+    _dmaGpsRx.loop(true);
 
     /* Configure the DMA callback. */
     _dmaGpsRx.setCallback(_dmaGpsRxCallback);
@@ -99,8 +107,12 @@ bool GPS::update()
     {
         _dmaGpsRxComplete = false;
 
+        // Copy the NMEA data.
+        memset(_dmaGpsRxBuffer, 0, GPS_RX_BUFFER_SIZE);
+        memcpy(_dmaGpsRxBuffer, _dmaGpsNmeaBuffer, _dmaGpsNmeaBufferLength);
+
         // Parse the NMEA data.
-        _parseNMEA(_dmaGpsRxBuffer, GPS_RX_BUFFER_SIZE);
+        _parseNMEA(_dmaGpsRxBuffer, _dmaGpsNmeaBufferLength);
 
         // Update the GPS data.
         data.latitude = _latitude;
@@ -110,19 +122,16 @@ bool GPS::update()
         data.heading = _heading;
         data.satellites = _satellites;
 
-        // Clear the DMA buffer.
-        memset(_dmaGpsRxBuffer, 0, GPS_RX_BUFFER_SIZE);
-
         // Start a new DMA job.
-        _dmaGpsRxStatus = _dmaGpsRx.startJob();
-        if (_dmaGpsRxStatus != DMA_STATUS_OK)
-        {
-#if (CRSF_DEBUG_GPS > 0)
-            Serial.print("DMA start job error: ");
-            Serial.println(_dmaGpsRxStatus);
-#endif
-            return false;
-        }
+        //         _dmaGpsRxStatus = _dmaGpsRx.startJob();
+        //         if (_dmaGpsRxStatus != DMA_STATUS_OK)
+        //         {
+        // #if (CRSF_DEBUG_GPS > 0)
+        //             Serial.print("DMA start job error: ");
+        //             Serial.println(_dmaGpsRxStatus);
+        // #endif
+        //             return false;
+        //         }
 
         return true;
     }
@@ -139,18 +148,17 @@ bool GPS::update()
  * @param buffer
  * @param length
  */
-void GPS::_parseNMEA(uint8_t *buffer, uint8_t length)
+void GPS::_parseNMEA(uint8_t *buffer, size_t length)
 {
 #if (CRSF_DEBUG_GPS > 0)
     Serial.print("GPS: ");
-    for (uint8_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; i++)
     {
         Serial.print((char)buffer[i]);
     }
-    Serial.println();
 #endif
 
-    for (uint8_t i = 0; i < length; i++)
+    for (size_t i = 0; i < length; i++)
     {
         _gps.encode(buffer[i]);
     }
@@ -184,5 +192,46 @@ void GPS::_parseNMEA(uint8_t *buffer, uint8_t length)
 
 void _dmaGpsRxCallback(Adafruit_ZeroDMA *dma)
 {
-    _dmaGpsRxComplete = true;
+
+    if (dma == &_dmaGpsRx)
+    {
+        /* Initialize the NMEA buffer. */
+        if (_dmaGpsRxChar == '$')
+        {
+            _dmaGpsNmeaBufferLength = 0;
+            _dmaGpsRxIndex = 0;
+            memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
+        }
+
+        /* Fill the NMEA buffer.
+        The NMEA buffer is filled until the buffer is full or the NMEA sentence is complete. */
+        if (_dmaGpsRxIndex < GPS_RX_BUFFER_SIZE)
+        {
+            _dmaGpsNmeaBuffer[_dmaGpsRxIndex] = _dmaGpsRxChar;
+
+            if (_dmaGpsNmeaBuffer[0] == '$' && _dmaGpsNmeaBuffer[_dmaGpsRxIndex - 1] == '\r' && _dmaGpsNmeaBuffer[_dmaGpsRxIndex] == '\n')
+            {
+                _dmaGpsNmeaBufferLength = _dmaGpsRxIndex + 1;
+                _dmaGpsRxComplete = true;
+            }
+
+            else
+            {
+                _dmaGpsRxIndex++;
+            }
+        }
+
+        /* If I get here, the NMEA buffer has overflowed.
+        I need to reset the DMA job. */
+        else
+        {
+            _dmaGpsRxIndex = 0;
+            _dmaGpsNmeaBufferLength = 0;
+            memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
+
+#if (CRSF_DEBUG_GPS > 0)
+            Serial.println("Error: GPS NMEA buffer overflowed.");
+#endif
+        }
+    }
 }
