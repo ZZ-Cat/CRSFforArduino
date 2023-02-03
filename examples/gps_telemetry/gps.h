@@ -39,15 +39,6 @@ public:
     bool begin();
     bool update();
 
-    // float getLatitude();
-    // float getLongitude();
-    // float getAltitude();
-    // float getSpeed();
-    // float getHeading();
-    // float getSatellites();
-
-    // bool isUpdated();
-
 protected:
     HardwareSerial *_serial;
 

@@ -122,17 +122,6 @@ bool GPS::update()
         data.heading = _heading;
         data.satellites = _satellites;
 
-        // Start a new DMA job.
-        //         _dmaGpsRxStatus = _dmaGpsRx.startJob();
-        //         if (_dmaGpsRxStatus != DMA_STATUS_OK)
-        //         {
-        // #if (CRSF_DEBUG_GPS > 0)
-        //             Serial.print("DMA start job error: ");
-        //             Serial.println(_dmaGpsRxStatus);
-        // #endif
-        //             return false;
-        //         }
-
         return true;
     }
 
