@@ -53,7 +53,6 @@ protected:
 
     DmacDescriptor *_dmaGpsRxDescriptor;
     ZeroDMAstatus _dmaGpsRxStatus;
-    uint8_t _dmaGpsRxBuffer[GPS_RX_BUFFER_SIZE];
 
     TinyGPSPlus _gps;
 
@@ -69,7 +68,7 @@ protected:
 
     bool _updated;
 
-    void _parseNMEA(uint8_t *buffer, uint8_t length);
+    void _parseNMEA(uint8_t *buffer, size_t length);
 };
 
 void _dmaGpsRxCallback(Adafruit_ZeroDMA *dma);
