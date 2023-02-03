@@ -401,8 +401,8 @@ void CRSFforArduino::_sendTelemetryGPS()
     // Populate the payload.
     _streamBufferPush8u(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC); // Set the frame length.
     _streamBufferPush8u(CRSF_FRAMETYPE_GPS);                                       // Set the frame type.
-    _streamBufferPush32sBigEndian(_crsfGps.latitude / 60 * 1E7);                   // Set the latitude.
-    _streamBufferPush32sBigEndian(_crsfGps.longitude / 60 * 1E7);                  // Set the longitude.
+    _streamBufferPush32sBigEndian(_crsfGps.latitude * 1E7);                        // Set the latitude.
+    _streamBufferPush32sBigEndian(_crsfGps.longitude * 1E7);                       // Set the longitude.
     _streamBufferPush16uBigEndian(_crsfGps.speed * 10);                            // Set the speed.
     _streamBufferPush16uBigEndian(_crsfGps.heading * 10);                          // Set the heading.
     _streamBufferPush16uBigEndian(_crsfGps.altitude + 1000);                       // Set the altitude.
