@@ -22,9 +22,9 @@
 #endif
 
 // Create a GPS object.
-const uint32_t GPSRxPin = 4;
-const uint32_t GPSTxPin = 5;
-Uart Serial2(&sercom4, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_2);
+const uint32_t GPSRxPin = 2;
+const uint32_t GPSTxPin = 3;
+Uart Serial2(&sercom5, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
 
 // Create a CRSFforArduino object.
@@ -112,22 +112,22 @@ void loop()
     }
 }
 
-void SERCOM4_0_Handler()
+void SERCOM5_0_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_1_Handler()
+void SERCOM5_1_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_2_Handler()
+void SERCOM5_2_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_3_Handler()
+void SERCOM5_3_Handler()
 {
     Serial2.IrqHandler();
 }

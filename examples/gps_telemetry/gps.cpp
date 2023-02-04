@@ -102,7 +102,7 @@ bool GPS::update()
 bool GPS::_initDMA()
 {
     /* Configure DMA. */
-    _dmaGpsRx.setTrigger(SERCOM4_DMAC_ID_RX);
+    _dmaGpsRx.setTrigger(SERCOM5_DMAC_ID_RX);
     _dmaGpsRx.setAction(DMA_TRIGGER_ACTON_BEAT);
     _dmaGpsRxStatus = _dmaGpsRx.allocate();
     if (_dmaGpsRxStatus != DMA_STATUS_OK)
@@ -116,7 +116,7 @@ bool GPS::_initDMA()
 
     /* Configure the DMA descriptor. */
     _dmaGpsRxDescriptor = _dmaGpsRx.addDescriptor(
-        (void *)&SERCOM4->USART.DATA.reg, /* source address */
+        (void *)&SERCOM5->USART.DATA.reg, /* source address */
         &_dmaGpsRxChar,                   /* destination address */
         1,                                /* beat transfer count */
         DMA_BEAT_SIZE_BYTE,               /* beat size */
