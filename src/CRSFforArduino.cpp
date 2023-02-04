@@ -120,6 +120,9 @@ bool CRSFforArduino::begin()
         return false;
     }
 
+    _dmaSerialRxDescriptor->BTCTRL.bit.BLOCKACT = DMA_BLOCK_ACTION_INT;
+    _dmaSerialRx.loop(true);
+
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
 
@@ -232,15 +235,6 @@ bool CRSFforArduino::update()
         {
             _sendTelemetry();
             _flagSendTelemetry = false;
-        }
-#endif
-
-#ifdef USE_DMA
-        // Restart the DMA.
-        _dmaStatus = _dmaSerialRx.startJob();
-        if (_dmaStatus != DMA_STATUS_OK)
-        {
-            return false;
         }
 #endif
 
