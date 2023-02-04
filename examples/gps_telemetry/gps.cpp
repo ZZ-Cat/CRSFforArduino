@@ -53,6 +53,54 @@ bool GPS::begin()
     pinPeripheral(_rxPin, PIO_SERCOM);
     pinPeripheral(_txPin, PIO_SERCOM);
 
+    // Initialize DMA.
+    _initDMA();
+
+    return true;
+}
+
+/**
+ * @brief Parse NMEA data.
+ *
+ * @return true
+ * @return false
+ */
+bool GPS::update()
+{
+    if (_dmaGpsRxComplete == true)
+    {
+        _dmaGpsRxComplete = false;
+
+        // Copy the NMEA data.
+        memset(_dmaGpsRxBuffer, 0, GPS_RX_BUFFER_SIZE);
+        memcpy(_dmaGpsRxBuffer, _dmaGpsNmeaBuffer, _dmaGpsNmeaBufferLength);
+
+        // Parse the NMEA data.
+        _parseNMEA(_dmaGpsRxBuffer, _dmaGpsNmeaBufferLength);
+
+        // Update the GPS data.
+        data.latitude = _latitude;
+        data.longitude = _longitude;
+        data.altitude = _altitude;
+        data.speed = _speed;
+        data.heading = _heading;
+        data.satellites = _satellites;
+
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
+}
+
+/**
+ * @brief Initializes DMA.
+ *
+ */
+bool GPS::_initDMA()
+{
     /* Configure DMA. */
     _dmaGpsRx.setTrigger(SERCOM4_DMAC_ID_RX);
     _dmaGpsRx.setAction(DMA_TRIGGER_ACTON_BEAT);
@@ -93,42 +141,6 @@ bool GPS::begin()
     }
 
     return true;
-}
-
-/**
- * @brief Parse NMEA data.
- *
- * @return true
- * @return false
- */
-bool GPS::update()
-{
-    if (_dmaGpsRxComplete == true)
-    {
-        _dmaGpsRxComplete = false;
-
-        // Copy the NMEA data.
-        memset(_dmaGpsRxBuffer, 0, GPS_RX_BUFFER_SIZE);
-        memcpy(_dmaGpsRxBuffer, _dmaGpsNmeaBuffer, _dmaGpsNmeaBufferLength);
-
-        // Parse the NMEA data.
-        _parseNMEA(_dmaGpsRxBuffer, _dmaGpsNmeaBufferLength);
-
-        // Update the GPS data.
-        data.latitude = _latitude;
-        data.longitude = _longitude;
-        data.altitude = _altitude;
-        data.speed = _speed;
-        data.heading = _heading;
-        data.satellites = _satellites;
-
-        return true;
-    }
-
-    else
-    {
-        return false;
-    }
 }
 
 /**
