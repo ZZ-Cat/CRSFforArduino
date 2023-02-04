@@ -59,6 +59,7 @@ protected:
 
     bool _updated;
 
+    bool _initDMA();
     void _parseNMEA(uint8_t *buffer, size_t length);
 };
 
