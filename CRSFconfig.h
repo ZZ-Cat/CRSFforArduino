@@ -16,6 +16,7 @@
 #define CRSF_DEBUG_RC 0        // Set to 1 to enable debug output for RC data.
 #define CRSF_DEBUG_TELEMETRY 0 // Set to 1 to enable debug output for telemetry.
 #define CRSF_DEBUG_GPS 0       // Set to 1 to enable debug output for GPS data.
+#define CRSF_DEBUG_GPS_NMEA 0  // Set to 1 to enable debug output for GPS NMEA data.
 
 #define CRSF_USE_RC 1                          // Set to 1 to enable RC support.
 #define CRSF_USE_TELEMETRY 1                   // Set to 1 to enable telemetry support.

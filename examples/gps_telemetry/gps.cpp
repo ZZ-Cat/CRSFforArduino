@@ -199,7 +199,7 @@ bool GPS::_initDMA()
  */
 void GPS::_parseNMEA(uint8_t *buffer, size_t length)
 {
-#if (CRSF_DEBUG_GPS > 0)
+#if (CRSF_DEBUG_GPS > 0) && (CRSF_DEBUG_GPS_NMEA > 0)
     Serial.print("GPS: ");
     for (size_t i = 0; i < length; i++)
     {
@@ -294,7 +294,7 @@ bool GPS::_gpsWaitForResponse(uint32_t timeout)
         {
             _dmaGpsRxComplete = false;
 
-#if (CRSF_DEBUG_GPS > 0)
+#if (CRSF_DEBUG_GPS > 0) && (CRSF_DEBUG_GPS_NMEA > 0)
             Serial.print("GPS module initialization response: ");
             Serial.print(_dmaGpsNmeaBuffer);
 #endif
