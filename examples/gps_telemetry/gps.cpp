@@ -387,6 +387,7 @@ void _dmaGpsRxCallback(Adafruit_ZeroDMA *dma)
         {
             _dmaGpsRxIndex = 0;
             _dmaGpsNmeaBufferLength = 0;
+            _dmaGpsRxComplete = false;
             memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
 
 #if (CRSF_DEBUG_GPS > 0)
