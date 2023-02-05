@@ -294,16 +294,20 @@ bool GPS::_gpsWaitForResponse(uint32_t timeout)
         {
             _dmaGpsRxComplete = false;
 
+            // Copy the NMEA data.
+            memset(_dmaGpsRxBuffer, 0, GPS_RX_BUFFER_SIZE);
+            memcpy(_dmaGpsRxBuffer, _dmaGpsNmeaBuffer, _dmaGpsNmeaBufferLength);
+
 #if (CRSF_DEBUG_GPS > 0) && (CRSF_DEBUG_GPS_NMEA > 0)
             Serial.print("GPS module initialization response: ");
-            Serial.print(_dmaGpsNmeaBuffer);
+            Serial.print(_dmaGpsRxBuffer);
 #endif
 
             // Calculate the checksum of the response.
             uint8_t checksum = 0;
             for (size_t i = 1; i < _dmaGpsNmeaBufferLength - 5; i++)
             {
-                checksum ^= _dmaGpsNmeaBuffer[i];
+                checksum ^= _dmaGpsRxBuffer[i];
             }
 
             // Convert the checksum to a hex string.
@@ -311,14 +315,14 @@ bool GPS::_gpsWaitForResponse(uint32_t timeout)
             sprintf(checksumString, "%02X", checksum);
 
             // Compare the checksums.
-            if (strncmp(checksumString, &_dmaGpsNmeaBuffer[_dmaGpsNmeaBufferLength - 4], 2) == 0)
+            if (strncmp(checksumString, &_dmaGpsRxBuffer[_dmaGpsNmeaBufferLength - 4], 2) == 0)
             {
                 // Wait for acknowledgement.
-                if (strstr(_dmaGpsNmeaBuffer, "$PMTK001") != NULL)
+                if (strstr(_dmaGpsRxBuffer, "$PMTK001") != NULL)
                 {
                     // Get the acknowledgement code and convert it to an integer.
                     char ackCode[1];
-                    strncpy(ackCode, &_dmaGpsNmeaBuffer[13], 1);
+                    strncpy(ackCode, &_dmaGpsRxBuffer[13], 1);
                     uint8_t ack = atoi(ackCode);
 
                     // Check the acknowledgement code.
