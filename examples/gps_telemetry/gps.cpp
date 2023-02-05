@@ -15,7 +15,7 @@
 Adafruit_ZeroDMA _dmaGpsRx;
 volatile bool _dmaGpsRxComplete = false;
 char _dmaGpsRxChar = 0;
-uint8_t _dmaGpsRxBuffer[GPS_RX_BUFFER_SIZE];
+char _dmaGpsRxBuffer[GPS_RX_BUFFER_SIZE];
 size_t _dmaGpsRxIndex = 0;
 
 Adafruit_ZeroDMA _dmaGpsTx;
@@ -197,7 +197,7 @@ bool GPS::_initDMA()
  * @param buffer
  * @param length
  */
-void GPS::_parseNMEA(uint8_t *buffer, size_t length)
+void GPS::_parseNMEA(const char *buffer, size_t length)
 {
 #if (CRSF_DEBUG_GPS > 0) && (CRSF_DEBUG_GPS_NMEA > 0)
     Serial.print("GPS: ");
