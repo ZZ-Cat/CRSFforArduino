@@ -65,7 +65,7 @@ protected:
     bool _updated;
 
     bool _initDMA();
-    void _parseNMEA(uint8_t *buffer, size_t length);
+    void _parseNMEA(const char *buffer, size_t length);
 
     void _gpsWrite(uint8_t *buffer, size_t length);
     void _gpsWrite(const char *buffer, size_t length);
