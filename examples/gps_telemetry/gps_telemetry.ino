@@ -32,7 +32,7 @@ CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
-#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
+#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0) || (CRSF_DEBUG_GPS > 0)
     // Initialize the serial port & wait for the port to open.
     Serial.begin(115200);
 
