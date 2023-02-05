@@ -17,6 +17,9 @@
 #include "TinyGPS++.h"
 
 #define GPS_RX_BUFFER_SIZE 255
+#define GPS_TX_BUFFER_SIZE 255
+#define GPS_RX_TIMEOUT 1000
+#define GPS_TX_TIMEOUT 1000
 
 class GPS
 {
@@ -43,7 +46,9 @@ protected:
     HardwareSerial *_serial;
 
     DmacDescriptor *_dmaGpsRxDescriptor;
+    DmacDescriptor *_dmaGpsTxDescriptor;
     ZeroDMAstatus _dmaGpsRxStatus;
+    ZeroDMAstatus _dmaGpsTxStatus;
 
     TinyGPSPlus _gps;
 
@@ -61,6 +66,11 @@ protected:
 
     bool _initDMA();
     void _parseNMEA(uint8_t *buffer, size_t length);
+
+    void _gpsWrite(uint8_t *buffer, size_t length);
+    void _gpsWrite(const char *buffer, size_t length);
+    bool _gpsWaitForResponse(uint32_t timeout);
 };
 
 void _dmaGpsRxCallback(Adafruit_ZeroDMA *dma);
+void _dmaGpsTxCallback(Adafruit_ZeroDMA *dma);
