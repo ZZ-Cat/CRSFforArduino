@@ -247,6 +247,28 @@ bool GPS::_gpsNegotiateBaudRate(uint32_t targetBaudRate)
     Serial.println("Negotiating GPS baud rate...");
     Serial.print("Trying baud rate: ");
 #endif
+
+    // Try the target baud rate first.
+    _gpsBaudRate = targetBaudRate;
+
+    // Initialize the serial port.
+    _serial->begin(_gpsBaudRate);
+    pinPeripheral(_rxPin, PIO_SERCOM);
+    pinPeripheral(_txPin, PIO_SERCOM);
+
+    // Initialize the NMEA buffer.
+    memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
+
+    // Send the initialization command.
+    char initCommand[14] = "$PMTK000*32\r\n";
+    _gpsWrite(initCommand, sizeof(initCommand));
+    if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
+    {
+        _serial->end();
+        pinPeripheral(_rxPin, PIO_DIGITAL);
+        pinPeripheral(_txPin, PIO_DIGITAL);
+
+        // Try the other baud rates.
     _gpsBaudRateLocked = false;
     for (uint8_t i = 0; i < 7; i++)
     {
@@ -358,6 +380,15 @@ bool GPS::_gpsNegotiateBaudRate(uint32_t targetBaudRate)
                 }
             }
         }
+    }
+    }
+    else
+    {
+        _gpsBaudRateLocked = true;
+#if (CRSF_DEBUG_GPS > 0)
+        Serial.print("GPS baud rate negotiation successful. Locking onto baud rate: ");
+        Serial.println(_gpsBaudRate);
+#endif
     }
 
     if (_gpsBaudRateLocked != true)
