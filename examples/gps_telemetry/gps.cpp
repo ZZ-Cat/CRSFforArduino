@@ -244,8 +244,9 @@ bool GPS::_gpsNegotiateBaudRate(uint32_t targetBaudRate)
     If the current baud rate matches the target baud rate, return true. */
 
 #if (CRSF_DEBUG_GPS > 0)
-    Serial.println("Negotiating GPS baud rate...");
+    Serial.println("Negotiating baud rate...");
     Serial.print("Trying baud rate: ");
+    Serial.println(targetBaudRate);
 #endif
 
     // Try the target baud rate first.
@@ -269,134 +270,136 @@ bool GPS::_gpsNegotiateBaudRate(uint32_t targetBaudRate)
         pinPeripheral(_txPin, PIO_DIGITAL);
 
         // Try the other baud rates.
-    _gpsBaudRateLocked = false;
-    for (uint8_t i = 0; i < 7; i++)
-    {
-        _gpsBaudRate = _gpsBaudRates[i];
+        _gpsBaudRateLocked = false;
 
 #if (CRSF_DEBUG_GPS > 0)
-        Serial.println(_gpsBaudRate);
+        Serial.print("GPS response invalid.\r\nTrying next baud rate: ");
 #endif
 
-        // Initialize the serial port.
-        _serial->begin(_gpsBaudRate);
-        pinPeripheral(_rxPin, PIO_SERCOM);
-        pinPeripheral(_txPin, PIO_SERCOM);
-
-        // Initialize the NMEA buffer.
-        memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
-
-        // Send the initialization command.
-        char initCommand[14] = "$PMTK000*32\r\n";
-        _gpsWrite(initCommand, sizeof(initCommand));
-        if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
+        for (uint8_t i = 0; i < 7; i++)
         {
-            _serial->end();
-            pinPeripheral(_rxPin, PIO_DIGITAL);
-            pinPeripheral(_txPin, PIO_DIGITAL);
+            _gpsBaudRate = _gpsBaudRates[i];
 
 #if (CRSF_DEBUG_GPS > 0)
-            if (i >= 6)
-            {
-                Serial.println("GPS baud rate negotiation failed.");
-            }
-            else
-            {
-                Serial.print("GPS response invalid. Trying next baud rate: ");
-            }
-#endif
-        }
-        else
-        {
-            // Check if the GPS module is already using the target baud rate.
-            if (_gpsBaudRate == targetBaudRate)
-            {
-                _gpsBaudRateLocked = true;
-#if (CRSF_DEBUG_GPS > 0)
-                Serial.print("GPS response valid. Locking onto baud rate: ");
-                Serial.println(_gpsBaudRate);
-#endif
-                break;
-            }
-
-            // Update the GPS module's baud rate.
-            else
-            {
-#if (CRSF_DEBUG_GPS > 0)
-                Serial.print("GPS response valid. Updating baud rate to: ");
-                Serial.println(targetBaudRate);
+            Serial.println(_gpsBaudRate);
 #endif
 
-                _gpsBaudRateLocked = false;
-                char updateBaudRateCommand[21];
+            // Initialize the serial port.
+            _serial->begin(_gpsBaudRate);
+            pinPeripheral(_rxPin, PIO_SERCOM);
+            pinPeripheral(_txPin, PIO_SERCOM);
 
-                // Build the command string.
-                sprintf(updateBaudRateCommand, "$PMTK251,%lu*", targetBaudRate);
-                char checksum = 0;
-                size_t length = strlen(updateBaudRateCommand);
-                for (uint8_t i = 1; i < strlen(updateBaudRateCommand) - 1; i++)
-                {
-                    checksum ^= updateBaudRateCommand[i];
-                }
-                sprintf(updateBaudRateCommand, "%s%02X\r\n", updateBaudRateCommand, checksum);
+            // Initialize the NMEA buffer.
+            memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
 
-                // Empty the NMEA buffer.
-                memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
-
-                // Send the command.
-                _gpsWrite(updateBaudRateCommand, sizeof(updateBaudRateCommand));
-
-                // Update the serial port's baud rate.
+            // Send the initialization command.
+            char initCommand[14] = "$PMTK000*32\r\n";
+            _gpsWrite(initCommand, sizeof(initCommand));
+            if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
+            {
                 _serial->end();
                 pinPeripheral(_rxPin, PIO_DIGITAL);
                 pinPeripheral(_txPin, PIO_DIGITAL);
-                _serial->begin(targetBaudRate);
-                pinPeripheral(_rxPin, PIO_SERCOM);
-                pinPeripheral(_txPin, PIO_SERCOM);
-
-                // Wait for a response.
-                if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
-                {
-                    _serial->end();
-                    pinPeripheral(_rxPin, PIO_DIGITAL);
-                    pinPeripheral(_txPin, PIO_DIGITAL);
 
 #if (CRSF_DEBUG_GPS > 0)
-                    Serial.println("GPS baud rate update failed.");
-                    Serial.print("Restarting baud rate negotiation. Trying baud rate: ");
-#endif
-
-                    // Restart the for loop.
-                    i = 0;
+                if (i >= 6)
+                {
+                    Serial.println("Baud rate negotiation failed.");
                 }
                 else
                 {
+                    Serial.print("GPS response invalid.\r\nTrying next baud rate: ");
+                }
+#endif
+            }
+            else
+            {
+                // Check if the GPS module is already using the target baud rate.
+                if (_gpsBaudRate == targetBaudRate)
+                {
                     _gpsBaudRateLocked = true;
+                    break;
+                }
+
+                // Update the GPS module's baud rate.
+                else
+                {
 #if (CRSF_DEBUG_GPS > 0)
-                    Serial.print("GPS baud rate update successful. Locking onto baud rate: ");
+                    Serial.print("GPS response valid.\r\nUpdating baud rate to: ");
                     Serial.println(targetBaudRate);
 #endif
-                    break;
+
+                    _gpsBaudRateLocked = false;
+                    char updateBaudRateCommand[21];
+
+                    // Build the command string.
+                    sprintf(updateBaudRateCommand, "$PMTK251,%lu*", targetBaudRate);
+                    char checksum = 0;
+                    size_t length = strlen(updateBaudRateCommand);
+                    for (uint8_t i = 1; i < strlen(updateBaudRateCommand) - 1; i++)
+                    {
+                        checksum ^= updateBaudRateCommand[i];
+                    }
+                    sprintf(updateBaudRateCommand, "%s%02X\r\n", updateBaudRateCommand, checksum);
+
+                    // Empty the NMEA buffer.
+                    memset(_dmaGpsNmeaBuffer, 0, GPS_RX_BUFFER_SIZE);
+
+                    // Send the command.
+                    _gpsWrite(updateBaudRateCommand, sizeof(updateBaudRateCommand));
+
+                    // Update the serial port's baud rate.
+                    _serial->end();
+                    pinPeripheral(_rxPin, PIO_DIGITAL);
+                    pinPeripheral(_txPin, PIO_DIGITAL);
+                    _serial->begin(targetBaudRate);
+                    pinPeripheral(_rxPin, PIO_SERCOM);
+                    pinPeripheral(_txPin, PIO_SERCOM);
+
+                    // Wait for a response.
+                    if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
+                    {
+                        _serial->end();
+                        pinPeripheral(_rxPin, PIO_DIGITAL);
+                        pinPeripheral(_txPin, PIO_DIGITAL);
+
+#if (CRSF_DEBUG_GPS > 0)
+                        Serial.println("Baud rate update failed.");
+                        Serial.print("Restarting baud rate negotiation.\r\nTrying baud rate: ");
+#endif
+
+                        // Restart the for loop.
+                        i = 0;
+                    }
+                    else
+                    {
+                        _gpsBaudRate = targetBaudRate;
+                        _gpsBaudRateLocked = true;
+                        break;
+                    }
                 }
             }
         }
-    }
     }
     else
     {
         _gpsBaudRateLocked = true;
-#if (CRSF_DEBUG_GPS > 0)
-        Serial.print("GPS baud rate negotiation successful. Locking onto baud rate: ");
-        Serial.println(_gpsBaudRate);
-#endif
     }
 
     if (_gpsBaudRateLocked != true)
     {
+#if (CRSF_DEBUG_GPS > 0)
+        Serial.println("Baud rate negotiation failed.");
+#endif
         return false;
     }
     else
     {
+#if (CRSF_DEBUG_GPS > 0)
+        Serial.print("Locking onto baud rate: ");
+        Serial.println(_gpsBaudRate);
+        Serial.println("Baud rate negotiation successful.");
+#endif
         return true;
     }
 }

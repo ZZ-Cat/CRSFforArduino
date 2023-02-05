@@ -45,6 +45,10 @@ void setup()
     {
         ;
     }
+
+    // Show the user that the sketch is starting.
+    Serial.println("GPS Telemetry Example");
+    delay(1000);
 #endif
 
     // Initialize the CRSFforArduino library.
@@ -55,7 +59,6 @@ void setup()
 
 #if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
     // Show the user that the sketch is ready.
-    Serial.println("GPS Telemetry Example");
     delay(1000);
     Serial.println("Ready");
     delay(1000);
