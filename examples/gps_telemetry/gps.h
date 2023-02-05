@@ -52,6 +52,19 @@ protected:
 
     TinyGPSPlus _gps;
 
+    bool _gpsBaudRateLocked;
+    uint8_t _gpsBaudRateIndex;
+    uint32_t _gpsBaudRate;
+    const uint32_t _gpsBaudRates[7] = {
+        4800,
+        9600,
+        14400,
+        19200,
+        38400,
+        57600,
+        115200
+    };
+
     uint32_t _rxPin;
     uint32_t _txPin;
 
@@ -67,6 +80,7 @@ protected:
     bool _initDMA();
     void _parseNMEA(const char *buffer, size_t length);
 
+    bool _gpsNegotiateBaudRate(uint32_t targetBaudRate);
     void _gpsWrite(uint8_t *buffer, size_t length);
     void _gpsWrite(const char *buffer, size_t length);
     bool _gpsWaitForResponse(uint32_t timeout);
