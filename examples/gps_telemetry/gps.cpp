@@ -55,6 +55,11 @@ GPS::~GPS()
  */
 bool GPS::begin()
 {
+#if (CRSF_DEBUG_GPS > 0)
+    Serial.println("Initializing GPS module...");
+#endif
+
+    // Initialize the serial port.
     _serial->begin(9600);
     pinPeripheral(_rxPin, PIO_SERCOM);
     pinPeripheral(_txPin, PIO_SERCOM);
@@ -72,6 +77,10 @@ bool GPS::begin()
 #endif
         return false;
     }
+
+#if (CRSF_DEBUG_GPS > 0)
+    Serial.println("GPS initialization complete.");
+#endif
 
     return true;
 }
