@@ -63,7 +63,7 @@ bool GPS::begin()
     _initDMA();
 
     // Set GPS Baud Rate.
-    if (_gpsNegotiateBaudRate(9600) != true)
+    if (_gpsNegotiateBaudRate(115200) != true)
     {
 #if (CRSF_DEBUG_GPS > 0)
         Serial.println("GPS initialization failed.");
