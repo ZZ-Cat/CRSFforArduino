@@ -55,7 +55,34 @@ void setup()
     crsf.begin();
 
     // Initialize the GPS sensor.
-    gps.begin();
+    if (gps.begin() != true)
+    {
+#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+        Serial.println("GPS failed to initialize");
+#endif
+
+        // Stop the sketch from continuing.
+        while (true)
+        {
+            ;
+        }
+    }
+    else
+    {
+        // Set the GPS update rate to 10Hz.
+        if (gps.setUpdateRate(GPS_UPDATE_RATE_10HZ) != true)
+        {
+#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+            Serial.println("GPS failed to set update rate");
+#endif
+
+            // Stop the sketch from continuing.
+            while (true)
+            {
+                ;
+            }
+        }
+    }
 
 #if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
     // Show the user that the sketch is ready.

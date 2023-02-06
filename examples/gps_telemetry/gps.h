@@ -21,6 +21,30 @@
 #define GPS_RX_TIMEOUT 1000
 #define GPS_TX_TIMEOUT 1000
 
+#define GPS_BAUD_RATE 115200
+
+typedef enum __gps_baud_rate_e
+{
+    GPS_BAUD_RATE_4800 = 0,
+    GPS_BAUD_RATE_9600,
+    GPS_BAUD_RATE_14400,
+    GPS_BAUD_RATE_19200,
+    GPS_BAUD_RATE_38400,
+    GPS_BAUD_RATE_57600,
+    GPS_BAUD_RATE_115200,
+    GPS_BAUD_RATE_COUNT
+} gps_baud_rate_t;
+
+typedef enum __gps_update_rate_e
+{
+    GPS_UPDATE_RATE_INVALID = 0,
+    GPS_UPDATE_RATE_1HZ,
+    GPS_UPDATE_RATE_2HZ,
+    GPS_UPDATE_RATE_5HZ,
+    GPS_UPDATE_RATE_10HZ,
+    GPS_UPDATE_RATE_COUNT
+} gps_update_rate_t;
+
 class GPS
 {
 public:
@@ -40,6 +64,7 @@ public:
     ~GPS();
 
     bool begin();
+    bool setUpdateRate(gps_update_rate_t updateRate);
     bool update();
 
 protected:
@@ -63,6 +88,15 @@ protected:
         38400,
         57600,
         115200
+    };
+
+    uint16_t _gpsUpdateRate;
+    const uint16_t _gpsUpdateRates[GPS_UPDATE_RATE_COUNT] = {
+        0,    // 0 is not a valid update rate
+        1000, // 1 Hz
+        500,  // 2 Hz
+        200,  // 5 Hz
+        100   // 10 Hz
     };
 
     uint32_t _rxPin;

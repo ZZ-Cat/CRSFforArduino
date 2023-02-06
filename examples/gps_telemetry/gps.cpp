@@ -63,7 +63,7 @@ bool GPS::begin()
     _initDMA();
 
     // Set GPS Baud Rate.
-    if (_gpsNegotiateBaudRate(115200) != true)
+    if (_gpsNegotiateBaudRate(GPS_BAUD_RATE) != true)
     {
 #if (CRSF_DEBUG_GPS > 0)
         Serial.println("GPS initialization failed.");
@@ -76,6 +76,57 @@ bool GPS::begin()
 #endif
 
     return true;
+}
+
+bool GPS::setUpdateRate(gps_update_rate_t updateRate)
+{
+    // Check if the update rate is valid.
+    if (updateRate == GPS_UPDATE_RATE_INVALID)
+    {
+        return false;
+    }
+
+    // Set the update rate.
+    _gpsUpdateRate = _gpsUpdateRates[updateRate % GPS_UPDATE_RATE_COUNT];
+
+    // Build the command.
+    char command[GPS_TX_BUFFER_SIZE];
+    sprintf(command, "$PMTK220,%d*", _gpsUpdateRate);
+
+    // Calculate the checksum.
+    uint8_t checksum = 0;
+    for (size_t i = 1; i < strlen(command) - 1; i++)
+    {
+        checksum ^= command[i];
+    }
+
+    // Append the checksum to the command.
+    sprintf(command, "$PMTK220,%d*%02X\r\n", _gpsUpdateRate, checksum);
+
+#if (CRSF_DEBUG_GPS > 0)
+    Serial.print("Setting GPS update rate to ");
+    Serial.print(_gpsUpdateRate);
+    Serial.println("ms...");
+#endif
+    
+    // Send the command.
+    _gpsWrite(command, strlen(command));
+
+    // Wait for the GPS to respond.
+    if (_gpsWaitForResponse(GPS_RX_TIMEOUT) != true)
+    {
+#if (CRSF_DEBUG_GPS > 0)
+        Serial.println("GPS update rate set failed.");
+#endif
+        return false;
+    }
+    else
+    {
+#if (CRSF_DEBUG_GPS > 0)
+        Serial.println("GPS update rate set.");
+#endif
+        return true;
+    }
 }
 
 /**
