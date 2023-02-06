@@ -92,9 +92,14 @@ void loop()
     }
 
     // Update the GPS sensor.
-    if (gps.update())
-    {
+    gps.update();
+
 #if (PRINT_GPS_DATA > 0)
+    // Schedule printing the GPS data to the serial port.
+    static uint32_t lastPrint = millis();
+    if (millis() - lastPrint >= 200)
+    {
+        lastPrint = millis();
         Serial.print("GPS <Lat: ");
         Serial.print(gps.data.latitude, 6);
         Serial.print(", Lon: ");
@@ -108,8 +113,8 @@ void loop()
         Serial.print(", Satellites: ");
         Serial.print(gps.data.satellites);
         Serial.println(">");
-#endif
     }
+#endif
 
     // Schedule writing the GPS telemetry data to the CRSF receiver.
     static uint32_t lastWrite = millis();
