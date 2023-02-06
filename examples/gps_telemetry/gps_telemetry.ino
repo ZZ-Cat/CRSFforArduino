@@ -22,9 +22,9 @@
 #endif
 
 // Create a GPS object.
-const uint32_t GPSRxPin = 4;
-const uint32_t GPSTxPin = 5;
-Uart Serial2(&sercom4, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_2);
+const uint32_t GPSRxPin = 2;
+const uint32_t GPSTxPin = 3;
+Uart Serial2(&sercom5, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
 
 // Create a CRSFforArduino object.
@@ -32,7 +32,7 @@ CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
-#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
+#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0) || (CRSF_DEBUG_GPS > 0)
     // Initialize the serial port & wait for the port to open.
     Serial.begin(115200);
 
@@ -45,17 +45,47 @@ void setup()
     {
         ;
     }
+
+    // Show the user that the sketch is starting.
+    Serial.println("GPS Telemetry Example");
+    delay(1000);
 #endif
 
     // Initialize the CRSFforArduino library.
     crsf.begin();
 
     // Initialize the GPS sensor.
-    gps.begin();
+    if (gps.begin() != true)
+    {
+#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+        Serial.println("GPS failed to initialize");
+#endif
+
+        // Stop the sketch from continuing.
+        while (true)
+        {
+            ;
+        }
+    }
+    else
+    {
+        // Set the GPS update rate to 10Hz.
+        if (gps.setUpdateRate(GPS_UPDATE_RATE_10HZ) != true)
+        {
+#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+            Serial.println("GPS failed to set update rate");
+#endif
+
+            // Stop the sketch from continuing.
+            while (true)
+            {
+                ;
+            }
+        }
+    }
 
 #if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0)
     // Show the user that the sketch is ready.
-    Serial.println("GPS Telemetry Example");
     delay(1000);
     Serial.println("Ready");
     delay(1000);
@@ -89,12 +119,14 @@ void loop()
     }
 
     // Update the GPS sensor.
-    if (gps.update())
-    {
-        // Send the GPS telemetry data to the CRSF receiver.
-        crsf.writeGPStelemetry(gps.data.latitude, gps.data.longitude, gps.data.altitude, gps.data.speed, gps.data.heading, gps.data.satellites);
+    gps.update();
 
 #if (PRINT_GPS_DATA > 0)
+    // Schedule printing the GPS data to the serial port.
+    static uint32_t lastPrint = millis();
+    if (millis() - lastPrint >= 200)
+    {
+        lastPrint = millis();
         Serial.print("GPS <Lat: ");
         Serial.print(gps.data.latitude, 6);
         Serial.print(", Lon: ");
@@ -108,26 +140,34 @@ void loop()
         Serial.print(", Satellites: ");
         Serial.print(gps.data.satellites);
         Serial.println(">");
+    }
 #endif
+
+    // Schedule writing the GPS telemetry data to the CRSF receiver.
+    static uint32_t lastWrite = millis();
+    if (millis() - lastWrite >= 20)
+    {
+        lastWrite = millis();
+        crsf.writeGPStelemetry(gps.data.latitude, gps.data.longitude, gps.data.altitude, gps.data.speed, gps.data.heading, gps.data.satellites);
     }
 }
 
-void SERCOM4_0_Handler()
+void SERCOM5_0_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_1_Handler()
+void SERCOM5_1_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_2_Handler()
+void SERCOM5_2_Handler()
 {
     Serial2.IrqHandler();
 }
 
-void SERCOM4_3_Handler()
+void SERCOM5_3_Handler()
 {
     Serial2.IrqHandler();
 }
