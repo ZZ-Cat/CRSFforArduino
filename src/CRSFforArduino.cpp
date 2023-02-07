@@ -374,12 +374,12 @@ void CRSFforArduino::_sendTelemetry()
     }
 #endif
 
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
     if ((thisFrameToSchedule & CRSF_FRAME_GPS_INDEX) == CRSF_FRAME_GPS_INDEX)
     {
-#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
         _sendTelemetryGPS();
-#endif
     }
+#endif
 
     // Update the telemetry frame index.
     _crsfFrameScheduleIndex = (_crsfFrameScheduleIndex + 1) % _crsfFrameScheduleCount;
@@ -459,7 +459,7 @@ void CRSFforArduino::_sendTelemetryGPS()
     // Populate the frame.
     _streamBufferPush8u(crc); // Set the CRC.
 
-#if (CRSF_DEBUG_TELEMETRY > 0)
+#if (CRSF_DEBUG_TELEMETRY > 0) && (CRSF_DEBUG_GPS > 0)
     Serial.print("GPS: ");
     for (uint8_t i = 0; i < length; i++)
     {
