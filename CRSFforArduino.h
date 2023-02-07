@@ -173,6 +173,20 @@ protected:
     uint8_t _telemetryFrameIndex;
     void _sendTelemetry(void);
 
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
+    /* Attitude Telemetry Struct */
+    typedef struct __crsf_attitude_s
+    {
+        float roll;
+        float pitch;
+        float yaw;
+    } __crsf_attitude_t;
+
+    /* Attitude Telemetry */
+    __crsf_attitude_t _crsfAttitude;
+    void _sendTelemetryAttitude(void);
+#endif
+
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
     /* GPS Telemetry Struct */
     typedef struct __crsf_gps_s
