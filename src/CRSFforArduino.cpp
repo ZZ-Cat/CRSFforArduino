@@ -367,6 +367,13 @@ void CRSFforArduino::_sendTelemetry()
 
     const uint8_t thisFrameToSchedule = _crsfFrameSchedule[_crsfFrameScheduleIndex];
 
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
+    if ((thisFrameToSchedule & CRSF_FRAME_ATTITUDE_INDEX) == CRSF_FRAME_ATTITUDE_INDEX)
+    {
+        _sendTelemetryAttitude();
+    }
+#endif
+
     if ((thisFrameToSchedule & CRSF_FRAME_GPS_INDEX) == CRSF_FRAME_GPS_INDEX)
     {
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
@@ -377,6 +384,49 @@ void CRSFforArduino::_sendTelemetry()
     // Update the telemetry frame index.
     _crsfFrameScheduleIndex = (_crsfFrameScheduleIndex + 1) % _crsfFrameScheduleCount;
 }
+
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
+/**
+ * @brief Sends attitude telemetry data.
+ *
+ */
+void CRSFforArduino::_sendTelemetryAttitude()
+{
+    /* Attitude frame. */
+    uint8_t length = CRSF_FRAME_LENGTH_NON_PAYLOAD + CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE;
+    _streamBufferClear();
+
+    // Populate the sync byte.
+    _streamBufferPush8u(CRSF_SYNC_BYTE);
+
+    // Populate the payload.
+    _streamBufferPush8u(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC); // Set the frame length.
+    _streamBufferPush8u(CRSF_FRAMETYPE_ATTITUDE);                                       // Set the frame type.
+    _streamBufferPush16sBigEndian(_crsfAttitude.roll);                                  // Set the roll.
+    _streamBufferPush16sBigEndian(_crsfAttitude.pitch);                                 // Set the pitch.
+    _streamBufferPush16sBigEndian(_crsfAttitude.yaw);                                   // Set the yaw.
+
+    // Calculate the CRC.
+    // Start at index 2, because the CRC does not include the address and length.
+    uint8_t crc = _crsfGetCRC(_streamBuffer + 2, length - 3);
+
+    // Populate the frame.
+    _streamBufferPush8u(crc); // Set the CRC.
+
+#if (CRSF_DEBUG_TELEMETRY > 0) && (CRSF_DEBUG_ATTITUDE > 0)
+    Serial.print("Attitude: ");
+    for (uint8_t i = 0; i < length; i++)
+    {
+        Serial.print(_streamBuffer[i], HEX);
+        Serial.print(" ");
+    }
+    Serial.println();
+#endif
+
+    // Send the frame.
+    _serial->write(_streamBuffer, length);
+}
+#endif
 
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
 /**
