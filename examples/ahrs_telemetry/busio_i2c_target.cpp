@@ -19,10 +19,10 @@
   *    @param  theWire The I2C bus to use, defaults to &Wire
   */
 BusIO_I2C_Target::BusIO_I2C_Target(uint8_t addr, I2C* theWire) {
-  _addr = addr;
-  _wire = theWire;
-  _begun = false;
-  _maxBufferSize = 250; // as defined in Wire.h's RingBuffer
+    _addr = addr;
+    _wire = theWire;
+    _begun = false;
+    _maxBufferSize = 250; // as defined in Wire.h's RingBuffer
 }
 
 /*!
@@ -33,34 +33,31 @@ BusIO_I2C_Target::BusIO_I2C_Target(uint8_t addr, I2C* theWire) {
  *    @return True if I2C initialized and a device with the addr found
  */
 bool BusIO_I2C_Target::begin(bool addr_detect) {
-  Serial.println("BusIO_I2C_Target::begin()");
-  _wire->begin();
-  _begun = true;
+    _wire->begin();
+    _begun = true;
 
-  if (addr_detect) {
-    bool _detected = detected();
-    Serial.println("BusIO_I2C_Target::begin() - detected() - returned " + String(_detected));
-    return _detected;
-  }
+    if (addr_detect) {
+        bool _detected = detected();
+        return _detected;
+    }
 
-  Serial.println("BusIO_I2C_Target::begin() - done");
-  return true;
+    return true;
 }
 
 /*!
  *    @brief  De-initialize device, turn off the Wire interface
  */
 void BusIO_I2C_Target::end(void) {
-  // Not all port implement Wire::end(), such as
-  // - ESP8266
-  // - AVR core without WIRE_HAS_END
-  // - ESP32: end() is implemented since 2.0.1 which is latest at the moment.
-  // Temporarily disable for now to give time for user to update.
+    // Not all port implement Wire::end(), such as
+    // - ESP8266
+    // - AVR core without WIRE_HAS_END
+    // - ESP32: end() is implemented since 2.0.1 which is latest at the moment.
+    // Temporarily disable for now to give time for user to update.
 #if !(defined(ESP8266) ||                                                      \
       (defined(ARDUINO_ARCH_AVR) && !defined(WIRE_HAS_END)) ||                 \
       defined(ARDUINO_ARCH_ESP32))
-  _wire->end();
-  _begun = false;
+    _wire->end();
+    _begun = false;
 #endif
 }
 
@@ -70,31 +67,24 @@ void BusIO_I2C_Target::end(void) {
  *    @return True if I2C initialized and a device with the addr found
  */
 bool BusIO_I2C_Target::detected(void) {
-  Serial.println("BusIO_I2C_Target::detected()");
 
-  // Init I2C if not done yet
-  if (!_begun && !begin()) {
-    Serial.println("BusIO_I2C_Target::detected() - begin() failed");
+    // Init I2C if not done yet
+    if (!_begun && !begin()) {
+        return false;
+    }
+
+    // A basic scanner, see if it ACK's
+    _wire->beginTransmission(_addr);
+    if (_wire->endTransmission() == 0) {
+#ifdef DEBUG_SERIAL
+        DEBUG_SERIAL.println(F("Detected"));
+#endif
+        return true;
+    }
+#ifdef DEBUG_SERIAL
+    DEBUG_SERIAL.println(F("Not detected"));
+#endif
     return false;
-  }
-
-  // A basic scanner, see if it ACK's
-  Serial.println("BusIO_I2C_Target::detected() - scanning");
-  _wire->beginTransmission(_addr);
-  if (_wire->endTransmission() == 0) {
-    Serial.println("BusIO_I2C_Target::detected() - detected");
-#ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.println(F("Detected"));
-#endif
-    Serial.println("BusIO_I2C_Target::detected() - done");
-    return true;
-  }
-  Serial.println("BusIO_I2C_Target::detected() - not detected");
-#ifdef DEBUG_SERIAL
-  DEBUG_SERIAL.println(F("Not detected"));
-#endif
-  Serial.println("BusIO_I2C_Target::detected() - done");
-  return false;
 }
 
 /*!
@@ -111,77 +101,77 @@ bool BusIO_I2C_Target::detected(void) {
  *    @return True if write was successful, otherwise false.
  */
 bool BusIO_I2C_Target::write(const uint8_t* buffer, size_t len, bool stop,
-  const uint8_t* prefix_buffer,
-  size_t prefix_len) {
-  if ((len + prefix_len) > maxBufferSize()) {
-    // currently not guaranteed to work if more than 32 bytes!
-    // we will need to find out if some platforms have larger
-    // I2C buffer sizes :/
+    const uint8_t* prefix_buffer,
+    size_t prefix_len) {
+    if ((len + prefix_len) > maxBufferSize()) {
+        // currently not guaranteed to work if more than 32 bytes!
+        // we will need to find out if some platforms have larger
+        // I2C buffer sizes :/
 #ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.println(F("\tI2CDevice could not write such a large buffer"));
+        DEBUG_SERIAL.println(F("\tI2CDevice could not write such a large buffer"));
 #endif
-    return false;
-  }
-
-  _wire->beginTransmission(_addr);
-
-  // Write the prefix data (usually an address)
-  if ((prefix_len != 0) && (prefix_buffer != nullptr)) {
-    if (_wire->write(prefix_buffer, prefix_len) != prefix_len) {
-#ifdef DEBUG_SERIAL
-      DEBUG_SERIAL.println(F("\tI2CDevice failed to write"));
-#endif
-      return false;
+        return false;
     }
-  }
 
-  // Write the data itself
-  if (_wire->write(buffer, len) != len) {
+    _wire->beginTransmission(_addr);
+
+    // Write the prefix data (usually an address)
+    if ((prefix_len != 0) && (prefix_buffer != nullptr)) {
+        if (_wire->write(prefix_buffer, prefix_len) != prefix_len) {
 #ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.println(F("\tI2CDevice failed to write"));
+            DEBUG_SERIAL.println(F("\tI2CDevice failed to write"));
 #endif
-    return false;
-  }
-
-#ifdef DEBUG_SERIAL
-
-  DEBUG_SERIAL.print(F("\tI2CWRITE @ 0x"));
-  DEBUG_SERIAL.print(_addr, HEX);
-  DEBUG_SERIAL.print(F(" :: "));
-  if ((prefix_len != 0) && (prefix_buffer != nullptr)) {
-    for (uint16_t i = 0; i < prefix_len; i++) {
-      DEBUG_SERIAL.print(F("0x"));
-      DEBUG_SERIAL.print(prefix_buffer[i], HEX);
-      DEBUG_SERIAL.print(F(", "));
+            return false;
+        }
     }
-  }
-  for (uint16_t i = 0; i < len; i++) {
-    DEBUG_SERIAL.print(F("0x"));
-    DEBUG_SERIAL.print(buffer[i], HEX);
-    DEBUG_SERIAL.print(F(", "));
-    if (i % 32 == 31) {
-      DEBUG_SERIAL.println();
+
+    // Write the data itself
+    if (_wire->write(buffer, len) != len) {
+#ifdef DEBUG_SERIAL
+        DEBUG_SERIAL.println(F("\tI2CDevice failed to write"));
+#endif
+        return false;
     }
-  }
 
-  if (stop) {
-    DEBUG_SERIAL.print("\tSTOP");
-  }
+#ifdef DEBUG_SERIAL
+
+    DEBUG_SERIAL.print(F("\tI2CWRITE @ 0x"));
+    DEBUG_SERIAL.print(_addr, HEX);
+    DEBUG_SERIAL.print(F(" :: "));
+    if ((prefix_len != 0) && (prefix_buffer != nullptr)) {
+        for (uint16_t i = 0; i < prefix_len; i++) {
+            DEBUG_SERIAL.print(F("0x"));
+            DEBUG_SERIAL.print(prefix_buffer[i], HEX);
+            DEBUG_SERIAL.print(F(", "));
+        }
+    }
+    for (uint16_t i = 0; i < len; i++) {
+        DEBUG_SERIAL.print(F("0x"));
+        DEBUG_SERIAL.print(buffer[i], HEX);
+        DEBUG_SERIAL.print(F(", "));
+        if (i % 32 == 31) {
+            DEBUG_SERIAL.println();
+        }
+    }
+
+    if (stop) {
+        DEBUG_SERIAL.print("\tSTOP");
+    }
 #endif
 
-  if (_wire->endTransmission(stop) == 0) {
+    if (_wire->endTransmission(stop) == 0) {
 #ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.println();
-    // DEBUG_SERIAL.println("Sent!");
+        DEBUG_SERIAL.println();
+        // DEBUG_SERIAL.println("Sent!");
 #endif
-    return true;
-  }
-  else {
+        return true;
+    }
+    else {
 #ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.println("\tFailed to send!");
+        DEBUG_SERIAL.println("\tFailed to send!");
 #endif
-    return false;
-  }
+        return false;
+    }
 }
 
 /*!
@@ -193,56 +183,56 @@ bool BusIO_I2C_Target::write(const uint8_t* buffer, size_t len, bool stop,
  *    @return True if read was successful, otherwise false.
  */
 bool BusIO_I2C_Target::read(uint8_t* buffer, size_t len, bool stop) {
-  size_t pos = 0;
-  while (pos < len) {
-    size_t read_len =
-      ((len - pos) > maxBufferSize()) ? maxBufferSize() : (len - pos);
-    bool read_stop = (pos < (len - read_len)) ? false : stop;
-    if (!_read(buffer + pos, read_len, read_stop))
-      return false;
-    pos += read_len;
-  }
-  return true;
+    size_t pos = 0;
+    while (pos < len) {
+        size_t read_len =
+            ((len - pos) > maxBufferSize()) ? maxBufferSize() : (len - pos);
+        bool read_stop = (pos < (len - read_len)) ? false : stop;
+        if (!_read(buffer + pos, read_len, read_stop))
+            return false;
+        pos += read_len;
+    }
+    return true;
 }
 
 bool BusIO_I2C_Target::_read(uint8_t* buffer, size_t len, bool stop) {
 #if defined(TinyWireM_h)
-  size_t recv = _wire->requestFrom((uint8_t)_addr, (uint8_t)len);
+    size_t recv = _wire->requestFrom((uint8_t)_addr, (uint8_t)len);
 #elif defined(ARDUINO_ARCH_MEGAAVR)
-  size_t recv = _wire->requestFrom(_addr, len, stop);
+    size_t recv = _wire->requestFrom(_addr, len, stop);
 #else
-  size_t recv = _wire->requestFrom((uint8_t)_addr, (uint8_t)len, (uint8_t)stop);
+    size_t recv = _wire->requestFrom((uint8_t)_addr, (uint8_t)len, (uint8_t)stop);
 #endif
 
-  if (recv != len) {
-    // Not enough data available to fulfill our obligation!
+    if (recv != len) {
+        // Not enough data available to fulfill our obligation!
 #ifdef DEBUG_SERIAL
-    DEBUG_SERIAL.print(F("\tI2CDevice did not receive enough data: "));
-    DEBUG_SERIAL.println(recv);
+        DEBUG_SERIAL.print(F("\tI2CDevice did not receive enough data: "));
+        DEBUG_SERIAL.println(recv);
 #endif
-    return false;
-  }
-
-  for (uint16_t i = 0; i < len; i++) {
-    buffer[i] = _wire->read();
-  }
-
-#ifdef DEBUG_SERIAL
-  DEBUG_SERIAL.print(F("\tI2CREAD  @ 0x"));
-  DEBUG_SERIAL.print(_addr, HEX);
-  DEBUG_SERIAL.print(F(" :: "));
-  for (uint16_t i = 0; i < len; i++) {
-    DEBUG_SERIAL.print(F("0x"));
-    DEBUG_SERIAL.print(buffer[i], HEX);
-    DEBUG_SERIAL.print(F(", "));
-    if (len % 32 == 31) {
-      DEBUG_SERIAL.println();
+        return false;
     }
-  }
-  DEBUG_SERIAL.println();
+
+    for (uint16_t i = 0; i < len; i++) {
+        buffer[i] = _wire->read();
+    }
+
+#ifdef DEBUG_SERIAL
+    DEBUG_SERIAL.print(F("\tI2CREAD  @ 0x"));
+    DEBUG_SERIAL.print(_addr, HEX);
+    DEBUG_SERIAL.print(F(" :: "));
+    for (uint16_t i = 0; i < len; i++) {
+        DEBUG_SERIAL.print(F("0x"));
+        DEBUG_SERIAL.print(buffer[i], HEX);
+        DEBUG_SERIAL.print(F(", "));
+        if (len % 32 == 31) {
+            DEBUG_SERIAL.println();
+        }
+    }
+    DEBUG_SERIAL.println();
 #endif
 
-  return true;
+    return true;
 }
 
 /*!
@@ -257,13 +247,13 @@ bool BusIO_I2C_Target::_read(uint8_t* buffer, size_t len, bool stop) {
  *    @return True if write & read was successful, otherwise false.
  */
 bool BusIO_I2C_Target::write_then_read(const uint8_t* write_buffer,
-  size_t write_len, uint8_t* read_buffer,
-  size_t read_len, bool stop) {
-  if (!write(write_buffer, write_len, stop)) {
-    return false;
-  }
+    size_t write_len, uint8_t* read_buffer,
+    size_t read_len, bool stop) {
+    if (!write(write_buffer, write_len, stop)) {
+        return false;
+    }
 
-  return read(read_buffer, read_len);
+    return read(read_buffer, read_len);
 }
 
 /*!
@@ -280,7 +270,7 @@ uint8_t BusIO_I2C_Target::address(void) { return _addr; }
  *    Not necessarily that the speed was achieved!
  */
 bool BusIO_I2C_Target::setSpeed(uint32_t desiredclk) {
-  _wire->setClock(desiredclk);
-  return true;
+    _wire->setClock(desiredclk);
+    return true;
 }
 
