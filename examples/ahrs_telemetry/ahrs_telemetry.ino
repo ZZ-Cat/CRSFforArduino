@@ -11,10 +11,7 @@
 
 #include "CRSFforArduino.h"
 #include "gps.h"
-#include "i2c.h"
-#include "unified_sensor.h"
-#include "imu_bno055.h"
-#include "imu_imumaths.h"
+#include "imu.h"
 
 #define PRINT_RAW_RC_CHANNELS 0
 #define PRINT_GPS_DATA 0
@@ -33,8 +30,10 @@ const uint32_t GPSTxPin = 3;
 Uart Serial2(&sercom5, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
 
+#if (TEST_IMU > 0)
 // Create an IMU object.
-IMU_BNO055 bno = IMU_BNO055(0x01ul, 0x28, &Wire);
+IMU Imu = IMU(&Wire);
+#endif
 
 // Create a CRSFforArduino object.
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
@@ -98,7 +97,7 @@ void setup()
 #if (PRINT_IMU_DATA > 0)
     Serial.println("Initializing IMU...");
 #endif
-    if (bno.begin() != true)
+    if (Imu.begin() != true)
     {
 #if (PRINT_IMU_DATA > 0)
         Serial.println("IMU failed to initialize");
@@ -112,59 +111,32 @@ void setup()
     }
     else
     {
-
-        bno.setExtCrystalUse(true);
-
 #if (PRINT_IMU_DATA > 0)
         Serial.println("IMU initialized");
-        delay(500);
-
-        // Display sensor data.
-        sensor_t sensor;
-        bno.getSensor(&sensor);
-        Serial.print("Sensor:       ");
-        Serial.println(sensor.name);
-        Serial.print("Driver Ver:   ");
-        Serial.println(sensor.version);
-        Serial.print("Unique ID:    ");
-        Serial.println(sensor.sensor_id);
-        Serial.print("Max Value:    ");
-        Serial.print(sensor.max_value);
-        Serial.println(" xxx");
-        Serial.print("Min Value:    ");
-        Serial.print(sensor.min_value);
-        Serial.println(" xxx");
-        Serial.print("Resolution:   ");
-        Serial.print(sensor.resolution);
-        Serial.println(" xxx");
 
         delay(1000);
         Serial.println("Ready");
         delay(1000);
 
-        sensors_event_t event;
         while (true)
         {
-            static uint32_t imuSampleTimestamp = millis();
-
-            // Sample the IMU at its maximum rate of 100 Hz.
-            if (imuSampleTimestamp - millis() >= 10)
+            static IMU_Data_t imuData;
+            if (Imu.update() == true)
             {
-                imuSampleTimestamp = millis();
-                bno.getEvent(&event);
+                Imu.getData(&imuData);
             }
 
             // Print the IMU data at 5 Hz.
             static uint32_t printTimestamp = millis();
-            if (printTimestamp - millis() >= 200)
+            if (millis() - printTimestamp >= 200)
             {
                 printTimestamp = millis();
-                Serial.print("Orientation <X: ");
-                Serial.print(event.orientation.x, 4);
+                Serial.print("Gyro <X: ");
+                Serial.print(imuData.gyro.x, 4);
                 Serial.print(", Y: ");
-                Serial.print(event.orientation.y, 4);
+                Serial.print(imuData.gyro.y, 4);
                 Serial.print(", Z: ");
-                Serial.print(event.orientation.z, 4);
+                Serial.print(imuData.gyro.z, 4);
                 Serial.println(">");
             }
         }
