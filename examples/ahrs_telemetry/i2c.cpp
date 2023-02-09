@@ -326,10 +326,9 @@ void I2C::onService(void)
     }
 }
 
-// SERCOM4 is on pins A4 and A5. SDA: A4, SCL: A5.
-I2C Wire(&sercom4, A4, A5);
+I2C Wire(&I2C_SERCOM, I2C_PIN_SDA, I2C_PIN_SCL);
 
-void SERCOM4_0_Handler(void) { Wire.onService(); }
-void SERCOM4_1_Handler(void) { Wire.onService(); }
-void SERCOM4_2_Handler(void) { Wire.onService(); }
-void SERCOM4_3_Handler(void) { Wire.onService(); }
+void I2C_IRQ_HANDLER_0(void) { Wire.onService(); }
+void I2C_IRQ_HANDLER_1(void) { Wire.onService(); }
+void I2C_IRQ_HANDLER_2(void) { Wire.onService(); }
+void I2C_IRQ_HANDLER_3(void) { Wire.onService(); }
