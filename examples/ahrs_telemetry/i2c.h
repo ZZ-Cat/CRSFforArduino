@@ -12,7 +12,6 @@
 #pragma once
 
 #include "Stream.h"
-#include "variant.h"
 
 #include "SERCOM.h"
 #include "RingBuffer.h"
