@@ -21,6 +21,14 @@
 #define I2C_BAUDRATE_FASTPLUS 1000000
 #define I2C_BAUDRATE_HIGH 3400000
 
+#define I2C_SERCOM sercom4
+#define I2C_PIN_SDA A4
+#define I2C_PIN_SCL A5
+#define I2C_IRQ_HANDLER_0 SERCOM4_0_Handler
+#define I2C_IRQ_HANDLER_1 SERCOM4_1_Handler
+#define I2C_IRQ_HANDLER_2 SERCOM4_2_Handler
+#define I2C_IRQ_HANDLER_3 SERCOM4_3_Handler
+
 class I2C: public Stream
 {
 public:
