@@ -79,8 +79,8 @@ bool IMU::begin()
     // Set the IMU to use external crystal.
     _imu->setExtCrystalUse(true);
 
-    // Set the IMU to use NDOF mode.
-    // _imu->setMode(OPERATION_MODE_NDOF);
+    // Set the IMU to only use the gyroscope.
+    _imu->setMode(OPERATION_MODE_GYRONLY);
 
     return true;
 }
