@@ -13,6 +13,7 @@
 #include "gps.h"
 #include "imu.h"
 
+#define PRINT_SETUP 0
 #define PRINT_RAW_RC_CHANNELS 0
 #define PRINT_GPS_DATA 0
 #define PRINT_IMU_DATA 0
@@ -34,8 +35,8 @@ CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
-#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0) || \
-    (PRINT_IMU_DATA) || (CRSF_DEBUG_ATTITUDE) || (CRSF_DEBUG_GPS > 0)
+#if (PRINT_SETUP > 0) || (CRSF_DEBUG_ATTITUDE > 0) || \
+(CRSF_DEBUG_GPS > 0) || (CRSF_DEBUG_GPS_NMEA > 0) || (CRSF_DEBUG_RC > 0)
     // Initialize the serial port & wait for the port to open.
     Serial.begin(115200);
 
@@ -60,7 +61,7 @@ void setup()
     // Initialize the GPS sensor.
     if (gps.begin() != true)
     {
-#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+#if (PRINT_SETUP > 0)
         Serial.println("GPS failed to initialize");
 #endif
 
@@ -75,7 +76,7 @@ void setup()
         // Set the GPS update rate to 10Hz.
         if (gps.setUpdateRate(GPS_UPDATE_RATE_10HZ) != true)
         {
-#if (CRSF_DEBUG_GPS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_RAW_RC_CHANNELS > 0)
+#if (PRINT_SETUP > 0)
             Serial.println("GPS failed to set update rate");
 #endif
 
@@ -87,7 +88,7 @@ void setup()
         }
     }
 
-#if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_IMU_DATA > 0)
+#if (PRINT_SETUP > 0)
     // Show the user that the sketch is ready.
     delay(1000);
     Serial.println("Ready");
