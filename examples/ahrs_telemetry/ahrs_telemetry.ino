@@ -21,6 +21,8 @@
 
 #if (CRSF_USE_TELEMETRY == 0)
 #error "CRSF_USE_TELEMETRY must be enabled in CRSFconfig.h to use this example."
+#elif (CRSF_TELEMETRY_DEVICE_ATTITUDE == 0)
+#error "CRSF_TELEMETRY_DEVICE_ATTITUDE must be enabled in CRSFconfig.h to use this example."
 #elif (CRSF_TELEMETRY_DEVICE_GPS == 0)
 #error "CRSF_TELEMETRY_DEVICE_GPS must be enabled in CRSFconfig.h to use this example."
 #endif
@@ -30,6 +32,9 @@ const uint32_t GPSRxPin = 2;
 const uint32_t GPSTxPin = 3;
 Uart Serial2(&sercom5, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
+
+// Create an IMU object.
+IMU Imu = IMU(&Wire);
 
 // Create a CRSFforArduino object.
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
@@ -90,6 +95,24 @@ void setup()
     }
 
 #if (PRINT_SETUP > 0)
+    Serial.println("Initializing IMU...");
+#endif
+
+    // Initialize the IMU sensor.
+    if (Imu.begin() != true)
+    {
+#if (PRINT_SETUP > 0)
+        Serial.println("IMU failed to initialize");
+#endif
+
+        // Stop the sketch from continuing.
+        while (true)
+        {
+            ;
+        }
+    }
+
+#if (PRINT_SETUP > 0)
     // Show the user that the sketch is ready.
     delay(1000);
     Serial.println("Ready");
@@ -105,9 +128,16 @@ void loop()
     // Update the GPS sensor.
     gps.update();
 
+    // Update the IMU sensor.
+    static IMU_Data_t imuData;
+    if (Imu.update() == true)
+    {
+        Imu.getData(&imuData);
+    }
+
 
 #if (PRINT_LOOP > 0)
-#if (PRINT_GPS_DATA == 0) && (PRINT_RAW_RC_CHANNELS == 0)
+#if (PRINT_GPS_DATA == 0) && (PRINT_IMU_DATA == 0) && (PRINT_RAW_RC_CHANNELS == 0)
 #error "No data is being printed. Set PRINT_GPS_DATA, PRINT_IMU_DATA, or PRINT_RAW_RC_CHANNELS to 1 in the sketch."
 #endif
     // Schedule printing debug data to the serial port, based on what is enabled.
@@ -131,6 +161,19 @@ void loop()
         Serial.print(gps.data.heading);
         Serial.print(", Satellites: ");
         Serial.print(gps.data.satellites);
+        Serial.println(">");
+#endif
+
+        // Print the IMU data.
+#if (PRINT_IMU_DATA > 0)
+        Serial.print("IMU <Euler: ");
+        Serial.print(imuData.euler.x);
+        Serial.print(", ");
+        Serial.print(imuData.euler.y);
+        Serial.print(", ");
+        Serial.print(imuData.euler.z);
+        // Serial.print(", Temp: ");
+        // Serial.print(imuData.temp);
         Serial.println(">");
 #endif
 
@@ -162,6 +205,11 @@ void loop()
     if (millis() - lastWrite >= 20)
     {
         lastWrite = millis();
+
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
+        // Write the attitude telemetry.
+        crsf.writeAttitudeTelemetry(imuData.euler.x, imuData.euler.y, imuData.euler.z);
+#endif
 
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
         // Write the GPS telemetry.
