@@ -16,7 +16,6 @@
 #define PRINT_RAW_RC_CHANNELS 0
 #define PRINT_GPS_DATA 0
 #define PRINT_IMU_DATA 0
-#define TEST_IMU 0
 
 #if (CRSF_USE_TELEMETRY == 0)
 #error "CRSF_USE_TELEMETRY must be enabled in CRSFconfig.h to use this example."
@@ -29,11 +28,6 @@ const uint32_t GPSRxPin = 2;
 const uint32_t GPSTxPin = 3;
 Uart Serial2(&sercom5, GPSRxPin, GPSTxPin, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 GPS gps = GPS(&Serial2, GPSRxPin, GPSTxPin);
-
-#if (TEST_IMU > 0)
-// Create an IMU object.
-IMU Imu = IMU(&Wire);
-#endif
 
 // Create a CRSFforArduino object.
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
@@ -92,57 +86,6 @@ void setup()
             }
         }
     }
-
-#if (TEST_IMU > 0)
-#if (PRINT_IMU_DATA > 0)
-    Serial.println("Initializing IMU...");
-#endif
-    if (Imu.begin() != true)
-    {
-#if (PRINT_IMU_DATA > 0)
-        Serial.println("IMU failed to initialize");
-#endif
-
-        // Stop the sketch from continuing.
-        while (true)
-        {
-            ;
-        }
-    }
-    else
-    {
-#if (PRINT_IMU_DATA > 0)
-        Serial.println("IMU initialized");
-
-        delay(1000);
-        Serial.println("Ready");
-        delay(1000);
-
-        while (true)
-        {
-            static IMU_Data_t imuData;
-            if (Imu.update() == true)
-            {
-                Imu.getData(&imuData);
-            }
-
-            // Print the IMU data at 5 Hz.
-            static uint32_t printTimestamp = millis();
-            if (millis() - printTimestamp >= 200)
-            {
-                printTimestamp = millis();
-                Serial.print("Gyro <X: ");
-                Serial.print(imuData.gyro.x, 4);
-                Serial.print(", Y: ");
-                Serial.print(imuData.gyro.y, 4);
-                Serial.print(", Z: ");
-                Serial.print(imuData.gyro.z, 4);
-                Serial.println(">");
-            }
-        }
-#endif
-    }
-#endif
 
 #if (PRINT_RAW_RC_CHANNELS > 0) || (PRINT_GPS_DATA > 0) || (PRINT_IMU_DATA > 0)
     // Show the user that the sketch is ready.
