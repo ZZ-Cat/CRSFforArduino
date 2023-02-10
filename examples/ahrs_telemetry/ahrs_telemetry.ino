@@ -14,6 +14,7 @@
 #include "imu.h"
 
 #define PRINT_SETUP 0
+#define PRINT_LOOP 0
 #define PRINT_RAW_RC_CHANNELS 0
 #define PRINT_GPS_DATA 0
 #define PRINT_IMU_DATA 0
@@ -99,8 +100,41 @@ void setup()
 void loop()
 {
     // Update the CRSFforArduino library.
-    if (crsf.update())
+    crsf.update();
+
+    // Update the GPS sensor.
+    gps.update();
+
+
+#if (PRINT_LOOP > 0)
+#if (PRINT_GPS_DATA == 0) && (PRINT_RAW_RC_CHANNELS == 0)
+#error "No data is being printed. Set PRINT_GPS_DATA, PRINT_IMU_DATA, or PRINT_RAW_RC_CHANNELS to 1 in the sketch."
+#endif
+    // Schedule printing debug data to the serial port, based on what is enabled.
+    // Set the print rate to 5Hz.
+    static uint32_t lastDebugPrint = millis();
+    if (millis() - lastDebugPrint >= 200)
     {
+        lastDebugPrint = millis();
+
+        // Print the raw RC channels.
+#if (PRINT_GPS_DATA > 0)
+        Serial.print("GPS <Lat: ");
+        Serial.print(gps.data.latitude, 6);
+        Serial.print(", Lon: ");
+        Serial.print(gps.data.longitude, 6);
+        Serial.print(", Alt: ");
+        Serial.print(gps.data.altitude);
+        Serial.print(", Speed: ");
+        Serial.print(gps.data.speed);
+        Serial.print(", Heading: ");
+        Serial.print(gps.data.heading);
+        Serial.print(", Satellites: ");
+        Serial.print(gps.data.satellites);
+        Serial.println(">");
+#endif
+
+        // Print the raw RC channels.
 #if (PRINT_RAW_RC_CHANNELS > 0)
         Serial.print("RC Channels <A: ");
         Serial.print(crsf.rcToUs(crsf.getChannel(1)));
@@ -121,41 +155,19 @@ void loop()
         Serial.println(">");
 #endif
     }
-
-    // Update the GPS sensor.
-    gps.update();
-
-#if (PRINT_GPS_DATA > 0)
-    // Schedule printing the GPS data to the serial port.
-    static uint32_t lastPrint = millis();
-    if (millis() - lastPrint >= 200)
-    {
-        lastPrint = millis();
-        Serial.print("GPS <Lat: ");
-        Serial.print(gps.data.latitude, 6);
-        Serial.print(", Lon: ");
-        Serial.print(gps.data.longitude, 6);
-        Serial.print(", Alt: ");
-        Serial.print(gps.data.altitude);
-        Serial.print(", Speed: ");
-        Serial.print(gps.data.speed);
-        Serial.print(", Heading: ");
-        Serial.print(gps.data.heading);
-        Serial.print(", Satellites: ");
-        Serial.print(gps.data.satellites);
-        Serial.println(">");
-    }
 #endif
 
-#if (CRSF_USE_TELEMETRY > 0) && (CRSF_TELEMETRY_DEVICE_GPS > 0)
-    // Schedule writing the GPS telemetry data to the CRSF receiver.
+    // Schedule writing the telemetry data to the CRSF receiver.
     static uint32_t lastWrite = millis();
     if (millis() - lastWrite >= 20)
     {
         lastWrite = millis();
+
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
+        // Write the GPS telemetry.
         crsf.writeGPStelemetry(gps.data.latitude, gps.data.longitude, gps.data.altitude, gps.data.speed, gps.data.heading, gps.data.satellites);
-    }
 #endif
+    }
 }
 
 void SERCOM5_0_Handler()
