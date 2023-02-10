@@ -288,6 +288,8 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }
 
+#if (CRSF_USE_TELEMETRY > 0)
+#if (CRSF_TELEMETRY_DEVICE_ATTITUDE > 0)
 /**
  * @brief Writes the attitude telemetry data to the CRSF frame.
  *
@@ -301,6 +303,9 @@ void CRSFforArduino::writeAttitudeTelemetry(float roll, float pitch, float yaw)
     _crsfAttitude.pitch = -pitch * DEG_TO_RAD;
     _crsfAttitude.yaw = yaw * DEG_TO_RAD;
 }
+#endif
+
+#if (CRSF_TELEMETRY_DEVICE_GPS > 0)
 void CRSFforArduino::writeGPStelemetry(float latitude, float longitude, float altitude, float speed, float heading, float sats)
 {
     _crsfGps.latitude = latitude;
@@ -310,6 +315,7 @@ void CRSFforArduino::writeGPStelemetry(float latitude, float longitude, float al
     _crsfGps.heading = heading;
     _crsfGps.sats = sats;
 }
+#endif
 #endif
 
 /**
