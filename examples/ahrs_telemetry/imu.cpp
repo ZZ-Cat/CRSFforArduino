@@ -80,7 +80,12 @@ bool IMU::begin()
     _imu->setExtCrystalUse(true);
 
     // Set the IMU to only use the gyroscope.
-    _imu->setMode(OPERATION_MODE_GYRONLY);
+    _imu->setMode(OPERATION_MODE_NDOF);
+
+    // Set the orientation of the IMU.
+    _imu->setAxisRemap(IMU_BNO055::REMAP_CONFIG_P1);
+    _imu->setAxisSign(IMU_BNO055::REMAP_SIGN_P1);
+
 
     return true;
 }
@@ -94,15 +99,15 @@ bool IMU::update()
     if (millis() - sampleTimestamp >= 10)
     {
         // Get the IMU data.
-        _imu->getEvent(&_event, IMU_BNO055::VECTOR_GYROSCOPE);
+        _imu->getEvent(&_event, IMU_BNO055::VECTOR_EULER);
 
         // Update the sample timestamp.
         sampleTimestamp = _event.timestamp;
 
-        // Convert the IMU data to floats.
-        _data.gyro.x = _event.gyro.x;
-        _data.gyro.y = _event.gyro.y;
-        _data.gyro.z = _event.gyro.z;
+        // Convert the IMU data to radians.
+        _data.euler.x = _event.orientation.x;
+        _data.euler.y = _event.orientation.y;
+        _data.euler.z = _event.orientation.z;
 
         return true;
     }
