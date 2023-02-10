@@ -148,6 +148,8 @@ public:
     uint16_t rcToUs(uint16_t rc);
 
 #if (CRSF_USE_TELEMETRY > 0)
+    /* Attitude Telemetry */
+    void writeAttitudeTelemetry(float roll, float pitch, float yaw);
 #if (CRSF_TELEMETRY_DEVICE_GPS > 0)
     /* GPS Telemetry */
     void writeGPStelemetry(float latitude, float longitude, float altitude, float speed, float heading, float sats);
