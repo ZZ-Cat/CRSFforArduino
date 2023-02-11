@@ -420,9 +420,9 @@ void CRSFforArduino::_sendTelemetryAttitude()
     // Populate the payload.
     _streamBufferPush8u(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC); // Set the frame length.
     _streamBufferPush8u(CRSF_FRAMETYPE_ATTITUDE);                                       // Set the frame type.
-    _streamBufferPush16sBigEndian(_crsfAttitude.roll);                                  // Set the roll.
-    _streamBufferPush16sBigEndian(_crsfAttitude.pitch);                                 // Set the pitch.
-    _streamBufferPush16sBigEndian(_crsfAttitude.yaw);                                   // Set the yaw.
+    _streamBufferPush16s(_crsfAttitude.pitch);                                          // Set the pitch.
+    _streamBufferPush16s(_crsfAttitude.roll);                                           // Set the roll.
+    _streamBufferPush16s(_crsfAttitude.yaw);                                            // Set the yaw.
 
     // Calculate the CRC.
     // Start at index 2, because the CRC does not include the address and length.
