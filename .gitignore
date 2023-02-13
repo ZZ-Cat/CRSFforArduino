@@ -3,3 +3,6 @@
 
 # Artefacts for Visual Studio Code
 /.vscode/
+
+# Development artefacts
+/.development

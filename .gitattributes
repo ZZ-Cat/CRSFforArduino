@@ -4,3 +4,5 @@
 *.ino text eol=lf linguist-language=c++
 *.md text eol=lf
 *.properties text eol=lf
+*.txt text eol=lf
+*.yml text eol=lf

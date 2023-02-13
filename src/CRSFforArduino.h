@@ -137,7 +137,7 @@ typedef union __crsf_frame_u
 
 class CRSFforArduino
 {
-public:
+  public:
     CRSFforArduino(HardwareSerial *serial);
     ~CRSFforArduino();
     bool begin();
@@ -147,7 +147,7 @@ public:
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);
 
-protected:
+  protected:
     /* CRSF */
     bool _packetReceived;
     HardwareSerial *_serial;
