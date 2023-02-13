@@ -158,6 +158,7 @@ class CRSFforArduino
     /* CRC */
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
     uint8_t _crsfFrameCRC(void);
+    uint8_t _crsfGetCRC(uint8_t *data, uint8_t length);
 
 #ifdef USE_DMA
     /* DMA */
