@@ -28,114 +28,161 @@
 
 #include "imu_vector.h"
 
-namespace imu {
+namespace imu
+{
 
-    template <uint8_t N> class Matrix {
-    public:
-        Matrix() { memset(_cell_data, 0, N * N * sizeof(double)); }
+    template <uint8_t N>
+    class Matrix
+    {
+      public:
+        Matrix()
+        {
+            memset(_cell_data, 0, N * N * sizeof(double));
+        }
 
-        Matrix(const Matrix& m) {
-            for (int ij = 0; ij < N * N; ++ij) {
+        Matrix(const Matrix &m)
+        {
+            for (int ij = 0; ij < N * N; ++ij)
+            {
                 _cell_data[ij] = m._cell_data[ij];
             }
         }
 
-        ~Matrix() {}
+        ~Matrix()
+        {}
 
-        Matrix& operator=(const Matrix& m) {
-            for (int ij = 0; ij < N * N; ++ij) {
+        Matrix &operator=(const Matrix &m)
+        {
+            for (int ij = 0; ij < N * N; ++ij)
+            {
                 _cell_data[ij] = m._cell_data[ij];
             }
             return *this;
         }
 
-        Vector<N> row_to_vector(int i) const {
+        Vector<N> row_to_vector(int i) const
+        {
             Vector<N> ret;
-            for (int j = 0; j < N; j++) {
+            for (int j = 0; j < N; j++)
+            {
                 ret[j] = cell(i, j);
             }
             return ret;
         }
 
-        Vector<N> col_to_vector(int j) const {
+        Vector<N> col_to_vector(int j) const
+        {
             Vector<N> ret;
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < N; i++)
+            {
                 ret[i] = cell(i, j);
             }
             return ret;
         }
 
-        void vector_to_row(const Vector<N>& v, int i) {
-            for (int j = 0; j < N; j++) {
+        void vector_to_row(const Vector<N> &v, int i)
+        {
+            for (int j = 0; j < N; j++)
+            {
                 cell(i, j) = v[j];
             }
         }
 
-        void vector_to_col(const Vector<N>& v, int j) {
-            for (int i = 0; i < N; i++) {
+        void vector_to_col(const Vector<N> &v, int j)
+        {
+            for (int i = 0; i < N; i++)
+            {
                 cell(i, j) = v[i];
             }
         }
 
-        double operator()(int i, int j) const { return cell(i, j); }
-        double& operator()(int i, int j) { return cell(i, j); }
+        double operator()(int i, int j) const
+        {
+            return cell(i, j);
+        }
+        double &operator()(int i, int j)
+        {
+            return cell(i, j);
+        }
 
-        double cell(int i, int j) const { return _cell_data[i * N + j]; }
-        double& cell(int i, int j) { return _cell_data[i * N + j]; }
+        double cell(int i, int j) const
+        {
+            return _cell_data[i * N + j];
+        }
+        double &cell(int i, int j)
+        {
+            return _cell_data[i * N + j];
+        }
 
-        Matrix operator+(const Matrix& m) const {
+        Matrix operator+(const Matrix &m) const
+        {
             Matrix ret;
-            for (int ij = 0; ij < N * N; ++ij) {
+            for (int ij = 0; ij < N * N; ++ij)
+            {
                 ret._cell_data[ij] = _cell_data[ij] + m._cell_data[ij];
             }
             return ret;
         }
 
-        Matrix operator-(const Matrix& m) const {
+        Matrix operator-(const Matrix &m) const
+        {
             Matrix ret;
-            for (int ij = 0; ij < N * N; ++ij) {
+            for (int ij = 0; ij < N * N; ++ij)
+            {
                 ret._cell_data[ij] = _cell_data[ij] - m._cell_data[ij];
             }
             return ret;
         }
 
-        Matrix operator*(double scalar) const {
+        Matrix operator*(double scalar) const
+        {
             Matrix ret;
-            for (int ij = 0; ij < N * N; ++ij) {
+            for (int ij = 0; ij < N * N; ++ij)
+            {
                 ret._cell_data[ij] = _cell_data[ij] * scalar;
             }
             return ret;
         }
 
-        Matrix operator*(const Matrix& m) const {
+        Matrix operator*(const Matrix &m) const
+        {
             Matrix ret;
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < N; i++)
+            {
                 Vector<N> row = row_to_vector(i);
-                for (int j = 0; j < N; j++) {
+                for (int j = 0; j < N; j++)
+                {
                     ret(i, j) = row.dot(m.col_to_vector(j));
                 }
             }
             return ret;
         }
 
-        Matrix transpose() const {
+        Matrix transpose() const
+        {
             Matrix ret;
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
                     ret(j, i) = cell(i, j);
                 }
             }
             return ret;
         }
 
-        Matrix<N - 1> minor_matrix(int row, int col) const {
+        Matrix<N - 1> minor_matrix(int row, int col) const
+        {
             Matrix<N - 1> ret;
-            for (int i = 0, im = 0; i < N; i++) {
+            for (int i = 0, im = 0; i < N; i++)
+            {
                 if (i == row)
                     continue;
 
-                for (int j = 0, jm = 0; j < N; j++) {
-                    if (j != col) {
+                for (int j = 0, jm = 0; j < N; j++)
+                {
+                    if (j != col)
+                    {
                         ret(im, jm++) = cell(i, j);
                     }
                 }
@@ -144,7 +191,8 @@ namespace imu {
             return ret;
         }
 
-        double determinant() const {
+        double determinant() const
+        {
             // specialization for N == 1 given below this class
             double det = 0.0, sign = 1.0;
             for (int i = 0; i < N; ++i, sign = -sign)
@@ -152,12 +200,15 @@ namespace imu {
             return det;
         }
 
-        Matrix invert() const {
+        Matrix invert() const
+        {
             Matrix ret;
             double det = determinant();
 
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
                     ret(i, j) = minor_matrix(j, i).determinant() / det;
                     if ((i + j) % 2 == 1)
                         ret(i, j) = -ret(i, j);
@@ -166,17 +217,22 @@ namespace imu {
             return ret;
         }
 
-        double trace() const {
+        double trace() const
+        {
             double tr = 0.0;
             for (int i = 0; i < N; ++i)
                 tr += cell(i, i);
             return tr;
         }
 
-    private:
+      private:
         double _cell_data[N * N];
     };
 
-    template <> inline double Matrix<1>::determinant() const { return cell(0, 0); }
+    template <>
+    inline double Matrix<1>::determinant() const
+    {
+        return cell(0, 0);
+    }
 
 }; // namespace imu

@@ -13,7 +13,7 @@
 #include "gps.h"
 
 #define PRINT_RAW_RC_CHANNELS 0
-#define PRINT_GPS_DATA 1
+#define PRINT_GPS_DATA        1
 
 #if (CRSF_USE_TELEMETRY == 0)
 #error "CRSF_USE_TELEMETRY must be enabled in CRSFconfig.h to use this example."

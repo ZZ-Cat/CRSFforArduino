@@ -11,15 +11,15 @@
 
 #pragma once
 
-#include "Arduino.h"
 #include "Adafruit_ZeroDMA.h"
+#include "Arduino.h"
 #include "CRSFconfig.h"
 #include "TinyGPS++.h"
 
 #define GPS_RX_BUFFER_SIZE 255
 #define GPS_TX_BUFFER_SIZE 255
-#define GPS_RX_TIMEOUT 1000
-#define GPS_TX_TIMEOUT 1000
+#define GPS_RX_TIMEOUT     1000
+#define GPS_TX_TIMEOUT     1000
 
 #define GPS_BAUD_RATE 115200
 
@@ -47,7 +47,7 @@ typedef enum __gps_update_rate_e
 
 class GPS
 {
-public:
+  public:
     typedef struct gps_data_s
     {
         float latitude;
@@ -67,7 +67,7 @@ public:
     bool setUpdateRate(gps_update_rate_t updateRate);
     bool update();
 
-protected:
+  protected:
     HardwareSerial *_serial;
 
     DmacDescriptor *_dmaGpsRxDescriptor;
@@ -87,8 +87,7 @@ protected:
         19200,
         38400,
         57600,
-        115200
-    };
+        115200};
 
     uint16_t _gpsUpdateRate;
     const uint16_t _gpsUpdateRates[GPS_UPDATE_RATE_COUNT] = {

@@ -108,7 +108,7 @@ bool GPS::setUpdateRate(gps_update_rate_t updateRate)
     Serial.print(_gpsUpdateRate);
     Serial.println("ms...");
 #endif
-    
+
     // Send the command.
     _gpsWrite(command, strlen(command));
 

@@ -13,11 +13,11 @@
 #include "gps.h"
 #include "imu.h"
 
-#define PRINT_SETUP 0
-#define PRINT_LOOP 0
+#define PRINT_SETUP           0
+#define PRINT_LOOP            0
 #define PRINT_RAW_RC_CHANNELS 0
-#define PRINT_GPS_DATA 0
-#define PRINT_IMU_DATA 0
+#define PRINT_GPS_DATA        0
+#define PRINT_IMU_DATA        0
 
 #if (CRSF_USE_TELEMETRY == 0)
 #error "CRSF_USE_TELEMETRY must be enabled in CRSFconfig.h to use this example."
@@ -42,7 +42,7 @@ CRSFforArduino crsf = CRSFforArduino(&Serial1);
 void setup()
 {
 #if (PRINT_SETUP > 0) || (CRSF_DEBUG_ATTITUDE > 0) || \
-(CRSF_DEBUG_GPS > 0) || (CRSF_DEBUG_GPS_NMEA > 0) || (CRSF_DEBUG_RC > 0)
+    (CRSF_DEBUG_GPS > 0) || (CRSF_DEBUG_GPS_NMEA > 0) || (CRSF_DEBUG_RC > 0)
     // Initialize the serial port & wait for the port to open.
     Serial.begin(115200);
 
@@ -134,7 +134,6 @@ void loop()
     {
         Imu.getData(&imuData);
     }
-
 
 #if (PRINT_LOOP > 0)
 #if (PRINT_GPS_DATA == 0) && (PRINT_IMU_DATA == 0) && (PRINT_RAW_RC_CHANNELS == 0)

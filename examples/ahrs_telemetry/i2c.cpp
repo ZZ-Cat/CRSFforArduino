@@ -9,7 +9,8 @@
  *
  */
 
-extern "C" {
+extern "C"
+{
 #include <string.h>
 }
 
@@ -30,14 +31,14 @@ extern "C" {
  * --Cassie Robinson, 2023-02-08
  */
 
- /**
+/**
   * @brief Construct a new I2C object
   *
   * @param s A pointer to the SERCOM object to use for I2C.
   * @param pinSDA The pin to use for I2C SDA.
   * @param pinSCL The pin to use for I2C SCL.
   */
-I2C::I2C(SERCOM* s, uint8_t pinSDA, uint8_t pinSCL)
+I2C::I2C(SERCOM *s, uint8_t pinSDA, uint8_t pinSCL)
 {
     this->sercom = s;
     this->_uc_pinSDA = pinSDA;
@@ -50,7 +51,8 @@ I2C::I2C(SERCOM* s, uint8_t pinSDA, uint8_t pinSCL)
  *
  * @param baudrate The baudrate to use for I2C. Defaults to 100000.
  */
-void I2C::begin(uint32_t baudrate) {
+void I2C::begin(uint32_t baudrate)
+{
     // Controller Mode
     sercom->initMasterWIRE(baudrate);
     sercom->enableWIRE();
@@ -66,7 +68,8 @@ void I2C::begin(uint32_t baudrate) {
  * @param address The address to use for I2C.
  * @param enableGeneralCall Whether or not to enable general call.
  */
-void I2C::begin(uint8_t address, bool enableGeneralCall) {
+void I2C::begin(uint8_t address, bool enableGeneralCall)
+{
     // Target mode
     sercom->initSlaveWIRE(address, enableGeneralCall);
     sercom->enableWIRE();
@@ -81,7 +84,8 @@ void I2C::begin(uint8_t address, bool enableGeneralCall) {
  *
  * @param baudrate The baudrate to use for I2C.
  */
-void I2C::setClock(uint32_t baudrate) {
+void I2C::setClock(uint32_t baudrate)
+{
 
     // Exit if the baudrate is out of range
     if (baudrate < I2C_BAUDRATE_STANDARD || baudrate > I2C_BAUDRATE_FASTPLUS)
@@ -98,7 +102,8 @@ void I2C::setClock(uint32_t baudrate) {
  * @brief Stop I2C.
  *
  */
-void I2C::end() {
+void I2C::end()
+{
     sercom->disableWIRE();
     sercom->resetWIRE();
 
@@ -137,12 +142,12 @@ uint8_t I2C::requestFrom(uint8_t address, size_t quantity, bool stopBit)
             sercom->prepareCommandBitsWire(WIRE_MASTER_ACT_READ); // Prepare the ACK command for the target
             rxBuffer.store_char(sercom->readDataWIRE());          // Read data and send the ACK
         }
-        sercom->prepareNackBitWIRE();                           // Prepare NACK to stop target transmission
+        sercom->prepareNackBitWIRE(); // Prepare NACK to stop target transmission
         //sercom->readDataWIRE();                               // Clear data register to send NACK
 
         if (stopBit)
         {
-            sercom->prepareCommandBitsWire(WIRE_MASTER_ACT_STOP);   // Send Stop
+            sercom->prepareCommandBitsWire(WIRE_MASTER_ACT_STOP); // Send Stop
         }
     }
 
@@ -154,7 +159,8 @@ uint8_t I2C::requestFrom(uint8_t address, size_t quantity)
     return requestFrom(address, quantity, true);
 }
 
-void I2C::beginTransmission(uint8_t address) {
+void I2C::beginTransmission(uint8_t address)
+{
     // save address of target and clear buffer
     txAddress = address;
     txBuffer.clear();
@@ -176,7 +182,7 @@ uint8_t I2C::endTransmission(bool stopBit)
     if (!sercom->startTransmissionWIRE(txAddress, WIRE_WRITE_FLAG))
     {
         sercom->prepareCommandBitsWire(WIRE_MASTER_ACT_STOP);
-        return 2;  // Address error
+        return 2; // Address error
     }
 
     // Send all buffer
@@ -186,7 +192,7 @@ uint8_t I2C::endTransmission(bool stopBit)
         if (!sercom->sendDataMasterWIRE(txBuffer.read_char()))
         {
             sercom->prepareCommandBitsWire(WIRE_MASTER_ACT_STOP);
-            return 3;  // Nack or error
+            return 3; // Nack or error
         }
     }
 
@@ -216,7 +222,7 @@ size_t I2C::write(uint8_t ucData)
     return 1;
 }
 
-size_t I2C::write(const uint8_t* data, size_t quantity)
+size_t I2C::write(const uint8_t *data, size_t quantity)
 {
     // Try to store all data
     for (size_t i = 0; i < quantity; ++i)
@@ -251,12 +257,12 @@ void I2C::flush(void)
     // data transfer.
 }
 
-void I2C::onReceive(void(*function)(int))
+void I2C::onReceive(void (*function)(int))
 {
     onReceiveCallback = function;
 }
 
-void I2C::onRequest(void(*function)(void))
+void I2C::onRequest(void (*function)(void))
 {
     onRequestCallback = function;
 }
@@ -279,7 +285,7 @@ void I2C::onService(void)
 
             rxBuffer.clear();
         }
-        else if (sercom->isAddressMatch())  //Address Match
+        else if (sercom->isAddressMatch()) //Address Match
         {
             sercom->prepareAckBitWIRE();
             sercom->prepareCommandBitsWire(0x03);
@@ -303,17 +309,21 @@ void I2C::onService(void)
             {
                 uint8_t c = 0xff;
 
-                if (txBuffer.available()) {
+                if (txBuffer.available())
+                {
                     c = txBuffer.read_char();
                 }
 
                 transmissionBegun = sercom->sendDataSlaveWIRE(c);
             }
-            else { //Received data
-                if (rxBuffer.isFull()) {
+            else
+            { //Received data
+                if (rxBuffer.isFull())
+                {
                     sercom->prepareNackBitWIRE();
                 }
-                else {
+                else
+                {
                     //Store data
                     rxBuffer.store_char(sercom->readDataWIRE());
 
@@ -328,7 +338,19 @@ void I2C::onService(void)
 
 I2C Wire(&I2C_SERCOM, I2C_PIN_SDA, I2C_PIN_SCL);
 
-void I2C_IRQ_HANDLER_0(void) { Wire.onService(); }
-void I2C_IRQ_HANDLER_1(void) { Wire.onService(); }
-void I2C_IRQ_HANDLER_2(void) { Wire.onService(); }
-void I2C_IRQ_HANDLER_3(void) { Wire.onService(); }
+void I2C_IRQ_HANDLER_0(void)
+{
+    Wire.onService();
+}
+void I2C_IRQ_HANDLER_1(void)
+{
+    Wire.onService();
+}
+void I2C_IRQ_HANDLER_2(void)
+{
+    Wire.onService();
+}
+void I2C_IRQ_HANDLER_3(void)
+{
+    Wire.onService();
+}

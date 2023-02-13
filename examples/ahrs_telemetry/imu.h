@@ -55,18 +55,18 @@ typedef struct IMU_Calibration_s
 
 class IMU
 {
-public:
-    IMU(I2C*);
+  public:
+    IMU(I2C *);
     ~IMU();
 
     bool begin();
     bool update();
 
-    bool getData(IMU_Data_t*);
+    bool getData(IMU_Data_t *);
 
-protected:
-    I2C* _i2c;
-    IMU_BNO055* _imu;
+  protected:
+    I2C *_i2c;
+    IMU_BNO055 *_imu;
     IMU_Data_t _data;
     sensors_event_t _event;
 };

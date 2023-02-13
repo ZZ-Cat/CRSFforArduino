@@ -9,12 +9,12 @@
  *
  */
 
-#include "Arduino.h"
 #include "imu.h"
-#include "unified_sensor.h"
+#include "Arduino.h"
 #include "imu_imumaths.h"
+#include "unified_sensor.h"
 
-IMU::IMU(I2C* i2cBus)
+IMU::IMU(I2C *i2cBus)
 {
     _imu = nullptr;
     _i2c = i2cBus;
@@ -86,7 +86,6 @@ bool IMU::begin()
     _imu->setAxisRemap(IMU_BNO055::REMAP_CONFIG_P1);
     _imu->setAxisSign(IMU_BNO055::REMAP_SIGN_P1);
 
-
     return true;
 }
 
@@ -115,7 +114,7 @@ bool IMU::update()
     return false;
 }
 
-bool IMU::getData(IMU_Data_t* data)
+bool IMU::getData(IMU_Data_t *data)
 {
     // Copy the data to the output.
     *data = _data;
