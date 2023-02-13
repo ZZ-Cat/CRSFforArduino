@@ -21,15 +21,16 @@ If you have spotted any bugs, something isn't working the way it should, or you 
 
 ## Description
 
-This library allows your target development board to communicate with ExpressLRS receivers, giving you the ability to use modern RC handsets with your DIY robotics & remotely operated vehicle projects.
+Traditional PWM RC receivers are becoming a thing of the past & (by extension) are getting harder & harder to come by.
+CRSF is _the_ de-facto standard for RC nowadays, & it is time to bring it to the world of Arduino!
+This means that your development board is now compatible with any receiver that runs ExpressLRS firmware.
 
-## Why ELRS?
+## Why ExpressLRS?
 
-For starters, it's an open source radio control link that offers incredibly low latency, long range (EG close to 40km at 100mW of transmit power on 2.4GHz without failsafe), & it's incredibly robust in rough RF environments.
+For starters, it's an open source radio control link that offers incredibly low latency, long range (EG [100 kilometers on 2.4GHz](https://youtu.be/IjQYLyvai6s) without failsafe), & it's incredibly robust in rough RF environments.
 
-An ELRS receiver communicates to a connected host microcontroller through UART using a protocol known as CRSF (short for Crossfire). This is more robust than traditional PWM receivers, & only two pins are used for bidirectional serial communication.
-
-Also, I wanted to adapt ExpressLRS to the Arduino ecosystem to prove to myself that it could be done.
+An ExpressLRS receiver communicates to your development board through one of the board's Serial/UART ports.
+This provides you with up to 16 10-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
 
 ## Installation
 
@@ -167,12 +168,14 @@ If the host microcontroller also has DMA, this is an added bonus. DMA is no long
 
 ## AVR based microcontrollers are not compatible
 
-This includes all legacy ATmega microcontrollers & the development boards that were built around them.
-Simply put, their capabilities are not there; & I will not be adding compatibility support for any of them.
+Development boards such as the Arduino UNO, Arduino Micro, Arduino Nano, Arduino Mega 2560 & any other development board that was built around the ATmega microcontrollers of yesteryear are incompatible with my library.
+Their processing capabilities simply are not there, & they are far too slow for the constraints required by the CRSF protocol.
+The AVR archtecture itself is a legacy architecture & I simply will not support it.
 
 ## Compatible receivers
 
-Generally speaking, if your transmitter & receiver combo supports ExpressLRS, it's automatically compatible.
+Generally speaking, if your transmitter & receiver combo supports ExpressLRS or TBS Crossfire, it's automatically compatible.
+Keep in mind that CRSF for Arduino is tested almost exclusively on ExpressLRS hardware.
 
 ## Telemetry
 
