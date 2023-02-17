@@ -9,30 +9,9 @@
 
 Cassandra "ZZ Cat" Robinson
 
-## Discontinuation of Arduino IDE
+## Warnings
 
-Arduino IDE support in Visual Studio Code is being discontinued.
-The Visual Studo Code extension that adds support for Arduino is discontinuing support for the Arduino IDE.
-This means that I too am discontinuing support for the Arduino IDE in all of my projects - starting with CRSF for Arduino.
-The good news is that my library is in its early stages of development, I have not yet made any official releases of my library, & it isn't being widely used yet. This makes it easier for me to adapt to the new changes.
-
-Does this mean that I may need to rebrand my library? Yes.
-I originally created my library for use within the Arduino IDE (assuming 1.8, here. Not 2.0) without being aware of the fact that the IDE itself had already reached the end of its life, & Arduino themselves had discontinued it.
-If I kept the name "CRSF for Arduino" moving forward, this would imply that you can still use it in the (now discontinued) Arduino IDE. Thus, sending the wrong message about what my library is compatible with.
-
-What of my two existing branches involving telemetry?
-Well... for starters, I rebased Telemetry-Feedback & during that rebase, I somehow managed to completely obliterate my code for telemetry feedback. =</.>=
-I don't know how I did that, but it happened. I was already planning on refactoring it anyway, so now I am having to rewrite it entirely.
-
-So, where to, from here?
-I am no longer using the Arduino IDE.
-In fact, I haven't actually used the Arduino IDE itself in a _very_ long time. All of my development is done in Visual Studio Code, these days. For my Arduino-related projects, I have been using an extension in Visual Studio Code that adds support for the Arduino IDE. The developers of this extension are discontinuing support for the Arduino IDE altogether, & they have no plans to introduce support for version 2.0 of the Arduino IDE.
-
-It _just so happens_ that over the last two days, I have been conducting preliminary tests with PlatformIO & learning how to develop with that. PlatformIO is 100% platform agnostic, has its own built-in debugging system, it even has its own Continuous Integration/Continuous Deployment (I have been chasing after decent CI/CD ever since I started my project), & it has everything that I need & nothing that I don't need.
-At this point, I am like "Where has this been all my life & why am I not already using it?"
-Using PlatformIO is a no-brainer, for me. So, there you go. From 2023-02-17 10:48 Hrs NZDT, I am using PlatformIO as my IDE of choice for developing my embedded systems projects.
-
-## Warning
+### This is not yet ready for prime time release
 
 CRSFforArduino is undergoing active development & is not yet ready for prime time release.
 If you choose to use CRSFforArduino in its current state, do so at your own risk.
@@ -41,6 +20,11 @@ Some features may be broken, bugged, untested, missing, or the code as a whole m
 Fear not! I am working on this library (aside from flying my helicopters & helping out with other heli-related projects) & I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
 
 If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSFforArduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
+
+### Arduino IDE is discontinued
+
+Arduino IDE support in Visual Studio Code is discontinued.
+As of 2023-02-17 10:48 Hrs NZDT, I am using PlatformIO as my IDE of choice for development.
 
 ## Description
 
