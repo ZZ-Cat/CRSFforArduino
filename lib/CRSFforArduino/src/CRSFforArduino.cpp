@@ -170,7 +170,7 @@ bool CRSFforArduino::update()
             // Check if the packet is a CRSF frame.
             if (_crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
             {
-                uint8_t payloadSize = _crsfFrame.frame.frameLength - 2;
+                // uint8_t payloadSize = _crsfFrame.frame.frameLength - 2;
 
                 // Check if the packet is a CRSF RC frame.
                 if (_crsfFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
