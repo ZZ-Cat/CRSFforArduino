@@ -7,3 +7,8 @@
 
 # Development artefacts
 /.development
+
+# PlatformIO specific README files
+/include/README
+/lib/README
+/test/README
