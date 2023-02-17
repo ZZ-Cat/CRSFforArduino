@@ -87,7 +87,7 @@
  *
  */
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include "CRSFforArduino.h"
 
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
