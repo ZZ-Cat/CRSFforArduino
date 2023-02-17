@@ -1,5 +1,6 @@
 # Artefacts for compiling the code
 /build/
+/.pio/
 
 # Artefacts for Visual Studio Code
 /.vscode/

@@ -1,7 +1,7 @@
 *.c text eol=lf
 *.cpp text eol=lf
 *.h text eol=lf
-*.ino text eol=lf linguist-language=c++
+*.ini text eol=lf
 *.md text eol=lf
 *.properties text eol=lf
 *.txt text eol=lf
