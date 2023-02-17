@@ -1,10 +1,10 @@
 # Artefacts for compiling the code
-/.pio/
+.pio/
 
 # Artefacts for Visual Studio Code
-/.vscode/
+.vscode/
 
 # PlatformIO specific README files
-/include/README
-/lib/README
-/test/README
+include/README
+lib/README
+test/README
