@@ -105,7 +105,7 @@ void setup()
     crsf.begin();
 
     // Show the user that the sketch is ready.
-    Serial.println("Channels Example");
+    Serial.println("RC Channels Example");
     delay(1000);
     Serial.println("Ready");
     delay(1000);
