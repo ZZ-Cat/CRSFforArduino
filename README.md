@@ -47,18 +47,31 @@ These installation instructions will be updated as soon as the transition to Pla
 
 ### Prerequisites
 
-You need these before you can use CRSFforArduino.
+You need these before you can use CRSF for Arduino.
 
-- [Adafruit's SAMD Board Support package](https://github.com/adafruit/ArduinoCore-samd)
-- [Adafruit's Zero DMA driver](https://github.com/adafruit/Adafruit_ZeroDMA)
-- [Arduino's SAMD Board Support package](https://github.com/arduino/ArduinoCore-samd)
-- [Arduino IDE](https://www.arduino.cc/en/software) If you are using the VSCode plugin, use the Arduino IDE version 1.8.19. Otherwise, use the very latest version of the Arduino IDE.
+- [Visual Studio Code](https://code.visualstudio.com/) with the following extensions:
+  - [C/C++ Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack), which includes:
+    - C/C++
+    - C/C++ Themes
+    - CMake
+    - CMake Tools
+  - [PlatformIO IDE](https://platformio.org/)
 
 ### Download CRSFforArduino
 
-1. Click the green code button & hit "Download ZIP".
-2. Extract that to your libraries' directory. EG ```C:\Users\..\Documents\Arduino\libraries```
-3. Start up the Arduino IDE (or VSCode, if you're using that instead).
+#### Quick-&-easy way
+
+- COMING SOON
+
+#### The "Old Skool" way
+
+1. Click on the green "<> Code" button.
+2. Click "Download ZIP" & extract it to wherever is convenient for you.
+3. Go into the CRSFforArduino folder, here is where Arduino diverges from PlatformIO.
+   - **Arduino IDE:**
+     - Go into the lib folder & copy the _CRSFforArduino_ folder to your Arduino IDE's library directory.
+   - **PlatformIO:** 
+     - Go into the _top level_ CRSFforArduino folder & copy the _lib_ folder to your PlatformIO project's directory.
 
 ## How to use CRSFforArduino
 
@@ -134,16 +147,19 @@ void loop()
 
 ### Example Sketches
 
-In the ```examples``` folder, there is a sketch called ```channels.ino``` that I used to test this library.
+In the ```examples``` folder, there is a sketch called ```channels.cpp``` that I used to test this library.
 It contains instructions on how to set your hardware up & how to connect your receiver to your development board.
 It also details binding procedures (if needed), & the channel ranges & channel order.
 The example sketch also demonstrates how to read RC channels data from your connected ExpressLRS receiver.
 
+You can build this example to see how CRSF for Arduino works.
+
 ### Flashing
 
-1. Verify your sketch.
-2. Select your com port that your development board is connected to.
-3. Upload your sketch to your development board.
+Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
+
+1. Build your sketch ► ```pio run``` in your CLI or ```ctrl+alt+b``` on your keyboard.
+2. Flash your sketch ► ```pio run -t upload``` or ```ctrl+alt+u``` on your keyboard.
 
 ### Viewing RC data
 
