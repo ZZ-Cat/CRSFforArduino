@@ -171,9 +171,7 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 Here is a list of target development boards CRSFforArduino is compatible with:
 
 - SAMD21 based boards:
-  - Adafruit Crickit M0
   - Adafruit Feather M0 & variants
-  - Adafruit Gemma M0
   - Adafruit ItsyBitsy M0 Express
   - Adafruit QtPy M0
   - Adafruit Trinket M0
@@ -181,12 +179,12 @@ Here is a list of target development boards CRSFforArduino is compatible with:
   - Arduino Zero
 - SAMD51 based boards:
   - Adafruit Feather M4 Express
-  - Adafruit Feather M4 CAN Express
+  - Adafruit Grand Central M4
   - Adafruit ItsyBitsy M4 Express
   - Adafruit Metro M4 Express
   - Adafruit Metro M4 Express AirLift Lite
 - SAME51 based boards:
-  - Adafruit Grand Central M4
+  - Adafruit Feather M4 CAN Express
 
 Compatibility with other microcontroller boards may be added in the future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
 
