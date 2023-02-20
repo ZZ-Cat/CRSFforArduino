@@ -70,7 +70,7 @@ You need these before you can use CRSF for Arduino.
 3. Go into the CRSFforArduino folder, here is where Arduino diverges from PlatformIO.
    - **Arduino IDE:**
      - Go into the lib folder & copy the _CRSFforArduino_ folder to your Arduino IDE's library directory.
-   - **PlatformIO:** 
+   - **PlatformIO:**
      - Go into the _top level_ CRSFforArduino folder & copy the _lib_ folder to your PlatformIO project's directory.
 
 ## How to use CRSFforArduino
