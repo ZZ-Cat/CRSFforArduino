@@ -23,31 +23,29 @@
  *
  * @section Dependencies
  *
- * This example sketch depends on the following libraries:
- * - Adafruit_ZeroDMA (This is included with the Adafruit Metro M4 Express board package.)
- * - Arduino.h (This is included with the Arduino IDE.)
- * - CRSFforArduino.h
+ * PlatformIO will automatically install the following dependencies:
+ * - Adafruit ZeroDMA Library
  *
  * @section Quick Start
  *
  * 1. Connect the receiver to the Metro M4 Express using the following pinout:
- *   - TX pin to Metro M4 Express RX (Pin 0).
- *   - RX pin to Metro M4 Express TX (Pin 1).
- *   - GND pin to Metro M4 Express GND.
- *   - 5V pin to Metro M4 Express 5V.
+ *    - TX pin to Metro M4 Express RX (Pin 0).
+ *    - RX pin to Metro M4 Express TX (Pin 1).
+ *    - GND pin to Metro M4 Express GND.
+ *    - 5V pin to Metro M4 Express 5V.
  * 2. Connect the Metro M4 Express to your computer using a USB cable.
- * 3. Select the Metro M4 Express board and the correct port in the Arduino IDE.
- *   - Tools > Board > Adafruit Metro M4 (SAMD51)
- *   - Tools > Port > COM# (where # is the port number)
- * 4. Open the CRSFforArduino library example sketch channels.ino.
- *   - File > Examples > CRSFforArduino > channels
- * 5. Upload the sketch to the Metro M4 Express.
- *   - Sketch > Upload
- * 6. Open the Serial Monitor.
- *   - Tools > Serial Monitor
- * 7. Set the Serial Monitor baud rate to 115200.
- * 8. Set the Serial Monitor line ending to "Both NL & CR".
- * 9. Turn on your transmitter.
+ * 3. Build the firmware:
+ *    - Method 1: pio run
+ *    - Method 2: ctlr+alt+B
+ * 4. Flash your Metro M4 Express.
+ *    - Method 1: pio run -t upload
+ *    - Method 2: ctlr+alt+U
+ * 5. Configure the Serial Monitor:
+ *    - Port: Select the port that your Metro M4 Express is connected to.
+ *    - Baud Rate: 115200
+ *    - Line Ending: Both NL & CR
+ * 6. Turn on your transmitter.
+ * 7. Click "Start Monitoring" on the Serial Monitor.
  *
  * @section Binding (Optional & only needed for the first time)
  *
@@ -61,15 +59,15 @@
  * @par TBS Crossfire:
  * 1. Turn on your transmitter.
  * 2. On your transmitter, open up the TBS Agent Lite app.
- *   - Radio Settings > Tools > TBS Agent Lite
+ *    - Radio Settings > Tools > TBS Agent Lite
  * 3. In TBS Agent Lite, select the Micro TX & enable Binding Mode.
- *   - XF Micro TX > Bind > Execute
+ *    - XF Micro TX > Bind > Execute
  * 4. Power on the Nano Diversity Receiver.
- *   - If you have already powered on the receiver, power it off and then back on again.
- *   - You do not need to hold the bind button on the receiver.
- *   - Binding will begin automatically.
- *   - The Status LED will turn solid green when the receiver is bound.
- *   - The Status LED on the Micro TX will turn solid green when the receiver is bound.
+ *    - If you have already powered on the receiver, power it off and then back on again.
+ *    - You do not need to hold the bind button on the receiver.
+ *    - Binding will begin automatically.
+ *    - The Status LED will turn solid green when the receiver is bound.
+ *    - The Status LED on the Micro TX will turn solid green when the receiver is bound.
  * 5. Close TBS Agent Lite.
  *
  * @section Output
@@ -87,6 +85,7 @@
  *
  */
 
+#include "Arduino.h"
 #include "CRSFforArduino.h"
 
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
@@ -104,7 +103,7 @@ void setup()
     crsf.begin();
 
     // Show the user that the sketch is ready.
-    Serial.println("Channels Example");
+    Serial.println("RC Channels Example");
     delay(1000);
     Serial.println("Ready");
     delay(1000);

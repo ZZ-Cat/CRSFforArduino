@@ -170,7 +170,7 @@ bool CRSFforArduino::update()
             // Check if the packet is a CRSF frame.
             if (_crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
             {
-                uint8_t payloadSize = _crsfFrame.frame.frameLength - 2;
+                // uint8_t payloadSize = _crsfFrame.frame.frameLength - 2;
 
                 // Check if the packet is a CRSF RC frame.
                 if (_crsfFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
@@ -292,19 +292,15 @@ Sercom *CRSFforArduino::_getSercom()
 
 #if defined(__SAMD21E18A__)
 
-/* Adafruit Gemma M0, QtPy M0 & Trinket M0. */
-#if defined(ADAFRUIT_GEMMA_M0) || defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
+/* Adafruit QtPy M0 & Trinket M0. */
+#if defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
     sercom = SERCOM0;
 #endif
 
 #elif defined(__SAMD21G18A__)
 
-/* Adafruit Crickit M0. */
-#if defined(ADAFRUIT_CRICKIT_M0)
-    sercom = SERCOM5;
-
 /* Adafruit Feather M0 , Feather M0 Express, ItsyBitsy M0 & Metro M0 Express. */
-#elif defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || \
+#if defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || \
     defined(ADAFRUIT_METRO_M0_EXPRESS)
     sercom = SERCOM0;
 
