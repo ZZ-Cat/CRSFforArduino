@@ -19,7 +19,7 @@ Some features may be broken, bugged, untested, missing, or the code as a whole m
 
 Fear not! I am working on this library (aside from flying my helicopters & helping out with other heli-related projects) & I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
 
-If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSFforArduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
+If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSF for Arduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
 
 ### Arduino IDE is discontinued
 
@@ -54,7 +54,7 @@ You need these before you can use CRSF for Arduino.
     - CMake Tools
   - [PlatformIO IDE](https://platformio.org/)
 
-### VS Code - Download CRSFforArduino
+### VS Code - Download CRSF for Arduino
 
 1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
 2. Under "Assets", click the ```Source code (zip)``` link & download it.
@@ -76,7 +76,7 @@ You need these before you can use CRSF for Arduino.
 - [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
 - [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
 
-### Arduino IDE - Download CRSFforArduino
+### Arduino IDE - Download CRSF for Arduino
 
 1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
 2. Under "Assets", click the ```Source code (zip)``` link & download it.
@@ -86,7 +86,7 @@ You need these before you can use CRSF for Arduino.
    - To do this, change their extension from ```.cpp``` to ```.ino```. If your OS tells you off for doing this, go ahead & do it anyway.
 6. Because there is no ```library.properties``` file present in this now "root" directory, the Arduino IDE is assuming this library is from a much older version of itself (where recursive file structuring was not supported). You need to go into the ```src``` folder & pull the ```CRSFforArduino.h``` & ```CRSFforArduino.cpp``` files out of that folder & place them in the root folder. If there is enough demand for me to continue supporting the Arduino IDE in my library, I will update this section, so that it is less of a janky way of doing it. Keep in mind that my priority will be with PlatformIO support.
 
-## How to use CRSFforArduino
+## How to use CRSF for Arduino
 
 ### The API
 
@@ -108,7 +108,7 @@ The example below demonstrates what your code should look like, using the instru
 #include "CRSFforArduino.h"
 
 /* 2. Declare a CRSFforArduino object.
-You can call it literally anything you want, as long as you tell CRSFforArduino what serial port your receiver is connected to. */
+You can call it literally anything you want, as long as you tell CRSF for Arduino what serial port your receiver is connected to. */
 CRSFforArduino crsf = CRSFforArduino(&Serial1)
 
 void setup()
@@ -191,7 +191,7 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
 ## Compatible development boards
 
-Here is a list of target development boards CRSFforArduino is compatible with:
+Here is a list of target development boards CRSF for Arduino is compatible with:
 
 - SAMD21 based boards:
   - Adafruit Feather M0 & variants
