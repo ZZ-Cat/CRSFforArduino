@@ -1,7 +1,7 @@
 /**
  * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Library for CRSF (Crossfire Serial Protocol) for Arduino.
+ * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
  * @version 0.2.0
  * @date 2023-02-23
  *
