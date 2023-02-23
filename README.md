@@ -13,8 +13,8 @@ Cassandra "ZZ Cat" Robinson
 
 ### This is not yet ready for prime time release
 
-CRSFforArduino is undergoing active development & is not yet ready for prime time release.
-If you choose to use CRSFforArduino in its current state, do so at your own risk.
+CRSF for Arduino is undergoing active development & is not yet ready for prime time release.
+If you choose to use CRSF for Arduino in its current state, do so at your own risk.
 Some features may be broken, bugged, untested, missing, or the code as a whole may resemble a pigeon flying by swinging its head around in circles.
 
 Fear not! I am working on this library (aside from flying my helicopters & helping out with other heli-related projects) & I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
@@ -25,6 +25,7 @@ If you have spotted any bugs, something isn't working the way it should, or you 
 
 Arduino IDE support in Visual Studio Code is discontinued.
 As of 2023-02-17 10:48 Hrs NZDT, I am using PlatformIO as my IDE of choice for development.
+This notice will be removed by the time version 0.2.0 is released.
 
 ## Description
 
@@ -39,13 +40,9 @@ For starters, it's an open source radio control link that offers incredibly low 
 An ExpressLRS receiver communicates to your development board through one of the board's Serial/UART ports.
 This provides you with up to 16 10-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
 
-## Installation
+## Installation - For use in Visual Studio Code
 
-### Warning: These instructions are outdated & are no longer relevant
-
-These installation instructions will be updated as soon as the transition to PlatformIO has been completed.
-
-### Prerequisites
+### VS Code - Prerequisites
 
 You need these before you can use CRSF for Arduino.
 
@@ -57,21 +54,37 @@ You need these before you can use CRSF for Arduino.
     - CMake Tools
   - [PlatformIO IDE](https://platformio.org/)
 
-### Download CRSFforArduino
+### VS Code - Download CRSFforArduino
 
-#### Quick-&-easy way
+1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
+2. Under "Assets", click the ```Source code (zip)``` link & download it.
+3. Extract the zipped file & place these files & folders into your PlatformIO project's directory:
+   - The ```lib``` folder.
+   - The ```platformio.ini``` file.
+     - If you _already_ have a _blank_ ```platformio.ini``` project file, you can copy the included ```platformio.ini``` file & overwrite the blank project file as the base for your project.
 
-- COMING SOON
+## Installation - For use in the Arduino IDE
 
-#### The "Old Skool" way
+I am providing backwards compatibility with the standalone version of the Arduino IDE. This is only tested with version 1.8.12 of the (now legacy) Arduino IDE. These instructions may or may not work with version 2.0.0 of the Arduino IDE.
 
-1. Click on the green "<> Code" button.
-2. Click "Download ZIP" & extract it to wherever is convenient for you.
-3. Go into the CRSFforArduino folder, here is where Arduino diverges from PlatformIO.
-   - **Arduino IDE:**
-     - Go into the lib folder & copy the _CRSFforArduino_ folder to your Arduino IDE's library directory.
-   - **PlatformIO:**
-     - Go into the _top level_ CRSFforArduino folder & copy the _lib_ folder to your PlatformIO project's directory.
+### Arduino IDE - Prerequisites
+
+You need these before you can use CRSF for Arduino.
+
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
+- [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
+- [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+
+### Arduino IDE - Download CRSFforArduino
+
+1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
+2. Under "Assets", click the ```Source code (zip)``` link & download it.
+3. Extract the zipped file.
+4. Go into the ```lib``` subfolder, copy the ```CRSFforArduino``` folder & place it in your Arduino IDE's ```libraries``` folder.
+5. You may need to change the extension of each example file in order to use them in the Arduino IDE.
+   - To do this, change their extension from ```.cpp``` to ```.ino```. If your OS tells you off for doing this, go ahead & do it anyway.
+6. Because there is no ```library.properties``` file present in this now "root" directory, the Arduino IDE is assuming this library is from a much older version of itself (where recursive file structuring was not supported). You need to go into the ```src``` folder & pull the ```CRSFforArduino.h``` & ```CRSFforArduino.cpp``` files out of that folder & place them in the root folder. If there is enough demand for me to continue supporting the Arduino IDE in my library, I will update this section, so that it is less of a janky way of doing it. Keep in mind that my priority will be with PlatformIO support.
 
 ## How to use CRSFforArduino
 
@@ -154,16 +167,26 @@ The example sketch also demonstrates how to read RC channels data from your conn
 
 You can build this example to see how CRSF for Arduino works.
 
-### Flashing
+### Flashing - PlatformIO (VS Code)
 
 Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
 1. Build your sketch ► ```pio run``` in your CLI or ```ctrl+alt+b``` on your keyboard.
-2. Flash your sketch ► ```pio run -t upload``` or ```ctrl+alt+u``` on your keyboard.
+2. Flash your sketch ► ```pio run -t upload``` in your CLI or ```ctrl+alt+u``` on your keyboard.
+
+### Flashing - Arduino IDE (Legacy)
+
+1. Select your target development board ► ```Tools ► Board```
+2. Select the Serial Port that your board is connected to ► ```Tools ► Port```
+3. Verify your sketch ► ```Sketch ► Verify/Compile``` from the menu or ```ctrl+r``` on your keyboard.
+4. Upload your sketch ► ```Sketch ► Upload``` from the menu or ```ctrl+u```on your keyboard.
 
 ### Viewing RC data
 
 1. Open up the Serial Monitor.
+   - PlatformIO: Click the Serial Monitor tab, configure the port, baud rate & click ```Start Monitoring```.
+   - PuTTY: In the configuration, select the ```Serial line```, set the ```Connection type``` to ```Serial``` & set the ```Speed``` to your baud rate setting (default is 115200). Then, click ```Open```.
+   - Arduino IDE: ```Tools ► Serial Monitor``` from the menu or ```ctrl+shift+m``` on your keyboard.
 2. Your RC channel values will be there, & they will change as you move the sticks on your RC handset.
 
 ## Compatible development boards
