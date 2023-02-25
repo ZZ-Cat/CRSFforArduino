@@ -5,6 +5,12 @@
 .vscode/
 
 # PlatformIO specific README files
-include/README
-lib/README
-test/README
+src/include/README
+src/lib/README
+src/test/README
+
+# Template files for CRSF for Arduino
+templates/
+
+# Arduino IDE artefacts
+.development
