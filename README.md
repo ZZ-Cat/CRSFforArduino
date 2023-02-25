@@ -21,12 +21,6 @@ Fear not! I am working on this library (aside from flying my helicopters & helpi
 
 If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSF for Arduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
 
-### Arduino IDE is discontinued
-
-Arduino IDE support in Visual Studio Code is discontinued.
-As of 2023-02-17 10:48 Hrs NZDT, I am using PlatformIO as my IDE of choice for development.
-This notice will be removed by the time version 0.2.0 is released.
-
 ## Description
 
 Traditional PWM RC receivers are becoming a thing of the past & (by extension) are getting harder & harder to come by.
@@ -40,11 +34,18 @@ For starters, it's an open source radio control link that offers incredibly low 
 An ExpressLRS receiver communicates to your development board through one of the board's Serial/UART ports.
 This provides you with up to 16 10-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
 
-## Installation - For use in Visual Studio Code
+## Prerequisites - Arduino IDE
 
-### VS Code - Prerequisites
+If you want to use CRSF for Arduino in the Arduino IDE, you need these:
 
-You need these before you can use CRSF for Arduino.
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
+- [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
+- [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+
+## Prerequisites - Visual Studio Code & PlatformIO
+
+If you want to use CRSF for Arduino with PlatoformIO & Visual Studio Code, you need these:
 
 - [Visual Studio Code](https://code.visualstudio.com/) with the following extensions:
   - [C/C++ Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack), which includes:
@@ -54,37 +55,32 @@ You need these before you can use CRSF for Arduino.
     - CMake Tools
   - [PlatformIO IDE](https://platformio.org/)
 
-### VS Code - Download CRSF for Arduino
+Pro tips:
+Up in the Arduino IDE prerequisites, I mention a list of third-party libraries & board support packages. If you are using PlatformIO, that list does not necessarily apply here. CRSF for Arduino comes with a `platformio.ini` file that already defines the necessary library dependencies & board support profiles. PlatformIO will automatically download all of the necessary files to setup your build environment.
 
-1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
-2. Under "Assets", click the ```Source code (zip)``` link & download it.
-3. Extract the zipped file & place these files & folders into your PlatformIO project's directory:
-   - The ```lib``` folder.
-   - The ```platformio.ini``` file.
-     - If you _already_ have a _blank_ ```platformio.ini``` project file, you can copy the included ```platformio.ini``` file & overwrite the blank project file as the base for your project.
+Keep in mind that in the `platformio.ini` file, under the `platformio` section, I have set the `default_envs` to `adafruit_metro_m4`. This is what I am using to develop CRSF for Arduino on.
+To set your desired target development board, you do `shift+ctrl+p ► PlatformIO: Switch Project Environment` & choose your development board from there. Each board is prepended with `env:[YOUR_TARGET_DEV_BOARD]` & for the default Adafruit Metro M4 Express target, it looks like this `env:adafruit_metro_m4` from the dropdown menu.
 
-## Installation - For use in the Arduino IDE
+## Installation - Straight from the Main-Trunk
 
-I am providing backwards compatibility with the standalone version of the Arduino IDE. This is only tested with version 1.8.12 of the (now legacy) Arduino IDE. These instructions may or may not work with version 2.0.0 of the Arduino IDE.
+If you want bleeding edge features & want to help me out on developing CRSF for Arduino, this is how you go about it:
 
-### Arduino IDE - Prerequisites
+1. Click the green `<> code` button.
+2. Click `download zip` & save it in a convenient location on your hard drive.
+3. Extract the top level `CRSFforArduino` folder - For PlatformIO users, this is all you need to do. Arduino users, continue on from here.
+4. Place the `CRSFforArduino` folder into your `libraries` directory.
 
-You need these before you can use CRSF for Arduino.
+Pro Tip:
+If you're like me & subscribe to the "Both! Both? Both. Both is good." (as quoted by Miguel & Tulio from The Road to El Dorado) philosophy, you can put the top level `CRSFforArduino` folder into your Arduino IDE's `libraries` directory as is. Leave everything there. If you also have Visual Studio Code _and_ PlatformIO, you can go ahead & open up the _top level_ `CRSFforArduino` folder in Visual Studio Code, & PlatformIO will automatically set you up & (by rights) you should be good to go.
+This gives you the ability to load up CRSF for Arduino in both the Arduino IDE & Visual Studio Code at the same time.
 
-- [Arduino IDE](https://www.arduino.cc/en/software)
-- [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
-- [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
-- [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+## Installation - From the Releases Section
 
-### Arduino IDE - Download CRSF for Arduino
+Currently, the only releases that are available right now are all pre-releases & are Major version 0.x.x.
+This means that each pre-release is a snapshot of the current developmental state of CRSF for Arduino.
+While every effort has gone into ensuring stability at the time that these releases are made, there may still be the odd gremlin or two that have stowed away somewhere & made it through my quality control.
 
-1. Head on over to my [releases](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest) & grab the latest version.
-2. Under "Assets", click the ```Source code (zip)``` link & download it.
-3. Extract the zipped file.
-4. Go into the ```lib``` subfolder, copy the ```CRSFforArduino``` folder & place it in your Arduino IDE's ```libraries``` folder.
-5. You may need to change the extension of each example file in order to use them in the Arduino IDE.
-   - To do this, change their extension from ```.cpp``` to ```.ino```. If your OS tells you off for doing this, go ahead & do it anyway.
-6. Because there is no ```library.properties``` file present in this now "root" directory, the Arduino IDE is assuming this library is from a much older version of itself (where recursive file structuring was not supported). You need to go into the ```src``` folder & pull the ```CRSFforArduino.h``` & ```CRSFforArduino.cpp``` files out of that folder & place them in the root folder. If there is enough demand for me to continue supporting the Arduino IDE in my library, I will update this section, so that it is less of a janky way of doing it. Keep in mind that my priority will be with PlatformIO support.
+With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, & that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
 
 ## How to use CRSF for Arduino
 
@@ -174,7 +170,7 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 1. Build your sketch ► ```pio run``` in your CLI or ```ctrl+alt+b``` on your keyboard.
 2. Flash your sketch ► ```pio run -t upload``` in your CLI or ```ctrl+alt+u``` on your keyboard.
 
-### Flashing - Arduino IDE (Legacy)
+### Flashing - Arduino IDE
 
 1. Select your target development board ► ```Tools ► Board```
 2. Select the Serial Port that your board is connected to ► ```Tools ► Port```
@@ -217,8 +213,21 @@ If the host microcontroller also has DMA, this is an added bonus. DMA is no long
 ## AVR based microcontrollers are not compatible
 
 Development boards such as the Arduino UNO, Arduino Micro, Arduino Nano, Arduino Mega 2560 & any other development board that was built around the ATmega microcontrollers of yesteryear are incompatible with my library.
-Their processing capabilities simply are not there, & they are far too slow for the constraints required by the CRSF protocol.
-The AVR archtecture itself is a legacy architecture & I simply will not support it.
+Their processing capabilities simply are not enough to meet the requirements of the CRSF protocol.
+
+There is better hardware out there, that has the same form factor as these old development boards.
+Here are some examples:
+
+- These have the "Arduino R3" form factor:
+  - Adafruit:
+    - Metro M0 Express
+    - Metro M4 AirLift Lite
+    - Metro M4 Express
+  - Arduino:
+    - Zero
+- These have the "Arduino Mega" form factor:
+  - Adafruit:
+    - Grand Central M4
 
 ## Compatible receivers
 
@@ -230,19 +239,14 @@ Keep in mind that CRSF for Arduino is tested almost exclusively on ExpressLRS ha
 Currently, there is no telemetry feedback from the host microcontroller's side... _yet!_
 This is coming soon.
 
-At first, I wanted to focus primarily on the important part first: Being able to read the RC channels data.
-This was my benchmark. Now, I know that this is working, I am now focusing on getting telemetry feedback up & running.
-
-There is now a [development branch](https://github.com/ZZ-Cat/CRSFforArduino/tree/Telemetry-Feedback) where telemetry is being worked on & tested. Once this is working the way it's supposed to, it will be merged into the Main-Trunk & I will update this section to reflect this.
-
 ## Software license
 
 As always, I believe in freedom & I want to pass that freedom onto you.
-Which is why I am proud to license CRSFforArduino to you under the GNU GPL v3.
+Which is why I am proud to license CRSF for Arduino to you under the GNU GPL v3.
 
 ## Attributions
 
-I give credit where credit is due. Because CRSFforArduino isn't entirely my own idea, but built on the shoulders of giants. Here is a list of credits to those what helped to make this possible:
+I give credit where credit is due. Because CRSF for Arduino isn't entirely my own idea, but built on the shoulders of giants. Here is a list of credits to those what helped to make this possible:
 
 - Inspiration for this library
   - [ExpressLRS](https://github.com/ExpressLRS)
@@ -250,7 +254,10 @@ I give credit where credit is due. Because CRSFforArduino isn't entirely my own 
     - [License](https://github.com/ExpressLRS/ExpressLRS/blob/master/LICENSE)
     - [Source Code](https://github.com/ExpressLRS/ExpressLRS)
     - [Website](https://www.expresslrs.org/3.0/)
-- References for CRSF implementation
+  - [Team BlackSheep FPV](https://github.com/tbs-fpv) - The folks behind the CRSF protocol that both ExpressLRS & CRSF for Arduino uses.
+  - [This issue](https://github.com/tbs-fpv/freedomtx/issues/26) on [FreedomTX's repository.](https://github.com/tbs-fpv/freedomtx/issues/26)
+    - This gets a mention here, because I will benefit _greatly_ from an officially documented public repository for the CRSF protocol. The evolution of the protocol itself will help shape CRSF for Arduino, & I will be able to refer to that in addition to my references here.
+- References for CRSF for Arduino
   - [BetaFlight](https://github.com/betaflight)
     - [Development Team](https://github.com/orgs/betaflight/people)
     - [License](https://github.com/betaflight/betaflight/blob/master/LICENSE)
