@@ -2,8 +2,8 @@
  * @file CRSFforArduino.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Top level header for CRSF for Arduino, to help with Arduino IDE compatibility.
- * @version 0.3.0
- * @date 2023-02-25
+ * @version 0.3.1
+ * @date 2023-04-05
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
