@@ -24,9 +24,12 @@
  *
  */
 
+#include "CompatibilityTable.h"
 #include "CRSFforArduino.h"
 
-/**
+CompatibilityTable CT = CompatibilityTable();
+
+ /**
  * @par CRSF Protocol
  *
  * CRSF is a full duplex serial protocol. It is the bus protocol used by both TBS Crossfire & ExpressLRS receivers to
@@ -83,6 +86,25 @@ CRSFforArduino::~CRSFforArduino()
  */
 bool CRSFforArduino::begin()
 {
+
+    /* Check at runtime if the devboard is compatible with CRSF for Arduino. */
+    const char *devboardName = CT.getDevboardName();
+#ifdef CRSF_DEBUG
+    Serial.print("[CRSF for Arduino | INFO] Devboard Name: ");
+    Serial.println(devboardName);
+#endif
+
+    // Incompatible devboards will be caught here.
+    if (CT.isDevboardCompatible(devboardName) != true)
+    {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] Devboard is not compatible with CRSF for Arduino.");
+#endif
+        // Stop here, instead of returning false, because CRSF for Arduino is not compatible with this devboard.
+        while (1)
+            ;
+    }
+
     /* CRSF is 420000 baud 8-bit data, no parity, 1 stop bit. */
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
