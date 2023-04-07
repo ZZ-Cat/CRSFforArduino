@@ -86,8 +86,7 @@ class CompatibilityTable
         "Arduino MKRWIFI1010",
         "Arduino MKRZERO",
         "Arduino Nano 33 IoT",
-        "Arduino Zero"
-    };
+        "Arduino Zero"};
 };
 
 // CompatibilityTable CT = CompatibilityTable();
