@@ -187,14 +187,25 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
 ## Compatible development boards
 
-Here is a list of target development boards CRSF for Arduino is compatible with:
+CRSF for Arduino is deigned to be compatible with modern hardware.
+While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, here is a list of target development boards CRSF for Arduino is compatible with (Keep in mind that this list is not exhaustive, & actual compatibility with everything listed here may be untested):
 
 - SAMD21 based boards:
-  - Adafruit Feather M0 & variants
+  - Adafruit Feather M0 & all of its variants, including the Adafruit Feather M0 Express
   - Adafruit ItsyBitsy M0 Express
+  - Adafruit Metro M0 Express
   - Adafruit QtPy M0
   - Adafruit Trinket M0
-  - Arduino MKR series
+  - Arduino MKR series:
+    - MKR 1000
+    - MKR Fox 1200
+    - MKR GSM 1400
+    - MKR NB 1500
+    - MKR VIDOR 4000
+    - MKR WAN 1300 & MKR WAN 1310
+    - MKR WIFI 1010
+    - MKR Zero
+  - Arduino Nano 33 IoT
   - Arduino Zero
 - SAMD51 based boards:
   - Adafruit Feather M4 Express
@@ -205,20 +216,39 @@ Here is a list of target development boards CRSF for Arduino is compatible with:
 - SAME51 based boards:
   - Adafruit Feather M4 CAN Express
 
-Compatibility with other microcontroller boards may be added in the future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
+Compatibility with other microcontroller boards may be added in future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
 
-Generally speaking, if the host microcontroller's UART peripheral supports 420k bauds (or higher), it is a likely candidate for this library to support it.
-If the host microcontroller also has DMA, this is an added bonus. DMA is no longer required (but it is still the preferred method).
+Generally speaking, if the host microcontroller's UART peripheral supports 420k bauds (or higher), it is a likely candidate for CRSF for Arduino. Bonus points if the microcontroller has DMA (Direct Memory Access), because this helps immensely to capture RC data & send out telemetry data.
+
+I am now aware that Arduino are making an R4 of their UNO & Adafruit are making a Metro M7. This is exciting news for me, because I would like to make these development boards fully compatible with CRSF for Arduino as & when their respective underlying code & toolchain support is added.
 
 ## AVR based microcontrollers are not compatible
 
-Development boards such as the Arduino UNO, Arduino Micro, Arduino Nano, Arduino Mega 2560 & any other development board that was built around the ATmega microcontrollers of yesteryear are incompatible with my library.
-Their processing capabilities simply are not enough to meet the requirements of the CRSF protocol.
+Development boards of yesteryear that were built around ATmega AVR microcontrollers such as the 328, 32u4, 2560 & 4809 are incompatible with CRSF for Arduino.
+Their processing capabilities (such as their limited 16 MHz CPU speed) simply are not enough to meet the requirements of the CRSF protocol.
 
-There is better hardware out there, that has the same form factor as these old development boards.
+The following is a list of known development boards that are incompatible.
+This list is not exhaustive, but it should give you an idea of what _not_ to flash CRSF for Arduino onto. If you even try to do so, CRSF for Arduino will simply not function (instead of allegedly exhibiting ["strange behaviour"](https://github.com/ZZ-Cat/CRSFforArduino/issues/12)):
+
+- Adafruit Metro 328
+- Adafruit Feather 32u4 (including all of its variants)
+- Arduino Diecimila
+- Arduino Duemilanove
+- Arduino Leonardo
+- Arduino Mega2560
+- Arduino Micro
+- Arduino Nano
+- Arduino Nano Every
+- Arduino UNO R3
+- Arduino UNO WiFi R2
+
+There is better hardware out there that has the same form factor as these old development boards.
 Here are some examples:
 
-- These have the "Arduino R3" form factor:
+- These have an equivalent "breadboard-friendly" form factor that is similar to the Arduio Micro & the Arduino Nano:
+  - Adafruit Feather M0 (all variants, including the Feather M0 Express)
+  - Adafruit Feather M4 Express
+- These have the "Arduino R3" form factor - The same shape as the Arduino UNO:
   - Adafruit:
     - Metro M0 Express
     - Metro M4 AirLift Lite
@@ -229,10 +259,19 @@ Here are some examples:
   - Adafruit:
     - Grand Central M4
 
+Many of Arduino's [discontinued development boards](https://docs.arduino.cc/retired/) are also incompatible with CRSF for Arduino.
+
 ## Compatible receivers
 
 Generally speaking, if your transmitter & receiver combo supports ExpressLRS or TBS Crossfire, it's automatically compatible.
 Keep in mind that CRSF for Arduino is tested almost exclusively on ExpressLRS hardware.
+
+For wiring, here is how you do it:
+
+- GND (on the receiver; can also be printed on the receiver as a minus sign '-') can go to any GND pin on your development board.
+- 5V (on the receiver; can also be printed on the receiver as 'vcc' or simply a plus sign '+') goes to the 5V pin of your development board. This power will come directly off of USB power or 5V stepped down from your development board's main power connector.
+- T (or Tx) on your receiver goes to ►Rx/Pin0 on your development board. This step can catch you out, if you're not careful.
+- R (or Rx) on your reciever goes to ◄Tx/Pin1 on your development board. This step can catch you out, if you're not careful.
 
 ## Telemetry
 
@@ -242,7 +281,7 @@ This is coming soon.
 ## Software license
 
 As always, I believe in freedom & I want to pass that freedom onto you.
-Which is why I am proud to license CRSF for Arduino to you under the GNU GPL v3.
+Which is why I am proud to license CRSF for Arduino to you under the [GNU GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).
 
 ## Attributions
 
