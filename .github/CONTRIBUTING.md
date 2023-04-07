@@ -34,9 +34,9 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 
 ## For more information
 
-- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Code of Conduct](/CODE_OF_CONDUCT.md)
 - Issue Templates
-  - [Bug Reports](.github/ISSUE_TEMPLATE/bug_report.md)
-  - [Feature Requests](.github/ISSUE_TEMPLATE/feature_request.md)
-- [License](LICENSE.md)
-- [README](README.md)
+  - [Bug Reports](ISSUE_TEMPLATE/bug_report.md)
+  - [Feature Requests](ISSUE_TEMPLATE/feature_request.md)
+- [License](/LICENSE.md)
+- [README](/README.md)
