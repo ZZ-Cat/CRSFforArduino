@@ -34,9 +34,9 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 
 ## For more information
 
-- [Code of Conduct](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/CODE_OF_CONDUCT.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 - Issue Templates
-  - [Bug Reports](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/ISSUE_TEMPLATE/bug_report.md)
-  - [Feature Requests](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/ISSUE_TEMPLATE/feature_request.md)
-- [License](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md)
-- [README](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/README.md)
+  - [Bug Reports](.github/ISSUE_TEMPLATE/bug_report.md)
+  - [Feature Requests](.github/ISSUE_TEMPLATE/feature_request.md)
+- [License](LICENSE.md)
+- [README](README.md)
