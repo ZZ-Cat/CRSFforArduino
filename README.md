@@ -264,6 +264,13 @@ Many of Arduino's [discontinued development boards](https://docs.arduino.cc/reti
 Generally speaking, if your transmitter & receiver combo supports ExpressLRS or TBS Crossfire, it's automatically compatible.
 Keep in mind that CRSF for Arduino is tested almost exclusively on ExpressLRS hardware.
 
+For wiring, here is how you do it:
+
+- GND (on the receiver; can also be printed on the receiver as a minus sign '-') can go to any GND pin on your development board.
+- 5V (on the receiver; can also be printed on the receiver as 'vcc' or simply a plus sign '+') goes to the 5V pin of your development board. This power will come directly off of USB power or 5V stepped down from your development board's main power connector.
+- T (or Tx) on your receiver goes to ►Rx/Pin0 on your development board. This step can catch you out, if you're not careful.
+- R (or Rx) on your reciever goes to ◄Tx/Pin1 on your development board. This step can catch you out, if you're not careful.
+
 ## Telemetry
 
 Currently, there is no telemetry feedback from the host microcontroller's side... _yet!_
