@@ -220,6 +220,8 @@ Compatibility with other microcontroller boards may be added in future, if there
 
 Generally speaking, if the host microcontroller's UART peripheral supports 420k bauds (or higher), it is a likely candidate for CRSF for Arduino. Bonus points if the microcontroller has DMA (Direct Memory Access), because this helps immensely to capture RC data & send out telemetry data.
 
+I am now aware that Arduino are making an R4 of their UNO & Adafruit are making a Metro M7. This is exciting news for me, because I would like to make these development boards fully compatible with CRSF for Arduino as & when their respective underlying code & toolchain support is added.
+
 ## AVR based microcontrollers are not compatible
 
 Development boards of yesteryear that were built around ATmega AVR microcontrollers such as the 328, 32u4, 2560 & 4809 are incompatible with CRSF for Arduino.
