@@ -24,12 +24,12 @@
  *
  */
 
-#include "CompatibilityTable.h"
 #include "CRSFforArduino.h"
+#include "CompatibilityTable.h"
 
 CompatibilityTable CT = CompatibilityTable();
 
- /**
+/**
  * @par CRSF Protocol
  *
  * CRSF is a full duplex serial protocol. It is the bus protocol used by both TBS Crossfire & ExpressLRS receivers to
