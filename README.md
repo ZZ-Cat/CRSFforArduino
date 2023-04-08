@@ -187,7 +187,7 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
 ## Compatible development boards
 
-CRSF for Arduino is deigned to be compatible with modern hardware.
+CRSF for Arduino is designed to be compatible with modern hardware.
 While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, here is a list of target development boards CRSF for Arduino is compatible with (Keep in mind that this list is not exhaustive, & actual compatibility with everything listed here may be untested):
 
 - SAMD21 based boards:
