@@ -53,6 +53,9 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif // ADAFRUIT_FEATHER_M0 etc
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
 #endif // ARDUINO_ARCH_SAMD
 }
 

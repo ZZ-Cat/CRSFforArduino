@@ -25,7 +25,11 @@
  */
 
 #include "CRSFforArduino.h"
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "CompatibilityTable.h"
+#else
+#include "lib/CompatibilityTable/CompatibilityTable.h"
+#endif
 
 CompatibilityTable CT = CompatibilityTable();
 
