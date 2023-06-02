@@ -105,7 +105,7 @@ The example below demonstrates what your code should look like, using the instru
 
 /* 2. Declare a CRSFforArduino object.
 You can call it literally anything you want, as long as you tell CRSF for Arduino what serial port your receiver is connected to. */
-CRSFforArduino crsf = CRSFforArduino(&Serial1)
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
