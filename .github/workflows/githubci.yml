@@ -1,4 +1,4 @@
-name: Arduino Library CI
+name: Arduino
 
 on: [push]
 
