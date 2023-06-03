@@ -2,7 +2,7 @@
  * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
- * @version 0.4.0
+ * @version 0.3.1
  * @date 2023-06-03
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
