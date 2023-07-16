@@ -73,6 +73,8 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_ARDUINO_MKRZERO;
 #elif defined(ARDUINO_SAMD_NANO_33_IOT)
     device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
+#elif defined(SEEED_XIAO_M0)
+    device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_M0;
 #elif defined(ARDUINO_SAMD_ZERO)
     device.type.devboard = DEVBOARD_ARDUINO_ZERO;
 #else
