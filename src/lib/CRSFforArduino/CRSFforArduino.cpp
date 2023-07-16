@@ -340,6 +340,12 @@ Sercom *CRSFforArduino::_getSercom()
 #if USB_PID == 0x800B || USB_PID == 0x801B || USB_PID == 0x800F || USB_PID == 0x8013
     // Adafruit Feather M0, Feather M0 Express, ItsyBitsy M0 & Metro M0 Express.
 
+/* Seeed XIAO. */
+#elif defined(SEEED_XIAO_M0)
+    sercom = SERCOM4;
+
+/* Arduino Zero. */
+#elif defined(ARDUINO_SAMD_ZERO)
     sercom = SERCOM0;
 #endif
 
