@@ -2,8 +2,8 @@
  * @file channels.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch shows how to receive RC channels from a CRSF receiver using the CRSF for Arduino library.
- * @version 0.3.2
- * @date 2023-06-03
+ * @version 0.4.0
+ * @date 2023-07-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
