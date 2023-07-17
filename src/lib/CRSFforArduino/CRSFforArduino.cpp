@@ -352,7 +352,7 @@ Sercom *CRSFforArduino::_getSercom()
     defined(ARDUINO_SAMD_NANO_33_IOT)
     sercom = SERCOM5;
 
-/* Seeed XIAO. */
+/* Seeed Studio XIAO SAMD21. */
 #elif defined(SEEED_XIAO_M0)
     sercom = SERCOM4;
 

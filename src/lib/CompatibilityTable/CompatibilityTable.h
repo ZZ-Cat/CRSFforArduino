@@ -73,7 +73,7 @@ class CompatibilityTable
         DEVBOARD_ARDUINO_NANO_33_IOT,
         DEVBOARD_ARDUINO_ZERO,
 
-        // Seeed Studio SAMD21 boards.
+        // Seeed Studio boards.
         DEVBOARD_SEEEDSTUDIO_XIAO_M0,
 
         DEVBOARD_COUNT
@@ -116,7 +116,7 @@ class CompatibilityTable
         "Arduino MKRZERO",
         "Arduino Nano 33 IoT",
         "Arduino Zero",
-        "Seeed Studio Xiao M0"};
+        "Seeed Studio Xiao SAMD21"};
 };
 
 // CompatibilityTable CT = CompatibilityTable();
