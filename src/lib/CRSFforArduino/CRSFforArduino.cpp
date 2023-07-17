@@ -98,15 +98,14 @@ bool CRSFforArduino::begin()
     Serial.println(devboardName);
 #endif
 
-    // Incompatible devboards will be caught here.
+    // Check if the devboard is compatible.
     if (CT.isDevboardCompatible(devboardName) != true)
     {
 #ifdef CRSF_DEBUG
         Serial.println("[CRSF for Arduino | ERROR] Devboard is not compatible with CRSF for Arduino.");
 #endif
-        // Stop here, instead of returning false, because CRSF for Arduino is not compatible with this devboard.
-        while (1)
-            ;
+        // Return false to indicate that the devboard is not compatible.
+        return false;
     }
 
     /* CRSF is 420000 baud 8-bit data, no parity, 1 stop bit. */
