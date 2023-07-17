@@ -118,6 +118,9 @@ bool CRSFforArduino::begin()
     /* Check if the SERCOM instance was found. */
     if (_sercom == NULL)
     {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
+#endif
         return false;
     }
 
@@ -146,6 +149,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 
@@ -162,6 +169,10 @@ bool CRSFforArduino::begin()
 
     if (_dmaSerialRxDescriptor == NULL)
     {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
+#endif
+
         return false;
     }
 
@@ -175,6 +186,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.startJob();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 #endif
