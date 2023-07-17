@@ -115,6 +115,12 @@ bool CRSFforArduino::begin()
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_sercom = _getSercom();
 
+    /* Check if the SERCOM instance was found. */
+    if (_sercom == NULL)
+    {
+        return false;
+    }
+
     /* Change the data order to MSB First.
     The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
     The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
