@@ -118,7 +118,14 @@ void setup()
     }
 
     // Initialize the CRSFforArduino library.
-    crsf.begin();
+    if (!crsf.begin())
+    {
+        Serial.println("CRSF for Arduino initialization failed!");
+        while (1)
+        {
+            ;
+        }
+    }
 
     // Show the user that the sketch is ready.
     Serial.println("RC Channels Example");
