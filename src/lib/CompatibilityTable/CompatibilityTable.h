@@ -73,7 +73,7 @@ class CompatibilityTable
         DEVBOARD_ARDUINO_NANO_33_IOT,
         DEVBOARD_ARDUINO_ZERO,
 
-        // Seeed Studio SAMD21 boards.
+        // Seeed Studio boards.
         DEVBOARD_SEEEDSTUDIO_XIAO_M0,
 
         DEVBOARD_COUNT
