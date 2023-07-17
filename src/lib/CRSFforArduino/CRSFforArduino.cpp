@@ -112,6 +112,31 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
+#if defined(ARDUINO_ARCH_SAMD)
+    Sercom *_sercom = _getSercom();
+
+    /* Check if the SERCOM instance was found. */
+    if (_sercom == NULL)
+    {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
+#endif
+        return false;
+    }
+
+    /* Change the data order to MSB First.
+    The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
+    The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
+    Then re-enable the peripheral again. */
+    _sercom->USART.CTRLA.bit.ENABLE = 0;
+    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
+        ;
+    _sercom->USART.CTRLA.bit.DORD = 1;
+    _sercom->USART.CTRLA.bit.ENABLE = 1;
+    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
+        ;
+#endif
+
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -129,6 +154,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 
@@ -145,6 +174,10 @@ bool CRSFforArduino::begin()
 
     if (_dmaSerialRxDescriptor == NULL)
     {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
+#endif
+
         return false;
     }
 
@@ -158,6 +191,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.startJob();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 #endif
