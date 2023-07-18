@@ -210,10 +210,12 @@ CompatibilityTable::CompatibilityTable()
 #warning "Devboard not supported. Please check the compatibility table."
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
+
 #else // Unsupported architecture
 #error "Unsupported architecture. Please check the compatibility table."
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
+
 #else
 #error "This library requires Arduino IDE 1.8.5 or greater. Please update your IDE."
 #endif // ARDUINO >= 10805
