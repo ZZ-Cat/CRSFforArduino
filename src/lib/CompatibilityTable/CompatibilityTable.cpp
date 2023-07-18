@@ -211,7 +211,7 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 #else // Unsupported architecture
-#error "Unsupported architecture. Please check the compatibility table."
+#warning "Unsupported architecture. Please check the compatibility table."
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
 #else
