@@ -86,8 +86,8 @@ CompatibilityTable::CompatibilityTable()
 #endif // ARDUINO_ARCH_SAMD
 */
 
-// Arduino IDE must be 1.7.0 or greater
-#if ARDUINO >= 10700
+// TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
+// #if ARDUINO >= 10700
 
 // Arduino SAMD Architecture
 #if defined(ARDUINO_ARCH_SAMD)
@@ -216,9 +216,9 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
 
-#else
-#error "This library requires Arduino IDE 1.7.0 or greater. Please update your IDE."
-#endif // ARDUINO >= 10700
+// #else
+// #error "This library requires Arduino IDE 1.7.0 or greater. Please update your IDE."
+// #endif // ARDUINO >= 10700
 }
 
 bool CompatibilityTable::isDevboardCompatible(const char *name)
