@@ -331,65 +331,6 @@ Sercom *CRSFforArduino::_getSercom()
     /* Get the SERCOM instance for the current UART.
     This adds compatibility with most development boards on the market today. */
 
-    // DEPRECATED:
-    // #if defined(__SAMD21E18A__)
-
-    // /* Adafruit QtPy M0 & Trinket M0. */
-    // #if defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
-    //     sercom = SERCOM0;
-    // #endif
-
-    // #elif defined(__SAMD21G18A__)
-
-    // /* Adafruit Feather M0 , Feather M0 Express, ItsyBitsy M0 & Metro M0 Express. */
-    // #if defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || "\"
-    //     defined(ADAFRUIT_METRO_M0_EXPRESS)
-    //     sercom = SERCOM0;
-
-    // /* The entire lineup of Arduino MKR boards. */
-    // #elif defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRGSM1400) ||   "\"
-    //     defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_MKRWAN1300) || "\"
-    //     defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRZERO) ||    "\"
-    //     defined(ARDUINO_SAMD_NANO_33_IOT)
-    //     sercom = SERCOM5;
-
-    // /* Arduino Zero. */
-    // #elif defined(ARDUINO_SAMD_ZERO)
-    //     sercom = SERCOM0;
-    // #endif
-
-    // #elif defined(__SAMD51G19A__)
-
-    // /* Adafruit ItsyBitsy M4 Express. */
-    // #if defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-    //     sercom = SERCOM3;
-    // #endif
-
-    // #elif defined(__SAMD51J19A__)
-
-    // /* Adafruit Feather M4 Express. */
-    // #if defined(ADAFRUIT_FEATHER_M4_EXPRESS)
-    //     sercom = SERCOM5;
-    //     ;
-
-    // /* Adafruit Metro M4 Airlift Lite & Metro M4 Express. */
-    // #elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_METRO_M4_EXPRESS)
-    //     sercom = SERCOM3;
-    // #endif
-    // #elif defined(__SAMD51P20A__)
-
-    // /* Adafruit Grand Central M4. */
-    // #if defined(ADAFRUIT_GRAND_CENTRAL_M4)
-    //     sercom = SERCOM0;
-    // #endif
-    // #elif defined(__SAME51J19A__)
-
-    // /* Adafruit Feather M4 CAN. */
-    // #if defined(ADAFRUIT_FEATHER_M4_CAN)
-    //     sercom = SERCOM5;
-    // #endif
-    // #endif
-
 #if USB_VID == 0x239A
     // Adafruit devboards
 
