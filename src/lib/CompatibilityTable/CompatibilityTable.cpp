@@ -116,7 +116,7 @@ CompatibilityTable::CompatibilityTable()
 
 #elif defined(__SAMD51J19A__)
 // Adafruit Feather M4 Express
-#if USB_PID == 0x8031 
+#if USB_PID == 0x8031
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M4_EXPRESS;
 // Adafruit Metro M4 Express
 #elif USB_PID == 0x8020
@@ -200,7 +200,7 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
-    
+
 #else // Incompatible devboards
 #warning "Devboard not supported. Please check the compatibility table."
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
