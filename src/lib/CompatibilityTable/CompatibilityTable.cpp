@@ -28,6 +28,7 @@
 
 CompatibilityTable::CompatibilityTable()
 {
+    /* DEPRECATED: This now uses the USB PID and VID to determine the devboard type.
 #if defined(ARDUINO_ARCH_SAMD)
 #if defined(ADAFRUIT_FEATHER_M0)
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M0;
@@ -83,6 +84,7 @@ CompatibilityTable::CompatibilityTable()
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif // ARDUINO_ARCH_SAMD
+*/
 }
 
 bool CompatibilityTable::isDevboardCompatible(const char *name)
