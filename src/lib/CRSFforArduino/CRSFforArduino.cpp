@@ -2,8 +2,8 @@
  * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
- * @version 0.3.2
- * @date 2023-06-03
+ * @version 0.3.3
+ * @date 2023-07-18
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -331,61 +331,77 @@ Sercom *CRSFforArduino::_getSercom()
     /* Get the SERCOM instance for the current UART.
     This adds compatibility with most development boards on the market today. */
 
-#if defined(__SAMD21E18A__)
+#if USB_VID == 0x239A
+    // Adafruit devboards
 
-/* Adafruit QtPy M0 & Trinket M0. */
-#if defined(ADAFRUIT_QTPY_M0) || defined(ADAFRUIT_TRINKET_M0)
-    sercom = SERCOM0;
-#endif
+#if defined(__SAMD21G18A__)
+    // Devboards that use the SAMD21G18A chip.
 
-#elif defined(__SAMD21G18A__)
+#if USB_PID == 0x800B || USB_PID == 0x801B || USB_PID == 0x800F || USB_PID == 0x8013
+    // Adafruit Feather M0, Feather M0 Express, ItsyBitsy M0 & Metro M0 Express.
 
-/* Adafruit Feather M0 , Feather M0 Express, ItsyBitsy M0 & Metro M0 Express. */
-#if defined(ADAFRUIT_FEATHER_M0) || defined(ADAFRUIT_FEATHER_M0_EXPRESS) || defined(ADAFRUIT_ITSYBITSY_M0) || \
-    defined(ADAFRUIT_METRO_M0_EXPRESS)
-    sercom = SERCOM0;
-
-/* The entire lineup of Arduino MKR boards. */
-#elif defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRGSM1400) ||   \
-    defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_SAMD_MKRWAN1300) || \
-    defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRZERO) ||    \
-    defined(ARDUINO_SAMD_NANO_33_IOT)
-    sercom = SERCOM5;
-
-/* Arduino Zero. */
-#elif defined(ARDUINO_SAMD_ZERO)
     sercom = SERCOM0;
 #endif
 
 #elif defined(__SAMD51G19A__)
+    // Devboards that use the SAMD51G19A chip.
 
-/* Adafruit ItsyBitsy M4 Express. */
-#if defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
+#if USB_PID == 0x802B
+    // Adafruit ItsyBitsy M4 Express.
+
     sercom = SERCOM3;
 #endif
 
 #elif defined(__SAMD51J19A__)
+    // Devboards that use the SAMD51J19A chip.
 
-/* Adafruit Feather M4 Express. */
-#if defined(ADAFRUIT_FEATHER_M4_EXPRESS)
+#if USB_PID == 0x8031
+    // Adafruit Feather M4 Express.
+
     sercom = SERCOM5;
-    ;
+#elif USB_PID == 0x8037 || USB_PID == 0x8020
+    // Adafruit Metro M4 Airlift Lite & Metro M4 Express.
 
-/* Adafruit Metro M4 Airlift Lite & Metro M4 Express. */
-#elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_METRO_M4_EXPRESS)
     sercom = SERCOM3;
 #endif
-#elif defined(__SAMD51P20A__)
 
-/* Adafruit Grand Central M4. */
-#if defined(ADAFRUIT_GRAND_CENTRAL_M4)
+#elif defined(__SAMD51P20A__)
+    // Devboards that use the SAMD51P20A chip.
+
+#if USB_PID == 0x8020
+    // Adafruit Grand Central M4.
+
     sercom = SERCOM0;
 #endif
-#elif defined(__SAME51J19A__)
 
-/* Adafruit Feather M4 CAN. */
-#if defined(ADAFRUIT_FEATHER_M4_CAN)
+#elif defined(__SAME51J19A__)
+    // Devboards that use the SAME51J19A chip.
+
+#if USB_PID == 0x80CD
+    // Adafruit Feather M4 CAN.
+
     sercom = SERCOM5;
+#endif
+
+#endif
+
+#elif USB_VID == 0x2341
+    // Arduino devboards
+
+#if defined(__SAMD21G18A__)
+    // Devboards that use the SAMD21G18A chip.
+
+    // All Arduino MKR boards use the same SERCOM instance.
+#if USB_PID == 0x8050 || USB_PID == 0x8052 || USB_PID == 0x8055 || USB_PID == 0x8056 || USB_PID == 0x8053 || USB_PID == 0x8059 || USB_PID == 0x8054 || USB_PID == 0x804F
+    // Arduino MKR FOX 1200, MKR GSM 1400, MKR NB 1500, MKR Vidor 4000, MKR WAN 1300, MKR WAN 1310, MKR WIFI 1010 & MKR ZERO.
+
+    sercom = SERCOM5;
+
+#elif USB_PID == 0x804D
+    // Arduino Zero.
+
+    sercom = SERCOM0;
+#endif
 #endif
 #endif
 

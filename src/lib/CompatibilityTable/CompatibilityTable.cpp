@@ -2,8 +2,8 @@
  * @file CompatibilityTable.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Compatibility Table is used to determine if the current device is compatible with CRSF for Arduino.
- * @version 0.3.2
- * @date 2023-06-03
+ * @version 0.3.3
+ * @date 2023-07-18
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -28,61 +28,139 @@
 
 CompatibilityTable::CompatibilityTable()
 {
+// TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
+// #if ARDUINO >= 10700
+
+// Arduino SAMD Architecture
 #if defined(ARDUINO_ARCH_SAMD)
-#if defined(ADAFRUIT_FEATHER_M0)
+
+// Adafruit devboards
+#if USB_VID == 0x239A
+
+#if defined(__SAMD21G18A__)
+// Adafruit Feather M0
+#if USB_PID == 0x800B
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M0;
-#elif defined(ADAFRUIT_FEATHER_M0_EXPRESS)
+// Adafruit Feather M0 Express
+#elif USB_PID == 0x801B
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M0_EXPRESS;
-#elif defined(ADAFRUIT_ITSYBITSY_M0)
+// Adafruit ItsyBitsy M0
+#elif USB_PID == 0x800F
     device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_M0_EXPRESS;
-#elif defined(ADAFRUIT_METRO_M0_EXPRESS)
+// Adafruit Metro M0 Express
+#elif USB_PID == 0x8013
     device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M0_EXPRESS;
-#elif defined(ADAFRUIT_QTPY_M0)
-    device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_M0;
-#elif defined(ADAFRUIT_TRINKET_M0)
-    device.type.devboard = DEVBOARD_ADAFRUIT_TRINKET_M0;
-#elif defined(ADAFRUIT_FEATHER_M4_EXPRESS)
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+
+#elif defined(__SAMD51J19A__)
+// Adafruit Feather M4 Express
+#if USB_PID == 0x8031
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M4_EXPRESS;
-#elif defined(ADAFRUIT_GRAND_CENTRAL_M4)
-    device.type.devboard = DEVBOARD_ADAFRUIT_GRAND_CENTRAL_M4;
-#elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-    device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_M4_EXPRESS;
-#elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
-    device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M4_AIRLIFT_LITE;
-#elif defined(ADAFRUIT_METRO_M4_EXPRESS)
+// Adafruit Metro M4 Express
+#elif USB_PID == 0x8020
     device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M4_EXPRESS;
-#elif defined(ADAFRUIT_FEATHER_M4_CAN)
+// Adafruit Metro M4 AirLift Lite
+#elif USB_PID == 0x8037
+    device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M4_AIRLIFT_LITE;
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+
+#elif defined(__SAMD51G19A__)
+// Adafruit ItsyBitsy M4 Express
+#if USB_PID == 0x802B
+    device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_M4_EXPRESS;
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+
+#elif defined(__SAMD51P20A__)
+// Adafruit Grand Central M4
+#if USB_PID == 0x8020
+    device.type.devboard = DEVBOARD_ADAFRUIT_GRAND_CENTRAL_M4;
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+
+#elif defined(__SAME51J19A__)
+// Adafruit Feather M4 CAN
+#if USB_PID == 0x80CD
     device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M4_CAN;
-#elif defined(ARDUINO_SAMD_MKR1000)
-    device.type.devboard = DEVBOARD_ARDUINO_MKR1000;
-#elif defined(ARDUINO_SAMD_MKRFox1200)
-    device.type.devboard = DEVBOARD_ARDUINO_MKRFox1200;
-#elif defined(ARDUINO_SAMD_MKRGSM1400)
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
+// Arduino devboards
+#elif USB_VID == 0x2341
+
+#if defined(__SAMD21G18A__)
+// Arduino MKRFOX1200
+#if USB_PID == 0x8050
+    device.type.devboard = DEVBOARD_ARDUINO_MKRFOX1200;
+// Arduino MKRGSM1400
+#elif USB_PID == 0x8052
     device.type.devboard = DEVBOARD_ARDUINO_MKRGSM1400;
-#elif defined(ARDUINO_SAMD_MKRNB1500)
+// Arduino MKRNB1500
+#elif USB_PID == 0x8055
     device.type.devboard = DEVBOARD_ARDUINO_MKRNB1500;
-#elif defined(ARDUINO_SAMD_MKRVIDOR4000)
+// Arduino MKRVIDOR4000
+#elif USB_PID == 0x8056
     device.type.devboard = DEVBOARD_ARDUINO_MKRVIDOR4000;
-#elif defined(ARDUINO_SAMD_MKRWAN1300)
+// Arduino MKRWAN1300
+#elif USB_PID == 0x8053
     device.type.devboard = DEVBOARD_ARDUINO_MKRWAN1300;
-#elif defined(ARDUINO_SAMD_MKRWAN1310)
+// Arduino MKRWAN1310
+#elif USB_PID == 0x8059
     device.type.devboard = DEVBOARD_ARDUINO_MKRWAN1310;
-#elif defined(ARDUINO_SAMD_MKRWIFI1010)
+// Arduino MKRWiFi1010
+#elif USB_PID == 0x8054
     device.type.devboard = DEVBOARD_ARDUINO_MKRWIFI1010;
-#elif defined(ARDUINO_SAMD_MKRZERO)
+// Arduino MKRZERO
+#elif USB_PID == 0x804F
     device.type.devboard = DEVBOARD_ARDUINO_MKRZERO;
-#elif defined(ARDUINO_SAMD_NANO_33_IOT)
-    device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
-#elif defined(ARDUINO_SAMD_ZERO)
+// Arduino Zero
+#elif USB_PID == 0x804D
     device.type.devboard = DEVBOARD_ARDUINO_ZERO;
+// Device is not supported
 #else
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #warning "Devboard not supported. Please check the compatibility table."
-#endif // ADAFRUIT_FEATHER_M0 etc
-#else
-    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
+#else // Incompatible devboards
 #warning "Devboard not supported. Please check the compatibility table."
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif // ARDUINO_SAMD_ADAFRUIT
+
+#else // Unsupported architecture
+#error "Unsupported architecture. Please check the compatibility table."
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
+
+    // #else
+    // #error "This library requires Arduino IDE 1.7.0 or greater. Please update your IDE."
+    // #endif // ARDUINO >= 10700
 }
 
 bool CompatibilityTable::isDevboardCompatible(const char *name)
