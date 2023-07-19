@@ -27,7 +27,8 @@
 #pragma once
 
 #if defined(ARDUINO_ARCH_SAMD)
-#define USE_DMA
+// Temporarily disable DMA on SAMD boards while I flesh out telemetry support.
+// #define USE_DMA
 #endif
 
 #include "Arduino.h"
