@@ -61,7 +61,7 @@ CompatibilityTable CT = CompatibilityTable();
  */
 
 #ifdef USE_DMA
-volatile bool _dmaTransferDone = false;
+volatile bool _dmaRxTransferDone = false;
 #endif
 
 /**
@@ -138,13 +138,13 @@ bool CRSFforArduino::begin()
     /* Configure the DMA. */
     _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
-    _dmaStatus = _dmaSerialRx.allocate();
-    if (_dmaStatus != DMA_STATUS_OK)
+    _dmaRxStatus = _dmaSerialRx.allocate();
+    if (_dmaRxStatus != DMA_STATUS_OK)
     {
         return false;
     }
 
-    /* Configure the DMA descriptor. */
+    /* Configure the DMA descriptors. */
     _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
 #if defined(ARDUINO_ARCH_SAMD)
         (void *)(&_sercom->USART.DATA.reg),
@@ -164,11 +164,11 @@ bool CRSFforArduino::begin()
     // _dmaSerialRx.loop(true);
 
     /* Configure the DMA callback. */
-    _dmaSerialRx.setCallback(_dmaTransferDoneCallback);
+    _dmaSerialRx.setCallback(_dmaSerialRxCallback);
 
     /* Start the DMA. */
-    _dmaStatus = _dmaSerialRx.startJob();
-    if (_dmaStatus != DMA_STATUS_OK)
+    _dmaRxStatus = _dmaSerialRx.startJob();
+    if (_dmaRxStatus != DMA_STATUS_OK)
     {
         return false;
     }
@@ -194,9 +194,9 @@ void CRSFforArduino::end()
 bool CRSFforArduino::update()
 {
 #ifdef USE_DMA
-    if (_dmaTransferDone == true)
+    if (_dmaRxTransferDone == true)
     {
-        _dmaTransferDone = false;
+        _dmaRxTransferDone = false;
 #else
     while (_serial->available() > 0)
     {
@@ -246,8 +246,8 @@ bool CRSFforArduino::update()
 
 #ifdef USE_DMA
         // Restart the DMA.
-        _dmaStatus = _dmaSerialRx.startJob();
-        if (_dmaStatus != DMA_STATUS_OK)
+        _dmaRxStatus = _dmaSerialRx.startJob();
+        if (_dmaRxStatus != DMA_STATUS_OK)
         {
             return false;
         }
@@ -410,11 +410,11 @@ Sercom *CRSFforArduino::_getSercom()
 #endif
 
 #ifdef USE_DMA
-void _dmaTransferDoneCallback(Adafruit_ZeroDMA *dma)
+void _dmaSerialRxCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;
 
     /* Set the DMA Transfer Done flag. */
-    _dmaTransferDone = true;
+    _dmaRxTransferDone = true;
 }
 #endif
