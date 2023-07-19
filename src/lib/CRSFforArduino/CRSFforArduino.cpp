@@ -364,6 +364,10 @@ Sercom *CRSFforArduino::_getSercom()
 #elif defined(SEEED_XIAO_M0)
     sercom = SERCOM4;
 
+/* Seeed Studio XIAO SAMD21. */
+#elif defined(SEEED_XIAO_M0)
+    sercom = SERCOM4;
+
 /* Arduino Zero. */
 #elif defined(ARDUINO_SAMD_ZERO)
     sercom = SERCOM0;
