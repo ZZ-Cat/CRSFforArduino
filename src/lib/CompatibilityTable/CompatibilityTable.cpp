@@ -135,10 +135,23 @@ CompatibilityTable::CompatibilityTable()
 #elif USB_PID == 0x804F
     device.type.devboard = DEVBOARD_ARDUINO_MKRZERO;
 // Arduino Zero
-#elif defined(SEEED_XIAO_M0)
-    device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_M0;
 #elif USB_PID == 0x804D
     device.type.devboard = DEVBOARD_ARDUINO_ZERO;
+// Device is not supported
+#else
+    device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#warning "Devboard not supported. Please check the compatibility table."
+#endif
+#endif
+
+// Seeed Studio devboards
+#elif USB_VID == 0x2886
+
+#if defined(__SAMD21G18A__)
+// Seeed Studio XIAO SAMD21
+#if USB_PID == 0x802F
+    device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_M0;
+
 // Device is not supported
 #else
     device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;

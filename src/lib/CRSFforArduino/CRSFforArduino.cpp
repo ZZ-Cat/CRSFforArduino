@@ -360,16 +360,6 @@ Sercom *CRSFforArduino::_getSercom()
 #if USB_PID == 0x800B || USB_PID == 0x801B || USB_PID == 0x800F || USB_PID == 0x8013
     // Adafruit Feather M0, Feather M0 Express, ItsyBitsy M0 & Metro M0 Express.
 
-/* Seeed Studio XIAO SAMD21. */
-#elif defined(SEEED_XIAO_M0)
-    sercom = SERCOM4;
-
-/* Seeed Studio XIAO SAMD21. */
-#elif defined(SEEED_XIAO_M0)
-    sercom = SERCOM4;
-
-/* Arduino Zero. */
-#elif defined(ARDUINO_SAMD_ZERO)
     sercom = SERCOM0;
 #endif
 
@@ -432,6 +422,20 @@ Sercom *CRSFforArduino::_getSercom()
 
     sercom = SERCOM0;
 #endif
+#endif
+
+#elif USB_VID == 0x2886
+    // Seeed Studio devboards
+
+#if defined(__SAMD21G18A__)
+    // Devboards that use the SAMD21G18A chip.
+
+#if USB_PID == 0x802F
+    // Seed Studio XIAO SAMD21.
+
+    sercom = SERCOM4;
+#endif
+
 #endif
 #endif
 
