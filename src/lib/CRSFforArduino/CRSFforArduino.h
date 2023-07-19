@@ -199,9 +199,12 @@ class CRSFforArduino
 
 #ifdef USE_DMA
     /* DMA */
+    Adafruit_ZeroDMA _dmaSerialTx;
     Adafruit_ZeroDMA _dmaSerialRx;
+    DmacDescriptor *_dmaSerialTxDescriptor;
     DmacDescriptor *_dmaSerialRxDescriptor;
-    ZeroDMAstatus _dmaStatus;
+    ZeroDMAstatus _dmaTxStatus;
+    ZeroDMAstatus _dmaRxStatus;
 #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
@@ -211,8 +214,14 @@ class CRSFforArduino
 
 #ifdef USE_DMA
 /**
- * @brief DMA transfer done callback
+ * @brief DMA RX transfer done callback.
  *
  */
-void _dmaTransferDoneCallback(Adafruit_ZeroDMA *);
+void _dmaSerialRxCallback(Adafruit_ZeroDMA *dma);
+
+/**
+ * @brief DMA TX transfer done callback.
+ *
+ */
+void _dmaSerialTxCallback(Adafruit_ZeroDMA *dma);
 #endif
