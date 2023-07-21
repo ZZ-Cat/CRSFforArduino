@@ -1,6 +1,6 @@
 name: Submit a bug report
 description: Create a bug report & help me improve CRSF for Arduino
-labels: ["🐞 Bug 🐞"]
+labels: ["🐞 Bug 🐞", "Pending 📌"]
 body:
   - type: markdown
     attributes:
