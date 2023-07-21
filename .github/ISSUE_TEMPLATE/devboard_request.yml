@@ -1,0 +1,33 @@
+name: Devboard Compatibility Request
+description: Can you add my devboard to the Compatibility Table?
+labels: ["✨️ Enhancement ✨️"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Request your development board to be added to CRSF for Arduino's Compatibility Table.
+  - type: checkboxes
+    attributes:
+      label: Minimum requirements
+      description: |
+        Your devboard _must_ meet these requirements in order for it to be compatible with CRSF for Arduino.
+        Please check your development board's documentation & the data sheet of its host microcontroller for more information.
+      options:
+        - label: Core clock speed is 48 MHz or faster?
+          required: true
+        - label: Is the CPU an ARM Cortex M0+ or later?
+          required: true
+        - label: Is the host microcontroller's UART peripheral able to support 420,000 (or higher) baud rate(s)?
+          required: true
+        - label: Is your development board currently supported in the Arduino IDE?
+          required: true
+  -type: textarea
+    attributes:
+      label: What development board would you like me to add?
+      description: |
+        Provide a clear & concise description of what your devboard is, what its host microcontroller is,
+        & provide links to the development board's documentation & the data sheet of its host microcontroller.
+      placeholder: |
+        My development board is...
+      validations:
+        required: true
