@@ -115,18 +115,6 @@ bool CRSFforArduino::begin()
 
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_sercom = _getSercom();
-
-    /* Change the data order to MSB First.
-    The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
-    The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
-    Then re-enable the peripheral again. */
-    _sercom->USART.CTRLA.bit.ENABLE = 0;
-    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
-        ;
-    _sercom->USART.CTRLA.bit.DORD = 1;
-    _sercom->USART.CTRLA.bit.ENABLE = 1;
-    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
-        ;
 #endif
 
     _packetReceived = false;
