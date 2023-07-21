@@ -113,10 +113,6 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
-#if defined(ARDUINO_ARCH_SAMD)
-    Sercom *_sercom = _getSercom();
-#endif
-
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -124,6 +120,10 @@ bool CRSFforArduino::begin()
     memset(_channels, 0, sizeof(_channels));
 
 #ifdef USE_DMA
+#if defined(ARDUINO_ARCH_SAMD)
+    Sercom *_sercom = _getSercom();
+#endif
+
     /* Configure the DMA. */
     _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
