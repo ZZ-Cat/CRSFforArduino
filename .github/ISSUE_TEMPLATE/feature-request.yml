@@ -1,0 +1,51 @@
+name: Submit a feature request
+description: Suggest an idea for CRSF for Arduino to help make it better.
+labels: ["✨️ Enhancement ✨️"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an idea for CRSF for Arduino!
+        
+        If your idea is still in its early stages or you're not sure if it will benefit my project,
+        you can open a discussion in the [Ideas](https://github.com/ZZ-Cat/CRSFforArduino/discussions/categories/ideas) category instead.
+  - type: checkboxes
+    attributes:
+      label: Is there already an issue for this?
+      description: Please check if there is already an issue for this feature request.
+      options:
+        - label: I have searched the issues and there is no existing issue for this feature request.
+          required: true
+  - type: textarea
+    attributes:
+      label: Is your feature request related to a problem?
+      description: Please provide a clear & concise description of what the problem is.
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the solution you'd like
+      description: Please provide a clear & concise description of what you want to happen.
+      placeholder: I'd like to be able to [...]
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe alternatives you've considered
+      description: Please provide a clear & concise description of any alternative solutions or features you've considered.
+      placeholder: |
+        I have considered [...]
+        But it will not work because [...]
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Please provide any other context or screenshots about the feature request here.
+      placeholder: |
+        Add any other context or screenshots about the feature request here.
+        EG: I am using [...]
+        EG: I am using the following version of CRSF for Arduino [...]
+    validations:
+      required: false
