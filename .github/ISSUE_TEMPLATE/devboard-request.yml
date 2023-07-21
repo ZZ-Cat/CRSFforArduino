@@ -27,6 +27,6 @@ body:
       description: |
         Provide a clear & concise description of what your devboard is, what its host microcontroller is,
         & provide links to the development board's documentation & the data sheet of its host microcontroller.
-      placeholder: |
-        My development board is...
-      required: true
+      placeholder: My development board is...
+      validations:
+        required: true
