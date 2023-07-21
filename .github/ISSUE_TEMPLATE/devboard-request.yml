@@ -29,5 +29,4 @@ body:
         & provide links to the development board's documentation & the data sheet of its host microcontroller.
       placeholder: |
         My development board is...
-      validations:
-        required: true
+      required: true
