@@ -1,0 +1,111 @@
+name: Bug report
+description: Create a bug report & help me improve CRSF for Arduino
+label: ["🐞 Bug 🐞"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug in CRSF for Arduino.
+        Please fill out the form below to help me improve CRSF for Arduino.
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this bug?
+      description: Please check if there is already an issue for this bug.
+      options: 
+        - label: I have searched the issues and there is no existing issue for this bug.
+          required: true
+  - type: dropdown
+    id: development-environment
+    attributes:
+      label: What development environment are you using?
+      description: Are you using the Arduino IDE or PlatformIO?
+      options:
+        - Arduino IDE
+        - PlatformIO
+    validations:
+      required: true
+  - type: dropdown
+    id: board
+    attributes:
+      label: What board are you using?
+      description: |
+        Please select the board you are using.
+        Please note that only the boards listed below are supported.
+      options:
+        - Adafruit Feather M0 (Any variants EG Bluefruit LE, LoRa, etc)
+        - Adafruit Feather M0 Express
+        - Adafruit Feather M4 Express
+        - Adafruit Feather M4 CAN Express
+        - Adafruit Grand Central M4
+        - Adafruit ItsyBitsy M0 Express
+        - Adafruit ItsyBitsy M4 Express
+        - Adafruit Metro M0 Express
+        - Adafruit Metro M4 Express
+        - Adafruit Metro M4 AirLift Lite
+        - Adafruit QtPy M0
+        - Adafruit Trinket M0
+        - Arduino MKR 1000
+        - Arduino MKR FOX 1200
+        - Arduino MKR GSM 1400
+        - Arduino MKR NB 1500
+        - Arduino MKR VIDOR 4000
+        - Arduino MKR WAN 1300
+        - Arduino MKR WAN 1310
+        - Arduino MKR WiFi 1010
+        - Arduino MKR ZERO
+        - Arduino Nano 33 IoT
+        - Arduino Zero
+    validations:
+      required: true
+  - type: dropdown
+    id: bug-type
+    attributes:
+      label: What part of CRSF for Arduino is this bug related to?
+      description: Please select the part of CRSF for Arduino that this bug is related to.
+      options:
+        - Build/Compile/Upload
+        - Compatibility Table
+        - RC Channels
+        - Other (please specify)
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current behaviour
+      description: Provide a clear & concise description of the bug.
+      placeholder: |
+        A clear and concise description of what the bug is.
+        EG: When I try to compile the code I get this error...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: Provide a clear & concise description of what you expected to happen.
+      placeholder: |
+        A clear and concise description of what you expected to happen.
+        EG: The code should compile without any errors.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Provide a clear & concise description of how to reproduce the bug.
+        Please include any code that is required to reproduce the bug.
+      placeholder: |
+        A clear and concise description of how to reproduce the bug.
+        EG: To reproduce the bug, compile the code with the following settings...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: |
+        Provide any additional information that may be relevant to the bug.
+        EG: I am using the following version of the Arduino IDE...
+
+        Tip: You can paste code, logs, or config files into the text box below.
+        Screenshots can also be pasted into the text box below.
+    validations:
+      required: false
