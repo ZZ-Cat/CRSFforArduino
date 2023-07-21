@@ -139,16 +139,16 @@ typedef enum __crsf_address_e
 // RC Channels Packed. 22 bytes (11 bits per channel, 16 channels) total.
 struct __crsf_rcChannelsPacked_s
 {
-    uint16_t channel0 : 11;
-    uint16_t channel1 : 11;
-    uint16_t channel2 : 11;
-    uint16_t channel3 : 11;
-    uint16_t channel4 : 11;
-    uint16_t channel5 : 11;
-    uint16_t channel6 : 11;
-    uint16_t channel7 : 11;
-    uint16_t channel8 : 11;
-    uint16_t channel9 : 11;
+    uint16_t channel0  : 11;
+    uint16_t channel1  : 11;
+    uint16_t channel2  : 11;
+    uint16_t channel3  : 11;
+    uint16_t channel4  : 11;
+    uint16_t channel5  : 11;
+    uint16_t channel6  : 11;
+    uint16_t channel7  : 11;
+    uint16_t channel8  : 11;
+    uint16_t channel9  : 11;
     uint16_t channel10 : 11;
     uint16_t channel11 : 11;
     uint16_t channel12 : 11;
