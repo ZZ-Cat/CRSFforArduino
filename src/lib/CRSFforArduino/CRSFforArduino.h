@@ -2,8 +2,8 @@
  * @file CRSFforArduino.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
- * @version 0.3.3
- * @date 2023-07-18
+ * @version 0.3.4
+ * @date 2023-07-21
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -136,6 +136,29 @@ typedef enum __crsf_address_e
     CRSF_ADDRESS_CRSF_TRANSMITTER = 0xEE
 } __crsf_address_t;
 
+// RC Channels Packed. 22 bytes (11 bits per channel, 16 channels) total.
+struct __crsf_rcChannelsPacked_s
+{
+    uint16_t channel0  : 11;
+    uint16_t channel1  : 11;
+    uint16_t channel2  : 11;
+    uint16_t channel3  : 11;
+    uint16_t channel4  : 11;
+    uint16_t channel5  : 11;
+    uint16_t channel6  : 11;
+    uint16_t channel7  : 11;
+    uint16_t channel8  : 11;
+    uint16_t channel9  : 11;
+    uint16_t channel10 : 11;
+    uint16_t channel11 : 11;
+    uint16_t channel12 : 11;
+    uint16_t channel13 : 11;
+    uint16_t channel14 : 11;
+    uint16_t channel15 : 11;
+} __attribute__((packed));
+
+typedef struct __crsf_rcChannelsPacked_s __crsf_rcChannelsPacked_t;
+
 typedef struct __crsf_frameDefinition_s
 {
     uint8_t deviceAddress;                                          // Frame address.
@@ -168,6 +191,7 @@ class CRSFforArduino
     HardwareSerial *_serial;
     uint16_t _channels[RC_CHANNEL_COUNT];
     __crsf_frame_t _crsfFrame;
+    __crsf_frame_t _crsfRcChannelsPackedFrame;
 
     /* CRC */
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);

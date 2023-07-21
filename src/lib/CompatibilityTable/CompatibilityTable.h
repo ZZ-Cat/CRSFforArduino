@@ -2,8 +2,8 @@
  * @file CompatibilityTable.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Compatibility Table is used to determine if the current device is compatible with CRSF for Arduino.
- * @version 0.3.3
- * @date 2023-07-18
+ * @version 0.3.4
+ * @date 2023-07-21
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

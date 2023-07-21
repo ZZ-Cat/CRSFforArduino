@@ -219,11 +219,15 @@ While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, 
 
 Compatibility with other microcontroller boards may be added in future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
 
-Generally speaking, if the host microcontroller's UART peripheral supports 420k bauds (or higher), it is a likely candidate for CRSF for Arduino. Bonus points if the microcontroller has DMA (Direct Memory Access), because this helps immensely to capture RC data & send out telemetry data.
+In order for CRSF for Arduino to run, the host microcontroller _must_ meet these minimum requirements:
 
-The only limitation so far is the microcontroller's ability to change the UART's data order. CRSF requires data to be transmitted & received in MSB (Most Significant Bit) First. Traditionally, UART is transmitted & received in LSB (Least Significant Bit) First. ATSAMD21 & ATSAMD51 microcontrollers are the only two Arduino-compatible microcontrollers (that I am aware of) that have the ability to select what data order the UART is sent & received as.
+- Core Clock Speed: 48 MHz or higher.
+- CPU: ARM Cortex M0+ or later.
+- UART Baud Rate: 420 KB/s.
 
 I am now aware that Arduino are making an R4 of their UNO & Adafruit are making a Metro M7. This is exciting news for me, because I would like to make these development boards fully compatible with CRSF for Arduino as & when their respective underlying code & toolchain support is added.
+
+As for other development boards (& their host microcontrollers), if they meet the minimum requirements & you are still having compatibility issues, it is likely that I have not yet added your board to the Compatibility Table. Consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & we can go from there.
 
 ## AVR based microcontrollers are not compatible
 

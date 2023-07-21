@@ -2,8 +2,8 @@
  * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
- * @version 0.3.3
- * @date 2023-07-18
+ * @version 0.3.4
+ * @date 2023-07-21
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -113,28 +113,17 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
-#if defined(ARDUINO_ARCH_SAMD)
-    Sercom *_sercom = _getSercom();
-
-    /* Change the data order to MSB First.
-    The CTRLA Register is enable protected, so it needs to be disabled before writing to it.
-    The Enable Bit is write syncronised. Therefore, a wait for sync is necessary.
-    Then re-enable the peripheral again. */
-    _sercom->USART.CTRLA.bit.ENABLE = 0;
-    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
-        ;
-    _sercom->USART.CTRLA.bit.DORD = 1;
-    _sercom->USART.CTRLA.bit.ENABLE = 1;
-    while (_sercom->USART.SYNCBUSY.bit.ENABLE)
-        ;
-#endif
-
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+    memset(_crsfRcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_channels, 0, sizeof(_channels));
 
 #ifdef USE_DMA
+#if defined(ARDUINO_ARCH_SAMD)
+    Sercom *_sercom = _getSercom();
+#endif
+
     /* Configure the DMA. */
     _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
     _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
@@ -211,29 +200,12 @@ bool CRSFforArduino::update()
             // Check if the packet is a CRSF frame.
             if (_crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
             {
-                // uint8_t payloadSize = _crsfFrame.frame.frameLength - 2;
 
                 // Check if the packet is a CRSF RC frame.
                 if (_crsfFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
                 {
                     // Read the RC channels.
-                    // 11 bits per channel, 16 channels = 176 bits = 22 bytes.
-                    _channels[0] = (uint16_t)((_crsfFrame.frame.payload[0] | _crsfFrame.frame.payload[1] << 8) & 0x07FF);
-                    _channels[1] = (uint16_t)((_crsfFrame.frame.payload[1] >> 3 | _crsfFrame.frame.payload[2] << 5) & 0x07FF);
-                    _channels[2] = (uint16_t)((_crsfFrame.frame.payload[2] >> 6 | _crsfFrame.frame.payload[3] << 2 | _crsfFrame.frame.payload[4] << 10) & 0x07FF);
-                    _channels[3] = (uint16_t)((_crsfFrame.frame.payload[4] >> 1 | _crsfFrame.frame.payload[5] << 7) & 0x07FF);
-                    _channels[4] = (uint16_t)((_crsfFrame.frame.payload[5] >> 4 | _crsfFrame.frame.payload[6] << 4) & 0x07FF);
-                    _channels[5] = (uint16_t)((_crsfFrame.frame.payload[6] >> 7 | _crsfFrame.frame.payload[7] << 1 | _crsfFrame.frame.payload[8] << 9) & 0x07FF);
-                    _channels[6] = (uint16_t)((_crsfFrame.frame.payload[8] >> 2 | _crsfFrame.frame.payload[9] << 6) & 0x07FF);
-                    _channels[7] = (uint16_t)((_crsfFrame.frame.payload[9] >> 5 | _crsfFrame.frame.payload[10] << 3) & 0x07FF);
-                    _channels[8] = (uint16_t)((_crsfFrame.frame.payload[11] | _crsfFrame.frame.payload[12] << 8) & 0x07FF);
-                    _channels[9] = (uint16_t)((_crsfFrame.frame.payload[12] >> 3 | _crsfFrame.frame.payload[13] << 5) & 0x07FF);
-                    _channels[10] = (uint16_t)((_crsfFrame.frame.payload[13] >> 6 | _crsfFrame.frame.payload[14] << 2 | _crsfFrame.frame.payload[15] << 10) & 0x07FF);
-                    _channels[11] = (uint16_t)((_crsfFrame.frame.payload[15] >> 1 | _crsfFrame.frame.payload[16] << 7) & 0x07FF);
-                    _channels[12] = (uint16_t)((_crsfFrame.frame.payload[16] >> 4 | _crsfFrame.frame.payload[17] << 4) & 0x07FF);
-                    _channels[13] = (uint16_t)((_crsfFrame.frame.payload[17] >> 7 | _crsfFrame.frame.payload[18] << 1 | _crsfFrame.frame.payload[19] << 9) & 0x07FF);
-                    _channels[14] = (uint16_t)((_crsfFrame.frame.payload[19] >> 2 | _crsfFrame.frame.payload[20] << 6) & 0x07FF);
-                    _channels[15] = (uint16_t)((_crsfFrame.frame.payload[20] >> 5 | _crsfFrame.frame.payload[21] << 3) & 0x07FF);
+                    memcpy(&_crsfRcChannelsPackedFrame, &_crsfFrame, CRSF_FRAME_SIZE_MAX);
 
                     // Set the packet received flag.
                     _packetReceived = true;
@@ -278,6 +250,27 @@ bool CRSFforArduino::packetReceived()
 
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
+    const __crsf_rcChannelsPacked_t *rcChannelsPacked = (__crsf_rcChannelsPacked_t *)&_crsfRcChannelsPackedFrame.frame.payload;
+
+    // Unpack the RC channels.
+    _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+    _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+    _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+    _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+    _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+    _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+    _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+    _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+    _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+    _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+    _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+    _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+    _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+    _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+    _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+    _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+
+    // Return the requested channel.
     return _channels[(channel - 1) % RC_CHANNEL_COUNT];
 }
 
