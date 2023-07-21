@@ -1,5 +1,5 @@
 name: Devboard Compatibility Request
-description: Can you add my devboard to the Compatibility Table?
+description: Tell me which development board you would like me to add to CRSF for Arduino.
 labels: ["✨️ Enhancement ✨️"]
 body:
   - type: markdown
