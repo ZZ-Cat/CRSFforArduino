@@ -21,7 +21,7 @@ body:
           required: true
         - label: Is your development board currently supported in the Arduino IDE?
           required: true
-  -type: textarea
+  - type: textarea
     attributes:
       label: What development board would you like me to add?
       description: |
