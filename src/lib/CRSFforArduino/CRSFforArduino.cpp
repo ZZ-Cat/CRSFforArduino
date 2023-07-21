@@ -218,22 +218,22 @@ bool CRSFforArduino::update()
                 {
                     // Read the RC channels.
                     // 11 bits per channel, 16 channels = 176 bits = 22 bytes.
-                    _channels[0] = (uint16_t)((_crsfFrame.frame.payload[0] | _crsfFrame.frame.payload[1] << 8) & 0x07FF);
-                    _channels[1] = (uint16_t)((_crsfFrame.frame.payload[1] >> 3 | _crsfFrame.frame.payload[2] << 5) & 0x07FF);
-                    _channels[2] = (uint16_t)((_crsfFrame.frame.payload[2] >> 6 | _crsfFrame.frame.payload[3] << 2 | _crsfFrame.frame.payload[4] << 10) & 0x07FF);
-                    _channels[3] = (uint16_t)((_crsfFrame.frame.payload[4] >> 1 | _crsfFrame.frame.payload[5] << 7) & 0x07FF);
-                    _channels[4] = (uint16_t)((_crsfFrame.frame.payload[5] >> 4 | _crsfFrame.frame.payload[6] << 4) & 0x07FF);
-                    _channels[5] = (uint16_t)((_crsfFrame.frame.payload[6] >> 7 | _crsfFrame.frame.payload[7] << 1 | _crsfFrame.frame.payload[8] << 9) & 0x07FF);
-                    _channels[6] = (uint16_t)((_crsfFrame.frame.payload[8] >> 2 | _crsfFrame.frame.payload[9] << 6) & 0x07FF);
-                    _channels[7] = (uint16_t)((_crsfFrame.frame.payload[9] >> 5 | _crsfFrame.frame.payload[10] << 3) & 0x07FF);
-                    _channels[8] = (uint16_t)((_crsfFrame.frame.payload[11] | _crsfFrame.frame.payload[12] << 8) & 0x07FF);
-                    _channels[9] = (uint16_t)((_crsfFrame.frame.payload[12] >> 3 | _crsfFrame.frame.payload[13] << 5) & 0x07FF);
-                    _channels[10] = (uint16_t)((_crsfFrame.frame.payload[13] >> 6 | _crsfFrame.frame.payload[14] << 2 | _crsfFrame.frame.payload[15] << 10) & 0x07FF);
-                    _channels[11] = (uint16_t)((_crsfFrame.frame.payload[15] >> 1 | _crsfFrame.frame.payload[16] << 7) & 0x07FF);
-                    _channels[12] = (uint16_t)((_crsfFrame.frame.payload[16] >> 4 | _crsfFrame.frame.payload[17] << 4) & 0x07FF);
-                    _channels[13] = (uint16_t)((_crsfFrame.frame.payload[17] >> 7 | _crsfFrame.frame.payload[18] << 1 | _crsfFrame.frame.payload[19] << 9) & 0x07FF);
-                    _channels[14] = (uint16_t)((_crsfFrame.frame.payload[19] >> 2 | _crsfFrame.frame.payload[20] << 6) & 0x07FF);
-                    _channels[15] = (uint16_t)((_crsfFrame.frame.payload[20] >> 5 | _crsfFrame.frame.payload[21] << 3) & 0x07FF);
+                    // _channels[0] = (uint16_t)((_crsfFrame.frame.payload[0] | _crsfFrame.frame.payload[1] << 8) & 0x07FF);
+                    // _channels[1] = (uint16_t)((_crsfFrame.frame.payload[1] >> 3 | _crsfFrame.frame.payload[2] << 5) & 0x07FF);
+                    // _channels[2] = (uint16_t)((_crsfFrame.frame.payload[2] >> 6 | _crsfFrame.frame.payload[3] << 2 | _crsfFrame.frame.payload[4] << 10) & 0x07FF);
+                    // _channels[3] = (uint16_t)((_crsfFrame.frame.payload[4] >> 1 | _crsfFrame.frame.payload[5] << 7) & 0x07FF);
+                    // _channels[4] = (uint16_t)((_crsfFrame.frame.payload[5] >> 4 | _crsfFrame.frame.payload[6] << 4) & 0x07FF);
+                    // _channels[5] = (uint16_t)((_crsfFrame.frame.payload[6] >> 7 | _crsfFrame.frame.payload[7] << 1 | _crsfFrame.frame.payload[8] << 9) & 0x07FF);
+                    // _channels[6] = (uint16_t)((_crsfFrame.frame.payload[8] >> 2 | _crsfFrame.frame.payload[9] << 6) & 0x07FF);
+                    // _channels[7] = (uint16_t)((_crsfFrame.frame.payload[9] >> 5 | _crsfFrame.frame.payload[10] << 3) & 0x07FF);
+                    // _channels[8] = (uint16_t)((_crsfFrame.frame.payload[11] | _crsfFrame.frame.payload[12] << 8) & 0x07FF);
+                    // _channels[9] = (uint16_t)((_crsfFrame.frame.payload[12] >> 3 | _crsfFrame.frame.payload[13] << 5) & 0x07FF);
+                    // _channels[10] = (uint16_t)((_crsfFrame.frame.payload[13] >> 6 | _crsfFrame.frame.payload[14] << 2 | _crsfFrame.frame.payload[15] << 10) & 0x07FF);
+                    // _channels[11] = (uint16_t)((_crsfFrame.frame.payload[15] >> 1 | _crsfFrame.frame.payload[16] << 7) & 0x07FF);
+                    // _channels[12] = (uint16_t)((_crsfFrame.frame.payload[16] >> 4 | _crsfFrame.frame.payload[17] << 4) & 0x07FF);
+                    // _channels[13] = (uint16_t)((_crsfFrame.frame.payload[17] >> 7 | _crsfFrame.frame.payload[18] << 1 | _crsfFrame.frame.payload[19] << 9) & 0x07FF);
+                    // _channels[14] = (uint16_t)((_crsfFrame.frame.payload[19] >> 2 | _crsfFrame.frame.payload[20] << 6) & 0x07FF);
+                    // _channels[15] = (uint16_t)((_crsfFrame.frame.payload[20] >> 5 | _crsfFrame.frame.payload[21] << 3) & 0x07FF);
 
                     // Set the packet received flag.
                     _packetReceived = true;
