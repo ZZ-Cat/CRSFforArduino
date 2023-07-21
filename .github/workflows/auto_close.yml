@@ -15,6 +15,6 @@ jobs:
           days-before-stale: 30
           days-before-close: 60
           stale-issue-label: 'Stale 🚮'
-          exempt-issue-labels: '🚨 Help Wanted 🚨'
+          exempt-issue-labels: '🚨 Help Wanted 🚨, Note to self ✏️🗒, Pending 📌'
           stale-pr-label: 'Stale 🚮'
-          exempt-pr-labels: 'Bug Fix 👋🐞💥, 🚨 Help Wanted 🚨'
+          exempt-pr-labels: 'Bug Fix 👋🐞💥, 🚨 Help Wanted 🚨, ⤴️ Rebase Needed ⤴️'
