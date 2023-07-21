@@ -1,4 +1,4 @@
-name: Bug report
+name: Submit a bug report
 description: Create a bug report & help me improve CRSF for Arduino
 labels: ["🐞 Bug 🐞"]
 body:
