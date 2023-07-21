@@ -227,6 +227,8 @@ In order for CRSF for Arduino to run, the host microcontroller _must_ meet these
 
 I am now aware that Arduino are making an R4 of their UNO & Adafruit are making a Metro M7. This is exciting news for me, because I would like to make these development boards fully compatible with CRSF for Arduino as & when their respective underlying code & toolchain support is added.
 
+As for other development boards (& their host microcontrollers), if they meet the minimum requirements & you are still having compatibility issues, it is likely that I have not yet added your board to the Compatibility Table. Consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & we can go from there.
+
 ## AVR based microcontrollers are not compatible
 
 Development boards of yesteryear that were built around ATmega AVR microcontrollers such as the 328, 32u4, 2560 & 4809 are incompatible with CRSF for Arduino.
