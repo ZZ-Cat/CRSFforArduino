@@ -155,12 +155,18 @@ bool CRSFforArduino::begin()
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaSerialRxCallback);
 
+    /* Flush the serial buffer. */
+    _flushSerial();
+
     /* Start the DMA. */
     _dmaRxStatus = _dmaSerialRx.startJob();
     if (_dmaRxStatus != DMA_STATUS_OK)
     {
         return false;
     }
+#else
+    /* Flush the serial buffer. */
+    _flushSerial();
 #endif
 
     return true;
@@ -172,6 +178,7 @@ bool CRSFforArduino::begin()
  */
 void CRSFforArduino::end()
 {
+    _flushSerial();
     _serial->end();
 }
 
@@ -401,6 +408,15 @@ Sercom *CRSFforArduino::_getSercom()
     return sercom;
 }
 #endif
+
+void CRSFforArduino::_flushSerial()
+{
+    _serial->flush();
+    while (_serial->available() > 0)
+    {
+        _serial->read();
+    }
+}
 
 #ifdef USE_DMA
 void _dmaSerialRxCallback(Adafruit_ZeroDMA *dma)
