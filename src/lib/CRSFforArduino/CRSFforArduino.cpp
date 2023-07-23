@@ -109,6 +109,9 @@ bool CRSFforArduino::begin()
             ;
     }
 
+    /* Disable interrupts. */
+    noInterrupts();
+
     /* CRSF is 420000 baud 8-bit data, no parity, 1 stop bit. */
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
@@ -130,6 +133,7 @@ bool CRSFforArduino::begin()
     _dmaRxStatus = _dmaSerialRx.allocate();
     if (_dmaRxStatus != DMA_STATUS_OK)
     {
+        interrupts();
         return false;
     }
 
@@ -146,6 +150,7 @@ bool CRSFforArduino::begin()
 
     if (_dmaSerialRxDescriptor == NULL)
     {
+        interrupts();
         return false;
     }
 
@@ -154,6 +159,9 @@ bool CRSFforArduino::begin()
 
     /* Configure the DMA callback. */
     _dmaSerialRx.setCallback(_dmaSerialRxCallback);
+
+    /* Enable interrupts. */
+    interrupts();
 
     /* Flush the serial buffer. */
     _flushSerial();
@@ -165,6 +173,9 @@ bool CRSFforArduino::begin()
         return false;
     }
 #else
+    /* Enable interrupts. */
+    interrupts();
+
     /* Flush the serial buffer. */
     _flushSerial();
 #endif
