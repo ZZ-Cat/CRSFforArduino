@@ -211,6 +211,8 @@ class CRSFforArduino
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_getSercom(void);
 #endif
+
+    void _flushSerial(void);
 };
 
 #ifdef USE_DMA
