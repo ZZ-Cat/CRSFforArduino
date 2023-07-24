@@ -118,6 +118,7 @@ bool CRSFforArduino::begin()
     /* Initialise telemetry. */
     _telemetryBegin();
 
+    /* Initialise RC channels. */
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -125,6 +126,15 @@ bool CRSFforArduino::begin()
 
     // Set the initial Throttle channel value to 172 (988us).
     _channels[RC_CHANNEL_THROTTLE] = 172;
+
+    // Set all other channel values to 992 (1500us).
+    for (uint8_t i = 0; i < RC_CHANNEL_COUNT; i++)
+    {
+        if (i != RC_CHANNEL_THROTTLE)
+        {
+            _channels[i] = 992;
+        }
+    }
 
 #ifdef USE_DMA
 #if defined(ARDUINO_ARCH_SAMD)
