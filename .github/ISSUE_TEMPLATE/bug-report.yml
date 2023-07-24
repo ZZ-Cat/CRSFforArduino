@@ -55,6 +55,7 @@ body:
         - Arduino MKR ZERO
         - Arduino Nano 33 IoT
         - Arduino Zero
+        - Seeed Studio XIAO SAMD21
     validations:
       required: true
   - type: dropdown

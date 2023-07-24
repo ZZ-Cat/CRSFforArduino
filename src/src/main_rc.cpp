@@ -2,8 +2,8 @@
  * @file main_rc.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates the full capabilities of CRSF for Arduino.
- * @version 0.3.4
- * @date 2023-07-21
+ * @version 0.4.0
+ * @date 2023-07-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -46,7 +46,14 @@ void setup()
     }
 
     // Initialize the CRSFforArduino library.
-    crsf.begin();
+    if (!crsf.begin())
+    {
+        Serial.println("CRSF for Arduino initialization failed!");
+        while (1)
+        {
+            ;
+        }
+    }
 
     // Show the user that the sketch is ready.
     Serial.println("RC Channels Example");

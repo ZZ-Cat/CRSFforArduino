@@ -2,8 +2,8 @@
  * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
- * @version 0.3.4
- * @date 2023-07-21
+ * @version 0.4.0
+ * @date 2023-07-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -98,15 +98,14 @@ bool CRSFforArduino::begin()
     Serial.println(devboardName);
 #endif
 
-    // Incompatible devboards will be caught here.
+    // Check if the devboard is compatible.
     if (CT.isDevboardCompatible(devboardName) != true)
     {
 #ifdef CRSF_DEBUG
         Serial.println("[CRSF for Arduino | ERROR] Devboard is not compatible with CRSF for Arduino.");
 #endif
-        // Stop here, instead of returning false, because CRSF for Arduino is not compatible with this devboard.
-        while (1)
-            ;
+        // Return false to indicate that the devboard is not compatible.
+        return false;
     }
 
     /* CRSF is 420000 baud 8-bit data, no parity, 1 stop bit. */
@@ -122,6 +121,15 @@ bool CRSFforArduino::begin()
 #ifdef USE_DMA
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_sercom = _getSercom();
+
+    /* Check if the SERCOM instance was found. */
+    if (_sercom == NULL)
+    {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
+#endif
+        return false;
+    }
 #endif
 
     /* Configure the DMA. */
@@ -130,6 +138,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.allocate();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 
@@ -146,6 +158,10 @@ bool CRSFforArduino::begin()
 
     if (_dmaSerialRxDescriptor == NULL)
     {
+#ifdef CRSF_DEBUG
+        Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
+#endif
+
         return false;
     }
 
@@ -159,6 +175,10 @@ bool CRSFforArduino::begin()
     _dmaStatus = _dmaSerialRx.startJob();
     if (_dmaStatus != DMA_STATUS_OK)
     {
+#ifdef CRSF_DEBUG
+        Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+        Serial.println(_dmaStatus);
+#endif
         return false;
     }
 #endif
@@ -395,6 +415,20 @@ Sercom *CRSFforArduino::_getSercom()
 
     sercom = SERCOM0;
 #endif
+#endif
+
+#elif USB_VID == 0x2886
+    // Seeed Studio devboards
+
+#if defined(__SAMD21G18A__)
+    // Devboards that use the SAMD21G18A chip.
+
+#if USB_PID == 0x802F
+    // Seed Studio XIAO SAMD21.
+
+    sercom = SERCOM4;
+#endif
+
 #endif
 #endif
 
