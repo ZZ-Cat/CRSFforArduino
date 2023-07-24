@@ -123,7 +123,9 @@ bool CRSFforArduino::begin()
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_crsfRcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-    memset(_channels, 0, sizeof(_channels));
+
+    // Set the initial Throttle channel value to 172 (988us).
+    _channels[RC_CHANNEL_THROTTLE] = 172;
 
 #ifdef USE_DMA
 #if defined(ARDUINO_ARCH_SAMD)
