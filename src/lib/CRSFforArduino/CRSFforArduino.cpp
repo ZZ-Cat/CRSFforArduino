@@ -282,23 +282,30 @@ uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
     const __crsf_rcChannelsPacked_t *rcChannelsPacked = (__crsf_rcChannelsPacked_t *)&_crsfRcChannelsPackedFrame.frame.payload;
 
-    // Unpack the RC channels.
-    _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
-    _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
-    _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
-    _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
-    _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
-    _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
-    _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
-    _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
-    _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
-    _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
-    _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
-    _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
-    _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
-    _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
-    _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
-    _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+    // Check if a packet was received.
+    if (_packetReceived == true)
+    {
+        // Unpack the RC channels.
+        _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+        _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+        _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+        _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+        _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+        _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+        _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+        _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+        _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+        _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+        _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+        _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+        _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+        _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+        _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+        _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+
+        // Clear the packet received flag.
+        _packetReceived = false;
+    }
 
     // Return the requested channel.
     return _channels[(channel - 1) % RC_CHANNEL_COUNT];
