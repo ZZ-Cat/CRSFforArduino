@@ -143,6 +143,20 @@ typedef enum __crsf_address_e
     CRSF_ADDRESS_CRSF_TRANSMITTER = 0xEE
 } __crsf_address_t;
 
+// Schedule array to send telemetry frames.
+typedef enum
+{
+    CRSF_TELEMETRY_FRAME_START_INDEX = 0,
+    // CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
+    // CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
+    // CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
+    // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
+    CRSF_TELEMETRY_FRAME_GPS_INDEX,
+    // CRSF_TELEMETRY_FRAME_HEARTBEAT_INDEX,
+    // CRSF_TELEMETRY_FRAME_VARIO_INDEX,
+    CRSF_TELEMETRY_FRAME_SCHEDULE_MAX
+} __crsf_telemetryFrame_t;
+
 // RC Channels Packed. 22 bytes (11 bits per channel, 16 channels) total.
 struct __crsf_rcChannelsPacked_s
 {
@@ -196,13 +210,34 @@ class CRSFforArduino
     /* CRSF */
     bool _packetReceived;
     HardwareSerial *_serial;
+    uint16_t _crsfFrameCount;
     uint16_t _channels[RC_CHANNEL_COUNT];
     __crsf_frame_t _crsfFrame;
     __crsf_frame_t _crsfRcChannelsPackedFrame;
 
+    /* Telemetry */
+    uint8_t _telemetryFrameIndex;
+    uint8_t _telemetryFrameSchedule[CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
+    void _telemetryBegin(void);
+    void _telemetryInitialiseFrame(void);
+    void _telemetryAppendGPSframe(void);
+    void _telemetryFinaliseFrame(void);
+    void _telemetryProcessFrame(void);
+
     /* CRC */
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
     uint8_t _crsfFrameCRC(void);
+
+    /* Serial Buffer */
+    uint8_t _serialBuffer[CRSF_FRAME_SIZE_MAX];
+    uint8_t _serialBufferIndex;
+    uint8_t _serialBufferLength;
+    void _serialBufferReset(void);
+    uint8_t _serialBufferWriteU8(uint8_t data);
+    uint8_t _serialBufferWriteU16(uint16_t data);
+    uint8_t _serialBufferWriteU32(uint32_t data);
+    uint8_t _serialBufferWriteU16BE(uint16_t data);
+    uint8_t _serialBufferWriteU32BE(uint32_t data);
 
 #ifdef USE_DMA
     /* DMA */
