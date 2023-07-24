@@ -1,9 +1,9 @@
 /**
  * @file CompatibilityTable.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This compatibility table is used to determine if the target development boat is compatible with CRSF for Arduino.
+ * @brief Compatibility Table is used to determine if the current device is compatible with CRSF for Arduino.
  * @version 0.4.0
- * @date 2023-04-25
+ * @date 2023-07-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -73,6 +73,9 @@ class CompatibilityTable
         DEVBOARD_ARDUINO_NANO_33_IOT,
         DEVBOARD_ARDUINO_ZERO,
 
+        // Seeed Studio boards.
+        DEVBOARD_SEEEDSTUDIO_XIAO_M0,
+
         DEVBOARD_COUNT
     } __ct_devboards_t;
 
@@ -112,7 +115,8 @@ class CompatibilityTable
         "Arduino MKRWIFI1010",
         "Arduino MKRZERO",
         "Arduino Nano 33 IoT",
-        "Arduino Zero"};
+        "Arduino Zero",
+        "Seeed Studio Xiao SAMD21"};
 };
 
 // CompatibilityTable CT = CompatibilityTable();

@@ -208,6 +208,7 @@ While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, 
     - MKR Zero
   - Arduino Nano 33 IoT
   - Arduino Zero
+  - Seeed Studio XIAO SAMD21
 - SAMD51 based boards:
   - Adafruit Feather M4 Express
   - Adafruit Grand Central M4
@@ -255,6 +256,7 @@ Here are some examples:
 - These have an equivalent "breadboard-friendly" form factor that is similar to the Arduio Micro & the Arduino Nano:
   - Adafruit Feather M0 (all variants, including the Feather M0 Express)
   - Adafruit Feather M4 Express
+  - Seeed Studio XIAO SAMD21
 - These have the "Arduino R3" form factor - The same shape as the Arduino UNO:
   - Adafruit:
     - Metro M0 Express
@@ -279,6 +281,10 @@ For wiring, here is how you do it:
 - 5V (on the receiver; can also be printed on the receiver as 'vcc' or simply a plus sign '+') goes to the 5V pin of your development board. This power will come directly off of USB power or 5V stepped down from your development board's main power connector.
 - T (or Tx) on your receiver goes to ►Rx/Pin0 on your development board. This step can catch you out, if you're not careful.
 - R (or Rx) on your reciever goes to ◄Tx/Pin1 on your development board. This step can catch you out, if you're not careful.
+
+**NB:** Some development boards (especially smaller ones) may not route the primary UART port to the default 0 & 1 pins, as these pins may be used for other purposes or they simply are not physically available to you on the device.
+As a workaround, CRSF for Arduino automatically selects the closest available pins that has a suitable UART port.
+You _must_ refer to your development board's documentation to determine where your default Tx & Rx pins are. These are the pins that CRSF for Arduino will use.
 
 ## Telemetry
 

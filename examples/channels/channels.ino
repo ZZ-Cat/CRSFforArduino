@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch shows how to receive RC channels from a CRSF receiver using the CRSF for Arduino library.
  * @version 0.4.0
- * @date 2023-04-25
+ * @date 2023-07-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -118,7 +118,14 @@ void setup()
     }
 
     // Initialize the CRSFforArduino library.
-    crsf.begin();
+    if (!crsf.begin())
+    {
+        Serial.println("CRSF for Arduino initialization failed!");
+        while (1)
+        {
+            ;
+        }
+    }
 
     // Show the user that the sketch is ready.
     Serial.println("RC Channels Example");
