@@ -116,6 +116,9 @@ bool CRSFforArduino::begin()
     _serial->begin(420000, SERIAL_8N1);
     _serial->setTimeout(10);
 
+    /* Initialise telemetry. */
+    _telemetryBegin();
+
     _packetReceived = false;
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -229,6 +232,15 @@ bool CRSFforArduino::update()
                     _packetReceived = true;
                 }
             }
+
+            // Increment the packet counter.
+            _crsfFrameCount = (_crsfFrameCount + 1) % 2;
+
+            // Check if it is time to send telemetry.
+            if (_crsfFrameCount == 0)
+            {
+                _telemetryProcessFrame();
+            }
         }
 
         // Clear the buffer.
@@ -306,6 +318,76 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }
 
+void CRSFforArduino::_telemetryBegin()
+{
+    uint8_t index = 0;
+    memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
+    _serialBufferReset();
+
+    // Add the GPS Telemetry frame to the schedule.
+    _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX);
+
+    // Set the maximum number of telemetry frames.
+    _telemetryFrameIndex = index;
+}
+
+void CRSFforArduino::_telemetryInitialiseFrame()
+{
+    _serialBufferReset();
+    _serialBufferWriteU8(CRSF_SYNC_BYTE);
+}
+
+void CRSFforArduino::_telemetryAppendGPSframe()
+{
+    _serialBufferWriteU8(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+    _serialBufferWriteU8(CRSF_FRAMETYPE_GPS);
+
+    /* TO-DO: Add GPS data to the payload.
+    For now, just populate the payload with placeholders for the following:
+    - Latitude (in decimal degrees)
+    - Longitude (in decimal degrees)
+    - Ground speed (in cm/s)
+    - Ground course (in degrees)
+    - Altitude (in meters)
+    - Satellites in View
+    */
+    _serialBufferWriteU32BE(0); // Latitude.
+    _serialBufferWriteU32BE(0); // Longitude.
+    _serialBufferWriteU16BE(0); // Ground speed (zero).
+    _serialBufferWriteU16BE(0); // Ground course (zero).
+    _serialBufferWriteU16(0);   // Altitude (zero).
+    _serialBufferWriteU8(4);    // Satellites in View (arbitrarily picked).
+}
+
+void CRSFforArduino::_telemetryFinaliseFrame()
+{
+    // Start at byte 2, because the first & second bytes are the sync byte & frame length, which are not included in the CRC.
+    uint8_t crc = _crc8_dvb_s2(0, _serialBuffer[2]);
+    for (uint8_t i = 3; i < _serialBufferLength; i++)
+    {
+        crc = _crc8_dvb_s2(crc, _serialBuffer[i]);
+    }
+    _serialBufferWriteU8(crc);
+
+    // Send the telemetry frame.
+    _serial->write(_serialBuffer, _serialBufferLength);
+}
+
+void CRSFforArduino::_telemetryProcessFrame()
+{
+    static uint8_t telemetryScheduleIndex = 0;
+    const uint8_t currentSchedule = _telemetryFrameSchedule[telemetryScheduleIndex];
+
+    if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX))
+    {
+        _telemetryInitialiseFrame();
+        _telemetryAppendGPSframe();
+        _telemetryFinaliseFrame();
+    }
+
+    telemetryScheduleIndex = (telemetryScheduleIndex + 1) % _telemetryFrameIndex;
+}
+
 uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
 {
     crc ^= a;
@@ -332,6 +414,91 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
         crc = _crc8_dvb_s2(crc, _crsfFrame.frame.payload[i]);
     }
     return crc;
+}
+
+void CRSFforArduino::_serialBufferReset()
+{
+    memset(_serialBuffer, 0, CRSF_FRAME_SIZE_MAX);
+    _serialBufferIndex = 0;
+    _serialBufferLength = 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWriteU8(uint8_t value)
+{
+    // There must be at least 1 byte available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 1)
+    {
+        _serialBuffer[_serialBufferIndex++] = value;
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWriteU16(uint16_t value)
+{
+    // There must be at least 2 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 2)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWriteU32(uint32_t value)
+{
+    // There must be at least 4 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 4)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 16) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 24) & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWriteU16BE(uint16_t value)
+{
+    // There must be at least 2 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 2)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWriteU32BE(uint32_t value)
+{
+    // There must be at least 4 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 4)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 24) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 16) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
 }
 
 #if defined(ARDUINO_ARCH_SAMD)
