@@ -26,7 +26,7 @@
 
 #include "CompatibilityTable.h"
 
- /**
+/**
   * @brief Constructs a Compatibility Table object
   *
   */
