@@ -337,6 +337,35 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     return (uint16_t)((rc * 0.62477120195241F) + 881);
 }
 
+/**
+ * @brief Converts individual GPS data to the CRSF telemetry frame format.
+ * 
+ * @param latitude Latitude in decimal degrees.
+ * @param longitude 
+ * @param altitude 
+ * @param speed 
+ * @param groundCourse 
+ * @param satellites 
+ */
+void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
+{
+    // Latitude & longitude are in decimal degrees. Convert it to degrees, minutes & seconds.
+    _telemetryData.gps.latitude = latitude * 10000000;
+    _telemetryData.gps.longitude = longitude * 10000000;
+
+    // Altitude is in centimetres. Convert it to metres, then constrain it to 0-5000m with an offset of 1000m.
+    _telemetryData.gps.altitude = (constrain(altitude, 0, 5000 * 100) / 100) + 1000;
+
+    // Ground speed is in cm/s.
+    _telemetryData.gps.speed = ((speed * 36 + 50) / 100);
+
+    // Ground course is in degrees * 100.
+    _telemetryData.gps.groundCourse = (groundCourse * 100);
+
+    // Satellites in view is a uint8_t.
+    _telemetryData.gps.satellites = satellites;
+}
+
 void CRSFforArduino::_telemetryBegin()
 {
     uint8_t index = 0;
@@ -361,21 +390,13 @@ void CRSFforArduino::_telemetryAppendGPSframe()
     _serialBufferWriteU8(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
     _serialBufferWriteU8(CRSF_FRAMETYPE_GPS);
 
-    /* TO-DO: Add GPS data to the payload.
-    For now, just populate the payload with placeholders for the following:
-    - Latitude (in decimal degrees)
-    - Longitude (in decimal degrees)
-    - Ground speed (in cm/s)
-    - Ground course (in degrees)
-    - Altitude (in meters)
-    - Satellites in View
-    */
-    _serialBufferWriteU32BE(0); // Latitude.
-    _serialBufferWriteU32BE(0); // Longitude.
-    _serialBufferWriteU16BE(0); // Ground speed (zero).
-    _serialBufferWriteU16BE(0); // Ground course (zero).
-    _serialBufferWriteU16(0);   // Altitude (zero).
-    _serialBufferWriteU8(4);    // Satellites in View (arbitrarily picked).
+    /* Populate the GPS frame with data from the _telemetryData struct. */
+    _serialBufferWrite32BE(_telemetryData.gps.latitude);
+    _serialBufferWrite32BE(_telemetryData.gps.longitude);
+    _serialBufferWriteU16BE(_telemetryData.gps.speed);
+    _serialBufferWriteU16BE(_telemetryData.gps.groundCourse);
+    _serialBufferWriteU16BE(_telemetryData.gps.altitude);
+    _serialBufferWriteU8(_telemetryData.gps.satellites);
 }
 
 void CRSFforArduino::_telemetryFinaliseFrame()
@@ -440,6 +461,40 @@ void CRSFforArduino::_serialBufferReset()
     memset(_serialBuffer, 0, CRSF_FRAME_SIZE_MAX);
     _serialBufferIndex = 0;
     _serialBufferLength = 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWrite32(int32_t value)
+{
+    // There must be at least 4 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 4)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 16) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 24) & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
+}
+
+uint8_t CRSFforArduino::_serialBufferWrite32BE(int32_t value)
+{
+    // There must be at least 4 bytes available in the buffer.
+    if (_serialBufferIndex < CRSF_FRAME_SIZE_MAX - 4)
+    {
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 24) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 16) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)((value >> 8) & 0xFF);
+        _serialBuffer[_serialBufferIndex++] = (uint8_t)(value & 0xFF);
+        _serialBufferLength = _serialBufferIndex;
+        return _serialBufferLength;
+    }
+
+    // Return 0 to indicate that the buffer is full.
+    return 0;
 }
 
 uint8_t CRSFforArduino::_serialBufferWriteU8(uint8_t value)

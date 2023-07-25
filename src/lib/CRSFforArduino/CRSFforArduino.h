@@ -194,6 +194,23 @@ typedef union __crsf_frame_u
     __crsf_frameDefinition_t frame;
 } __crsf_frame_t;
 
+// GPS Data to pass to the telemetry frame.
+typedef struct __crsf_gpsData_s
+{
+    int32_t latitude;
+    int32_t longitude;
+    uint16_t altitude;
+    uint16_t speed;
+    uint16_t groundCourse;
+    uint8_t satellites;
+} __crsf_gpsData_t;
+
+// Struct to hold data for the telemetry frame.
+typedef struct __crsf_telemetryData_s
+{
+    __crsf_gpsData_t gps;
+} __crsf_telemetryData_t;
+
 class CRSFforArduino
 {
   public:
@@ -205,6 +222,11 @@ class CRSFforArduino
     bool packetReceived();
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);
+
+    /* Telemetry Functions */
+    // Values passed into the GPS function are individual values.
+    // The function will convert them to the correct format.
+    void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
   protected:
     /* CRSF */
@@ -218,6 +240,7 @@ class CRSFforArduino
     /* Telemetry */
     uint8_t _telemetryFrameIndex;
     uint8_t _telemetryFrameSchedule[CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
+    __crsf_telemetryData_t _telemetryData;
     void _telemetryBegin(void);
     void _telemetryInitialiseFrame(void);
     void _telemetryAppendGPSframe(void);
@@ -233,6 +256,8 @@ class CRSFforArduino
     uint8_t _serialBufferIndex;
     uint8_t _serialBufferLength;
     void _serialBufferReset(void);
+    uint8_t _serialBufferWrite32(int32_t data);
+    uint8_t _serialBufferWrite32BE(int32_t data);
     uint8_t _serialBufferWriteU8(uint8_t data);
     uint8_t _serialBufferWriteU16(uint16_t data);
     uint8_t _serialBufferWriteU32(uint32_t data);
