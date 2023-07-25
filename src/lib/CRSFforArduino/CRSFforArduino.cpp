@@ -76,7 +76,7 @@ CRSFforArduino::CRSFforArduino(HardwareSerial *serial)
 }
 
 /**
- * @brief Destroy the CRSFforArduino object
+ * @brief Destroy the CRSFforArduino object.
  *
  */
 CRSFforArduino::~CRSFforArduino()
@@ -86,6 +86,8 @@ CRSFforArduino::~CRSFforArduino()
 
 /**
  * @brief Opens the hardware serial port for use with CRSF.
+ *
+ * @return true if the serial port was opened successfully, false if it was not.
  *
  */
 bool CRSFforArduino::begin()
@@ -201,6 +203,8 @@ bool CRSFforArduino::begin()
 /**
  * @brief Closes the hardware serial port.
  *
+ * @return nothing
+ *
  */
 void CRSFforArduino::end()
 {
@@ -209,8 +213,11 @@ void CRSFforArduino::end()
 }
 
 /**
- * @brief Updates the CRSFforArduino object.
- * It is recommended to call this function in the main loop of your sketch.
+ * @brief The main function of CRSF for Arduino.
+ * This function must be called in the main loop of your sketch.
+ * It handles the reception of CRSF packets, and the transmission of CRSF telemetry.
+ *
+ * @return true if a packet was received, false if a packet was not received.
  *
  */
 bool CRSFforArduino::update()
@@ -285,11 +292,27 @@ bool CRSFforArduino::update()
 #endif
 }
 
+/**
+ * @brief Checks if a CRSF packet was received.
+ *
+ * @attention This function is deprecated. Use the return value of CRSFforArduino::update() instead.
+ *
+ * @return true if a packet was received, false if a packet was not received.
+ *
+ */
 bool CRSFforArduino::packetReceived()
 {
     return _packetReceived;
 }
 
+/**
+ * @brief Gets the raw 11-bit value of an RC channel from the CRSF RC frame.
+ * Channel range is 172-1811, with 992 being the centre.
+ *
+ * @param channel The channel ID that you want to get the value of.
+ * @return uint16_t The raw 11-bit value of the requested channel.
+ *
+ */
 uint16_t CRSFforArduino::getChannel(uint8_t channel)
 {
     const __crsf_rcChannelsPacked_t *rcChannelsPacked = (__crsf_rcChannelsPacked_t *)&_crsfRcChannelsPackedFrame.frame.payload;
@@ -323,6 +346,13 @@ uint16_t CRSFforArduino::getChannel(uint8_t channel)
     return _channels[(channel - 1) % RC_CHANNEL_COUNT];
 }
 
+/**
+ * @brief Converts a raw RC channel value to microseconds.
+ * 
+ * @param rc The raw RC channel value to convert.
+ * @return uint16_t The RC channel value in microseconds.
+ *
+ */
 uint16_t CRSFforArduino::rcToUs(uint16_t rc)
 {
     /**
@@ -338,14 +368,19 @@ uint16_t CRSFforArduino::rcToUs(uint16_t rc)
 }
 
 /**
- * @brief Converts individual GPS data to the CRSF telemetry frame format.
- * 
+ * @brief Converts GPS data to the CRSF telemetry frame format.
+ * Use this in your main loop to update the GPS telemetry data.
+ * Sending of the telemetry frame is handled internally.
+ *
  * @param latitude Latitude in decimal degrees.
- * @param longitude 
- * @param altitude 
- * @param speed 
- * @param groundCourse 
- * @param satellites 
+ * @param longitude Longitude in decimal degrees.
+ * @param altitude Altitude in centimetres.
+ * @param speed Speed in centimetres per second.
+ * @param groundCourse Ground course in degrees.
+ * @param satellites Number of satellites in view.
+ *
+ * @returns nothing
+ *
  */
 void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
 {
@@ -366,6 +401,16 @@ void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float al
     _telemetryData.gps.satellites = satellites;
 }
 
+/**
+ * @brief Initialises the telemetry frame schedule.
+ *
+ * @attention This function contains code from Betaflight. Betaflight is licensed under the GNU General Public License v3.0.
+ * The code is adapted to CRSF for Arduino by Cassandra "ZZ Cat" Robinson, on 2023-07-25.
+ * The original code can be found at: https://tinyurl.com/yjm3f4j6
+ *
+ * @return nothing
+ *
+ */
 void CRSFforArduino::_telemetryBegin()
 {
     uint8_t index = 0;
@@ -379,12 +424,32 @@ void CRSFforArduino::_telemetryBegin()
     _telemetryFrameIndex = index;
 }
 
+/**
+ * @brief Initialises the telemetry frame with the sync byte.
+ *
+ * @attention This function contains code from Betaflight. Betaflight is licensed under the GNU General Public License v3.0.
+ * The code is adapted to CRSF for Arduino by Cassandra "ZZ Cat" Robinson, on 2023-07-25.
+ * The original code can be found at: https://tinyurl.com/53b7s6v5
+ *
+ * @returns nothing
+ *
+ */
 void CRSFforArduino::_telemetryInitialiseFrame()
 {
     _serialBufferReset();
     _serialBufferWriteU8(CRSF_SYNC_BYTE);
 }
 
+/**
+ * @brief Appends the GPS telemetry data to the telemetry frame.
+ *
+ * @attention This function contains code from Betaflight. Betaflight is licensed under the GNU General Public License v3.0.
+ * The code is adapted to CRSF for Arduino by Cassandra "ZZ Cat" Robinson, on 2023-07-25.
+ * The original code can be found at: https://tinyurl.com/44knvs5s
+ *
+ * @returns nothing
+ *
+ */
 void CRSFforArduino::_telemetryAppendGPSframe()
 {
     _serialBufferWriteU8(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
@@ -399,6 +464,16 @@ void CRSFforArduino::_telemetryAppendGPSframe()
     _serialBufferWriteU8(_telemetryData.gps.satellites);
 }
 
+/**
+ * @brief Appends the CRC to the telemetry frame & sends it.
+ *
+ * @attention This function contains code from Betaflight. Betaflight is licensed under the GNU General Public License v3.0.
+ * The code is adapted to CRSF for Arduino by Cassandra "ZZ Cat" Robinson, on 2023-07-25.
+ * The original code can be found at: https://tinyurl.com/5amwu7es
+ *
+ * @returns nothing
+ *
+ */
 void CRSFforArduino::_telemetryFinaliseFrame()
 {
     // Start at byte 2, because the first & second bytes are the sync byte & frame length, which are not included in the CRC.
@@ -413,6 +488,16 @@ void CRSFforArduino::_telemetryFinaliseFrame()
     _serial->write(_serialBuffer, _serialBufferLength);
 }
 
+/**
+ * @brief Processes the telemetry frames.
+ *
+ * @attention This function contains code from Betaflight. Betaflight is licensed under the GNU General Public License v3.0.
+ * The code is adapted to CRSF for Arduino by Cassandra "ZZ Cat" Robinson, on 2023-07-25.
+ * The original code can be found at: https://tinyurl.com/3fzf9bpw
+ *
+ * @returns nothing
+ *
+ */
 void CRSFforArduino::_telemetryProcessFrame()
 {
     static uint8_t telemetryScheduleIndex = 0;
@@ -428,6 +513,15 @@ void CRSFforArduino::_telemetryProcessFrame()
     telemetryScheduleIndex = (telemetryScheduleIndex + 1) % _telemetryFrameIndex;
 }
 
+/**
+ * @brief Calculates the CRC-8-DVB-S2 checksum using the polynomial 0xD5.
+ * 
+ * @param crc The current CRC value.
+ * @param a The byte to add to the CRC.
+ *
+ * @return uint8_t The new CRC value.
+ *
+ */
 uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
 {
     crc ^= a;
@@ -445,6 +539,12 @@ uint8_t CRSFforArduino::_crc8_dvb_s2(uint8_t crc, uint8_t a)
     return crc;
 }
 
+/**
+ * @brief Calculates the CRC of the CRSF frame.
+ * 
+ * @return uint8_t The CRC of the CRSF frame.
+ *
+ */
 uint8_t CRSFforArduino::_crsfFrameCRC()
 {
     // CRC includes the packet type and payload.
@@ -456,6 +556,12 @@ uint8_t CRSFforArduino::_crsfFrameCRC()
     return crc;
 }
 
+/**
+ * @brief Resets the serial buffer.
+ *
+ * @return nothing
+ *
+ */
 void CRSFforArduino::_serialBufferReset()
 {
     memset(_serialBuffer, 0, CRSF_FRAME_SIZE_MAX);
@@ -463,6 +569,13 @@ void CRSFforArduino::_serialBufferReset()
     _serialBufferLength = 0;
 }
 
+/**
+ * @brief Writes a 32-bit signed integer to the serial buffer.
+ *
+ * @param value The 32-bit signed integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWrite32(int32_t value)
 {
     // There must be at least 4 bytes available in the buffer.
@@ -480,6 +593,13 @@ uint8_t CRSFforArduino::_serialBufferWrite32(int32_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 32-bit signed integer to the serial buffer in big endian format.
+ * 
+ * @param value The 32-bit signed integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWrite32BE(int32_t value)
 {
     // There must be at least 4 bytes available in the buffer.
@@ -497,6 +617,13 @@ uint8_t CRSFforArduino::_serialBufferWrite32BE(int32_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 16-bit unsigned integer to the serial buffer.
+ * 
+ * @param value The 16-bit unsigned integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWriteU8(uint8_t value)
 {
     // There must be at least 1 byte available in the buffer.
@@ -511,6 +638,13 @@ uint8_t CRSFforArduino::_serialBufferWriteU8(uint8_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 16-bit unsigned integer to the serial buffer.
+ * 
+ * @param value The 16-bit unsigned integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWriteU16(uint16_t value)
 {
     // There must be at least 2 bytes available in the buffer.
@@ -526,6 +660,13 @@ uint8_t CRSFforArduino::_serialBufferWriteU16(uint16_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 32-bit unsigned integer to the serial buffer.
+ * 
+ * @param value The 32-bit unsigned integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWriteU32(uint32_t value)
 {
     // There must be at least 4 bytes available in the buffer.
@@ -543,6 +684,13 @@ uint8_t CRSFforArduino::_serialBufferWriteU32(uint32_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 16-bit unsigned integer to the serial buffer in big endian format.
+ * 
+ * @param value The 16-bit unsigned integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWriteU16BE(uint16_t value)
 {
     // There must be at least 2 bytes available in the buffer.
@@ -558,6 +706,13 @@ uint8_t CRSFforArduino::_serialBufferWriteU16BE(uint16_t value)
     return 0;
 }
 
+/**
+ * @brief Writes a 32-bit unsigned integer to the serial buffer in big endian format.
+ * 
+ * @param value The 32-bit unsigned integer to write to the serial buffer.
+ * @return uint8_t The number of bytes written to the serial buffer.
+ *
+ */
 uint8_t CRSFforArduino::_serialBufferWriteU32BE(uint32_t value)
 {
     // There must be at least 4 bytes available in the buffer.
@@ -576,6 +731,12 @@ uint8_t CRSFforArduino::_serialBufferWriteU32BE(uint32_t value)
 }
 
 #if defined(ARDUINO_ARCH_SAMD)
+/**
+ * @brief Gets the SERCOM instance for the current UART.
+ *
+ * @return Sercom* The SERCOM instance for the current UART.
+ *
+ */
 Sercom *CRSFforArduino::_getSercom()
 {
     Sercom *sercom = NULL;
@@ -661,6 +822,12 @@ Sercom *CRSFforArduino::_getSercom()
 }
 #endif
 
+/**
+ * @brief Flushes the serial buffer.
+ *
+ * @return nothing
+ *
+ */
 void CRSFforArduino::_flushSerial()
 {
     _serial->flush();
@@ -671,6 +838,14 @@ void CRSFforArduino::_flushSerial()
 }
 
 #ifdef USE_DMA
+/**
+ * @brief DMA callback function.
+ *
+ * @param dma A pointer to the Adafruit_ZeroDMA object.
+ *
+ * @return nothing
+ *
+ */
 void _dmaSerialRxCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;

@@ -214,8 +214,11 @@ typedef struct __crsf_telemetryData_s
 class CRSFforArduino
 {
   public:
+    /* Constructor & Destructor */
     CRSFforArduino(HardwareSerial *serial);
     ~CRSFforArduino();
+
+    /* CRSF Functions */
     bool begin();
     void end();
     bool update();
@@ -224,8 +227,6 @@ class CRSFforArduino
     uint16_t rcToUs(uint16_t rc);
 
     /* Telemetry Functions */
-    // Values passed into the GPS function are individual values.
-    // The function will convert them to the correct format.
     void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
   protected:
