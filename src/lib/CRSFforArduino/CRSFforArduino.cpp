@@ -509,6 +509,11 @@ void CRSFforArduino::_telemetryFinaliseFrame()
     _serialBufferWriteU8(crc);
 
 #ifdef USE_DMA
+// For some reason, the DMA does not work with the telemetry frame.
+#warning "DMA is temporarily disabled for the telemetry frame."
+
+    // Until I can figure out why, the telemetry frame will be sent using serial.
+    _serial->write(_serialBuffer, _serialBufferLength);
 #else
     // Send the telemetry frame.
     _serial->write(_serialBuffer, _serialBufferLength);
