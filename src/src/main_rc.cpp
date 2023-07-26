@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates the full capabilities of CRSF for Arduino.
  * @version 0.4.0
- * @date 2023-07-17
+ * @date 2023-07-27
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -29,7 +29,9 @@
  * The following #if defined() block is used to prevent the Arduino IDE from complaining about setup() and loop()
  * being defined in multiple files.
  */
-#if defined(ARDUINO) && defined(PLATFORMIO)
+#if defined(ARDUINO) && !defined(PLATFORMIO)
+#warning "This example sketch is not compatible with the Arduino IDE. Please use the rc_channels.ino example instead."
+#elif defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"
@@ -66,23 +68,30 @@ void loop()
 {
     if (crsf.update())
     {
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
-        Serial.println(">");
+
+        /* Print RC channels every 100 ms. Do this using the millis() function to avoid blocking the main loop. */
+        static unsigned long lastPrint = 0;
+        if (millis() - lastPrint >= 100)
+        {
+            lastPrint = millis();
+            Serial.print("RC Channels <A: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(1)));
+            Serial.print(", E: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(2)));
+            Serial.print(", T: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(3)));
+            Serial.print(", R: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(4)));
+            Serial.print(", Aux1: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(5)));
+            Serial.print(", Aux2: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(6)));
+            Serial.print(", Aux3: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(7)));
+            Serial.print(", Aux4: ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(8)));
+            Serial.println(">");
+        }
     }
 }
-#endif // defined(PLATFORMIO)
+#endif // defined(ARDUINO) && defined(PLATFORMIO)

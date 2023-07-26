@@ -1,9 +1,9 @@
 /**
- * @file CompatibilityTable.cpp
+ * @file CompatibilityTable.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Compatibility Table is used to determine if the current device is compatible with CRSF for Arduino.
+ * @brief This compatibility table is used to determine if the target development boat is compatible with CRSF for Arduino.
  * @version 0.4.0
- * @date 2023-07-17
+ * @date 2023-07-27
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -21,11 +21,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * 
  */
 
 #include "CompatibilityTable.h"
 
+/**
+  * @brief Constructs a Compatibility Table object
+  *
+  */
 CompatibilityTable::CompatibilityTable()
 {
 // TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
@@ -178,11 +182,22 @@ CompatibilityTable::CompatibilityTable()
     // #endif // ARDUINO >= 10700
 }
 
+/**
+ * @brief Determines if the target development board is compatible with CRSF for Arduino.
+ *
+ * @return true The target development board is compatible with CRSF for Arduino.
+ * @return false The target development board is incompatible with CRSF for Arduino.
+ */
 bool CompatibilityTable::isDevboardCompatible(const char *name)
 {
     return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
 }
 
+/**
+ * @brief Gets the name of the target development board.
+ *
+ * @return const char* The name of the target development board.
+ */
 const char *CompatibilityTable::getDevboardName()
 {
     if (device.type.devboard > DEVBOARD_COUNT)

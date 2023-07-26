@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
  * @version 0.4.0
- * @date 2023-07-17
+ * @date 2023-07-27
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -74,7 +74,11 @@ enum __crsf_frameSize_e
 enum __crsf_frame_payloadSize_e
 {
     CRSF_FRAME_GPS_PAYLOAD_SIZE = 15,
+    CRSF_FRAME_VARIO_PAYLOAD_SIZE = 2,
+    CRSF_FRAME_BARO_ALTITUDE_PAYLOAD_SIZE = 4, // TBS is 2, ExpressLRS is 4 (combines vario)
     CRSF_FRAME_BATTERY_SENSOR_PAYLOAD_SIZE = 8,
+    CRSF_FRAME_DEVICE_INFO_PAYLOAD_SIZE = 48,
+    CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE = 16,
     CRSF_FRAME_HEARTBEAT_PAYLOAD_SIZE = 2,
     CRSF_FRAME_LINK_STATISTICS_PAYLOAD_SIZE = 10,
     CRSF_FRAME_LINK_STATISTICS_TX_PAYLOAD_SIZE = 6,
@@ -96,7 +100,9 @@ enum __crsf_frameLength_e
 typedef enum __crsf_frameType_e
 {
     CRSF_FRAMETYPE_GPS = 0x02,
+    CRSF_FRAMETYPE_VARIO = 0x07,
     CRSF_FRAMETYPE_BATTERY_SENSOR = 0x08,
+    CRSF_FRAMETYPE_BARO_ALTITUDE = 0x09,
     CRSF_FRAMETYPE_HEARTBEAT = 0x0B,
     CRSF_FRAMETYPE_LINK_STATISTICS = 0x14,
     CRSF_FRAMETYPE_RC_CHANNELS_PACKED = 0x16,
@@ -136,6 +142,20 @@ typedef enum __crsf_address_e
     CRSF_ADDRESS_CRSF_TRANSMITTER = 0xEE
 } __crsf_address_t;
 
+// Schedule array to send telemetry frames.
+typedef enum
+{
+    CRSF_TELEMETRY_FRAME_START_INDEX = 0,
+    // CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
+    // CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
+    // CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
+    // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
+    CRSF_TELEMETRY_FRAME_GPS_INDEX,
+    // CRSF_TELEMETRY_FRAME_HEARTBEAT_INDEX,
+    // CRSF_TELEMETRY_FRAME_VARIO_INDEX,
+    CRSF_TELEMETRY_FRAME_SCHEDULE_MAX
+} __crsf_telemetryFrame_t;
+
 // RC Channels Packed. 22 bytes (11 bits per channel, 16 channels) total.
 struct __crsf_rcChannelsPacked_s
 {
@@ -173,11 +193,31 @@ typedef union __crsf_frame_u
     __crsf_frameDefinition_t frame;
 } __crsf_frame_t;
 
+// GPS Data to pass to the telemetry frame.
+typedef struct __crsf_gpsData_s
+{
+    int32_t latitude;
+    int32_t longitude;
+    uint16_t altitude;
+    uint16_t speed;
+    uint16_t groundCourse;
+    uint8_t satellites;
+} __crsf_gpsData_t;
+
+// Struct to hold data for the telemetry frame.
+typedef struct __crsf_telemetryData_s
+{
+    __crsf_gpsData_t gps;
+} __crsf_telemetryData_t;
+
 class CRSFforArduino
 {
   public:
+    /* Constructor & Destructor */
     CRSFforArduino(HardwareSerial *serial);
     ~CRSFforArduino();
+
+    /* CRSF Functions */
     bool begin();
     void end();
     bool update();
@@ -185,34 +225,79 @@ class CRSFforArduino
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);
 
+    /* Telemetry Functions */
+    void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+
   protected:
     /* CRSF */
     bool _packetReceived;
     HardwareSerial *_serial;
+    uint16_t _crsfFrameCount;
     uint16_t _channels[RC_CHANNEL_COUNT];
     __crsf_frame_t _crsfFrame;
     __crsf_frame_t _crsfRcChannelsPackedFrame;
+
+    /* Telemetry */
+    uint8_t _telemetryFrameIndex;
+    uint8_t _telemetryFrameSchedule[CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
+    __crsf_telemetryData_t _telemetryData;
+    void _telemetryBegin(void);
+    void _telemetryInitialiseFrame(void);
+    void _telemetryAppendGPSframe(void);
+    void _telemetryFinaliseFrame(void);
+    void _telemetryProcessFrame(void);
 
     /* CRC */
     uint8_t _crc8_dvb_s2(uint8_t crc, uint8_t a);
     uint8_t _crsfFrameCRC(void);
 
+    /* Serial Buffer */
+    uint8_t _serialBuffer[CRSF_FRAME_SIZE_MAX];
+    uint8_t _serialBufferIndex;
+    uint8_t _serialBufferLength;
+    void _serialBufferReset(void);
+    uint8_t _serialBufferWrite32(int32_t data);
+    uint8_t _serialBufferWrite32BE(int32_t data);
+    uint8_t _serialBufferWriteU8(uint8_t data);
+    uint8_t _serialBufferWriteU16(uint16_t data);
+    uint8_t _serialBufferWriteU32(uint32_t data);
+    uint8_t _serialBufferWriteU16BE(uint16_t data);
+    uint8_t _serialBufferWriteU32BE(uint32_t data);
+
 #ifdef USE_DMA
     /* DMA */
-    Adafruit_ZeroDMA _dmaSerialRx;
-    DmacDescriptor *_dmaSerialRxDescriptor;
+    Adafruit_ZeroDMA _dmaSerial;
+    DmacDescriptor *_dmaSerialDescriptor;
     ZeroDMAstatus _dmaStatus;
+
+#ifdef CRSF_DEBUG
+    // Use the ZeroDMAstatus enum in Adafruit_ZeroDMA.h for the status codes.
+    // Make it human readable.
+    const char *_dmaStatusString[10] = {
+        "OK",
+        "NOT FOUND",
+        "NOT INITIALISED",
+        "INVALID ARGUMENT",
+        "IO ERROR",
+        "TIMED OUT",
+        "BUSY",
+        "SUSPENDED",
+        "ABORTED",
+        "JOBS FULL"};
+#endif
 #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_getSercom(void);
 #endif
+
+    void _flushSerial(void);
 };
 
 #ifdef USE_DMA
 /**
- * @brief DMA transfer done callback
+ * @brief DMA RX transfer done callback.
  *
  */
-void _dmaTransferDoneCallback(Adafruit_ZeroDMA *);
+void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
 #endif

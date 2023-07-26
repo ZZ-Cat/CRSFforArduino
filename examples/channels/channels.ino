@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch shows how to receive RC channels from a CRSF receiver using the CRSF for Arduino library.
  * @version 0.4.0
- * @date 2023-07-17
+ * @date 2023-07-27
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -100,9 +100,9 @@
  *
  */
 
-#if defined(PLATFORMIO)
-#error "This example is for the Arduino IDE only."
-#endif
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#error "This example sketch is not compatible with PlatformIO. Please use the main_rc.cpp example instead."
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
 
 #include "CRSFforArduino.h"
 
@@ -157,3 +157,5 @@ void loop()
         Serial.println(">");
     }
 }
+
+#endif // defined(ARDUINO) && !defined(PLATFORMIO)
