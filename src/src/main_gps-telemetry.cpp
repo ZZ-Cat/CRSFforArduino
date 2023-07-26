@@ -47,7 +47,7 @@ CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
-#if VIEW_RC_CHANNELS > 0
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
     Serial.begin(115200);
     while (!Serial)
     {
@@ -67,7 +67,7 @@ void setup()
         }
     }
 
-#if VIEW_RC_CHANNELS > 0
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
     /* Show the user that the sketch is ready. */
     Serial.println("Ready");
     delay(1000);
