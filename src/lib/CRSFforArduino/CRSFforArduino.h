@@ -270,6 +270,22 @@ class CRSFforArduino
     Adafruit_ZeroDMA _dmaSerial;
     DmacDescriptor *_dmaSerialDescriptor;
     ZeroDMAstatus _dmaStatus;
+
+#ifdef CRSF_DEBUG
+    // Use the ZeroDMAstatus enum in Adafruit_ZeroDMA.h for the status codes.
+    // Make it human readable.
+    const char *_dmaStatusString[10] = {
+        "OK",
+        "NOT FOUND",
+        "NOT INITIALISED",
+        "INVALID ARGUMENT",
+        "IO ERROR",
+        "TIMED OUT",
+        "BUSY",
+        "SUSPENDED",
+        "ABORTED",
+        "JOBS FULL"};
+#endif
 #endif
 
 #if defined(ARDUINO_ARCH_SAMD)

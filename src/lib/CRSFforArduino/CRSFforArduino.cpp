@@ -161,7 +161,7 @@ bool CRSFforArduino::begin()
         interrupts();
 #ifdef CRSF_DEBUG
         Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
-        Serial.println(_dmaStatus);
+        Serial.println(_dmaStatusString[_dmaStatus]);
 #endif
         return false;
     }
@@ -205,7 +205,7 @@ bool CRSFforArduino::begin()
     {
 #ifdef CRSF_DEBUG
         Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
-        Serial.println(_dmaStatus);
+        Serial.println(_dmaStatusString[_dmaStatus]);
 #endif
         return false;
     }
@@ -290,6 +290,10 @@ bool CRSFforArduino::update()
         _dmaStatus = _dmaSerial.startJob();
         if (_dmaStatus != DMA_STATUS_OK)
         {
+#ifdef CRSF_DEBUG
+            Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+            Serial.println(_dmaStatusString[_dmaStatus]);
+#endif
             return false;
         }
 #endif
