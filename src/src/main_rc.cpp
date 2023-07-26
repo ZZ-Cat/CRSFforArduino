@@ -29,7 +29,9 @@
  * The following #if defined() block is used to prevent the Arduino IDE from complaining about setup() and loop()
  * being defined in multiple files.
  */
-#if defined(ARDUINO) && defined(PLATFORMIO)
+#if defined(ARDUINO) && !defined(PLATFORMIO)
+#error "This example sketch is not compatible with the Arduino IDE. Please use the rc_channels.ino example instead."
+#elif defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"
@@ -92,4 +94,4 @@ void loop()
         }
     }
 }
-#endif // defined(PLATFORMIO)
+#endif // defined(ARDUINO) && defined(PLATFORMIO)
