@@ -508,8 +508,11 @@ void CRSFforArduino::_telemetryFinaliseFrame()
     }
     _serialBufferWriteU8(crc);
 
+#ifdef USE_DMA
+#else
     // Send the telemetry frame.
     _serial->write(_serialBuffer, _serialBufferLength);
+#endif
 }
 
 /**
