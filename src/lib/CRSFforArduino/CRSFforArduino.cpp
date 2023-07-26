@@ -61,7 +61,7 @@ CompatibilityTable CT = CompatibilityTable();
  */
 
 #ifdef USE_DMA
-volatile bool _dmaRxTransferDone = false;
+volatile bool _dmaTransferDone = false;
 #endif
 
 /**
@@ -153,21 +153,21 @@ bool CRSFforArduino::begin()
 #endif
 
     /* Configure the DMA. */
-    _dmaSerialRx.setTrigger(SERCOM3_DMAC_ID_RX);
-    _dmaSerialRx.setAction(DMA_TRIGGER_ACTON_BEAT);
-    _dmaRxStatus = _dmaSerialRx.allocate();
-    if (_dmaRxStatus != DMA_STATUS_OK)
+    _dmaSerial.setTrigger(SERCOM3_DMAC_ID_RX);
+    _dmaSerial.setAction(DMA_TRIGGER_ACTON_BEAT);
+    _dmaStatus = _dmaSerial.allocate();
+    if (_dmaStatus != DMA_STATUS_OK)
     {
         interrupts();
 #ifdef CRSF_DEBUG
         Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
-        Serial.println(_dmaRxStatus);
+        Serial.println(_dmaStatus);
 #endif
         return false;
     }
 
     /* Configure the DMA descriptors. */
-    _dmaSerialRxDescriptor = _dmaSerialRx.addDescriptor(
+    _dmaSerialDescriptor = _dmaSerial.addDescriptor(
 #if defined(ARDUINO_ARCH_SAMD)
         (void *)(&_sercom->USART.DATA.reg),
 #endif
@@ -177,7 +177,7 @@ bool CRSFforArduino::begin()
         false,
         true);
 
-    if (_dmaSerialRxDescriptor == NULL)
+    if (_dmaSerialDescriptor == NULL)
     {
         interrupts();
 #ifdef CRSF_DEBUG
@@ -188,10 +188,10 @@ bool CRSFforArduino::begin()
     }
 
     // Disabled because it is non-functional for some reason.
-    // _dmaSerialRx.loop(true);
+    // _dmaSerial.loop(true);
 
     /* Configure the DMA callback. */
-    _dmaSerialRx.setCallback(_dmaSerialRxCallback);
+    _dmaSerial.setCallback(_dmaSerialCallback);
 
     /* Enable interrupts. */
     interrupts();
@@ -200,12 +200,12 @@ bool CRSFforArduino::begin()
     _flushSerial();
 
     /* Start the DMA. */
-    _dmaRxStatus = _dmaSerialRx.startJob();
-    if (_dmaRxStatus != DMA_STATUS_OK)
+    _dmaStatus = _dmaSerial.startJob();
+    if (_dmaStatus != DMA_STATUS_OK)
     {
 #ifdef CRSF_DEBUG
         Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
-        Serial.println(_dmaRxStatus);
+        Serial.println(_dmaStatus);
 #endif
         return false;
     }
@@ -243,9 +243,9 @@ void CRSFforArduino::end()
 bool CRSFforArduino::update()
 {
 #ifdef USE_DMA
-    if (_dmaRxTransferDone == true)
+    if (_dmaTransferDone == true)
     {
-        _dmaRxTransferDone = false;
+        _dmaTransferDone = false;
 #else
     while (_serial->available() > 0)
     {
@@ -287,8 +287,8 @@ bool CRSFforArduino::update()
 
 #ifdef USE_DMA
         // Restart the DMA.
-        _dmaRxStatus = _dmaSerialRx.startJob();
-        if (_dmaRxStatus != DMA_STATUS_OK)
+        _dmaStatus = _dmaSerial.startJob();
+        if (_dmaStatus != DMA_STATUS_OK)
         {
             return false;
         }
@@ -880,11 +880,11 @@ void CRSFforArduino::_flushSerial()
  * @return nothing
  *
  */
-void _dmaSerialRxCallback(Adafruit_ZeroDMA *dma)
+void _dmaSerialCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;
 
     /* Set the DMA Transfer Done flag. */
-    _dmaRxTransferDone = true;
+    _dmaTransferDone = true;
 }
 #endif
