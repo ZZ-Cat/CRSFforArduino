@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This compatibility table is used to determine if the target development boat is compatible with CRSF for Arduino.
  * @version 0.4.0
- * @date 2023-07-25
+ * @date 2023-07-27
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
