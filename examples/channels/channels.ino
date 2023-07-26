@@ -100,9 +100,9 @@
  *
  */
 
-#if defined(PLATFORMIO)
-#error "This example is for the Arduino IDE only."
-#endif
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#error "This example sketch is not compatible with PlatformIO. Please use the main_rc.cpp example instead."
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
 
 #include "CRSFforArduino.h"
 
@@ -157,3 +157,5 @@ void loop()
         Serial.println(">");
     }
 }
+
+#endif // defined(ARDUINO) && !defined(PLATFORMIO)
