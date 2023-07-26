@@ -60,7 +60,9 @@ void setup()
     /* Initialise CRSF for Arduino */
     if (!crsf.begin())
     {
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
         Serial.println("CRSF for Arduino initialization failed!");
+#endif
         while (1)
         {
             ;
