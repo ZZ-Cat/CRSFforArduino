@@ -24,7 +24,9 @@
  * 
  */
 
-#if defined(ARDUINO) && defined(PLATFORMIO)
+#if defined(ARDUINO) && !defined(PLATFORMIO)
+#error "This example sketch is not compatible with the Arduino IDE. Please use the gps_telemetry.ino example instead."
+#elif defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"
@@ -145,4 +147,4 @@ void loop()
 #endif
 }
 
-#endif // defined(PLATFORMIO)
+#endif // defined(ARDUINO) && defined(PLATFORMIO)
