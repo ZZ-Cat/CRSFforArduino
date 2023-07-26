@@ -30,7 +30,7 @@
  * being defined in multiple files.
  */
 #if defined(ARDUINO) && !defined(PLATFORMIO)
-#error "This example sketch is not compatible with the Arduino IDE. Please use the rc_channels.ino example instead."
+#warning "This example sketch is not compatible with the Arduino IDE. Please use the rc_channels.ino example instead."
 #elif defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 

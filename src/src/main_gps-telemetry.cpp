@@ -25,7 +25,7 @@
  */
 
 #if defined(ARDUINO) && !defined(PLATFORMIO)
-#error "This example sketch is not compatible with the Arduino IDE. Please use the gps_telemetry.ino example instead."
+#warning "This example sketch is not compatible with the Arduino IDE. Please use the gps_telemetry.ino example instead."
 #elif defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
