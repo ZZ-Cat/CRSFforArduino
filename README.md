@@ -87,13 +87,13 @@ With that being said, installation from the Releases tab is nearly identical to 
 
 ### The API
 
-1. Add my library to your sketch with ```#include "CRSFforArduino.h"```
-2. Underneath that, you need to declare ```CRSFforArduino crsf = CRSFforArduino(&Serial1)```
-3. In your ```setup()```, do ```crsf.begin()``` to start communicating with your connected ExpressLRS receiver.
-4. In your ```loop()```, you need to call ```crsf.update()```, as this polls your receiver for new RC channels data.
-5. Do ```crsf.getChannel(n)``` to get the raw value from your desired RC channel. Here, ```n``` refers to your channel number from 1 to 16.
+1. Add my library to your sketch with `#include "CRSFforArduino.h"`
+2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino(&Serial1)`
+3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver.
+4. In your `loop()`, you need to call `crsf.update()`, as this polls your receiver for new RC channels data.
+5. Do `crsf.getChannel(n)` to get the raw value from your desired RC channel. Here, `n` refers to your channel number from 1 to 16.
 
-If you want to convert the raw channel value to microseconds, do ```crsf.rcToUs(n)```, where ```n``` is the raw RC value you want to convert. ```rcToUs()``` will return the converted value in microseconds.
+If you want to convert the raw channel value to microseconds, do `crsf.rcToUs(n)`, where `n` is the raw RC value you want to convert. `rcToUs()` will return the converted value in microseconds.
 
 The example below demonstrates what your code should look like, using the instructions above:
 
@@ -129,11 +129,114 @@ void setup()
 void loop()
 {
     /* 4. Update the main loop with new RC data. */
-    if (crsf.update())
+    crsf.update();
+
+    /* 5. Here, your RC channel values are converted to microseconds, & are sent to the Serial Monitor. */
+    Serial.print("RC Channels <A: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(1)));
+    Serial.print(", E: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(2)));
+    Serial.print(", T: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(3)));
+    Serial.print(", R: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(4)));
+    Serial.print(", Aux1: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(5)));
+    Serial.print(", Aux2: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(6)));
+    Serial.print(", Aux3: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(7)));
+    Serial.print(", Aux4: ");
+    Serial.print(crsf.rcToUs(crsf.getChannel(8)));
+    Serial.println(">");
+}
+```
+
+If you want to transmit data from your GPS module as telemetry, do `crsf.telemetryWriteGPS(lat, lon, alt, spd, gCourse, numSats)`, where `lat` & `lon` are your GPS' location data in decimal degrees, `alt` is your GPS' height above sea level in centimetres (cm), `gCourse` is your GPS' course over ground (AKA "Compass/heading") in degrees, & `numSats` is your GPS' number of satellites that it is seeing.
+You can use this function in the same context as your calling code that polls your GPS module:
+
+```c++
+#include "Arduino.h"
+#include "wiring_private.h"
+
+/* 1. Add Cassie Robinson's CRSF for Arduino library. */
+#include "CRSFforArduino.h"
+
+/* 2. Add Mikal Hart's TinyGPS++ library.
+Source: https://tinyurl.com/4v4y5s3t */
+#include "TinyGPSPlus.h"
+
+// Create a Uart object for your GPS module.
+// For more information, see: https://tinyurl.com/2p9brewf
+Uart gpsSerial(&sercom1, 11, 10, SERCOM_RX_PAD_0, UART_TX_PAD_2);
+
+// Create a TinyGPSPlus object.
+TinyGPSPlus gps;
+
+// GPS data variables.
+float lat, lon, alt, spd, gCourse;
+int numSats;
+
+/* 3. Declare a CRSFforArduino object. */
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
+
+void setup()
+{
+    Serial.begin(115200);
+    while (!Serial)
     {
-        /* Pro tip: Read back your RC channels data inside an if() statement.
-        
-        5. Here, your RC channel values are converted to microseconds, & are sent to the Serial Monitor. */
+        ;
+    }
+
+    /* 4. Initialize your GPS module. */
+    gpsSerial.begin(9600);
+
+    // We need to set pins 10 & 11 to be SERCOM pins.
+    pinPeripheral(10, PIO_SERCOM);
+    pinPeripheral(11, PIO_SERCOM);
+
+    /* 5. Initialize CRSF for Arduino. */
+    crsf.begin();
+
+    /* Pro tip: Always show a little message in the Serial Monitor to let you know that your sketch is initialized successfully. */
+    Serial.println("GPS Telemetry Example");
+    delay(1000);
+    Serial.println("Ready");
+    delay(1000);
+}
+
+void loop()
+{
+    /* 6. Poll your GPS module for new data. */
+    while (gpsSerial.available() > 0)
+    {
+        if (gps.encode(gpsSerial.read()))
+        {
+            /* 7. Get the GPS data. */
+            lat = gps.location.lat();
+            lon = gps.location.lng();
+            alt = gps.altitude.meters();
+            spd = gps.speed.kmph();
+            gCourse = gps.course.deg();
+            numSats = gps.satellites.value();
+
+            /* 8. Send the GPS data as telemetry. */
+            crsf.telemetryWriteGPS(lat, lon, alt, spd, gCourse, numSats);
+        }
+    }
+
+    /* 9. Update the main loop with new RC data. */
+    crsf.update();
+
+    /* 10. Here, your RC channel values are converted to microseconds,
+    & are sent to the Serial Monitor every 100 milliseconds. */
+    unsigned long currentMillis = millis();
+    static unsigned long previousMillis = 0;
+
+    if (currentMillis - previousMillis >= 100)
+    {
+        previousMillis = currentMillis;
+
         Serial.print("RC Channels <A: ");
         Serial.print(crsf.rcToUs(crsf.getChannel(1)));
         Serial.print(", E: ");
@@ -153,37 +256,64 @@ void loop()
         Serial.println(">");
     }
 }
+
+// SAMD51 SERCOM3 IRQ handlers.
+void SERCOM3_0_Handler()
+{
+    gpsSerial.IrqHandler();
+}
+
+void SERCOM3_1_Handler()
+{
+    gpsSerial.IrqHandler();
+}
+
+void SERCOM3_2_Handler()
+{
+    gpsSerial.IrqHandler();
+}
+
+void SERCOM3_3_Handler()
+{
+    gpsSerial.IrqHandler();
+}
 ```
 
 ### Example Sketches
 
-In the ```examples``` folder, there is a sketch called ```channels.cpp``` that I used to test this library.
-It contains instructions on how to set your hardware up & how to connect your receiver to your development board.
-It also details binding procedures (if needed), & the channel ranges & channel order.
-The example sketch also demonstrates how to read RC channels data from your connected ExpressLRS receiver.
+In the `examples` folder, there are two sketches that I use to test this library:
 
-You can build this example to see how CRSF for Arduino works.
+- `channels.ino`
+  This example demonstrates how to read RC channels data from your connected ExpressLRS receiver.
+  It contains instructions on how to set your hardware up & how to connect your receiver to your development board.
+  It also details binding procedures (if needed), & the channel ranges & channel order.
+- `gps_telemetry.ino`
+  This example demonstrates how to pass data from your GPS module to CRSF for Arduino & send it as telemetry back to your controller.
+
+You can build these examples to see how CRSF for Arduino works.
 
 ### Flashing - PlatformIO (VS Code)
 
 Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
-1. Build your sketch ► ```pio run``` in your CLI or ```ctrl+alt+b``` on your keyboard.
-2. Flash your sketch ► ```pio run -t upload``` in your CLI or ```ctrl+alt+u``` on your keyboard.
+1. Build your sketch ► `pio run` in your CLI or `ctrl+alt+b` on your keyboard.
+2. Flash your sketch ► `pio run -t upload` in your CLI or `ctrl+alt+u` on your keyboard.
+
+The above steps will default to the Adafruit Metro M4 development board.
 
 ### Flashing - Arduino IDE
 
-1. Select your target development board ► ```Tools ► Board```
-2. Select the Serial Port that your board is connected to ► ```Tools ► Port```
-3. Verify your sketch ► ```Sketch ► Verify/Compile``` from the menu or ```ctrl+r``` on your keyboard.
-4. Upload your sketch ► ```Sketch ► Upload``` from the menu or ```ctrl+u```on your keyboard.
+1. Select your target development board ► `Tools ► Board`
+2. Select the Serial Port that your board is connected to ► `Tools ► Port`
+3. Verify your sketch ► `Sketch ► Verify/Compile` from the menu or `ctrl+r` on your keyboard.
+4. Upload your sketch ► `Sketch ► Upload` from the menu or `ctrl+u`on your keyboard.
 
 ### Viewing RC data
 
 1. Open up the Serial Monitor.
-   - PlatformIO: Click the Serial Monitor tab, configure the port, baud rate & click ```Start Monitoring```.
-   - PuTTY: In the configuration, select the ```Serial line```, set the ```Connection type``` to ```Serial``` & set the ```Speed``` to your baud rate setting (default is 115200). Then, click ```Open```.
-   - Arduino IDE: ```Tools ► Serial Monitor``` from the menu or ```ctrl+shift+m``` on your keyboard.
+   - PlatformIO: Click the Serial Monitor tab, configure the port, baud rate & click `Start Monitoring`.
+   - PuTTY: In the configuration, select the `Serial line`, set the `Connection type` to `Serial` & set the `Speed` to your baud rate setting (default is 115200). Then, click `Open`.
+   - Arduino IDE: `Tools ► Serial Monitor` from the menu or `ctrl+shift+m` on your keyboard.
 2. Your RC channel values will be there, & they will change as you move the sticks on your RC handset.
 
 ## Compatible development boards
