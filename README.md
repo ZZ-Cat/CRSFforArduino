@@ -33,7 +33,7 @@ This means that your development board is now compatible with any receiver that 
 For starters, it's an open source radio control link that offers incredibly low latency, long range (EG [100 kilometers on 2.4GHz](https://youtu.be/IjQYLyvai6s) without failsafe), & it's incredibly robust in rough RF environments.
 
 An ExpressLRS receiver communicates to your development board through one of the board's Serial/UART ports.
-This provides you with up to 16 10-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
+This provides you with up to 16 11-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
 
 ## Prerequisites - Arduino IDE
 
