@@ -60,31 +60,6 @@ CompatibilityTable CT = CompatibilityTable();
  *
  */
 
-namespace testMyPatience
-{
-    int testMyInt;
-
-    void testThisFunction()
-    {
-        Serial.println("This is a test.");
-    }
-}
-
-// using namespace testMyPatience;
-
-isThisWorking::isThisWorking()
-{
-}
-
-isThisWorking::~isThisWorking()
-{
-}
-
-void isThisWorking::testMyFunction()
-{
-    Serial.println("This is a test.");
-}
-
 #ifdef USE_DMA
 // using namespace __crsf_private_dma;
 // using namespace __crsf_private_rx;
@@ -205,13 +180,6 @@ bool CRSFforArduino::begin()
     Serial.print("[CRSF for Arduino | INFO] Devboard Name: ");
     Serial.println(devboardName);
 #endif
-
-    testMyPatience::testMyInt = 5;
-    testMyPatience::testThisFunction();
-
-    testMyPatience::isThisWorking testThis;
-
-    testThis.testMyFunction();
 
     // Check if the devboard is compatible.
     if (CT.isDevboardCompatible(devboardName) != true)
@@ -416,6 +384,11 @@ void CRSFforArduino::update()
                 }
             }
         }
+    }
+#else
+    while (_serial->available() > 0)
+    {
+        _serial->readBytes(_crsfFrame.raw, CRSF_FRAME_SIZE_MAX);
     }
 #endif
 
