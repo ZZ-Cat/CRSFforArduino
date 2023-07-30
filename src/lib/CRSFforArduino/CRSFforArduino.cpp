@@ -70,7 +70,7 @@ namespace __crsf_private_rx
     __crsf_frame_t crsfFrame;
     __crsf_frame_t rcChannelsPackedFrame;
     volatile bool packetReceived = false;
-}
+} // namespace __crsf_private_rx
 
 /**
  * @brief Construct a new CRSFforArduino object.
@@ -257,7 +257,7 @@ bool CRSFforArduino::update()
 #ifdef USE_DMA
     if (__crsf_private_dma::_dmaTransferDone == true)
     {
-       __crsf_private_dma::_dmaTransferDone = false;
+        __crsf_private_dma::_dmaTransferDone = false;
 #else
     while (_serial->available() > 0)
     {
@@ -953,23 +953,23 @@ namespace __crsf_private_dma
         }
     }
 
-/**
- * @brief DMA callback function.
- *
- * @param dma A pointer to the Adafruit_ZeroDMA object.
- *
- * @return nothing
- *
- */
-void _dmaSerialCallback(Adafruit_ZeroDMA *dma)
-{
-    (void)dma;
+    /**
+     * @brief DMA callback function.
+     *
+     * @param dma A pointer to the Adafruit_ZeroDMA object.
+     *
+     * @return nothing
+     *
+     */
+    void _dmaSerialCallback(Adafruit_ZeroDMA *dma)
+    {
+        (void)dma;
 
-    /* Process received data. */
-    crsfSerialRxHandler();
+        /* Process received data. */
+        crsfSerialRxHandler();
 
-    /* Set the DMA Transfer Done flag. */
-    _dmaTransferDone = true;
-}
-}
+        /* Set the DMA Transfer Done flag. */
+        _dmaTransferDone = true;
+    }
+} // namespace __crsf_private_dma
 #endif
