@@ -327,7 +327,7 @@ void CRSFforArduino::end()
  * @return true if a packet was received, false if a packet was not received.
  *
  */
-bool CRSFforArduino::update()
+void CRSFforArduino::update()
 {
 #ifdef USE_DMA
     if (__crsf_private_dma::dmaTransferDone == true)

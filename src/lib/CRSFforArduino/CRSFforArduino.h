@@ -254,7 +254,7 @@ class CRSFforArduino
     /* CRSF Functions */
     bool begin();
     void end();
-    bool update();
+    void update();
     bool packetReceived();
     uint16_t getChannel(uint8_t channel);
     uint16_t rcToUs(uint16_t rc);

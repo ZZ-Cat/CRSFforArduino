@@ -66,8 +66,7 @@ void setup()
 
 void loop()
 {
-    if (crsf.update())
-    {
+    crsf.update();
 
         /* Print RC channels every 100 ms. Do this using the millis() function to avoid blocking the main loop. */
         static unsigned long lastPrint = 0;
@@ -92,6 +91,5 @@ void loop()
             Serial.print(crsf.rcToUs(crsf.getChannel(8)));
             Serial.println(">");
         }
-    }
 }
 #endif // defined(ARDUINO) && defined(PLATFORMIO)
