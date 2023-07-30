@@ -37,6 +37,8 @@
 #include "Adafruit_ZeroDMA.h"
 #endif
 
+#define CRSF_FRAME_TIMEOUT 1500 // 1500 microseconds.
+
 // Uncomment this line to enable debug output.
 // #define CRSF_DEBUG
 
