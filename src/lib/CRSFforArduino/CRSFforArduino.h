@@ -296,9 +296,12 @@ class CRSFforArduino
 };
 
 #ifdef USE_DMA
+namespace __crsf_private_dma
+{
 /**
  * @brief DMA RX transfer done callback.
  *
  */
 void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
+}
 #endif
