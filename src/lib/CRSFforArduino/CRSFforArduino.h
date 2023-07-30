@@ -300,16 +300,16 @@ class CRSFforArduino
 #ifdef USE_DMA
 namespace __crsf_private_dma
 {
-/**
- * @brief CRSF Rx data handler.
- * 
- */
-void crsfSerialRxHandler(void);
+    /**
+     * @brief CRSF Rx data handler.
+     * 
+     */
+    void crsfSerialRxHandler(void);
 
-/**
- * @brief DMA RX transfer done callback.
- *
- */
-void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
-}
+    /**
+     * @brief DMA RX transfer done callback.
+     *
+     */
+    void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
+} // namespace __crsf_private_dma
 #endif
