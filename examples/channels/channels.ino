@@ -136,8 +136,13 @@ void setup()
 
 void loop()
 {
-    if (crsf.update())
+    crsf.update();
+
+    /* Print RC channels every 100 ms. */
+    static unsigned long lastPrint = 0;
+    if (millis() - lastPrint >= 100)
     {
+        lastPrint = millis();
         Serial.print("RC Channels <A: ");
         Serial.print(crsf.rcToUs(crsf.getChannel(1)));
         Serial.print(", E: ");
