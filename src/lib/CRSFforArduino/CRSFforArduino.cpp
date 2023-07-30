@@ -144,7 +144,6 @@ CompatibilityTable CT = CompatibilityTable();
 // } // namespace __crsf_private_dma
 #endif
 
-
 /**
  * @brief Construct a new CRSFforArduino object.
  *
@@ -205,9 +204,9 @@ bool CRSFforArduino::begin()
     _packetReceived = false;
 
 #ifdef USE_DMA
-    memset(__crsf_private_rx::buffer.raw, 0, CRSF_FRAME_SIZE_MAX);
+    // memset(__crsf_private_rx::buffer.raw, 0, CRSF_FRAME_SIZE_MAX);
     // memset(__crsf_private_rx::dataFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-    memset(__crsf_private_rx::rcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+    // memset(__crsf_private_rx::rcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 #endif
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -226,76 +225,76 @@ bool CRSFforArduino::begin()
     }
 
 #ifdef USE_DMA
-#if defined(ARDUINO_ARCH_SAMD)
-    Sercom *_sercom = _getSercom();
+// #if defined(ARDUINO_ARCH_SAMD)
+//     Sercom *_sercom = _getSercom();
 
-    /* Check if the SERCOM instance was found. */
-    if (_sercom == NULL)
-    {
-#ifdef CRSF_DEBUG
-        Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
-#endif
-        return false;
-    }
-#endif
+//     /* Check if the SERCOM instance was found. */
+//     if (_sercom == NULL)
+//     {
+// #ifdef CRSF_DEBUG
+//         Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
+// #endif
+//         return false;
+//     }
+// #endif
 
-    /* Configure the DMA. */
-    _dmaSerial.setTrigger(SERCOM3_DMAC_ID_RX);
-    _dmaSerial.setAction(DMA_TRIGGER_ACTON_BEAT);
-    _dmaStatus = _dmaSerial.allocate();
-    if (_dmaStatus != DMA_STATUS_OK)
-    {
-        interrupts();
-#ifdef CRSF_DEBUG
-        Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
-        Serial.println(_dmaStatusString[_dmaStatus]);
-#endif
-        return false;
-    }
+//     /* Configure the DMA. */
+//     _dmaSerial.setTrigger(SERCOM3_DMAC_ID_RX);
+//     _dmaSerial.setAction(DMA_TRIGGER_ACTON_BEAT);
+//     _dmaStatus = _dmaSerial.allocate();
+//     if (_dmaStatus != DMA_STATUS_OK)
+//     {
+//         interrupts();
+// #ifdef CRSF_DEBUG
+//         Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
+//         Serial.println(_dmaStatusString[_dmaStatus]);
+// #endif
+//         return false;
+//     }
 
-    /* Configure the DMA descriptors. */
-    _dmaSerialDescriptor = _dmaSerial.addDescriptor(
-#if defined(ARDUINO_ARCH_SAMD)
-        (void *)(&_sercom->USART.DATA.reg),
-#endif
-        &__crsf_private_dma::rxByte,
-        1,
-        DMA_BEAT_SIZE_BYTE,
-        false,
-        false);
+//     /* Configure the DMA descriptors. */
+//     _dmaSerialDescriptor = _dmaSerial.addDescriptor(
+// #if defined(ARDUINO_ARCH_SAMD)
+//         (void *)(&_sercom->USART.DATA.reg),
+// #endif
+//         &__crsf_private_dma::rxByte,
+//         1,
+//         DMA_BEAT_SIZE_BYTE,
+//         false,
+//         false);
 
-    if (_dmaSerialDescriptor == NULL)
-    {
-        interrupts();
-#ifdef CRSF_DEBUG
-        Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
-#endif
+//     if (_dmaSerialDescriptor == NULL)
+//     {
+//         interrupts();
+// #ifdef CRSF_DEBUG
+//         Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
+// #endif
 
-        return false;
-    }
+//         return false;
+//     }
 
-    // Disabled because it is non-functional for some reason.
-    _dmaSerial.loop(true);
+//     // Disabled because it is non-functional for some reason.
+//     _dmaSerial.loop(true);
 
-    /* Configure the DMA callback. */
-    _dmaSerial.setCallback(__crsf_private_dma::_dmaSerialCallback);
+//     /* Configure the DMA callback. */
+//     _dmaSerial.setCallback(__crsf_private_dma::_dmaSerialCallback);
 
-    /* Enable interrupts. */
-    interrupts();
+//     /* Enable interrupts. */
+//     interrupts();
 
-    /* Flush the serial buffer. */
-    _flushSerial();
+//     /* Flush the serial buffer. */
+//     _flushSerial();
 
-    /* Start the DMA. */
-    _dmaStatus = _dmaSerial.startJob();
-    if (_dmaStatus != DMA_STATUS_OK)
-    {
-#ifdef CRSF_DEBUG
-        Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
-        Serial.println(_dmaStatusString[_dmaStatus]);
-#endif
-        return false;
-    }
+//     /* Start the DMA. */
+//     _dmaStatus = _dmaSerial.startJob();
+//     if (_dmaStatus != DMA_STATUS_OK)
+//     {
+// #ifdef CRSF_DEBUG
+//         Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+//         Serial.println(_dmaStatusString[_dmaStatus]);
+// #endif
+//         return false;
+//     }
 #else
     /* Enable interrupts. */
     interrupts();
@@ -330,61 +329,61 @@ void CRSFforArduino::end()
 void CRSFforArduino::update()
 {
 #ifdef USE_DMA
-    if (__crsf_private_dma::dmaTransferDone == true)
-    {
-        __crsf_private_dma::dmaTransferDone = false;
+    // if (__crsf_private_dma::dmaTransferDone == true)
+    // {
+    //     __crsf_private_dma::dmaTransferDone = false;
 
-        if (__crsf_private_rx::frameReceived == true)
-        {
-            // Clear the frame received flag.
-            __crsf_private_rx::frameReceived = false;
+    //     if (__crsf_private_rx::frameReceived == true)
+    //     {
+    //         // Clear the frame received flag.
+    //         __crsf_private_rx::frameReceived = false;
 
-            // Get the full frame length & its CRC.
-            const int fullFrameLength = __crsf_private_rx::crsfFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH;
-            const uint8_t crc = _crsfFrameCRC();
+    //         // Get the full frame length & its CRC.
+    //         const int fullFrameLength = __crsf_private_rx::crsfFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH;
+    //         const uint8_t crc = _crsfFrameCRC();
 
-            // Check if the CRC is correct.
-            if (crc == __crsf_private_rx::crsfFrame.raw[fullFrameLength - 1])
-            {
-                // Check if the packet is a CRSF frame.
-                if (__crsf_private_rx::crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
-                {
-                    // Check if the packet is a CRSF RC frame.
-                    if (__crsf_private_rx::crsfFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
-                    {
-                        // Unpack the RC channels.
-                        const __crsf_rcChannelsPacked_t *rcChannelsPacked = (__crsf_rcChannelsPacked_t *)&__crsf_private_rx::crsfFrame.frame.payload;
+    //         // Check if the CRC is correct.
+    //         if (crc == __crsf_private_rx::crsfFrame.raw[fullFrameLength - 1])
+    //         {
+    //             // Check if the packet is a CRSF frame.
+    //             if (__crsf_private_rx::crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+    //             {
+    //                 // Check if the packet is a CRSF RC frame.
+    //                 if (__crsf_private_rx::crsfFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
+    //                 {
+    //                     // Unpack the RC channels.
+    //                     const __crsf_rcChannelsPacked_t *rcChannelsPacked = (__crsf_rcChannelsPacked_t *)&__crsf_private_rx::crsfFrame.frame.payload;
 
-                        _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
-                        _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
-                        _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
-                        _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
-                        _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
-                        _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
-                        _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
-                        _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
-                        _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
-                        _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
-                        _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
-                        _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
-                        _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
-                        _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
-                        _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
-                        _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
-                    }
-                }
+    //                     _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+    //                     _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+    //                     _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+    //                     _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+    //                     _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+    //                     _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+    //                     _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+    //                     _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+    //                     _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+    //                     _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+    //                     _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+    //                     _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+    //                     _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+    //                     _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+    //                     _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+    //                     _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+    //                 }
+    //             }
 
-                // Increment the packet counter.
-                _crsfFrameCount = (_crsfFrameCount + 1) % 2;
+    //             // Increment the packet counter.
+    //             _crsfFrameCount = (_crsfFrameCount + 1) % 2;
 
-                // Check if it is time to send telemetry.
-                if (_crsfFrameCount == 0)
-                {
-                    _telemetryProcessFrame();
-                }
-            }
-        }
-    }
+    //             // Check if it is time to send telemetry.
+    //             if (_crsfFrameCount == 0)
+    //             {
+    //                 _telemetryProcessFrame();
+    //             }
+    //         }
+    //     }
+    // }
 #else
     while (_serial->available() > 0)
     {
