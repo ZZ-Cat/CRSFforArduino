@@ -60,6 +60,8 @@ CompatibilityTable CT = CompatibilityTable();
  *
  */
 
+using namespace crsfProtocol;
+
 // #ifdef USE_DMA
 // using namespace __crsf_private_dma;
 // using namespace __crsf_private_rx;
