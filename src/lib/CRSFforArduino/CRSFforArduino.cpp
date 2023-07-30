@@ -61,8 +61,16 @@ CompatibilityTable CT = CompatibilityTable();
  */
 
 #ifdef USE_DMA
-volatile bool _dmaTransferDone = false;
+// volatile bool _dmaTransferDone = false;
 #endif
+
+namespace __crsf_private_rx
+{
+    __crsf_frame_t buffer;
+    __crsf_frame_t crsfFrame;
+    __crsf_frame_t rcChannelsPackedFrame;
+    volatile bool packetReceived = false;
+}
 
 /**
  * @brief Construct a new CRSFforArduino object.
@@ -122,6 +130,10 @@ bool CRSFforArduino::begin()
 
     /* Initialise RC channels. */
     _packetReceived = false;
+
+    memset(__crsf_private_rx::buffer.raw, 0, CRSF_FRAME_SIZE_MAX);
+    // memset(__crsf_private_rx::dataFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+    memset(__crsf_private_rx::rcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_crsfRcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -191,7 +203,7 @@ bool CRSFforArduino::begin()
     // _dmaSerial.loop(true);
 
     /* Configure the DMA callback. */
-    _dmaSerial.setCallback(_dmaSerialCallback);
+    _dmaSerial.setCallback(__crsf_private_dma::_dmaSerialCallback);
 
     /* Enable interrupts. */
     interrupts();
@@ -243,9 +255,9 @@ void CRSFforArduino::end()
 bool CRSFforArduino::update()
 {
 #ifdef USE_DMA
-    if (_dmaTransferDone == true)
+    if (__crsf_private_dma::_dmaTransferDone == true)
     {
-        _dmaTransferDone = false;
+       __crsf_private_dma::_dmaTransferDone = false;
 #else
     while (_serial->available() > 0)
     {
@@ -886,6 +898,61 @@ void CRSFforArduino::_flushSerial()
 #ifdef USE_DMA
 namespace __crsf_private_dma
 {
+    uint8_t rxByte = 0;
+    volatile uint32_t frameStartTime = 0;
+    volatile bool _dmaTransferDone = false;
+
+    /**
+     * @brief Handles the reception of CRSF packets.
+     * This function is called by the DMA callback function.
+     *
+     */
+    void crsfSerialRxHandler()
+    {
+        static uint8_t framePosition = 0;
+        const uint32_t currentTime = micros();
+
+        // Reset the frame position, if the timeout has elapsed.
+        if (currentTime - frameStartTime > CRSF_FRAME_TIMEOUT)
+        {
+            framePosition = 0;
+
+            // Compensate for micros() overflow.
+            if (currentTime < frameStartTime)
+            {
+                frameStartTime = currentTime;
+            }
+        }
+
+        // Set the frame start time, if the frame position is 0.
+        if (framePosition == 0)
+        {
+            frameStartTime = currentTime;
+        }
+
+        // Assume the CRSF frame length is 5 bytes until the frame length is known.
+        // Use the maximum buffer size to prevent buffer overflows.
+        const int fullFrameLength = framePosition < 3 ? 5 : min(__crsf_private_rx::buffer.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, CRSF_FRAME_SIZE_MAX);
+
+        if (framePosition < fullFrameLength)
+        {
+            __crsf_private_rx::buffer.raw[framePosition++] = rxByte;
+
+            // Check if the frame is complete.
+            if (framePosition >= fullFrameLength)
+            {
+                // Reset the frame position.
+                framePosition = 0;
+
+                // Copy data from the buffer to the CRSF frame.
+                memcpy(&__crsf_private_rx::crsfFrame, &__crsf_private_rx::buffer, CRSF_FRAME_SIZE_MAX);
+
+                // Set the packet received flag.
+                __crsf_private_rx::packetReceived = true;
+            }
+        }
+    }
+
 /**
  * @brief DMA callback function.
  *
@@ -897,6 +964,9 @@ namespace __crsf_private_dma
 void _dmaSerialCallback(Adafruit_ZeroDMA *dma)
 {
     (void)dma;
+
+    /* Process received data. */
+    crsfSerialRxHandler();
 
     /* Set the DMA Transfer Done flag. */
     _dmaTransferDone = true;

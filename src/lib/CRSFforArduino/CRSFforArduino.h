@@ -301,6 +301,12 @@ class CRSFforArduino
 namespace __crsf_private_dma
 {
 /**
+ * @brief CRSF Rx data handler.
+ * 
+ */
+void crsfSerialRxHandler(void);
+
+/**
  * @brief DMA RX transfer done callback.
  *
  */
