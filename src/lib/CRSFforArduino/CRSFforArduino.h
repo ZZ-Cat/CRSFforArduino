@@ -244,6 +244,22 @@ using namespace __crsf_private_dma;
 using namespace __crsf_private_rx;
 #endif
 
+namespace testMyPatience
+{
+    // int testMyInt;
+    void testThisFunction(void);
+
+    class isThisWorking
+    {
+    public:
+        isThisWorking();
+        ~isThisWorking();
+        void testMyFunction(void);
+    };
+}
+
+using namespace testMyPatience;
+
 class CRSFforArduino
 {
   public:
