@@ -213,6 +213,37 @@ typedef struct __crsf_telemetryData_s
     __crsf_gpsData_t gps;
 } __crsf_telemetryData_t;
 
+#ifdef USE_DMA
+namespace __crsf_private_rx
+{
+    __crsf_frame_t buffer;
+    __crsf_frame_t crsfFrame;
+    __crsf_frame_t rcChannelsPackedFrame;
+    volatile bool frameReceived = false;
+} // namespace __crsf_private_rx
+
+namespace __crsf_private_dma
+{
+    uint8_t rxByte = 0;
+    volatile uint32_t frameStartTime = 0;
+    volatile bool dmaTransferDone = false;
+
+    /**
+     * @brief CRSF Rx data handler.
+     * 
+     */
+    void crsfSerialRxHandler(void);
+
+    /**
+     * @brief DMA RX transfer done callback.
+     *
+     */
+    void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
+} // namespace __crsf_private_dma
+using namespace __crsf_private_dma;
+using namespace __crsf_private_rx;
+#endif
+
 class CRSFforArduino
 {
   public:
@@ -296,20 +327,3 @@ class CRSFforArduino
 
     void _flushSerial(void);
 };
-
-#ifdef USE_DMA
-namespace __crsf_private_dma
-{
-    /**
-     * @brief CRSF Rx data handler.
-     * 
-     */
-    void crsfSerialRxHandler(void);
-
-    /**
-     * @brief DMA RX transfer done callback.
-     *
-     */
-    void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
-} // namespace __crsf_private_dma
-#endif
