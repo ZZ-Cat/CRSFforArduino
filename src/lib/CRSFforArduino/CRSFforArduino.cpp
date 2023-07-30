@@ -60,7 +60,7 @@ CompatibilityTable CT = CompatibilityTable();
  *
  */
 
-#ifdef USE_DMA
+// #ifdef USE_DMA
 // using namespace __crsf_private_dma;
 // using namespace __crsf_private_rx;
 
@@ -142,7 +142,7 @@ CompatibilityTable CT = CompatibilityTable();
 //         dmaTransferDone = true;
 //     }
 // } // namespace __crsf_private_dma
-#endif
+// #endif
 
 /**
  * @brief Construct a new CRSFforArduino object.
@@ -203,11 +203,11 @@ bool CRSFforArduino::begin()
     /* Initialise RC channels. */
     _packetReceived = false;
 
-#ifdef USE_DMA
+    // #ifdef USE_DMA
     // memset(__crsf_private_rx::buffer.raw, 0, CRSF_FRAME_SIZE_MAX);
     // memset(__crsf_private_rx::dataFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     // memset(__crsf_private_rx::rcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#endif
+    // #endif
 
     memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
     memset(_crsfRcChannelsPackedFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -224,84 +224,84 @@ bool CRSFforArduino::begin()
         }
     }
 
-#ifdef USE_DMA
-// #if defined(ARDUINO_ARCH_SAMD)
-//     Sercom *_sercom = _getSercom();
+    // #ifdef USE_DMA
+    // #if defined(ARDUINO_ARCH_SAMD)
+    //     Sercom *_sercom = _getSercom();
 
-//     /* Check if the SERCOM instance was found. */
-//     if (_sercom == NULL)
-//     {
-// #ifdef CRSF_DEBUG
-//         Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
-// #endif
-//         return false;
-//     }
-// #endif
+    //     /* Check if the SERCOM instance was found. */
+    //     if (_sercom == NULL)
+    //     {
+    // #ifdef CRSF_DEBUG
+    //         Serial.println("[CRSF for Arduino | ERROR] SERCOM instance not found.");
+    // #endif
+    //         return false;
+    //     }
+    // #endif
 
-//     /* Configure the DMA. */
-//     _dmaSerial.setTrigger(SERCOM3_DMAC_ID_RX);
-//     _dmaSerial.setAction(DMA_TRIGGER_ACTON_BEAT);
-//     _dmaStatus = _dmaSerial.allocate();
-//     if (_dmaStatus != DMA_STATUS_OK)
-//     {
-//         interrupts();
-// #ifdef CRSF_DEBUG
-//         Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
-//         Serial.println(_dmaStatusString[_dmaStatus]);
-// #endif
-//         return false;
-//     }
+    //     /* Configure the DMA. */
+    //     _dmaSerial.setTrigger(SERCOM3_DMAC_ID_RX);
+    //     _dmaSerial.setAction(DMA_TRIGGER_ACTON_BEAT);
+    //     _dmaStatus = _dmaSerial.allocate();
+    //     if (_dmaStatus != DMA_STATUS_OK)
+    //     {
+    //         interrupts();
+    // #ifdef CRSF_DEBUG
+    //         Serial.print("[CRSF for Arduino | ERROR] DMA allocation failed with status: ");
+    //         Serial.println(_dmaStatusString[_dmaStatus]);
+    // #endif
+    //         return false;
+    //     }
 
-//     /* Configure the DMA descriptors. */
-//     _dmaSerialDescriptor = _dmaSerial.addDescriptor(
-// #if defined(ARDUINO_ARCH_SAMD)
-//         (void *)(&_sercom->USART.DATA.reg),
-// #endif
-//         &__crsf_private_dma::rxByte,
-//         1,
-//         DMA_BEAT_SIZE_BYTE,
-//         false,
-//         false);
+    //     /* Configure the DMA descriptors. */
+    //     _dmaSerialDescriptor = _dmaSerial.addDescriptor(
+    // #if defined(ARDUINO_ARCH_SAMD)
+    //         (void *)(&_sercom->USART.DATA.reg),
+    // #endif
+    //         &__crsf_private_dma::rxByte,
+    //         1,
+    //         DMA_BEAT_SIZE_BYTE,
+    //         false,
+    //         false);
 
-//     if (_dmaSerialDescriptor == NULL)
-//     {
-//         interrupts();
-// #ifdef CRSF_DEBUG
-//         Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
-// #endif
+    //     if (_dmaSerialDescriptor == NULL)
+    //     {
+    //         interrupts();
+    // #ifdef CRSF_DEBUG
+    //         Serial.println("[CRSF for Arduino | ERROR] DMA descriptor allocation failed.");
+    // #endif
 
-//         return false;
-//     }
+    //         return false;
+    //     }
 
-//     // Disabled because it is non-functional for some reason.
-//     _dmaSerial.loop(true);
+    //     // Disabled because it is non-functional for some reason.
+    //     _dmaSerial.loop(true);
 
-//     /* Configure the DMA callback. */
-//     _dmaSerial.setCallback(__crsf_private_dma::_dmaSerialCallback);
+    //     /* Configure the DMA callback. */
+    //     _dmaSerial.setCallback(__crsf_private_dma::_dmaSerialCallback);
 
-//     /* Enable interrupts. */
-//     interrupts();
+    //     /* Enable interrupts. */
+    //     interrupts();
 
-//     /* Flush the serial buffer. */
-//     _flushSerial();
+    //     /* Flush the serial buffer. */
+    //     _flushSerial();
 
-//     /* Start the DMA. */
-//     _dmaStatus = _dmaSerial.startJob();
-//     if (_dmaStatus != DMA_STATUS_OK)
-//     {
-// #ifdef CRSF_DEBUG
-//         Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
-//         Serial.println(_dmaStatusString[_dmaStatus]);
-// #endif
-//         return false;
-//     }
-#else
+    //     /* Start the DMA. */
+    //     _dmaStatus = _dmaSerial.startJob();
+    //     if (_dmaStatus != DMA_STATUS_OK)
+    //     {
+    // #ifdef CRSF_DEBUG
+    //         Serial.print("[CRSF for Arduino | ERROR] DMA start failed with status: ");
+    //         Serial.println(_dmaStatusString[_dmaStatus]);
+    // #endif
+    //         return false;
+    //     }
+    // #else
     /* Enable interrupts. */
     interrupts();
 
     /* Flush the serial buffer. */
     _flushSerial();
-#endif
+    // #endif
 
     return true;
 }
@@ -328,7 +328,7 @@ void CRSFforArduino::end()
  */
 void CRSFforArduino::update()
 {
-#ifdef USE_DMA
+    // #ifdef USE_DMA
     // if (__crsf_private_dma::dmaTransferDone == true)
     // {
     //     __crsf_private_dma::dmaTransferDone = false;
@@ -384,12 +384,12 @@ void CRSFforArduino::update()
     //         }
     //     }
     // }
-#else
+    // #else
     while (_serial->available() > 0)
     {
         _serial->readBytes(_crsfFrame.raw, CRSF_FRAME_SIZE_MAX);
     }
-#endif
+    // #endif
 
     // #ifdef USE_DMA
     //     if (__crsf_private_dma::_dmaTransferDone == true)
@@ -657,16 +657,16 @@ void CRSFforArduino::_telemetryFinaliseFrame()
     }
     _serialBufferWriteU8(crc);
 
-#ifdef USE_DMA
-// For some reason, the DMA does not work with the telemetry frame.
-#warning "DMA is temporarily disabled for the telemetry frame."
+    // #ifdef USE_DMA
+    // For some reason, the DMA does not work with the telemetry frame.
+    // #warning "DMA is temporarily disabled for the telemetry frame."
 
     // Until I can figure out why, the telemetry frame will be sent using serial.
-    _serial->write(_serialBuffer, _serialBufferLength);
-#else
+    // _serial->write(_serialBuffer, _serialBufferLength);
+    // #else
     // Send the telemetry frame.
     _serial->write(_serialBuffer, _serialBufferLength);
-#endif
+    // #endif
 }
 
 /**

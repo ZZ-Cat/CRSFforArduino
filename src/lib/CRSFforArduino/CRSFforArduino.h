@@ -213,7 +213,7 @@ typedef struct __crsf_telemetryData_s
     __crsf_gpsData_t gps;
 } __crsf_telemetryData_t;
 
-#ifdef USE_DMA
+// #ifdef USE_DMA
 // namespace __crsf_private_rx
 // {
 //     __crsf_frame_t buffer;
@@ -242,7 +242,7 @@ typedef struct __crsf_telemetryData_s
 // } // namespace __crsf_private_dma
 // using namespace __crsf_private_dma;
 // using namespace __crsf_private_rx;
-#endif
+// #endif
 
 class CRSFforArduino
 {
@@ -298,28 +298,28 @@ class CRSFforArduino
     uint8_t _serialBufferWriteU16BE(uint16_t data);
     uint8_t _serialBufferWriteU32BE(uint32_t data);
 
-#ifdef USE_DMA
+    // #ifdef USE_DMA
     /* DMA */
     // Adafruit_ZeroDMA _dmaSerial;
     // DmacDescriptor *_dmaSerialDescriptor;
     // ZeroDMAstatus _dmaStatus;
 
-#ifdef CRSF_DEBUG
+    // #ifdef CRSF_DEBUG
     // Use the ZeroDMAstatus enum in Adafruit_ZeroDMA.h for the status codes.
     // Make it human readable.
-    const char *_dmaStatusString[10] = {
-        "OK",
-        "NOT FOUND",
-        "NOT INITIALISED",
-        "INVALID ARGUMENT",
-        "IO ERROR",
-        "TIMED OUT",
-        "BUSY",
-        "SUSPENDED",
-        "ABORTED",
-        "JOBS FULL"};
-#endif
-#endif
+    // const char *_dmaStatusString[10] = {
+    //     "OK",
+    //     "NOT FOUND",
+    //     "NOT INITIALISED",
+    //     "INVALID ARGUMENT",
+    //     "IO ERROR",
+    //     "TIMED OUT",
+    //     "BUSY",
+    //     "SUSPENDED",
+    //     "ABORTED",
+    //     "JOBS FULL"};
+    // #endif
+    // #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_getSercom(void);
