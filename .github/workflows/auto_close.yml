@@ -17,4 +17,4 @@ jobs:
           stale-issue-label: 'Stale 🚮'
           exempt-issue-labels: '🚨 Help Wanted 🚨, Note to self ✏️🗒, Pending 📌'
           stale-pr-label: 'Stale 🚮'
-          exempt-pr-labels: 'Bug Fix 👋🐞💥, 🚨 Help Wanted 🚨, ⤴️ Rebase Needed ⤴️'
+          exempt-pr-labels: 'Bug Fix 👋🐞💥, 🚨 Help Wanted 🚨, ...in progress 🚧, ⤴️ Rebase Needed ⤴️'
