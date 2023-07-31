@@ -60,11 +60,6 @@ CompatibilityTable CT = CompatibilityTable();
  *
  */
 
-namespace crsfProtocol
-{
-    frame_t _crsfFrame;
-    frame_t _crsfRcChannelsPackedFrame;
-}
 
 using namespace crsfProtocol;
 
