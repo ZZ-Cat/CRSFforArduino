@@ -60,6 +60,12 @@ CompatibilityTable CT = CompatibilityTable();
  *
  */
 
+namespace crsfProtocol
+{
+    frame_t _crsfFrame;
+    frame_t _crsfRcChannelsPackedFrame;
+}
+
 using namespace crsfProtocol;
 
 // #ifdef USE_DMA
@@ -203,7 +209,7 @@ bool CRSFforArduino::begin()
     _telemetryBegin();
 
     /* Initialise RC channels. */
-    _packetReceived = false;
+    _rcFrameReceived = false;
 
     // #ifdef USE_DMA
     // memset(__crsf_private_rx::buffer.raw, 0, CRSF_FRAME_SIZE_MAX);
@@ -389,7 +395,96 @@ void CRSFforArduino::update()
     // #else
     while (_serial->available() > 0)
     {
-        _serial->readBytes(_crsfFrame.raw, CRSF_FRAME_SIZE_MAX);
+        static uint8_t framePosition;
+        static uint32_t frameStartTime = 0;
+        const uint32_t currentTime = micros();
+
+        // Reset the frame position, if the timeout has elapsed.
+        if (currentTime - frameStartTime > CRSF_FRAME_TIMEOUT)
+        {
+            framePosition = 0;
+
+            // Compensate for micros() overflow.
+            if (currentTime < frameStartTime)
+            {
+                frameStartTime = currentTime;
+            }
+        }
+
+        if (framePosition == 0)
+        {
+            frameStartTime = currentTime;
+        }
+
+        // Assume the full frame length is 5 bytes until the frame length is known.
+        const int fullFrameLength = framePosition < 3 ? 5 : min(_crsfFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, CRSF_FRAME_SIZE_MAX);
+
+        if (framePosition < fullFrameLength)
+        {
+            _crsfFrame.raw[framePosition++] = (uint8_t)_serial->read();
+
+            if (framePosition >= fullFrameLength)
+            {
+                const uint8_t crc = _crsfFrameCRC();
+
+                if (crc == _crsfFrame.raw[fullFrameLength - 1])
+                {
+                    switch (_crsfFrame.frame.type)
+                    {
+                        case CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
+                            if (_crsfFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+                            {
+                                memcpy(&_crsfRcChannelsPackedFrame, &_crsfFrame, sizeof(_crsfFrame));
+                                _rcFrameReceived = true;
+                            }
+                            break;
+                    }
+                }
+
+                // Flush any remaining data that may be in the serial buffer.
+                _flushSerial();
+
+                // Empty the CRSF frame buffer.
+                memset(_crsfFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+                framePosition = 0;
+
+                // Increment the telemetry frame counter.
+                _crsfFrameCount = (_crsfFrameCount + 1) % 2;
+
+                // Check if it is time to send telemetry.
+                if (_crsfFrameCount == 0)
+                {
+                    _telemetryProcessFrame();
+                }
+                break;
+            }
+        }
+    }
+
+    if (_rcFrameReceived == true)
+    {
+        // Unpack RC Channels.
+        const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&_crsfRcChannelsPackedFrame.frame.payload;
+
+        _channels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+        _channels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+        _channels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+        _channels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+        _channels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+        _channels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+        _channels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+        _channels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+        _channels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+        _channels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+        _channels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+        _channels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+        _channels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+        _channels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+        _channels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+        _channels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+
+        // Clear the packet received flag.
+        _rcFrameReceived = false;
     }
     // #endif
 
@@ -477,7 +572,7 @@ void CRSFforArduino::update()
  */
 bool CRSFforArduino::packetReceived()
 {
-    return _packetReceived;
+    return _rcFrameReceived;
 }
 
 /**
