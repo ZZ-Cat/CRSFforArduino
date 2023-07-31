@@ -216,37 +216,6 @@ namespace crsfProtocol
     } telemetryData_t;
 } // namespace crsfProtocol
 
-// #ifdef USE_DMA
-// namespace __crsf_private_rx
-// {
-//     __crsf_frame_t buffer;
-//     __crsf_frame_t crsfFrame;
-//     __crsf_frame_t rcChannelsPackedFrame;
-//     volatile bool frameReceived = false;
-// } // namespace __crsf_private_rx
-
-// namespace __crsf_private_dma
-// {
-//     uint8_t rxByte = 0;
-//     volatile uint32_t frameStartTime = 0;
-//     volatile bool dmaTransferDone = false;
-
-//     /**
-//      * @brief CRSF Rx data handler.
-//      *
-//      */
-//     void crsfSerialRxHandler(void);
-
-//     /**
-//      * @brief DMA RX transfer done callback.
-//      *
-//      */
-//     void _dmaSerialCallback(Adafruit_ZeroDMA *dma);
-// } // namespace __crsf_private_dma
-// using namespace __crsf_private_dma;
-// using namespace __crsf_private_rx;
-// #endif
-
 class CRSFforArduino
 {
   public:
@@ -300,29 +269,6 @@ class CRSFforArduino
     uint8_t _serialBufferWriteU32(uint32_t data);
     uint8_t _serialBufferWriteU16BE(uint16_t data);
     uint8_t _serialBufferWriteU32BE(uint32_t data);
-
-    // #ifdef USE_DMA
-    /* DMA */
-    // Adafruit_ZeroDMA _dmaSerial;
-    // DmacDescriptor *_dmaSerialDescriptor;
-    // ZeroDMAstatus _dmaStatus;
-
-    // #ifdef CRSF_DEBUG
-    // Use the ZeroDMAstatus enum in Adafruit_ZeroDMA.h for the status codes.
-    // Make it human readable.
-    // const char *_dmaStatusString[10] = {
-    //     "OK",
-    //     "NOT FOUND",
-    //     "NOT INITIALISED",
-    //     "INVALID ARGUMENT",
-    //     "IO ERROR",
-    //     "TIMED OUT",
-    //     "BUSY",
-    //     "SUSPENDED",
-    //     "ABORTED",
-    //     "JOBS FULL"};
-    // #endif
-    // #endif
 
 #if defined(ARDUINO_ARCH_SAMD)
     Sercom *_getSercom(void);
