@@ -271,8 +271,8 @@ class CRSFforArduino
     HardwareSerial *_serial;
     uint16_t _crsfFrameCount;
     uint16_t _channels[RC_CHANNEL_COUNT];
-    // crsfProtocol::frame_t _crsfFrame;
-    // crsfProtocol::frame_t _crsfRcChannelsPackedFrame;
+    crsfProtocol::frame_t _crsfFrame;
+    crsfProtocol::frame_t _crsfRcChannelsPackedFrame;
 
     /* Telemetry */
     uint8_t _telemetryFrameIndex;
