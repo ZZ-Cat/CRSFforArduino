@@ -1,7 +1,7 @@
 /**
  * @file Hardware.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This file includes the hardware compatibility table and dev board definitions.
+ * @brief This file is the top level of the hardware abstraction layer.
  * @version 0.4.0
  * @date 2023-08-01
  *
@@ -25,3 +25,9 @@
  */
 
 #pragma once
+
+#include "DevBoards/DevBoards.h"
+
+using namespace hal;
+
+DevBoards board;

@@ -1,7 +1,7 @@
 /**
  * @file DevBoards.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief DevBoards class definition.
+ * @brief This file contains the DevBoards class, which is used to configure CRSF for Arduino for specific development boards.
  * @version 0.4.0
  * @date 2023-08-01
  *
@@ -25,3 +25,52 @@
  */
 
 #pragma once
+
+#include "Arduino.h"
+
+namespace hal
+{
+#define USE_ERROR_FLAGS 0
+    class DevBoards : private HardwareSerial
+    {
+      public:
+        DevBoards();
+        ~DevBoards();
+
+        void setUART(uint8_t port, uint8_t rx, uint8_t tx);
+
+        // Hardware Serial functions.
+        void begin(unsigned long baudrate, uint16_t config = SERIAL_8N1);
+        void end();
+        int available(void);
+        int peek(void);
+        int read(void);
+        void flush(void);
+        size_t write(uint8_t c);
+        using Print::write; // pull in write(str) and write(buf, size) from Print
+        operator bool();
+
+      private:
+#if USE_ERROR_FLAGS > 0
+        enum error_flags_e
+        {
+            UART_PORT_OK = 0x00,
+            UART_PORT_NOT_SET = 0x01,
+            UART_PORT_NOT_AVAILABLE = 0x02,
+        };
+
+        typedef enum error_flags_e error_flags_t;
+
+        error_flags_t error_flags = UART_PORT_NOT_SET;
+
+        error_flags_t getErrorFlag();
+        void setErrorFlag(error_flags_t flag);
+        void clearErrorFlag();
+#endif
+
+#if defined(ARDUINO_ARCH_SAMD)
+        // Sercom *sercom;
+        Uart *uart_port = NULL;
+#endif
+    };
+} // namespace hal
