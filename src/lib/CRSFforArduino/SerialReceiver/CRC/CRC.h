@@ -25,3 +25,16 @@
  */
 
 #pragma once
+#include "Arduino.h"
+
+namespace serialReceiver
+{
+    class CRC
+    {
+      public:
+        CRC();
+        ~CRC();
+
+        uint8_t crc_8_dvb_s2(uint8_t crc, uint8_t data, uint8_t poly = 0xd5);
+    };
+} // namespace serialReceiver

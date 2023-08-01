@@ -23,3 +23,33 @@
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
  * 
  */
+
+#include "CRC.h"
+
+namespace serialReceiver
+{
+    CRC::CRC()
+    {
+    }
+
+    CRC::~CRC()
+    {
+    }
+
+    uint8_t CRC::crc_8_dvb_s2(uint8_t crc, uint8_t data, uint8_t poly)
+    {
+        crc ^= data;
+        for (uint8_t i = 0; i < 8; i++)
+        {
+            if (crc & 0x80)
+            {
+                crc = (crc << 1) ^ poly;
+            }
+            else
+            {
+                crc <<= 1;
+            }
+        }
+        return crc;
+    }
+} // namespace serialReceiver
