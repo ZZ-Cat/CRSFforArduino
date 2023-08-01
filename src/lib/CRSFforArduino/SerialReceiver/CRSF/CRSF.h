@@ -25,3 +25,25 @@
  */
 
 #pragma once
+
+#include "Arduino.h"
+#include "CRSFProtocol.h"
+#include "SerialReceiver/CRC/CRC.h"
+
+namespace serialReceiver
+{
+    class CRSF : private CRC
+    {
+      public:
+        CRSF();
+        ~CRSF();
+        void processFrame();
+      private:
+        bool rcFrameComplete;
+        uint16_t frameCount;
+        uint16_t channelData[crsfProtocol::RC_CHANNEL_COUNT];
+        crsfProtocol::frame_t frame;
+        crsfProtocol::frame_t rcChannelsFrame;
+        // const uint32_t timePerFrame = ((1000000 * 10) / (crsfProtocol::BAUD_RATE / (crsfProtocol::CRSF_FRAME_SIZE_MAX - 1)));
+    };
+} // namespace serialReceiver

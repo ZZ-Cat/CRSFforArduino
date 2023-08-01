@@ -23,3 +23,24 @@
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
  * 
  */
+
+#include "CRSF.h"
+
+namespace serialReceiver
+{
+    CRSF::CRSF()
+    {
+    }
+
+    CRSF::~CRSF()
+    {
+    }
+
+    void CRSF::processFrame()
+    {
+        uint8_t crc = 0;
+        uint8_t c = 0;
+        crc = crc_8_dvb_s2(crc, c, 0xd5);
+        // crc = CRC::crc_8_dvb_s2(crc, c, 0xd5);
+    }
+} // namespace serialReceiver
