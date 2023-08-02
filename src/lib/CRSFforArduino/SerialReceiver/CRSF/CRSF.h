@@ -42,7 +42,8 @@ namespace serialReceiver
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
         bool receiveFrames(uint8_t byte);
         uint16_t *getRcChannels();
-    private:
+
+      private:
         bool rcFrameReceived;
         uint16_t frameCount;
         uint16_t channelData[crsfProtocol::RC_CHANNEL_COUNT];

@@ -99,13 +99,13 @@ namespace serialReceiver
                 {
                     switch (rxFrame.frame.type)
                     {
-                    case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
-                        if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
-                        {
-                            memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
-                            rcFrameReceived = true;
-                        }
-                        break;
+                        case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
+                            if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+                            {
+                                memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+                                rcFrameReceived = true;
+                            }
+                            break;
                     }
                 }
 
