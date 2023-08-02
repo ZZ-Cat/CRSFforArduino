@@ -38,6 +38,11 @@ namespace hal
 
     void DevBoards::setUART(uint8_t port, uint8_t rx, uint8_t tx)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        (void)port;
+        (void)rx;
+        (void)tx;
+#else
 #if defined(ARDUINO_ARCH_SAMD)
         // If UART port was defined beforehand, delete it.
         if (uart_port != NULL)
@@ -75,10 +80,12 @@ namespace hal
             setErrorFlag(UART_PORT_NOT_AVAILABLE);
         }
 #endif
+#endif
     }
 
     void DevBoards::clearUART()
     {
+#ifndef DISABLE_LIBRARY_CODE
 #if defined(ARDUINO_ARCH_SAMD)
         // If UART port was defined beforehand, delete it.
         if (uart_port != NULL)
@@ -88,10 +95,12 @@ namespace hal
 #endif
 
         uart_port = NULL;
+#endif
     }
 
     void DevBoards::begin(unsigned long baudrate, uint16_t config)
     {
+#ifndef DISABLE_LIBRARY_CODE
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -103,10 +112,12 @@ namespace hal
 
         // Begin the UART port.
         uart_port->begin(baudrate, config);
+#endif
     }
 
     void DevBoards::end()
     {
+#ifndef DISABLE_LIBRARY_CODE
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -118,10 +129,14 @@ namespace hal
 
         // End the UART port.
         uart_port->end();
+#endif
     }
 
     int DevBoards::available(void)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return 0;
+#else
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -133,10 +148,14 @@ namespace hal
 
         // Return the number of bytes available in the UART port.
         return uart_port->available();
+#endif
     }
 
     int DevBoards::peek(void)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return 0;
+#else
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -148,10 +167,14 @@ namespace hal
 
         // Return the next byte in the UART port without removing it from the buffer.
         return uart_port->peek();
+#endif
     }
 
     int DevBoards::read(void)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return 0;
+#else
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -163,10 +186,12 @@ namespace hal
 
         // Return the next byte in the UART port and remove it from the buffer.
         return uart_port->read();
+#endif
     }
 
     void DevBoards::flush(void)
     {
+#ifndef DISABLE_LIBRARY_CODE
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -178,10 +203,14 @@ namespace hal
 
         // Flush the UART port.
         uart_port->flush();
+#endif
     }
 
     size_t DevBoards::write(uint8_t c)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return 0;
+#else
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -193,10 +222,14 @@ namespace hal
 
         // Write a byte to the UART port.
         return uart_port->write(c);
+#endif
     }
 
     DevBoards::operator bool()
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return false;
+#else
 #if USE_ERROR_FLAGS > 0
         // Return if UART port is not set.
         if (uart_port == NULL)
@@ -208,10 +241,12 @@ namespace hal
 
         // Return if the UART port is available.
         return uart_port->operator bool();
+#endif
     }
 
     void DevBoards::enterCriticalSection()
     {
+#ifndef DISABLE_LIBRARY_CODE
         // Enter a critical section.
 #if defined(ARDUINO_ARCH_SAMD)
         __disable_irq();
@@ -221,10 +256,12 @@ namespace hal
 
         // Increment the critical section counter.
         critical_section_counter++;
+#endif
     }
 
     void DevBoards::exitCriticalSection()
     {
+#ifndef DISABLE_LIBRARY_CODE
         // Decrement the critical section counter.
         critical_section_counter--;
 
@@ -237,6 +274,7 @@ namespace hal
             interrupts();
 #endif
         }
+#endif
     }
 
 #if USE_ERROR_FLAGS > 0

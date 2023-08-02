@@ -32,27 +32,44 @@ namespace serialReceiver
 {
     SerialReceiver::SerialReceiver()
     {
+#ifdef DISABLE_LIBRARY_CODE
+        _rxPin = -1;
+        _txPin = -1;
+#else
         _rxPin = 0;
         _txPin = 1;
         crsf = new CRSF();
+#endif
     }
 
     SerialReceiver::SerialReceiver(int rxPin, int txPin)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        (void)rxPin;
+        (void)txPin;
+        _rxPin = -1;
+        _txPin = -1;
+#else
         _rxPin = rxPin;
         _txPin = txPin;
         crsf = new CRSF();
+#endif
     }
 
     SerialReceiver::~SerialReceiver()
     {
+#ifndef DISABLE_LIBRARY_CODE
         _rxPin = -1;
         _txPin = -1;
         delete crsf;
+#endif
     }
 
     bool SerialReceiver::begin()
     {
+#ifdef DISABLE_LIBRARY_CODE
+        return false;
+#else
         board.enterCriticalSection();
 
         // Initialize the RC Channels.
@@ -101,10 +118,12 @@ namespace serialReceiver
             board.exitCriticalSection();
             return false;
         }
+#endif
     }
 
     void SerialReceiver::end()
     {
+#ifndef DISABLE_LIBRARY_CODE
         board.flush();
         while (board.available() > 0)
         {
@@ -116,10 +135,12 @@ namespace serialReceiver
         board.clearUART();
         crsf->end();
         board.exitCriticalSection();
+#endif
     }
 
     void SerialReceiver::processFrames()
     {
+#ifndef DISABLE_LIBRARY_CODE
         while (board.available() > 0)
         {
             if (crsf->receiveFrames((uint8_t)board.read()))
@@ -132,19 +153,27 @@ namespace serialReceiver
 
         // Update the RC Channels.
         memcpy(_rcChannels, crsf->getRcChannels(), 16);
+#endif
     }
 
     void SerialReceiver::flushRemainingFrames()
     {
+#ifndef DISABLE_LIBRARY_CODE
         board.flush();
         while (board.available() > 0)
         {
             board.read();
         }
+#endif
     }
 
     uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
     {
+#ifdef DISABLE_LIBRARY_CODE
+        (void)channel;
+        (void)raw;
+        return 0;
+#else
         if (channel >= 0 && channel <= 15)
         {
             if (raw == true)
@@ -167,6 +196,7 @@ namespace serialReceiver
         {
             return 0;
         }
+#endif
     }
 
 } // namespace serialReceiver
