@@ -1,7 +1,7 @@
 /**
  * @file SerialReceiver.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This file includes all the classes for the Serial Receiver Interface.
+ * @brief This is the header file for the Serial Receiver Interface.
  * @version 0.4.0
  * @date 2023-08-01
  *
@@ -25,3 +25,32 @@
  */
 
 #pragma once
+
+#include "Arduino.h"
+#include "CRSF/CRSF.h"
+#include "Hardware/Hardware.h"
+
+namespace serialReceiver
+{
+    class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
+    {
+      public:
+        SerialReceiver();
+        SerialReceiver(int rxPin, int txPin);
+        ~SerialReceiver();
+
+        bool begin();
+        void end();
+
+        void processFrames();
+
+        uint16_t readRcChannel(uint8_t channel, bool raw = false);
+
+      private:
+        CRSF *crsf;
+        int _rxPin = -1;
+        int _txPin = -1;
+        uint16_t _rcChannels[16];
+        void flushRemainingFrames();
+    };
+} // namespace serialReceiver
