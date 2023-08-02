@@ -86,7 +86,7 @@ namespace hal
             delete uart_port;
         }
 #endif
-            
+
         uart_port = NULL;
     }
 
