@@ -38,6 +38,7 @@ namespace hal
         ~DevBoards();
 
         void setUART(uint8_t port, uint8_t rx, uint8_t tx);
+        void clearUART();
 
         // Hardware Serial functions.
         void begin(unsigned long baudrate, uint16_t config = SERIAL_8N1);

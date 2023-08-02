@@ -48,11 +48,11 @@ namespace hal
         // Set the UART port.
         switch (port)
         {
-            case 1:
+            case 0:
                 uart_port = &Serial1;
                 break;
 
-            case 2: // TO-DO: Fix this.
+            case 1: // TO-DO: Fix this.
                 uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
                 break;
 
@@ -75,6 +75,19 @@ namespace hal
             setErrorFlag(UART_PORT_NOT_AVAILABLE);
         }
 #endif
+    }
+
+    void DevBoards::clearUART()
+    {
+#if defined(ARDUINO_ARCH_SAMD)
+        // If UART port was defined beforehand, delete it.
+        if (uart_port != NULL)
+        {
+            delete uart_port;
+        }
+#endif
+            
+        uart_port = NULL;
     }
 
     void DevBoards::begin(unsigned long baudrate, uint16_t config)
