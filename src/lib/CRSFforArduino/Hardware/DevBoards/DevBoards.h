@@ -51,6 +51,10 @@ namespace hal
         using Print::write; // pull in write(str) and write(buf, size) from Print
         operator bool();
 
+        // Critical section functions.
+        void enterCriticalSection();
+        void exitCriticalSection();
+
       private:
 #if USE_ERROR_FLAGS > 0
         enum error_flags_e

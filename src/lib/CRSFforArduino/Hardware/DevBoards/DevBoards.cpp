@@ -210,6 +210,26 @@ namespace hal
         return uart_port->operator bool();
     }
 
+    void DevBoards::enterCriticalSection()
+    {
+        // Enter a critical section.
+#if defined(ARDUINO_ARCH_SAMD)
+        __disable_irq();
+#else
+        noInterrupts();
+#endif
+    }
+
+    void DevBoards::exitCriticalSection()
+    {
+        // Exit a critical section.
+#if defined(ARDUINO_ARCH_SAMD)
+        __enable_irq();
+#else
+        interrupts();
+#endif
+    }
+
 #if USE_ERROR_FLAGS > 0
     DevBoards::error_flags_t DevBoards::getErrorFlag()
     {
