@@ -218,16 +218,25 @@ namespace hal
 #else
         noInterrupts();
 #endif
+
+        // Increment the critical section counter.
+        critical_section_counter++;
     }
 
     void DevBoards::exitCriticalSection()
     {
+        // Decrement the critical section counter.
+        critical_section_counter--;
+
         // Exit a critical section.
+        if (critical_section_counter == 0)
+        {
 #if defined(ARDUINO_ARCH_SAMD)
-        __enable_irq();
+            __enable_irq();
 #else
-        interrupts();
+            interrupts();
 #endif
+        }
     }
 
 #if USE_ERROR_FLAGS > 0

@@ -56,6 +56,7 @@ namespace hal
         void exitCriticalSection();
 
       private:
+        uint16_t critical_section_counter = 0;
 #if USE_ERROR_FLAGS > 0
         enum error_flags_e
         {
