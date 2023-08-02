@@ -26,13 +26,34 @@
 
 #pragma once
 
+#if defined(USE_ABSTRACTION_LAYER)
+
+#include "Arduino.h"
+
+namespace sketchLayer
+{
+    class CRSFforArduino
+    {
+    public:
+        CRSFforArduino(HardwareSerial *serial);
+        ~CRSFforArduino();
+        bool begin();
+        void end();
+        void update();
+        uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
+    private:
+    };
+} // namespace sketchLayer
+
+using namespace sketchLayer;
+
+#else
+
 #if defined(ARDUINO_ARCH_SAMD)
 // DMA is disabled for now, as it is not working.
 // #define USE_DMA
 #endif
-
-#include "Arduino.h"
-
 #ifdef USE_DMA
 #include "Adafruit_ZeroDMA.h"
 #endif
@@ -276,3 +297,5 @@ class CRSFforArduino
 
     void _flushSerial(void);
 };
+
+#endif // USE_ABSTRACTION_LAYER

@@ -25,6 +25,48 @@
  */
 
 #include "CRSFforArduino.h"
+
+#if defined(USE_ABSTRACTION_LAYER)
+
+namespace sketchLayer
+{
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serial)
+    {
+        (void)(serial);
+    }
+
+    CRSFforArduino::~CRSFforArduino()
+    {
+    }
+
+    bool CRSFforArduino::begin()
+    {
+        return false;
+    }
+
+    void CRSFforArduino::end()
+    {
+    }
+
+    void CRSFforArduino::update()
+    {
+    }
+
+    uint16_t CRSFforArduino::getChannel(uint8_t channel)
+    {
+        (void)(channel);
+        return 0;
+    }
+
+    uint16_t CRSFforArduino::rcToUs(uint16_t rc)
+    {
+        (void)(rc);
+        return 0;
+    }
+}
+
+#else
+
 #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "CompatibilityTable.h"
 #else
@@ -793,3 +835,5 @@ void CRSFforArduino::_flushSerial()
         _serial->read();
     }
 }
+
+#endif // USE_ABSTRACTION_LAYER

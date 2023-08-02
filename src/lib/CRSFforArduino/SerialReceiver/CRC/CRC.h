@@ -25,7 +25,7 @@
  */
 
 #pragma once
-#include "stdint.h"
+#include "Arduino.h"
 
 namespace serialReceiver
 {
