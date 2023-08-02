@@ -26,6 +26,8 @@
 
 #include "CRSF.h"
 
+using namespace crsfProtocol;
+
 namespace serialReceiver
 {
     CRSF::CRSF()
@@ -36,11 +38,123 @@ namespace serialReceiver
     {
     }
 
-    void CRSF::processFrame()
+    void CRSF::begin()
     {
-        uint8_t crc = 0;
-        uint8_t c = 0;
-        crc = crc_8_dvb_s2(crc, c, 0xd5);
-        // crc = CRC::crc_8_dvb_s2(crc, c, 0xd5);
+        rcFrameReceived = false;
+        frameCount = 0;
+        timePerFrame = 0;
+
+        memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(channelData, 0, RC_CHANNEL_COUNT);
+    }
+
+    void CRSF::end()
+    {
+        memset(channelData, 0, RC_CHANNEL_COUNT);
+        memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+
+        timePerFrame = 0;
+        frameCount = 0;
+        rcFrameReceived = false;
+    }
+
+    void CRSF::setFrameTime(uint32_t baudRate, uint8_t packetCount)
+    {
+        timePerFrame = ((1000000 * packetCount) / (baudRate / (CRSF_FRAME_SIZE_MAX - 1)));
+    }
+
+    bool CRSF::receiveFrames(uint8_t byte)
+    {
+        static uint8_t framePosition = 0;
+        static uint32_t frameStartTime = 0;
+        const uint32_t currentTime = micros();
+
+        // Reset the frame position if the frame time has elapsed.
+        if (currentTime - frameStartTime > timePerFrame)
+        {
+            framePosition = 0;
+
+            // This compensates for micros() overflow.
+            if (currentTime < frameStartTime)
+            {
+                frameStartTime = currentTime;
+            }
+        }
+
+        // Assume the full frame lenthg is 5 bytes until the frame length byte is received.
+        const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, CRSF_FRAME_SIZE_MAX);
+
+        if (framePosition < fullFrameLength)
+        {
+            rxFrame.raw[framePosition] = byte;
+            framePosition++;
+
+            if (framePosition >= fullFrameLength)
+            {
+                const uint8_t crc = calculateFrameCRC();
+
+                if (crc == rxFrame.raw[fullFrameLength - 1])
+                {
+                    switch (rxFrame.frame.type)
+                    {
+                    case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
+                        if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+                        {
+                            memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+                            rcFrameReceived = true;
+                        }
+                        break;
+                    }
+                }
+
+                memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+                framePosition = 0;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    uint16_t *CRSF::getRcChannels()
+    {
+        if (rcFrameReceived)
+        {
+            // Unpack RC Channels.
+            const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
+
+            channelData[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+            channelData[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+            channelData[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+            channelData[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+            channelData[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+            channelData[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+            channelData[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+            channelData[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+            channelData[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+            channelData[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+            channelData[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+            channelData[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+            channelData[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+            channelData[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+            channelData[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+            channelData[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+
+            rcFrameReceived = false;
+        }
+        return channelData;
+    }
+
+    uint8_t CRSF::calculateFrameCRC()
+    {
+        uint8_t crc = crc_8_dvb_s2(0, rxFrame.frame.type);
+        for (uint8_t i = 0; i < rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_CRC; i++)
+        {
+            crc = crc_8_dvb_s2(crc, rxFrame.raw[i]);
+        }
+        return crc;
     }
 } // namespace serialReceiver

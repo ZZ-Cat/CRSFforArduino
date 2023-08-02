@@ -37,13 +37,18 @@ namespace serialReceiver
       public:
         CRSF();
         ~CRSF();
-        void processFrame();
-      private:
-        bool rcFrameComplete;
+        void begin();
+        void end();
+        void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
+        bool receiveFrames(uint8_t byte);
+        uint16_t *getRcChannels();
+    private:
+        bool rcFrameReceived;
         uint16_t frameCount;
         uint16_t channelData[crsfProtocol::RC_CHANNEL_COUNT];
-        crsfProtocol::frame_t frame;
+        uint32_t timePerFrame;
+        crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;
-        // const uint32_t timePerFrame = ((1000000 * 10) / (crsfProtocol::BAUD_RATE / (crsfProtocol::CRSF_FRAME_SIZE_MAX - 1)));
+        uint8_t calculateFrameCRC();
     };
 } // namespace serialReceiver
