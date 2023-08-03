@@ -36,7 +36,7 @@
 
 #include "CRSFforArduino.h"
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
@@ -46,6 +46,8 @@ void setup()
     {
         ;
     }
+
+    Serial.println("RC Channels Example");
 
     // Initialize the CRSFforArduino library.
     if (!crsf.begin())
@@ -58,8 +60,6 @@ void setup()
     }
 
     // Show the user that the sketch is ready.
-    Serial.println("RC Channels Example");
-    delay(1000);
     Serial.println("Ready");
     delay(1000);
 }

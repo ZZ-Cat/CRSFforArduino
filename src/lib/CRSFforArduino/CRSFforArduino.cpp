@@ -33,14 +33,13 @@ namespace sketchLayer
     CRSFforArduino::CRSFforArduino()
     {
         _serialReceiver = new SerialReceiver();
-        // _serialReceiver = SerialReceiver();
     }
 
-    // CRSFforArduino::CRSFforArduino(HardwareSerial *serial)
-    // {
-    //     (void)(serial);
-    //     // _serialReceiver = new serialReceiver::SerialReceiver();
-    // }
+    CRSFforArduino::CRSFforArduino(Uart *serial)
+    {
+        (void)(serial);
+        _serialReceiver = new SerialReceiver();
+    }
 
     CRSFforArduino::~CRSFforArduino()
     {
@@ -49,28 +48,32 @@ namespace sketchLayer
 
     bool CRSFforArduino::begin()
     {
-        _serialReceiver->begin();
-        return false;
+        return _serialReceiver->begin();
     }
 
     void CRSFforArduino::end()
     {
+        _serialReceiver->end();
     }
 
     void CRSFforArduino::update()
     {
+        _serialReceiver->processFrames();
+    }
+
+    uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
+    {
+        return _serialReceiver->readRcChannel(channel - 1, raw);
     }
 
     uint16_t CRSFforArduino::getChannel(uint8_t channel)
     {
-        (void)(channel);
-        return 0;
+        return _serialReceiver->getChannel(channel - 1);
     }
 
     uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     {
-        (void)(rc);
-        return 0;
+        return _serialReceiver->rcToUs(rc);
     }
 }
 
@@ -81,6 +84,8 @@ namespace sketchLayer
 #else
 #include "lib/CompatibilityTable/CompatibilityTable.h"
 #endif
+
+using namespace hal;
 
 CompatibilityTable CT = CompatibilityTable();
 

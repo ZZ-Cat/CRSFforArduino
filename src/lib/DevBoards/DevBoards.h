@@ -35,7 +35,7 @@ namespace hal
     {
       public:
         DevBoards();
-        ~DevBoards();
+        virtual ~DevBoards();
 
         void setUART(uint8_t port, uint8_t rx, uint8_t tx);
         void clearUART();
@@ -76,7 +76,7 @@ namespace hal
 
 #if defined(ARDUINO_ARCH_SAMD)
         // Sercom *sercom;
-        Uart *uart_port = NULL;
+        Uart *uart_port;
 #endif
     };
 } // namespace hal

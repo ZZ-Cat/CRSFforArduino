@@ -27,30 +27,34 @@
 #pragma once
 
 #include "Arduino.h"
-// #include "CRSF/CRSF.h"
-// #include "Hardware/Hardware.h"
+#include "Hardware.h"
+#include "CRSF.h"
 
-// namespace serialReceiver
-// {
-    class SerialReceiver //: /* private CRSF, */ private CompatibilityTable, private DevBoards
+namespace serialReceiver
+{
+    class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
     {
       public:
         SerialReceiver();
         // SerialReceiver(int rxPin, int txPin);
-        ~SerialReceiver();
+        virtual ~SerialReceiver();
 
         bool begin();
         void end();
 
         void processFrames();
 
+        uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
-      private:
-        // CRSF *crsf;
+    private:
+        CRSF *crsf;
+        CompatibilityTable *ct;
+        DevBoards *board;
         int _rxPin = -1;
         int _txPin = -1;
         uint16_t _rcChannels[16];
         void flushRemainingFrames();
     };
-// } // namespace serialReceiver
+} // namespace serialReceiver

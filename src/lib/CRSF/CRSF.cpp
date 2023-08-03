@@ -65,7 +65,7 @@ namespace serialReceiver
         timePerFrame = ((1000000 * packetCount) / (baudRate / (CRSF_FRAME_SIZE_MAX - 1)));
     }
 
-    bool CRSF::receiveFrames(uint8_t byte)
+    bool CRSF::receiveFrames(uint8_t rxByte)
     {
         static uint8_t framePosition = 0;
         static uint32_t frameStartTime = 0;
@@ -83,12 +83,18 @@ namespace serialReceiver
             }
         }
 
+        // Reset the frame start time if the frame position is 0.
+        if (framePosition == 0)
+        {
+            frameStartTime = currentTime;
+        }
+
         // Assume the full frame lenthg is 5 bytes until the frame length byte is received.
         const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, CRSF_FRAME_SIZE_MAX);
 
         if (framePosition < fullFrameLength)
         {
-            rxFrame.raw[framePosition] = byte;
+            rxFrame.raw[framePosition] = rxByte;
             framePosition++;
 
             if (framePosition >= fullFrameLength)
@@ -119,40 +125,61 @@ namespace serialReceiver
         return false;
     }
 
-    uint16_t *CRSF::getRcChannels()
+    void CRSF::getRcChannels(uint16_t *rcChannels)
     {
         if (rcFrameReceived)
         {
-            // Unpack RC Channels.
-            const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
-
-            channelData[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
-            channelData[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
-            channelData[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
-            channelData[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
-            channelData[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
-            channelData[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
-            channelData[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
-            channelData[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
-            channelData[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
-            channelData[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
-            channelData[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
-            channelData[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
-            channelData[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
-            channelData[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
-            channelData[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
-            channelData[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
-
             rcFrameReceived = false;
+            if (rcChannelsFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
+            {
+                // Unpack RC Channels.
+                const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
+
+                rcChannels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
+                rcChannels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
+                rcChannels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
+                rcChannels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
+                rcChannels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
+                rcChannels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
+                rcChannels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
+                rcChannels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
+                rcChannels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
+                rcChannels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
+                rcChannels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
+                rcChannels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
+                rcChannels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
+                rcChannels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
+                rcChannels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
+                rcChannels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+
+                // Print the first 8 RC channels to the Serial Monitor.
+                // Serial.print("RC Channels <A: ");
+                // Serial.print(rcChannels[RC_CHANNEL_ROLL]);
+                // Serial.print(", E: ");
+                // Serial.print(rcChannels[RC_CHANNEL_PITCH]);
+                // Serial.print(", T: ");
+                // Serial.print(rcChannels[RC_CHANNEL_THROTTLE]);
+                // Serial.print(", R: ");
+                // Serial.print(rcChannels[RC_CHANNEL_YAW]);
+                // Serial.print(", AUX1: ");
+                // Serial.print(rcChannels[RC_CHANNEL_AUX1]);
+                // Serial.print(", AUX2: ");
+                // Serial.print(rcChannels[RC_CHANNEL_AUX2]);
+                // Serial.print(", AUX3: ");
+                // Serial.print(rcChannels[RC_CHANNEL_AUX3]);
+                // Serial.print(", AUX4: ");
+                // Serial.print(rcChannels[RC_CHANNEL_AUX4]);
+                // Serial.println(">");
+            }
         }
     }
 
     uint8_t CRSF::calculateFrameCRC()
     {
         uint8_t crc = crc_8_dvb_s2(0, rxFrame.frame.type);
-        for (uint8_t i = 0; i < rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_CRC; i++)
+        for (uint8_t i = 0; i < rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC; i++)
         {
-            crc = crc_8_dvb_s2(crc, rxFrame.raw[i]);
+            crc = crc_8_dvb_s2(crc, rxFrame.frame.payload[i]);
         }
         return crc;
     }

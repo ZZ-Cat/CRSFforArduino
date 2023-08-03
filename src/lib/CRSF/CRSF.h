@@ -29,6 +29,7 @@
 #include "Arduino.h"
 #include "CRSFProtocol.h"
 #include "CRC.h"
+#include "Hardware.h"
 
 namespace serialReceiver
 {
@@ -36,12 +37,12 @@ namespace serialReceiver
     {
       public:
         CRSF();
-        ~CRSF();
+        virtual ~CRSF();
         void begin();
         void end();
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
-        bool receiveFrames(uint8_t byte);
-        uint16_t *getRcChannels();
+        bool receiveFrames(uint8_t rxByte);
+        void getRcChannels(uint16_t *rcChannels);
 
       private:
         bool rcFrameReceived;

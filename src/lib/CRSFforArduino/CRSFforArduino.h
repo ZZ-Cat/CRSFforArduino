@@ -33,25 +33,28 @@
 
 namespace sketchLayer
 {
-    class CRSFforArduino : private SerialReceiver
+    class CRSFforArduino : private serialReceiver::SerialReceiver
     {
     public:
         CRSFforArduino();
-        // CRSFforArduino(HardwareSerial *serial);
+        CRSFforArduino(Uart *serial);
         ~CRSFforArduino();
         bool begin();
         void end();
         void update();
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
+        uint16_t readRcChannel(uint8_t channel, bool raw = false);
     private:
-        SerialReceiver *_serialReceiver;
+        serialReceiver::SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer
 
 using namespace sketchLayer;
 
 #else
+
+#include "Arduino.h"
 
 #if defined(ARDUINO_ARCH_SAMD)
 // DMA is disabled for now, as it is not working.

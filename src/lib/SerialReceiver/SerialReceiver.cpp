@@ -32,9 +32,11 @@ namespace serialReceiver
 {
     SerialReceiver::SerialReceiver()
     {
-        // _rxPin = 0;
-        // _txPin = 1;
-        // crsf = new CRSF();
+        _rxPin = 0;
+        _txPin = 1;
+        board = new DevBoards();
+        ct = new CompatibilityTable();
+        crsf = new CRSF();
     }
 
     // SerialReceiver::SerialReceiver(int rxPin, int txPin)
@@ -46,9 +48,11 @@ namespace serialReceiver
 
     SerialReceiver::~SerialReceiver()
     {
-        // _rxPin = -1;
-        // _txPin = -1;
-        // delete crsf;
+        _rxPin = -1;
+        _txPin = -1;
+        delete board;
+        delete ct;
+        delete crsf;
     }
 
     bool SerialReceiver::begin()
@@ -58,7 +62,7 @@ namespace serialReceiver
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
         const size_t rcChannelsSize = sizeof(_rcChannels) / sizeof(_rcChannels[0]);
-        memset(_rcChannels, 0, rcChannelsSize);
+        memset(_rcChannels, 0, sizeof(_rcChannels));
         for (size_t i = 0; i < rcChannelsSize; i++)
         {
             if (i == RC_CHANNEL_THROTTLE)
@@ -72,33 +76,34 @@ namespace serialReceiver
         }
 
         // Check if the board is compatible.
-        if (ct.isDevboardCompatible(ct.getDevboardName()))
+        if (ct->isDevboardCompatible(ct->getDevboardName()))
         {
             if (_rxPin == -1 && _txPin == -1)
             {
-                board.exitCriticalSection();
+                board->exitCriticalSection();
                 return false;
             }
 
             // Initialize the CRSF Protocol.
+            // crsf = new CRSF();
             crsf->begin();
             crsf->setFrameTime(BAUD_RATE, 10);
-            board.setUART(0, _rxPin, _txPin);
-            board.begin(BAUD_RATE);
+            board->setUART(0, _rxPin, _txPin);
+            board->begin(BAUD_RATE);
 
-            board.exitCriticalSection();
+            board->exitCriticalSection();
 
             // Clear the UART buffer.
-            board.flush();
-            while (board.available() > 0)
+            board->flush();
+            while (board->available() > 0)
             {
-                board.read();
+                board->read();
             }
             return true;
         }
         else
         {
-            board.exitCriticalSection();
+            board->exitCriticalSection();
             return false;
         }
     }
@@ -106,15 +111,16 @@ namespace serialReceiver
     void SerialReceiver::end()
     {
         board->flush();
+        while (board->available() > 0)
         {
-            board.read();
+            board->read();
         }
 
-        board.enterCriticalSection();
-        board.end();
-        board.clearUART();
+        board->enterCriticalSection();
+        board->end();
+        board->clearUART();
         crsf->end();
-        board.exitCriticalSection();
+        // delete crsf;
         board->exitCriticalSection();
     }
 
@@ -122,7 +128,7 @@ namespace serialReceiver
     {
         while (board->available() > 0)
         {
-            if (crsf->receiveFrames((uint8_t)board.read()))
+            if (crsf->receiveFrames((uint8_t)board->read()))
             {
                 flushRemainingFrames();
 
@@ -131,15 +137,16 @@ namespace serialReceiver
         }
 
         // Update the RC Channels.
-        memcpy(_rcChannels, crsf->getRcChannels(), 16);
+        crsf->getRcChannels(_rcChannels);
         // memcpy(_rcChannels, crsf->getRcChannels(), 16);
     }
 
     void SerialReceiver::flushRemainingFrames()
     {
         board->flush();
+        while (board->available() > 0)
         {
-            board.read();
+            board->read();
         }
     }
 
@@ -168,6 +175,14 @@ namespace serialReceiver
             return 0;
         }
     }
+
+    uint16_t SerialReceiver::getChannel(uint8_t channel)
+    {
+        return readRcChannel(channel, true);
     }
 
+    uint16_t SerialReceiver::rcToUs(uint16_t rc)
+    {
+        return (uint16_t)((rc * 0.62477120195241F) + 881);
+    }
 } // namespace serialReceiver

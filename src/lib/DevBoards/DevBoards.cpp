@@ -30,10 +30,12 @@ namespace hal
 {
     DevBoards::DevBoards()
     {
+        // uart_port = &Serial1;
     }
 
     DevBoards::~DevBoards()
     {
+        // uart_port->~Uart();
     }
 
     void DevBoards::setUART(uint8_t port, uint8_t rx, uint8_t tx)
@@ -47,7 +49,7 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != NULL)
         {
-            delete uart_port;
+            // delete uart_port;
         }
 
         // Set the UART port.
@@ -90,11 +92,12 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != NULL)
         {
-            delete uart_port;
+            // delete uart_port;
+            uart_port->~Uart();
         }
 #endif
 
-        uart_port = NULL;
+        // uart_port = NULL;
 #endif
     }
 
