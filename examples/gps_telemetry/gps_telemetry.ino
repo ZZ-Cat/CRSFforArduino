@@ -33,6 +33,8 @@
 /* Configuration Options. */
 #define VIEW_RC_CHANNELS         0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
 #define GENERATE_RANDOM_GPS_DATA 0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
+#define SERIAL_RX_PIN            0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
+#define SERIAL_TX_PIN            1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
 
@@ -44,7 +46,7 @@ float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
 uint8_t satellites = 4;
 
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
 {

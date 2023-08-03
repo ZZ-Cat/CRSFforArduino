@@ -35,10 +35,9 @@ namespace sketchLayer
         _serialReceiver = new SerialReceiver();
     }
 
-    CRSFforArduino::CRSFforArduino(Uart *serial)
+    CRSFforArduino::CRSFforArduino(uint8_t rxPin, uint8_t txPin)
     {
-        (void)(serial);
-        _serialReceiver = new SerialReceiver();
+        _serialReceiver = new SerialReceiver(rxPin, txPin);
     }
 
     CRSFforArduino::~CRSFforArduino()

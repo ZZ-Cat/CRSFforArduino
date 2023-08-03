@@ -106,7 +106,10 @@
 
 #include "CRSFforArduino.h"
 
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+#define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
+#define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
+
+CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
 {

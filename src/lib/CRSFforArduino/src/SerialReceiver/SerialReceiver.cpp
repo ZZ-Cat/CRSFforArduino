@@ -38,11 +38,13 @@ namespace serialReceiver
         ct = new CompatibilityTable();
     }
 
-    // SerialReceiver::SerialReceiver(int rxPin, int txPin)
-    // {
-    //     _rxPin = rxPin;
-    //     _txPin = txPin;
-    // }
+    SerialReceiver::SerialReceiver(uint8_t rxPin, uint8_t txPin)
+    {
+        _rxPin = rxPin;
+        _txPin = txPin;
+        board = new DevBoards();
+        ct = new CompatibilityTable();
+    }
 
     SerialReceiver::~SerialReceiver()
     {

@@ -27,8 +27,8 @@
 #pragma once
 
 #include "Arduino.h"
-#include "Hardware/Hardware.h"
 #include "CRSF/CRSF.h"
+#include "Hardware/Hardware.h"
 
 namespace serialReceiver
 {
@@ -36,7 +36,7 @@ namespace serialReceiver
     {
       public:
         SerialReceiver();
-        // SerialReceiver(int rxPin, int txPin);
+        SerialReceiver(uint8_t rxPin, uint8_t txPin);
         virtual ~SerialReceiver();
 
         bool begin();
@@ -48,12 +48,12 @@ namespace serialReceiver
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
-    private:
+      private:
         CRSF *crsf;
         CompatibilityTable *ct;
         DevBoards *board;
-        int _rxPin = -1;
-        int _txPin = -1;
+        uint8_t _rxPin = -1;
+        uint8_t _txPin = -1;
         uint16_t _rcChannels[16];
         void flushRemainingFrames();
     };
