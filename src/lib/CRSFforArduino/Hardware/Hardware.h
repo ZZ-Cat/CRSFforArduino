@@ -31,5 +31,5 @@
 
 using namespace hal;
 
-CompatibilityTable ct;
-DevBoards board;
+// CompatibilityTable ct;
+// DevBoards board;

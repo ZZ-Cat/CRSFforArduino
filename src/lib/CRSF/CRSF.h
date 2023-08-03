@@ -28,7 +28,7 @@
 
 #include "Arduino.h"
 #include "CRSFProtocol.h"
-#include "SerialReceiver/CRC/CRC.h"
+#include "CRC.h"
 
 namespace serialReceiver
 {
