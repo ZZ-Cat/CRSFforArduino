@@ -36,14 +36,12 @@ namespace serialReceiver
         _txPin = 1;
         board = new DevBoards();
         ct = new CompatibilityTable();
-        crsf = new CRSF();
     }
 
     // SerialReceiver::SerialReceiver(int rxPin, int txPin)
     // {
     //     _rxPin = rxPin;
     //     _txPin = txPin;
-    //     // crsf = new CRSF();
     // }
 
     SerialReceiver::~SerialReceiver()
@@ -52,7 +50,6 @@ namespace serialReceiver
         _txPin = -1;
         delete board;
         delete ct;
-        delete crsf;
     }
 
     bool SerialReceiver::begin()
@@ -138,7 +135,6 @@ namespace serialReceiver
 
         // Update the RC Channels.
         crsf->getRcChannels(_rcChannels);
-        // memcpy(_rcChannels, crsf->getRcChannels(), 16);
     }
 
     void SerialReceiver::flushRemainingFrames()

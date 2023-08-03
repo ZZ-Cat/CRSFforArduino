@@ -29,7 +29,7 @@
 #include "Arduino.h"
 #include "CRSFProtocol.h"
 #include "CRC.h"
-#include "Hardware.h"
+// #include "Hardware.h"
 
 namespace serialReceiver
 {

@@ -46,12 +46,12 @@ namespace serialReceiver
 
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        // memset(channelData, 0, RC_CHANNEL_COUNT);
+        memset(channelData, 0, sizeof(channelData));
     }
 
     void CRSF::end()
     {
-        // memset(channelData, 0, RC_CHANNEL_COUNT);
+        memset(channelData, 0, sizeof(channelData));
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
@@ -151,25 +151,6 @@ namespace serialReceiver
                 rcChannels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
                 rcChannels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
                 rcChannels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
-
-                // Print the first 8 RC channels to the Serial Monitor.
-                // Serial.print("RC Channels <A: ");
-                // Serial.print(rcChannels[RC_CHANNEL_ROLL]);
-                // Serial.print(", E: ");
-                // Serial.print(rcChannels[RC_CHANNEL_PITCH]);
-                // Serial.print(", T: ");
-                // Serial.print(rcChannels[RC_CHANNEL_THROTTLE]);
-                // Serial.print(", R: ");
-                // Serial.print(rcChannels[RC_CHANNEL_YAW]);
-                // Serial.print(", AUX1: ");
-                // Serial.print(rcChannels[RC_CHANNEL_AUX1]);
-                // Serial.print(", AUX2: ");
-                // Serial.print(rcChannels[RC_CHANNEL_AUX2]);
-                // Serial.print(", AUX3: ");
-                // Serial.print(rcChannels[RC_CHANNEL_AUX3]);
-                // Serial.print(", AUX4: ");
-                // Serial.print(rcChannels[RC_CHANNEL_AUX4]);
-                // Serial.println(">");
             }
         }
     }
