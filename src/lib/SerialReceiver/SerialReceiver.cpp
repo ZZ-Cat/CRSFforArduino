@@ -82,7 +82,7 @@ namespace serialReceiver
             }
 
             // Initialize the CRSF Protocol.
-            // crsf = new CRSF();
+            crsf = new CRSF();
             crsf->begin();
             crsf->setFrameTime(BAUD_RATE, 10);
             board->setUART(0, _rxPin, _txPin);
@@ -117,7 +117,7 @@ namespace serialReceiver
         board->end();
         board->clearUART();
         crsf->end();
-        // delete crsf;
+        delete crsf;
         board->exitCriticalSection();
     }
 
