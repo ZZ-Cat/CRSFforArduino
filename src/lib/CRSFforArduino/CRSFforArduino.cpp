@@ -28,8 +28,8 @@
 
 #if defined(USE_ABSTRACTION_LAYER)
 
-// namespace sketchLayer
-// {
+namespace sketchLayer
+{
     CRSFforArduino::CRSFforArduino()
     {
         _serialReceiver = new SerialReceiver();
@@ -72,7 +72,7 @@
         (void)(rc);
         return 0;
     }
-// }
+}
 
 #else
 

@@ -31,8 +31,8 @@
 #include "Arduino.h"
 #include "SerialReceiver.h"
 
-// namespace sketchLayer
-// {
+namespace sketchLayer
+{
     class CRSFforArduino : private SerialReceiver
     {
     public:
@@ -47,9 +47,9 @@
     private:
         SerialReceiver *_serialReceiver;
     };
-// } // namespace sketchLayer
+} // namespace sketchLayer
 
-// using namespace sketchLayer;
+using namespace sketchLayer;
 
 #else
 
