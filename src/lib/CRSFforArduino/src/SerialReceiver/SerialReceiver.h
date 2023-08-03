@@ -27,8 +27,8 @@
 #pragma once
 
 #include "Arduino.h"
-#include "Hardware.h"
-#include "CRSF.h"
+#include "Hardware/Hardware.h"
+#include "CRSF/CRSF.h"
 
 namespace serialReceiver
 {

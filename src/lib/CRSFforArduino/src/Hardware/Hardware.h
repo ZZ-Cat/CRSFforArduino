@@ -26,8 +26,8 @@
 
 #pragma once
 
-#include "CompatibilityTable.h"
-#include "DevBoards.h"
+#include "CompatibilityTable/CompatibilityTable.h"
+#include "DevBoards/DevBoards.h"
 
 using namespace hal;
 

@@ -29,7 +29,7 @@
 #if defined(USE_ABSTRACTION_LAYER)
 
 #include "Arduino.h"
-#include "SerialReceiver.h"
+#include "SerialReceiver/SerialReceiver.h"
 
 namespace sketchLayer
 {
