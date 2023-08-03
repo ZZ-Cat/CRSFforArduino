@@ -30,7 +30,6 @@
 
 namespace hal
 {
-#define USE_ERROR_FLAGS 0
     class DevBoards : private HardwareSerial
     {
       public:
@@ -57,26 +56,11 @@ namespace hal
 
       private:
         uint16_t critical_section_counter = 0;
-#if USE_ERROR_FLAGS > 0
-        enum error_flags_e
-        {
-            UART_PORT_OK = 0x00,
-            UART_PORT_NOT_SET = 0x01,
-            UART_PORT_NOT_AVAILABLE = 0x02,
-        };
-
-        typedef enum error_flags_e error_flags_t;
-
-        error_flags_t error_flags = UART_PORT_NOT_SET;
-
-        error_flags_t getErrorFlag();
-        void setErrorFlag(error_flags_t flag);
-        void clearErrorFlag();
-#endif
 
 #if defined(ARDUINO_ARCH_SAMD)
-        // Sercom *sercom;
         Uart *uart_port;
+#else
+        HardwareSerial *uart_port;
 #endif
     };
 } // namespace hal
