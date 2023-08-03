@@ -26,10 +26,10 @@
 
 #include "SerialReceiver.h"
 
-// using namespace crsfProtocol;
+using namespace crsfProtocol;
 
-// namespace serialReceiver
-// {
+namespace serialReceiver
+{
     SerialReceiver::SerialReceiver()
     {
         // _rxPin = 0;
@@ -53,10 +53,7 @@
 
     bool SerialReceiver::begin()
     {
-#ifdef DISABLE_LIBRARY_CODE
-        return false;
-#else
-        board.enterCriticalSection();
+        board->enterCriticalSection();
 
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
@@ -104,14 +101,11 @@
             board.exitCriticalSection();
             return false;
         }
-#endif
     }
 
     void SerialReceiver::end()
     {
-#ifndef DISABLE_LIBRARY_CODE
-        board.flush();
-        while (board.available() > 0)
+        board->flush();
         {
             board.read();
         }
@@ -121,13 +115,12 @@
         board.clearUART();
         crsf->end();
         board.exitCriticalSection();
-#endif
+        board->exitCriticalSection();
     }
 
     void SerialReceiver::processFrames()
     {
-#ifndef DISABLE_LIBRARY_CODE
-        while (board.available() > 0)
+        while (board->available() > 0)
         {
             if (crsf->receiveFrames((uint8_t)board.read()))
             {
@@ -139,27 +132,19 @@
 
         // Update the RC Channels.
         memcpy(_rcChannels, crsf->getRcChannels(), 16);
-#endif
+        // memcpy(_rcChannels, crsf->getRcChannels(), 16);
     }
 
     void SerialReceiver::flushRemainingFrames()
     {
-#ifndef DISABLE_LIBRARY_CODE
-        board.flush();
-        while (board.available() > 0)
+        board->flush();
         {
             board.read();
         }
-#endif
     }
 
     uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
     {
-#ifdef DISABLE_LIBRARY_CODE
-        (void)channel;
-        (void)raw;
-        return 0;
-#else
         if (channel >= 0 && channel <= 15)
         {
             if (raw == true)
@@ -182,7 +167,7 @@
         {
             return 0;
         }
-#endif
+    }
     }
 
-// } // namespace serialReceiver
+} // namespace serialReceiver

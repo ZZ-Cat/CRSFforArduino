@@ -40,46 +40,33 @@ namespace serialReceiver
 
     void CRSF::begin()
     {
-#ifndef DISABLE_LIBRARY_CODE
         rcFrameReceived = false;
         frameCount = 0;
         timePerFrame = 0;
 
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset(channelData, 0, RC_CHANNEL_COUNT);
-#endif
+        // memset(channelData, 0, RC_CHANNEL_COUNT);
     }
 
     void CRSF::end()
     {
-#ifndef DISABLE_LIBRARY_CODE
-        memset(channelData, 0, RC_CHANNEL_COUNT);
+        // memset(channelData, 0, RC_CHANNEL_COUNT);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
         timePerFrame = 0;
         frameCount = 0;
         rcFrameReceived = false;
-#endif
     }
 
     void CRSF::setFrameTime(uint32_t baudRate, uint8_t packetCount)
     {
-#ifdef DISABLE_LIBRARY_CODE
-        (void)baudRate;
-        (void)packetCount;
-#else
         timePerFrame = ((1000000 * packetCount) / (baudRate / (CRSF_FRAME_SIZE_MAX - 1)));
-#endif
     }
 
     bool CRSF::receiveFrames(uint8_t byte)
     {
-#ifdef DISABLE_LIBRARY_CODE
-        (void)byte;
-        return false;
-#else
         static uint8_t framePosition = 0;
         static uint32_t frameStartTime = 0;
         const uint32_t currentTime = micros();
@@ -130,14 +117,10 @@ namespace serialReceiver
         }
 
         return false;
-#endif
     }
 
     uint16_t *CRSF::getRcChannels()
     {
-#ifdef DISABLE_LIBRARY_CODE
-        return nullptr;
-#else
         if (rcFrameReceived)
         {
             // Unpack RC Channels.
@@ -162,21 +145,15 @@ namespace serialReceiver
 
             rcFrameReceived = false;
         }
-        return channelData;
-#endif
     }
 
     uint8_t CRSF::calculateFrameCRC()
     {
-#ifdef DISABLE_LIBRARY_CODE
-        return 0;
-#else
         uint8_t crc = crc_8_dvb_s2(0, rxFrame.frame.type);
         for (uint8_t i = 0; i < rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_CRC; i++)
         {
             crc = crc_8_dvb_s2(crc, rxFrame.raw[i]);
         }
         return crc;
-#endif
     }
 } // namespace serialReceiver
