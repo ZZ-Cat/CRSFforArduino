@@ -26,43 +26,29 @@
 
 #include "SerialReceiver.h"
 
-using namespace crsfProtocol;
+// using namespace crsfProtocol;
 
-namespace serialReceiver
-{
+// namespace serialReceiver
+// {
     SerialReceiver::SerialReceiver()
     {
-#ifdef DISABLE_LIBRARY_CODE
-        _rxPin = -1;
-        _txPin = -1;
-#else
-        _rxPin = 0;
-        _txPin = 1;
-        crsf = new CRSF();
-#endif
+        // _rxPin = 0;
+        // _txPin = 1;
+        // crsf = new CRSF();
     }
 
-    SerialReceiver::SerialReceiver(int rxPin, int txPin)
-    {
-#ifdef DISABLE_LIBRARY_CODE
-        (void)rxPin;
-        (void)txPin;
-        _rxPin = -1;
-        _txPin = -1;
-#else
-        _rxPin = rxPin;
-        _txPin = txPin;
-        crsf = new CRSF();
-#endif
-    }
+    // SerialReceiver::SerialReceiver(int rxPin, int txPin)
+    // {
+    //     _rxPin = rxPin;
+    //     _txPin = txPin;
+    //     // crsf = new CRSF();
+    // }
 
     SerialReceiver::~SerialReceiver()
     {
-#ifndef DISABLE_LIBRARY_CODE
-        _rxPin = -1;
-        _txPin = -1;
-        delete crsf;
-#endif
+        // _rxPin = -1;
+        // _txPin = -1;
+        // delete crsf;
     }
 
     bool SerialReceiver::begin()
@@ -199,4 +185,4 @@ namespace serialReceiver
 #endif
     }
 
-} // namespace serialReceiver
+// } // namespace serialReceiver

@@ -29,13 +29,14 @@
 #if defined(USE_ABSTRACTION_LAYER)
 
 #include "Arduino.h"
+#include "SerialReceiver.h"
 
-namespace sketchLayer
-{
-    class CRSFforArduino
+// namespace sketchLayer
+// {
+    class CRSFforArduino : private SerialReceiver
     {
     public:
-        CRSFforArduino(HardwareSerial *serial);
+        CRSFforArduino();
         ~CRSFforArduino();
         bool begin();
         void end();
@@ -43,10 +44,11 @@ namespace sketchLayer
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
     private:
+        SerialReceiver *_serialReceiver;
     };
-} // namespace sketchLayer
+// } // namespace sketchLayer
 
-using namespace sketchLayer;
+// using namespace sketchLayer;
 
 #else
 

@@ -28,19 +28,22 @@
 
 #if defined(USE_ABSTRACTION_LAYER)
 
-namespace sketchLayer
-{
-    CRSFforArduino::CRSFforArduino(HardwareSerial *serial)
+// namespace sketchLayer
+// {
+    CRSFforArduino::CRSFforArduino()
     {
-        (void)(serial);
+        _serialReceiver = new SerialReceiver();
+        // _serialReceiver = SerialReceiver();
     }
 
     CRSFforArduino::~CRSFforArduino()
     {
+        delete _serialReceiver;
     }
 
     bool CRSFforArduino::begin()
     {
+        _serialReceiver->begin();
         return false;
     }
 
