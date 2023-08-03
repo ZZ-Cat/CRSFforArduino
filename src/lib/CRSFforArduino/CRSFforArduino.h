@@ -37,6 +37,7 @@
     {
     public:
         CRSFforArduino();
+        // CRSFforArduino(HardwareSerial *serial);
         ~CRSFforArduino();
         bool begin();
         void end();

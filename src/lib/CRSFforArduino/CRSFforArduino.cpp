@@ -36,6 +36,12 @@
         // _serialReceiver = SerialReceiver();
     }
 
+    // CRSFforArduino::CRSFforArduino(HardwareSerial *serial)
+    // {
+    //     (void)(serial);
+    //     // _serialReceiver = new serialReceiver::SerialReceiver();
+    // }
+
     CRSFforArduino::~CRSFforArduino()
     {
         delete _serialReceiver;
@@ -66,7 +72,7 @@
         (void)(rc);
         return 0;
     }
-}
+// }
 
 #else
 
