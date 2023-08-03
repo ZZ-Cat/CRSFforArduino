@@ -75,7 +75,7 @@ namespace sketchLayer
     {
         return _serialReceiver->rcToUs(rc);
     }
-}
+} // namespace sketchLayer
 
 #else
 

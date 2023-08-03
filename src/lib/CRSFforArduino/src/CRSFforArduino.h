@@ -35,7 +35,7 @@ namespace sketchLayer
 {
     class CRSFforArduino : private serialReceiver::SerialReceiver
     {
-    public:
+      public:
         CRSFforArduino();
         CRSFforArduino(Uart *serial);
         ~CRSFforArduino();
@@ -45,7 +45,8 @@ namespace sketchLayer
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
-    private:
+
+      private:
         serialReceiver::SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer
