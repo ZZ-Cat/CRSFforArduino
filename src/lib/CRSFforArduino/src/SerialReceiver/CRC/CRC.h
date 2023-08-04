@@ -29,8 +29,6 @@
 
 namespace serialReceiver
 {
-#define CRC_OPTIMISATION_LEVEL 0
-
 #define CRC_OPTIMISATION_SPEED 0
 #define CRC_OPTIMISATION_SIZE 1
 #define CRC_OPTIMISATION_HARDWARE 2
