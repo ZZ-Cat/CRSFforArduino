@@ -32,10 +32,12 @@ namespace serialReceiver
 {
     CRSF::CRSF()
     {
+        crc8 = new CRC();
     }
 
     CRSF::~CRSF()
     {
+        delete crc8;
     }
 
     void CRSF::begin()
@@ -157,11 +159,6 @@ namespace serialReceiver
 
     uint8_t CRSF::calculateFrameCRC()
     {
-        uint8_t crc = crc_8_dvb_s2(0, rxFrame.frame.type);
-        for (uint8_t i = 0; i < rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC; i++)
-        {
-            crc = crc_8_dvb_s2(crc, rxFrame.frame.payload[i]);
-        }
-        return crc;
+        return crc8->calculate(rxFrame.frame.type, rxFrame.frame.payload, rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC);
     }
 } // namespace serialReceiver

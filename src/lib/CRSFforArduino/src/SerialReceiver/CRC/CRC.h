@@ -29,12 +29,25 @@
 
 namespace serialReceiver
 {
+#define CRC_OPTIMISATION_LEVEL 0
+
+#define CRC_OPTIMISATION_SPEED 0
+#define CRC_OPTIMISATION_SIZE 1
+#define CRC_OPTIMISATION_HARDWARE 2
+
     class CRC
     {
       public:
         CRC();
-        ~CRC();
+        virtual ~CRC();
 
-        uint8_t crc_8_dvb_s2(uint8_t crc, uint8_t data, uint8_t poly = 0xd5);
+        uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
+
+      private:
+#if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
+          uint8_t *crc_8_dvb_s2_table;
+#elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
+        uint8_t crc_8_dvb_s2(uint8_t crc, uint8_t data);
+#endif
     };
 } // namespace serialReceiver

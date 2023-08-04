@@ -33,7 +33,7 @@
 
 namespace serialReceiver
 {
-    class CRSF : private CRC
+    class CRSF //: private CRC
     {
       public:
         CRSF();
@@ -51,6 +51,7 @@ namespace serialReceiver
         uint32_t timePerFrame;
         crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;
+        CRC *crc8;
         uint8_t calculateFrameCRC();
     };
 } // namespace serialReceiver
