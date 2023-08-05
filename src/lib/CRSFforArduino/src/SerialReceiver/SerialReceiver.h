@@ -28,7 +28,11 @@
 
 #include "Arduino.h"
 #include "CRSF/CRSF.h"
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Hardware/Hardware.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/Hardware/Hardware.h"
+#endif
 
 namespace serialReceiver
 {
@@ -52,8 +56,8 @@ namespace serialReceiver
         CRSF *crsf;
         CompatibilityTable *ct;
         DevBoards *board;
-        uint8_t _rxPin = -1;
-        uint8_t _txPin = -1;
+        uint8_t _rxPin = 0xffu;
+        uint8_t _txPin = 0xffu;
         uint16_t _rcChannels[16];
         void flushRemainingFrames();
     };

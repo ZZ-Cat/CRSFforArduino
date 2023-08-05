@@ -24,14 +24,11 @@
  * 
  */
 
-/* For some reason, main_rc.cpp is included in the Arduino IDE build as well as the PlatformIO build.
- * This causes the Arduino IDE to complain about setup() and loop() being defined in multiple files.
- * The following #if defined() block is used to prevent the Arduino IDE from complaining about setup() and loop()
- * being defined in multiple files.
+/* The Arduino IDE links main_rc.cpp to any sketch that uses the CRSFforArduino library.
+ * EG When you open the "RC Channels" example sketch, the Arduino IDE will link main_rc.cpp to it.
+ * To work around this, preprocessor directives are used to exclude the main_rc.cpp code from your sketch.
  */
-#if defined(ARDUINO) && !defined(PLATFORMIO)
-#warning "This example sketch is not compatible with the Arduino IDE. Please use the rc_channels.ino example instead."
-#elif defined(ARDUINO) && defined(PLATFORMIO)
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"

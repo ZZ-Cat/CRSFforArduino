@@ -48,8 +48,8 @@ namespace serialReceiver
 
     SerialReceiver::~SerialReceiver()
     {
-        _rxPin = -1;
-        _txPin = -1;
+        _rxPin = 0xffu;
+        _txPin = 0xffu;
         delete board;
         delete ct;
     }
@@ -77,7 +77,7 @@ namespace serialReceiver
         // Check if the board is compatible.
         if (ct->isDevboardCompatible(ct->getDevboardName()))
         {
-            if (_rxPin == -1 && _txPin == -1)
+            if (_rxPin == 0xffu && _txPin == 0xffu)
             {
                 board->exitCriticalSection();
                 return false;
@@ -150,7 +150,7 @@ namespace serialReceiver
 
     uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
     {
-        if (channel >= 0 && channel <= 15)
+        if (channel <= 15)
         {
             if (raw == true)
             {

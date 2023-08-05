@@ -28,8 +28,12 @@
 
 #include "Arduino.h"
 #include "CRSFProtocol.h"
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "SerialReceiver/CRC/CRC.h"
-// #include "Hardware.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.h"
+#endif
+ // #include "Hardware.h"
 
 namespace serialReceiver
 {

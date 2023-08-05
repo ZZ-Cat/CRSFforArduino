@@ -24,9 +24,11 @@
  * 
  */
 
-#if defined(ARDUINO) && !defined(PLATFORMIO)
-#warning "This example sketch is not compatible with the Arduino IDE. Please use the gps_telemetry.ino example instead."
-#elif defined(ARDUINO) && defined(PLATFORMIO)
+ /* The Arduino IDE links main_telemetry.cpp to any sketch that uses the CRSFforArduino library.
+  * EG When you open the "GPS Telemetry" example sketch, the Arduino IDE will link main_telemetry.cpp to it.
+  * To work around this, preprocessor directives are used to exclude the main_telemetry.cpp code from your sketch.
+  */
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"

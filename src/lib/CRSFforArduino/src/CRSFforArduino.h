@@ -25,11 +25,19 @@
  */
 
 #pragma once
+#if defined(ARDUINO) && !defined(PLATFORMIO)
+#define USE_ABSTRACTION_LAYER
+#endif
 
 #if defined(USE_ABSTRACTION_LAYER)
 
 #include "Arduino.h"
+
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "SerialReceiver/SerialReceiver.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/SerialReceiver/SerialReceiver.h"
+#endif
 
 namespace sketchLayer
 {
