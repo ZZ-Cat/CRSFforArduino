@@ -58,7 +58,7 @@ namespace serialReceiver
         DevBoards *board;
         uint8_t _rxPin = 0xffu;
         uint8_t _txPin = 0xffu;
-        uint16_t _rcChannels[16];
+        uint16_t *_rcChannels;
         void flushRemainingFrames();
     };
 } // namespace serialReceiver

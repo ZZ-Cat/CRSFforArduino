@@ -36,6 +36,7 @@ namespace serialReceiver
         _txPin = 1;
         board = new DevBoards();
         ct = new CompatibilityTable();
+        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
     }
 
     SerialReceiver::SerialReceiver(uint8_t rxPin, uint8_t txPin)
@@ -44,6 +45,7 @@ namespace serialReceiver
         _txPin = txPin;
         board = new DevBoards();
         ct = new CompatibilityTable();
+        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
     }
 
     SerialReceiver::~SerialReceiver()
@@ -52,6 +54,7 @@ namespace serialReceiver
         _txPin = 0xffu;
         delete board;
         delete ct;
+        delete[] _rcChannels;
     }
 
     bool SerialReceiver::begin()
@@ -60,9 +63,7 @@ namespace serialReceiver
 
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
-        const size_t rcChannelsSize = sizeof(_rcChannels) / sizeof(_rcChannels[0]);
-        memset(_rcChannels, 0, sizeof(_rcChannels));
-        for (size_t i = 0; i < rcChannelsSize; i++)
+        for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
         {
             if (i == RC_CHANNEL_THROTTLE)
             {
