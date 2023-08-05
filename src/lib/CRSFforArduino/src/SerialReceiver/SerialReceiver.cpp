@@ -86,6 +86,14 @@ namespace serialReceiver
 
             // Initialize the CRSF Protocol.
             crsf = new CRSF();
+
+            // Check that the CRSF Protocol was initialized successfully.
+            if (crsf == nullptr)
+            {
+                board->exitCriticalSection();
+                return false;
+            }
+
             crsf->begin();
             crsf->setFrameTime(BAUD_RATE, 10);
             board->setUART(0, _rxPin, _txPin);
@@ -119,8 +127,13 @@ namespace serialReceiver
         board->enterCriticalSection();
         board->end();
         board->clearUART();
-        crsf->end();
-        delete crsf;
+
+        // Check if the CRSF Protocol was initialized.
+        if (crsf != nullptr)
+        {
+            crsf->end();
+            delete crsf;
+        }
         board->exitCriticalSection();
     }
 
