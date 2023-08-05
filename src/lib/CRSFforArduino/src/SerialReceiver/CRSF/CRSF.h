@@ -51,7 +51,6 @@ namespace serialReceiver
       private:
         bool rcFrameReceived;
         uint16_t frameCount;
-        uint16_t channelData[crsfProtocol::RC_CHANNEL_COUNT];
         uint32_t timePerFrame;
         crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;

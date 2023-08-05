@@ -48,12 +48,10 @@ namespace serialReceiver
 
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset(channelData, 0, sizeof(channelData));
     }
 
     void CRSF::end()
     {
-        memset(channelData, 0, sizeof(channelData));
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 
