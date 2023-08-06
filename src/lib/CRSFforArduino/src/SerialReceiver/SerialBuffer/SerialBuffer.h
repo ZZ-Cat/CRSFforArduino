@@ -56,6 +56,7 @@ namespace genericStreamBuffer
         // Write unsigned integers in big endian
         size_t writeU8BE(uint8_t value);
         size_t writeU16BE(uint16_t value);
+        size_t writeU24BE(uint32_t value);
         size_t writeU32BE(uint32_t value);
 
         // Get the current buffer length

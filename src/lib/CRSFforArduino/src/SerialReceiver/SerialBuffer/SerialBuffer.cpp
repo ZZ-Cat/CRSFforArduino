@@ -213,6 +213,21 @@ namespace genericStreamBuffer
         return 2;
     }
 
+    size_t SerialBuffer::writeU24BE(uint32_t value)
+    {
+        if (bufferIndex + 3 > bufferSizeMax)
+        {
+            return 0;
+        }
+
+        buffer[bufferIndex++] = (value >> 16) & 0xFF;
+        buffer[bufferIndex++] = (value >> 8) & 0xFF;
+        buffer[bufferIndex++] = value & 0xFF;
+        bufferLength = bufferIndex;
+
+        return 3;
+    }
+
     size_t SerialBuffer::writeU32BE(uint32_t value)
     {
         if (bufferIndex + 4 > bufferSizeMax)
