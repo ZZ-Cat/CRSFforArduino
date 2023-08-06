@@ -40,9 +40,9 @@ namespace hal
     {
 #if defined(ARDUINO_ARCH_SAMD)
         // If UART port was defined beforehand, delete it.
-        if (uart_port != NULL)
+        if (uart_port != nullptr)
         {
-            uart_port->~Uart();
+            delete uart_port;
         }
 
         // Set the UART port.
@@ -57,20 +57,20 @@ namespace hal
                 break;
 
             default:
-                uart_port = NULL;
+                uart_port = nullptr;
                 break;
         }
 #else
-        uart_port = NULL;
+        uart_port = nullptr;
 #endif
     }
 
     void DevBoards::clearUART()
     {
         // If UART port was defined beforehand, delete it.
-        if (uart_port != NULL)
+        if (uart_port != nullptr)
         {
-            uart_port->~Uart();
+            delete uart_port;
         }
     }
 
