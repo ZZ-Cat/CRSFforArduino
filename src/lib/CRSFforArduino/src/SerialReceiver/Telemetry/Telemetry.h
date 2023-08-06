@@ -25,3 +25,57 @@
  */
 
 #pragma once
+
+#include "Arduino.h"
+
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "Hardware/DevBoards/DevBoards.h"
+#include "SerialReceiver/CRC/CRC.h"
+#include "SerialReceiver/CRSF/CRSFProtocol.h"
+#include "SerialReceiver/SerialBuffer/SerialBuffer.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.h"
+#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.h"
+#include "lib/CRSFforArduino/src/SerialReceiver/CRSF/CRSFProtocol.h"
+#include "lib/CRSFforArduino/src/SerialReceiver/SerialBuffer/SerialBuffer.h"
+#endif
+
+namespace serialReceiver
+{
+    class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer, private hal::DevBoards
+    {
+    public:
+        Telemetry();
+        ~Telemetry();
+
+        void begin();
+        void end();
+
+        bool update();
+
+        // void setAttitudeData(float roll, float pitch, float yaw);
+        // void setBaroAltitudeData(float altitude);
+        // void setBatterySensorData(float voltage, float current, float capacity);
+        // void setFlightModeData(const char *flightMode);
+        void setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites);
+        // void setVarioData(float vario);
+
+        void sendTelemetryData(DevBoards *db);
+
+    private:
+        uint8_t _telemetryFrameScheduleCount;
+        uint8_t _telemetryFrameSchedule[crsfProtocol::CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
+        crsfProtocol::telemetryData_t _telemetryData;
+
+        void _initialiseFrame();
+        // void _appendAttitudeData();
+        // void _appendBaroAltitudeData();
+        // void _appendBatterySensorData();
+        // void _appendFlightModeData();
+        void _appendGPSData();
+        // void _appendHeartbeatData();
+        // void _appendVarioData();
+        void _finaliseFrame();
+
+    };
+} // namespace serialReceiver

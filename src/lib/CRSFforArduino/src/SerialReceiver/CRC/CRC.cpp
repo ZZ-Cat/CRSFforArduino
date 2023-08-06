@@ -167,5 +167,32 @@ namespace serialReceiver
 #endif
     }
 
+    uint8_t CRC::calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length)
+    {
+        (void)start;
+#if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
+        // start is the first byte of the data to be CRC'd.
+        // data is a pointer to the data to be CRC'd.
+
+        // Calculate the CRC8 DVB S2 value.
+        uint8_t crc = crc_8_dvb_s2_table[0 ^ data[offset]];
+        for (uint8_t i = offset + 1; i < length; i++)
+        {
+            crc = crc_8_dvb_s2_table[crc ^ data[i]];
+        }
+
+        // Return the CRC8 DVB S2 value.
+        return crc;
+#elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
+        uint8_t crc = crc_8_dvb_s2(0, data[offset]);
+        for (uint8_t i = offset + 1; i < length; i++)
+        {
+            crc = crc_8_dvb_s2(crc, data[i]);
+        }
+        return crc;
+#elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_HARDWARE)
+#endif
+    }
+
 
 } // namespace serialReceiver

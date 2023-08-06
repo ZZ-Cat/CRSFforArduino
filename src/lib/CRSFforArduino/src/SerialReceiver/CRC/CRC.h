@@ -40,7 +40,8 @@ namespace serialReceiver
         virtual ~CRC();
 
         uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
-
+        uint8_t calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length);
+  
       private:
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
           uint8_t *crc_8_dvb_s2_table;

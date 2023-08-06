@@ -54,8 +54,10 @@ namespace sketchLayer
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
+        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+
       private:
-        serialReceiver::SerialReceiver *_serialReceiver;
+        SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer
 

@@ -74,6 +74,11 @@ namespace sketchLayer
     {
         return _serialReceiver->rcToUs(rc);
     }
+
+    void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
+    {
+        _serialReceiver->telemetryWriteGPS(latitude, longitude, altitude, speed, groundCourse, satellites);
+    }
 } // namespace sketchLayer
 
 #else

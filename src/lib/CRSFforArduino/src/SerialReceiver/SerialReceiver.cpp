@@ -99,6 +99,18 @@ namespace serialReceiver
             board->setUART(0, _rxPin, _txPin);
             board->begin(BAUD_RATE);
 
+            // Initialise telemetry.
+            telemetry = new Telemetry();
+
+            // Check that the telemetry was initialised successfully.
+            if (telemetry == nullptr)
+            {
+                board->exitCriticalSection();
+                return false;
+            }
+
+            telemetry->begin();
+
             board->exitCriticalSection();
 
             // Clear the UART buffer.
@@ -134,6 +146,13 @@ namespace serialReceiver
             crsf->end();
             delete crsf;
         }
+
+        // Check if telemetry was initialized.
+        if (telemetry != nullptr)
+        {
+            telemetry->end();
+            delete telemetry;
+        }
         board->exitCriticalSection();
     }
 
@@ -145,7 +164,11 @@ namespace serialReceiver
             {
                 flushRemainingFrames();
 
-                // TO-DO: Handle sending telemetry data.
+                // Check if it is time to send telemetry.
+                if (telemetry->update())
+                {
+                    telemetry->sendTelemetryData(board);
+                }
             }
         }
 
@@ -196,5 +219,10 @@ namespace serialReceiver
     uint16_t SerialReceiver::rcToUs(uint16_t rc)
     {
         return (uint16_t)((rc * 0.62477120195241F) + 881);
+    }
+
+    void SerialReceiver::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
+    {
+        telemetry->setGPSData(latitude, longitude, altitude, speed, groundCourse, satellites);
     }
 } // namespace serialReceiver

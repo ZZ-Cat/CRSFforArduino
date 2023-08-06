@@ -28,6 +28,7 @@
 
 #include "Arduino.h"
 #include "CRSF/CRSF.h"
+#include "Telemetry/Telemetry.h"
 #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Hardware/Hardware.h"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
@@ -52,10 +53,13 @@ namespace serialReceiver
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
+        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+
       private:
         CRSF *crsf;
         CompatibilityTable *ct;
         DevBoards *board;
+        Telemetry *telemetry;
         uint8_t _rxPin = 0xffu;
         uint8_t _txPin = 0xffu;
         uint16_t *_rcChannels;
