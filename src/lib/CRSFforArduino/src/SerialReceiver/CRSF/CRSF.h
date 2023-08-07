@@ -29,16 +29,25 @@
 #include "Arduino.h"
 #include "CRSFProtocol.h"
 #if defined(ARDUINO) && defined(PLATFORMIO)
+#ifdef USE_DMA
+#include "Hardware/DevBoards/DevBoards.h"
+#endif
 #include "SerialReceiver/CRC/CRC.h"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
+#ifdef USE_DMA
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.h"
+#endif
 #include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.h"
 #endif
  // #include "Hardware.h"
 
 namespace serialReceiver
 {
-    class CRSF //: private CRC
-    {
+  class CRSF
+#ifdef USE_DMA
+    : private hal::DevBoards
+#endif
+  {
       public:
         CRSF();
         virtual ~CRSF();

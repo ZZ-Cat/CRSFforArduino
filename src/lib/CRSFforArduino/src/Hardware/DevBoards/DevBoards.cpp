@@ -28,6 +28,26 @@
 
 namespace hal
 {
+#if defined(USE_DMA)
+#if defined(ARDUINO_ARCH_SAMD)
+    #define DMA_BUFFER_SIZE 64
+
+    Adafruit_ZeroDMA *dma_mem;
+
+    DmacDescriptor *descriptor_mem;
+
+    volatile bool dma_mem_transfer_complete = false;
+
+    void dma_callback(Adafruit_ZeroDMA *dma)
+    {
+        if (dma == dma_mem)
+        {
+            dma_mem_transfer_complete = true;
+        }
+    }
+#endif
+#endif
+
     DevBoards::DevBoards()
     {
     }
@@ -42,7 +62,7 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
-            delete uart_port;
+            uart_port->~Uart();
         }
 
         // Set the UART port.
@@ -70,7 +90,7 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
-            delete uart_port;
+            uart_port->~Uart();
         }
     }
 
@@ -150,4 +170,86 @@ namespace hal
 #endif
         }
     }
+
+#if defined(USE_DMA)
+    void DevBoards::memcpy_dma(void *dest, void *src, size_t size)
+    {
+#if defined(ARDUINO_ARCH_SAMD)
+        // If DMA memory was not initialized, initialize it.
+        if (dma_mem == nullptr)
+        {
+            enterCriticalSection();
+
+            dma_mem = new Adafruit_ZeroDMA();
+
+            // Check if DMA memory was initialized.
+            if (dma_mem == nullptr)
+            {
+                exitCriticalSection();
+                return;
+            }
+
+            // Allocate DMA channel for memory & check if it was allocated.
+            if (dma_mem->allocate() != DMA_STATUS_OK)
+            {
+                delete dma_mem;
+                exitCriticalSection();
+                return;
+            }
+
+            // Allocate DMA descriptors for memory & check if they were allocated.
+            descriptor_mem = dma_mem->addDescriptor(
+                NULL, // No source data to start with.
+                NULL, // No destination to start with.
+                0     // No data to start with.
+            );
+
+            if (descriptor_mem == nullptr)
+            {
+                delete dma_mem;
+                exitCriticalSection();
+                return;
+            }
+
+            // Set the DMA callback function.
+            dma_mem->setCallback(dma_callback);
+
+            // Set the DMA transfer complete flag.
+            dma_mem_transfer_complete = true;
+
+            exitCriticalSection();
+        }
+
+        // Check if the DMA transfer is complete.
+        if (dma_mem_transfer_complete == true)
+        {
+            // Reset the DMA transfer complete flag.
+            dma_mem_transfer_complete = false;
+
+            // Change the DMA descriptor.
+            dma_mem->changeDescriptor(
+                descriptor_mem,
+                src,
+                dest,
+                size
+            );
+
+            // Start the DMA transfer.
+            if (dma_mem->startJob() == DMA_STATUS_OK)
+            {
+                dma_mem->trigger();
+
+                // Wait for the DMA transfer to complete.
+                while (dma_mem_transfer_complete == false)
+                {
+                    ;
+                }
+            }
+        }
+#else
+        // Default to memcpy if DMA is not supported.
+        memcpy(dest, src, size);
+#endif
+    }
+#endif
 } // namespace hal

@@ -108,7 +108,11 @@ namespace serialReceiver
                         case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
                             if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
                             {
+#ifdef USE_DMA
+                                memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+#else
                                 memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+#endif
                                 rcFrameReceived = true;
                             }
                             break;

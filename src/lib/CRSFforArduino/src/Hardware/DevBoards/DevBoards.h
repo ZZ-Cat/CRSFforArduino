@@ -27,6 +27,11 @@
 #pragma once
 
 #include "Arduino.h"
+#ifdef USE_DMA
+#if defined(ARDUINO_ARCH_SAMD)
+#include "Adafruit_ZeroDMA.h"
+#endif
+#endif
 
 namespace hal
 {
@@ -53,6 +58,11 @@ namespace hal
         // Critical section functions.
         void enterCriticalSection();
         void exitCriticalSection();
+
+#ifdef USE_DMA
+        // DMA functions.
+        void memcpy_dma(void *dest, void *src, size_t size);
+#endif
 
       private:
         uint16_t critical_section_counter = 0;
