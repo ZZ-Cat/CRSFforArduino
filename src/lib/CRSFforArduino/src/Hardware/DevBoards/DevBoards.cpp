@@ -41,10 +41,6 @@ namespace hal
     volatile bool dma_memcopy_transfer_complete = false;
     volatile bool dma_memset_transfer_complete = false;
 
-    DmacDescriptor *descriptor_mem;
-
-    volatile bool dma_mem_transfer_complete = false;
-
     void dma_callback(Adafruit_ZeroDMA *dma)
     {
         if (dma == dma_memcopy)
