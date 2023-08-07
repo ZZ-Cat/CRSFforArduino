@@ -119,7 +119,11 @@ namespace serialReceiver
                             if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
                             {
 #ifdef USE_DMA
-                                memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+#ifdef __SAMD51__
+                                memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is a workaround for the crash on SAMD51.
+#else
+                                memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is the line that causes the crash on SAMD51.
+#endif
 #else
                                 memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
 #endif
@@ -129,7 +133,7 @@ namespace serialReceiver
                     }
                 }
 #ifdef USE_DMA
-                memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+                memset_dma(&rxFrame, 0, CRSF_FRAME_SIZE_MAX); // ◄ This line works fine on both SAMD21 and SAMD51.
 #else
                 memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
 #endif
