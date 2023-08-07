@@ -50,7 +50,11 @@ namespace genericStreamBuffer
     {
         bufferIndex = 0;
         bufferLength = 0;
+#ifdef USE_DMA
+        memset_dma(buffer, 0, bufferSizeMax);
+#else
         memset(buffer, 0, bufferSizeMax);
+#endif
     }
 
     // Write signed integers in little endian

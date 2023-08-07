@@ -33,10 +33,13 @@ namespace hal
     #define DMA_BUFFER_SIZE 64
 
     Adafruit_ZeroDMA *dma_memcopy;
+    Adafruit_ZeroDMA *dma_memset;
 
     DmacDescriptor *descriptor_memcopy;
+    DmacDescriptor *descriptor_memset;
 
     volatile bool dma_memcopy_transfer_complete = false;
+    volatile bool dma_memset_transfer_complete = false;
 
     DmacDescriptor *descriptor_mem;
 
@@ -48,6 +51,10 @@ namespace hal
         {
             dma_memcopy_transfer_complete = true;
         }
+        else if (dma == dma_memset)
+        {
+            dma_memset_transfer_complete = true;
+        }
     }
 #endif
 #endif
@@ -58,6 +65,20 @@ namespace hal
 
     DevBoards::~DevBoards()
     {
+#ifdef USE_DMA
+#if defined(ARDUINO_ARCH_SAMD)
+        // If DMA memory was initialized, delete it.
+        if (dma_memcopy != nullptr)
+        {
+            delete dma_memcopy;
+        }
+
+        if (dma_memset != nullptr)
+        {
+            delete dma_memset;
+        }
+#endif
+#endif
     }
 
     void DevBoards::setUART(uint8_t port, uint8_t rx, uint8_t tx)
@@ -253,6 +274,89 @@ namespace hal
 #else
         // Default to memcpy if DMA is not supported.
         memcpy(dest, src, size);
+#endif
+    }
+
+    void DevBoards::memset_dma(void *dest, int value, size_t size)
+    {
+#if defined(ARDUINO_ARCH_SAMD)
+        // If DMA memory was not initialized, initialize it.
+        if (dma_memset == nullptr)
+        {
+            enterCriticalSection();
+
+            dma_memset = new Adafruit_ZeroDMA();
+
+            // Check if DMA memory was initialized.
+            if (dma_memset == nullptr)
+            {
+                exitCriticalSection();
+                return;
+            }
+
+            // Allocate DMA channel for memory & check if it was allocated.
+            if (dma_memset->allocate() != DMA_STATUS_OK)
+            {
+                delete dma_memset;
+                exitCriticalSection();
+                return;
+            }
+
+            // Allocate DMA descriptors for memory & check if they were allocated.
+            descriptor_memset = dma_memset->addDescriptor(
+                NULL, // No source data to start with.
+                NULL, // No destination to start with.
+                0,    // No data to start with.
+                DMA_BEAT_SIZE_BYTE, // Transfer 1 byte at a time.
+                false,             // Don't increment the source address.
+                true           // Increment the destination address.
+                );
+
+            if (descriptor_memset == nullptr)
+            {
+                delete dma_memset;
+                exitCriticalSection();
+                return;
+            }
+
+            // Set the DMA callback function.
+            dma_memset->setCallback(dma_callback);
+
+            // Set the DMA transfer complete flag.
+            dma_memset_transfer_complete = true;
+
+            exitCriticalSection();
+        }
+
+        // Check if the DMA transfer is complete.
+        if (dma_memset_transfer_complete == true)
+        {
+            // Reset the DMA transfer complete flag.
+            dma_memset_transfer_complete = false;
+
+            // Change the DMA descriptor.
+            dma_memset->changeDescriptor(
+                descriptor_memset,
+                &value,
+                dest,
+                size
+            );
+
+            // Start the DMA transfer.
+            if (dma_memset->startJob() == DMA_STATUS_OK)
+            {
+                dma_memset->trigger();
+
+                // Wait for the DMA transfer to complete.
+                while (dma_memset_transfer_complete == false)
+                {
+                    ;
+                }
+            }
+        }
+#else
+        // Default to memset if DMA is not supported.
+        memset(dest, value, size);
 #endif
     }
 #endif

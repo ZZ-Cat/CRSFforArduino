@@ -46,14 +46,24 @@ namespace serialReceiver
         frameCount = 0;
         timePerFrame = 0;
 
+#ifdef USE_DMA
+        memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#else
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#endif
     }
 
     void CRSF::end()
     {
+#ifdef USE_DMA
+        memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#else
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#endif
 
         timePerFrame = 0;
         frameCount = 0;
@@ -118,8 +128,11 @@ namespace serialReceiver
                             break;
                     }
                 }
-
+#ifdef USE_DMA
+                memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#else
                 memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+#endif
                 framePosition = 0;
 
                 return true;

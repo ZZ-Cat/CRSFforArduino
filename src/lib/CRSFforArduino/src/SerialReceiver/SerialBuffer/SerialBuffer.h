@@ -28,9 +28,20 @@
 
 #include "Arduino.h"
 
+#ifdef USE_DMA
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "Hardware/DevBoards/DevBoards.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.h"
+#endif
+#endif
+
 namespace genericStreamBuffer
 {
     class SerialBuffer
+#ifdef USE_DMA
+        : public hal::DevBoards
+#endif
     {
     public:
         SerialBuffer(size_t size);

@@ -62,6 +62,7 @@ namespace hal
 #ifdef USE_DMA
         // DMA functions.
         void memcpy_dma(void *dest, void *src, size_t size);
+        void memset_dma(void *dest, int value, size_t size);
 #endif
 
       private:
