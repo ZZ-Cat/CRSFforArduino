@@ -30,6 +30,3 @@
 #include "DevBoards/DevBoards.h"
 
 using namespace hal;
-
-// CompatibilityTable ct;
-// DevBoards board;

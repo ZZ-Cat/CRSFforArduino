@@ -92,17 +92,6 @@ namespace serialReceiver
         uint8_t *buffer = SerialBuffer::getBuffer();
         size_t length = SerialBuffer::getLength();
 
-        // Debug.
-        // Serial.print("Telemetry frame length: ");
-        // Serial.print(length);
-        // Serial.print(", Telemetry frame: ");
-        // for (size_t i = 0; i < length; i++)
-        // {
-        //     Serial.print(buffer[i]);
-        //     Serial.print(",");
-        // }
-        // Serial.println();
-
         db->write(buffer, length);
     }
 
@@ -130,17 +119,6 @@ namespace serialReceiver
         uint8_t *buffer = SerialBuffer::getBuffer();
         uint8_t length = SerialBuffer::getLength();
         uint8_t crc = CRC::calculate(2, buffer[2], buffer, length);
-
-        // Debug.
-        // Serial.print("Telemetry frame length: ");
-        // Serial.print(length);
-        // Serial.print(", Telemetry frame: ");
-        // for (size_t i = 0; i < length; i++)
-        // {
-        //     Serial.print(buffer[i]);
-        //     Serial.print(",");
-        // }
-        // Serial.println();
 
         SerialBuffer::writeU8(crc);
     }

@@ -65,65 +65,6 @@ namespace serialReceiver
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
     uint8_t CRC::crc_8_dvb_s2(uint8_t crc, uint8_t data)
     {
-        // #if defined(ARDUINO_ARCH_SAMD)
-        // #if defined(__SAMD51__)
-        // #else
-        //         uint32_t crc32;
-        //         uint8_t crc8;
-        //         /* Source: Microchip SAM D21/DA1 Family Data Sheet, Section 13.11.3.1.
-        //          * https://ww1.microchip.com/downloads/en/DeviceDoc/SAMD21-Family-DataSheet-DS40001882D.pdf
-        //          *
-        //          * CRC32 calculation for a memory range is started after writing the start address to the Address Register (ADDR) and
-        //          * the length of the memory range to the Length Register (LENGTH). Both must be word aligned.
-        //          *
-        //          * The initial value used for the CRC32 calculation must be written to the Data Register (DATA). This value is typically
-        //          * 0xFFFFFFFF, but can be, for example, the result of a previous CRC32 calculation if generating a common CRC32 of
-        //          * seperate memory blocks.
-        //          *
-        //          * Once completed, the calculated CRC32 value can be read from the Data Register (DATA). The read value must be
-        //          * complemented to match standard CRC32 implementations or kept non-inverted if used as a starting point for
-        //          * subsequent CRC32 calculations.
-        //          *
-        //          * The actual test is started by writing a '1' in the 32-bit Cyclic Redundancy Check bit of the Control Register
-        //          * (CTRL.CRC). A running CRC32 operation can be cancelled by resetting the module (writing a '1' to CTRL.SWRST).
-        //          */
-
-        //         // Set the CRC32 start address.
-        //         DSU->ADDR.reg = (uint32_t)data;
-
-        //         // Set the CRC32 length.
-        //         DSU->LENGTH.reg = sizeof(data);
-
-        //         // Set the CRC32 initial value.
-        //         DSU->DATA.reg = crc;
-
-        //         // Start the CRC32 calculation.
-        //         DSU->CTRL.bit.CRC = 1;
-
-        //         // When the CRC32 calculation is complete, the STATUSA.DONE bit will be set in the Status A Register (STATUSA).
-        //         // Then, the Bus Error bit of the Status A Register (STATUSA.BERR) will be set if a bus error occurred during the
-        //         // CRC32 calculation.
-        //         while (!DSU->STATUSA.bit.DONE)
-        //         {
-        //         }
-
-        //         // Check if a bus error occurred during the CRC32 calculation.
-        //         if (DSU->STATUSA.bit.BERR)
-        //         {
-        //             // Return 0 if a bus error occurred during the CRC32 calculation.
-        //             return 0;
-        //         }
-
-        //         // Read the CRC32 value.
-        //         crc32 = DSU->DATA.reg;
-
-        //         // Convert the CRC32 value to a CRC DVB 8 S2 value, based on the polynomial.
-        //         crc8 = (uint8_t)(crc32 >> 24) ^ poly;
-
-        //         // Return the CRC8 value.
-        //         return crc8;
-        // #endif
-        // #else
         crc ^= data;
         for (uint8_t i = 0; i < 8; i++)
         {
@@ -137,7 +78,6 @@ namespace serialReceiver
             }
         }
         return crc;
-        // #endif
     }
 #endif
 
