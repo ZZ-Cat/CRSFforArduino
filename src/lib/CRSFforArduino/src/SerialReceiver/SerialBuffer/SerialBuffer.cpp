@@ -282,4 +282,4 @@ namespace genericStreamBuffer
     {
         return buffer;
     }
-}
+} // namespace genericStreamBuffer

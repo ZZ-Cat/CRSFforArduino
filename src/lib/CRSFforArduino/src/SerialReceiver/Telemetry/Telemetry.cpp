@@ -30,7 +30,8 @@ using namespace crsfProtocol;
 
 namespace serialReceiver
 {
-    Telemetry::Telemetry(): CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
+    Telemetry::Telemetry() :
+        CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));

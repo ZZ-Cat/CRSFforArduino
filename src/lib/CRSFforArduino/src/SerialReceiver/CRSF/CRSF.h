@@ -39,15 +39,15 @@
 #endif
 #include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.h"
 #endif
- // #include "Hardware.h"
+// #include "Hardware.h"
 
 namespace serialReceiver
 {
-  class CRSF
+    class CRSF
 #ifdef USE_DMA
-    : private hal::DevBoards
+        : private hal::DevBoards
 #endif
-  {
+    {
       public:
         CRSF();
         virtual ~CRSF();

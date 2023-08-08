@@ -44,10 +44,11 @@ namespace serialReceiver
 {
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
 #ifndef USE_DMA
-        , private hal::DevBoards
+        ,
+                      private hal::DevBoards
 #endif
     {
-    public:
+      public:
         Telemetry();
         ~Telemetry();
 
@@ -65,7 +66,7 @@ namespace serialReceiver
 
         void sendTelemetryData(DevBoards *db);
 
-    private:
+      private:
         uint8_t _telemetryFrameScheduleCount;
         uint8_t _telemetryFrameSchedule[crsfProtocol::CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
         crsfProtocol::telemetryData_t _telemetryData;
@@ -79,6 +80,5 @@ namespace serialReceiver
         // void _appendHeartbeatData();
         // void _appendVarioData();
         void _finaliseFrame();
-
     };
 } // namespace serialReceiver

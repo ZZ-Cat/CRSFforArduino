@@ -92,4 +92,4 @@ void loop()
         Serial.println(">");
     }
 }
-#endif                  // defined(ARDUINO) && defined(PLATFORMIO)
+#endif // defined(ARDUINO) && defined(PLATFORMIO)

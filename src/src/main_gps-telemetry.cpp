@@ -24,7 +24,7 @@
  * 
  */
 
- /* The Arduino IDE links main_telemetry.cpp to any sketch that uses the CRSFforArduino library.
+/* The Arduino IDE links main_telemetry.cpp to any sketch that uses the CRSFforArduino library.
   * EG When you open the "GPS Telemetry" example sketch, the Arduino IDE will link main_telemetry.cpp to it.
   * To work around this, preprocessor directives are used to exclude the main_telemetry.cpp code from your sketch.
   */

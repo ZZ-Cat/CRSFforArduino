@@ -30,7 +30,7 @@ namespace hal
 {
 #if defined(USE_DMA)
 #if defined(ARDUINO_ARCH_SAMD)
-    #define DMA_BUFFER_SIZE 64
+#define DMA_BUFFER_SIZE 64
 
     Adafruit_ZeroDMA *dma_memcopy;
     Adafruit_ZeroDMA *dma_memset;
@@ -252,8 +252,7 @@ namespace hal
                 descriptor_memcopy,
                 src,
                 dest,
-                size
-            );
+                size);
 
             // Start the DMA transfer.
             if (dma_memcopy->startJob() == DMA_STATUS_OK)
@@ -300,13 +299,13 @@ namespace hal
 
             // Allocate DMA descriptors for memory & check if they were allocated.
             descriptor_memset = dma_memset->addDescriptor(
-                NULL, // No source data to start with.
-                NULL, // No destination to start with.
-                0,    // No data to start with.
+                NULL,               // No source data to start with.
+                NULL,               // No destination to start with.
+                0,                  // No data to start with.
                 DMA_BEAT_SIZE_BYTE, // Transfer 1 byte at a time.
-                false,             // Don't increment the source address.
-                true           // Increment the destination address.
-                );
+                false,              // Don't increment the source address.
+                true                // Increment the destination address.
+            );
 
             if (descriptor_memset == nullptr)
             {
@@ -335,8 +334,7 @@ namespace hal
                 descriptor_memset,
                 &value,
                 dest,
-                size
-            );
+                size);
 
             // Start the DMA transfer.
             if (dma_memset->startJob() == DMA_STATUS_OK)

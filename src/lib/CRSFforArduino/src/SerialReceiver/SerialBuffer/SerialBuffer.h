@@ -43,7 +43,7 @@ namespace genericStreamBuffer
         : public hal::DevBoards
 #endif
     {
-    public:
+      public:
         SerialBuffer(size_t size);
         ~SerialBuffer();
 
@@ -85,10 +85,10 @@ namespace genericStreamBuffer
         // Get the buffer
         uint8_t *getBuffer();
 
-    private:
+      private:
         size_t bufferSizeMax;
         size_t bufferLength;
         size_t bufferIndex;
         uint8_t *buffer;
     };
-}
+} // namespace genericStreamBuffer
