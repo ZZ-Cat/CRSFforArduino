@@ -1,7 +1,7 @@
 /**
  * @file CRSFforArduino.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Top level header for CRSF for Arduino, to help with Arduino IDE compatibility.
+ * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
  * @version 0.4.0
  * @date 2023-08-08
  *
@@ -21,9 +21,39 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #pragma once
 
-#include "lib/CRSFforArduino/src/CRSFforArduino.h"
+#include "Arduino.h"
+
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "SerialReceiver/SerialReceiver.h"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "lib/CRSFforArduino/src/SerialReceiver/SerialReceiver.h"
+#endif
+
+namespace sketchLayer
+{
+    class CRSFforArduino : private serialReceiver::SerialReceiver
+    {
+      public:
+        CRSFforArduino();
+        CRSFforArduino(uint8_t RxPin, uint8_t TxPin);
+        ~CRSFforArduino();
+        bool begin();
+        void end();
+        void update();
+        uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
+        uint16_t readRcChannel(uint8_t channel, bool raw = false);
+
+        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+
+      private:
+        SerialReceiver *_serialReceiver;
+    };
+} // namespace sketchLayer
+
+using namespace sketchLayer;

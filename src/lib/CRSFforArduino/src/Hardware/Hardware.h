@@ -1,7 +1,7 @@
 /**
- * @file CRSFforArduino.h
+ * @file Hardware.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Top level header for CRSF for Arduino, to help with Arduino IDE compatibility.
+ * @brief This file is the top level of the hardware abstraction layer.
  * @version 0.4.0
  * @date 2023-08-08
  *
@@ -26,4 +26,7 @@
 
 #pragma once
 
-#include "lib/CRSFforArduino/src/CRSFforArduino.h"
+#include "CompatibilityTable/CompatibilityTable.h"
+#include "DevBoards/DevBoards.h"
+
+using namespace hal;
