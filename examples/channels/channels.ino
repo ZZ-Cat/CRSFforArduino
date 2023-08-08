@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch shows how to receive RC channels from a CRSF receiver using the CRSF for Arduino library.
  * @version 0.4.0
- * @date 2023-07-27
+ * @date 2023-08-01
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -106,7 +106,10 @@
 
 #include "CRSFforArduino.h"
 
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+#define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
+#define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
+
+CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
 {

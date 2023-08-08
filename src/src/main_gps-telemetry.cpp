@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates how to use CRSF for Arduino to send GPS telemetry to an ExpressLRS RC receiver.
  * @version 0.4.0
- * @date 2023-07-27
+ * @date 2023-08-01
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -24,9 +24,11 @@
  * 
  */
 
-#if defined(ARDUINO) && !defined(PLATFORMIO)
-#warning "This example sketch is not compatible with the Arduino IDE. Please use the gps_telemetry.ino example instead."
-#elif defined(ARDUINO) && defined(PLATFORMIO)
+/* The Arduino IDE links main_telemetry.cpp to any sketch that uses the CRSFforArduino library.
+  * EG When you open the "GPS Telemetry" example sketch, the Arduino IDE will link main_telemetry.cpp to it.
+  * To work around this, preprocessor directives are used to exclude the main_telemetry.cpp code from your sketch.
+  */
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
 #include "CRSFforArduino.h"
@@ -34,6 +36,8 @@
 /* Configuration Options. */
 #define VIEW_RC_CHANNELS         0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
 #define GENERATE_RANDOM_GPS_DATA 0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
+#define SERIAL_RX_PIN            0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
+#define SERIAL_TX_PIN            1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
 
@@ -45,7 +49,7 @@ float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
 uint8_t satellites = 4;
 
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
 {
