@@ -90,12 +90,12 @@ With that being said, installation from the Releases tab is nearly identical to 
 ### The API
 
 1. Add my library to your sketch with `#include "CRSFforArduino.h"`
-2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino(&Serial1)`
-3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver.
-4. In your `loop()`, you need to call `crsf.update()`, as this polls your receiver for new RC channels data.
-5. Do `crsf.getChannel(n)` to get the raw value from your desired RC channel. Here, `n` refers to your channel number from 1 to 16.
+2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino()`. For now, you can leave the parentheses empty. There is ongoing work to allow you to specify what pins your receiver is connected to. For now, it defaults to pins 0 & 1 for Tx & Rx respectively.
+3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver. In case something goes wrong, `crsf.begin()` returns a boolean value of `true` if initialisation is successful, & `false` if it is not.
+4. In your `loop()`, you need to call `crsf.update()`. This handles all of the data processing (including receiving RC channels & sending telemetry) & should be called as often as possible. You no longer need to read back the return value of `crsf.update()`, as it no longer returns anything. Everything is handled internally now.
+5. To read your RC channel values, use `crsf.readRcChannel(n)`. Here, `n` refers to your channel number from 1 to 16.
 
-If you want to convert the raw channel value to microseconds, do `crsf.rcToUs(n)`, where `n` is the raw RC value you want to convert. `rcToUs()` will return the converted value in microseconds.
+If you want to read the raw RC value instead of microseconds from your RC channel, `readRcChannel()` can take an optional second argument of `true` to return the raw RC value instead of microseconds. For example, `crsf.readRcChannel(1, true)` will return the raw RC value from channel 1.
 
 The example below demonstrates what your code should look like, using the instructions above:
 
@@ -107,8 +107,8 @@ The example below demonstrates what your code should look like, using the instru
 #include "CRSFforArduino.h"
 
 /* 2. Declare a CRSFforArduino object.
-You can call it literally anything you want, as long as you tell CRSF for Arduino what serial port your receiver is connected to. */
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+You can call it literally anything you want. */
+CRSFforArduino crsf = CRSFforArduino();
 
 void setup()
 {
@@ -117,13 +117,19 @@ void setup()
     {
         ;
     }
+    Serial.println("Channels Example");
 
     /* 3. Start communicating with a connected ELRS receiver. */
-    crsf.begin();
+    if (!crsf.begin())
+    {
+        Serial.println("CRSF for Arduino initialization failed!");
+        while (1)
+        {
+            ;
+        }
+    }
 
     /* Pro tip: Always show a little message in the Serial Monitor to let you know that your sketch is initialized successfully. */
-    Serial.println("Channels Example");
-    delay(1000);
     Serial.println("Ready");
     delay(1000);
 }
@@ -133,24 +139,31 @@ void loop()
     /* 4. Update the main loop with new RC data. */
     crsf.update();
 
-    /* 5. Here, your RC channel values are converted to microseconds, & are sent to the Serial Monitor. */
-    Serial.print("RC Channels <A: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(1)));
-    Serial.print(", E: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(2)));
-    Serial.print(", T: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(3)));
-    Serial.print(", R: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(4)));
-    Serial.print(", Aux1: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(5)));
-    Serial.print(", Aux2: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(6)));
-    Serial.print(", Aux3: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(7)));
-    Serial.print(", Aux4: ");
-    Serial.print(crsf.rcToUs(crsf.getChannel(8)));
-    Serial.println(">");
+    /* 5. Here, you can do whatever you want with your RC channel values.
+    In this example, your RC channel values are printed to the Serial Monitor every 100 milliseconds. */
+    static unsigned long lastPrint = 0;
+    if (millis() - lastPrint >= 100)
+    {
+        lastPrint = millis();
+
+        Serial.print("RC Channels <A: ");
+        Serial.print(crsf.readRcChannel(1));
+        Serial.print(", E: ");
+        Serial.print(crsf.readRcChannel(2));
+        Serial.print(", T: ");
+        Serial.print(crsf.readRcChannel(3));
+        Serial.print(", R: ");
+        Serial.print(crsf.readRcChannel(4));
+        Serial.print(", Aux1: ");
+        Serial.print(crsf.readRcChannel(5));
+        Serial.print(", Aux2: ");
+        Serial.print(crsf.readRcChannel(6));
+        Serial.print(", Aux3: ");
+        Serial.print(crsf.readRcChannel(7));
+        Serial.print(", Aux4: ");
+        Serial.print(crsf.readRcChannel(8));
+        Serial.println(">");
+    }
 }
 ```
 
@@ -180,7 +193,7 @@ float lat, lon, alt, spd, gCourse;
 int numSats;
 
 /* 3. Declare a CRSFforArduino object. */
-CRSFforArduino crsf = CRSFforArduino(&Serial1);
+CRSFforArduino crsf = CRSFforArduino();
 
 void setup()
 {
@@ -230,52 +243,50 @@ void loop()
     /* 9. Update the main loop with new RC data. */
     crsf.update();
 
-    /* 10. Here, your RC channel values are converted to microseconds,
-    & are sent to the Serial Monitor every 100 milliseconds. */
-    unsigned long currentMillis = millis();
-    static unsigned long previousMillis = 0;
-
-    if (currentMillis - previousMillis >= 100)
+    /* 10. Here, you can do whatever you want with your RC channel values.
+    In this example, your RC channel values are printed to the Serial Monitor every 100 milliseconds. */
+    static unsigned long lastPrint = 0;
+    if (millis() - lastPrint >= 100)
     {
-        previousMillis = currentMillis;
+        lastPrint = millis();
 
         Serial.print("RC Channels <A: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
+        Serial.print(crsf.readRcChannel(1));
         Serial.print(", E: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
+        Serial.print(crsf.readRcChannel(2));
         Serial.print(", T: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
+        Serial.print(crsf.readRcChannel(3));
         Serial.print(", R: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
+        Serial.print(crsf.readRcChannel(4));
         Serial.print(", Aux1: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
+        Serial.print(crsf.readRcChannel(5));
         Serial.print(", Aux2: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
+        Serial.print(crsf.readRcChannel(6));
         Serial.print(", Aux3: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
+        Serial.print(crsf.readRcChannel(7));
         Serial.print(", Aux4: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
+        Serial.print(crsf.readRcChannel(8));
         Serial.println(">");
     }
 }
 
-// SAMD51 SERCOM3 IRQ handlers.
-void SERCOM3_0_Handler()
+// SAMD51 SERCOM1 IRQ handlers.
+void SERCOM1_0_Handler()
 {
     gpsSerial.IrqHandler();
 }
 
-void SERCOM3_1_Handler()
+void SERCOM1_1_Handler()
 {
     gpsSerial.IrqHandler();
 }
 
-void SERCOM3_2_Handler()
+void SERCOM1_2_Handler()
 {
     gpsSerial.IrqHandler();
 }
 
-void SERCOM3_3_Handler()
+void SERCOM1_3_Handler()
 {
     gpsSerial.IrqHandler();
 }
@@ -301,7 +312,9 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 1. Build your sketch ► `pio run` in your CLI or `ctrl+alt+b` on your keyboard.
 2. Flash your sketch ► `pio run -t upload` in your CLI or `ctrl+alt+u` on your keyboard.
 
-The above steps will default to the Adafruit Metro M4 development board.
+The above steps will default to the Adafruit Metro M0 development board.
+To build & flash your sketch to a different development board, use `pio run -e <board name>` to build your sketch & `pio run -e <board name> -t upload` to flash your sketch to your development board.
+For example, if you are using an Adafruit Metro M4 Express, you would use `pio run -e adafruit_metro_m4` to build your sketch & `pio run -e adafruit_metro_m4 -t upload` to flash your sketch to your Metro M4 Express.
 
 ### Flashing - Arduino IDE
 
@@ -362,46 +375,6 @@ I am now aware that Arduino are making an R4 of their UNO & Adafruit are making 
 
 As for other development boards (& their host microcontrollers), if they meet the minimum requirements & you are still having compatibility issues, it is likely that I have not yet added your board to the Compatibility Table. Consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & we can go from there.
 
-## AVR based microcontrollers are not compatible
-
-Development boards of yesteryear that were built around ATmega AVR microcontrollers such as the 328, 32u4, 2560 & 4809 are incompatible with CRSF for Arduino.
-Their processing capabilities (such as their limited 16 MHz CPU speed) simply are not enough to meet the requirements of the CRSF protocol.
-
-The following is a list of known development boards that are incompatible.
-This list is not exhaustive, but it should give you an idea of what _not_ to flash CRSF for Arduino onto. If you even try to do so, CRSF for Arduino will simply not function (instead of allegedly exhibiting ["strange behaviour"](https://github.com/ZZ-Cat/CRSFforArduino/issues/12)):
-
-- Adafruit Metro 328
-- Adafruit Feather 32u4 (including all of its variants)
-- Arduino Diecimila
-- Arduino Duemilanove
-- Arduino Leonardo
-- Arduino Mega2560
-- Arduino Micro
-- Arduino Nano
-- Arduino Nano Every
-- Arduino UNO R3
-- Arduino UNO WiFi R2
-
-There is better hardware out there that has the same form factor as these old development boards.
-Here are some examples:
-
-- These have an equivalent "breadboard-friendly" form factor that is similar to the Arduio Micro & the Arduino Nano:
-  - Adafruit Feather M0 (all variants, including the Feather M0 Express)
-  - Adafruit Feather M4 Express
-  - Seeed Studio XIAO SAMD21
-- These have the "Arduino R3" form factor - The same shape as the Arduino UNO:
-  - Adafruit:
-    - Metro M0 Express
-    - Metro M4 AirLift Lite
-    - Metro M4 Express
-  - Arduino:
-    - Zero
-- These have the "Arduino Mega" form factor:
-  - Adafruit:
-    - Grand Central M4
-
-Many of Arduino's [discontinued development boards](https://docs.arduino.cc/retired/) are also incompatible with CRSF for Arduino.
-
 ## Compatible receivers
 
 Generally speaking, if your transmitter & receiver combo supports ExpressLRS or TBS Crossfire, it's automatically compatible.
@@ -420,8 +393,32 @@ You _must_ refer to your development board's documentation to determine where yo
 
 ## Telemetry
 
-Currently, there is no telemetry feedback from the host microcontroller's side... _yet!_
-This is coming soon.
+Currently, the only telemetry that is supported is GPS data.
+This is because I am still working on the telemetry side of things.
+
+The following telemetry data is supported:
+
+- GPS data:
+  - Latitude (in decimal degrees)
+  - Longitude (in decimal degrees)
+  - Altitude (in centimetres)
+  - Speed (in centimetres per second)
+  - Course over ground (in degrees)
+  - Number of satellites
+
+## Known issues & limitations
+
+- CRSF for Arduino is not compatible with AVR based microcontrollers.
+  - This is because the AVR microcontrollers are simply not powerful enough to meet the minimum requirements of the CRSF protocol.
+- Certain instances of DMA can cause SAMD51 based development boards to crash.
+  - A workaround is in place to prevent this from happening, but it is not a permanent solution.
+  - This is currently being investigated.
+- Software serial is not supported.
+  - This is because software serial is not capable of running at the required baud rate of 420 KB/s.
+  - This also means that CRSF for Arduino is restricted to using hardware serial only.
+- CRSF for Arduino provides no sensor drivers. This is by design.
+  - There are already plenty of libraries out there that provide sensor drivers for your development board.
+  - You are free to use any sensor library that you want with CRSF for Arduino.
 
 ## Software license
 
