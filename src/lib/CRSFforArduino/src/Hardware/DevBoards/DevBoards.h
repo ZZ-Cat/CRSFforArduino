@@ -35,7 +35,10 @@
 
 namespace hal
 {
-    class DevBoards : private HardwareSerial
+    class DevBoards
+#ifndef TEENSYDUINO
+        : private HardwareSerial
+#endif
     {
       public:
         DevBoards();
@@ -52,7 +55,11 @@ namespace hal
         int read(void);
         void flush(void);
         size_t write(uint8_t c);
+#if defined(TEENSYDUINO)
+        size_t write(const uint8_t *buffer, size_t size);
+#else
         using Print::write; // pull in write(str) and write(buf, size) from Print
+#endif
         operator bool();
 
         // Critical section functions.

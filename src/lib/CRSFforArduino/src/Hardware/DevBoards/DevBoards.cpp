@@ -101,6 +101,9 @@ namespace hal
                 uart_port = nullptr;
                 break;
         }
+#elif defined(TEENSYDUINO)
+        // Default to Serial1 if Teensyduino is being used. May expand this in the future, if requested.
+        uart_port = &Serial1;
 #else
         uart_port = nullptr;
 #endif
@@ -111,7 +114,9 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
+#ifndef TEENSYDUINO
             uart_port->~Uart();
+#endif
         }
     }
 
@@ -156,6 +161,14 @@ namespace hal
         // Write a byte to the UART port.
         return uart_port->write(c);
     }
+
+#if defined(TEENSYDUINO)
+    size_t DevBoards::write(const uint8_t *buffer, size_t size)
+    {
+        // Write a buffer to the UART port.
+        return uart_port->write(buffer, size);
+    }
+#endif
 
     DevBoards::operator bool()
     {

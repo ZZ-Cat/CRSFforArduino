@@ -175,6 +175,19 @@ namespace hal
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 
+#elif defined(CORE_TEENSY)
+#if defined(__MK64FX512__)
+#if defined(ARDUINO_TEENSY35)
+        device.type.devboard = DEVBOARD_TEENSY_35;
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
 #else // Unsupported architecture
 #error "Unsupported architecture. Please check the compatibility table."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
