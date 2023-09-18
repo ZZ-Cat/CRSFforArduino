@@ -80,6 +80,7 @@ namespace hal
             DEVBOARD_SEEEDSTUDIO_XIAO_M0,
 
             // Teensy boards.
+            DEVBOARD_TEENSY_30,
             DEVBOARD_TEENSY_35,
 
             DEVBOARD_COUNT
@@ -123,6 +124,7 @@ namespace hal
             "Arduino Nano 33 IoT",
             "Arduino Zero",
             "Seeed Studio Xiao SAMD21",
+            "Teensy 3.0",
             "Teensy 3.5"};
     };
 } // namespace hal

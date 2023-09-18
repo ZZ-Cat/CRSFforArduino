@@ -176,9 +176,18 @@ namespace hal
 #endif // ARDUINO_SAMD_ADAFRUIT
 
 #elif defined(CORE_TEENSY)
-#if defined(__MK64FX512__)
+#if defined(__MK20DX128__)
+#if defined(ARDUINO_TEENSY30)
+        device.type.devboard = DEVBOARD_TEENSY_30;
+#pragma message "Teensy 3.0 is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#elif defined(__MK64FX512__)
 #if defined(ARDUINO_TEENSY35)
         device.type.devboard = DEVBOARD_TEENSY_35;
+#pragma message "Teensy 3.5 is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else // Incompatible devboards
 #warning "Devboard not supported. Please check the compatibility table."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
