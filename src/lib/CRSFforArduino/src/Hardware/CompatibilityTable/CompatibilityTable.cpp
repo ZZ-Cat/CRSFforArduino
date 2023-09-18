@@ -188,6 +188,9 @@ namespace hal
 #if defined(ARDUINO_TEENSY31)
         device.type.devboard = DEVBOARD_TEENSY_31;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif
 #elif defined(__MK64FX512__)
 #if defined(ARDUINO_TEENSY35)
@@ -201,12 +204,18 @@ namespace hal
 #if defined(ARDUINO_TEENSY36)
         device.type.devboard = DEVBOARD_TEENSY_36;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif
 #elif defined(__IMXRT1062__)
 #if defined(ARDUINO_TEENSY40)
         device.type.devboard = DEVBOARD_TEENSY_40;
 #elif defined(ARDUINO_TEENSY41)
         device.type.devboard = DEVBOARD_TEENSY_41;
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif
 #else // Incompatible devboards
 #warning "Devboard not supported. Please check the compatibility table."
