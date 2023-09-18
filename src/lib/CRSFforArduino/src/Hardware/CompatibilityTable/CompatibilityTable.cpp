@@ -202,7 +202,7 @@ namespace hal
         device.type.devboard = DEVBOARD_TEENSY_36;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #endif
-#elif defined (__IMXRT1062__)
+#elif defined(__IMXRT1062__)
 #if defined(ARDUINO_TEENSY40)
         device.type.devboard = DEVBOARD_TEENSY_40;
 #elif defined(ARDUINO_TEENSY41)
