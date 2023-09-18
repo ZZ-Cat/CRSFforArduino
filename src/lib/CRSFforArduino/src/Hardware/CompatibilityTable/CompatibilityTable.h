@@ -84,6 +84,8 @@ namespace hal
             DEVBOARD_TEENSY_31,
             DEVBOARD_TEENSY_35,
             DEVBOARD_TEENSY_36,
+            DEVBOARD_TEENSY_40,
+            DEVBOARD_TEENSY_41,
 
             DEVBOARD_COUNT
         } ct_devboards_t;
@@ -129,6 +131,8 @@ namespace hal
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",
-            "Teensy 3.6"};
+            "Teensy 3.6",
+            "Teensy 4.0",
+            "Teensy 4.1"};
     };
 } // namespace hal
