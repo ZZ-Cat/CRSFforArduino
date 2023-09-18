@@ -83,6 +83,7 @@ namespace hal
             DEVBOARD_TEENSY_30,
             DEVBOARD_TEENSY_31,
             DEVBOARD_TEENSY_35,
+            DEVBOARD_TEENSY_36,
 
             DEVBOARD_COUNT
         } ct_devboards_t;
@@ -127,6 +128,7 @@ namespace hal
             "Seeed Studio Xiao SAMD21",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
-            "Teensy 3.5"};
+            "Teensy 3.5",
+            "Teensy 3.6"};
     };
 } // namespace hal
