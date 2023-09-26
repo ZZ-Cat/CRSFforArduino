@@ -59,7 +59,7 @@ namespace serialReceiver
 
     bool SerialReceiver::begin()
     {
-        board->enterCriticalSection();
+        // board->enterCriticalSection();
 
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
@@ -80,9 +80,11 @@ namespace serialReceiver
         {
             if (_rxPin == 0xffu && _txPin == 0xffu)
             {
-                board->exitCriticalSection();
+                // board->exitCriticalSection();
                 return false;
             }
+
+            board->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
             crsf = new CRSF();
@@ -123,7 +125,7 @@ namespace serialReceiver
         }
         else
         {
-            board->exitCriticalSection();
+            // board->exitCriticalSection();
             return false;
         }
     }
