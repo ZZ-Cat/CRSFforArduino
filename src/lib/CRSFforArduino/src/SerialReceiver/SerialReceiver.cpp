@@ -59,6 +59,8 @@ namespace serialReceiver
 
     bool SerialReceiver::begin()
     {
+        // Debug.
+        Serial.print("[Serial Receiver | INFO]: Initialising... ");
         // board->enterCriticalSection();
 
         // Initialize the RC Channels.
@@ -81,6 +83,9 @@ namespace serialReceiver
             if (_rxPin == 0xffu && _txPin == 0xffu)
             {
                 // board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | ERROR]: RX and TX pins are not set.");
                 return false;
             }
 
@@ -93,6 +98,9 @@ namespace serialReceiver
             if (crsf == nullptr)
             {
                 board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
                 return false;
             }
 
@@ -108,6 +116,9 @@ namespace serialReceiver
             if (telemetry == nullptr)
             {
                 board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
                 return false;
             }
 
@@ -121,11 +132,17 @@ namespace serialReceiver
             {
                 board->read();
             }
+
+            // Debug.
+            Serial.println("Done.");
             return true;
         }
         else
         {
             // board->exitCriticalSection();
+
+            // Debug.
+            Serial.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
             return false;
         }
     }
