@@ -244,7 +244,26 @@ namespace hal
      */
     bool CompatibilityTable::isDevboardCompatible(const char *name)
     {
-        return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
+        // Debug.
+        Serial.print("[Compatibility Table | DEBUG]: Board is ");
+
+        if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
+        {
+            // Debug.
+            Serial.println("incompatible.");
+
+            return false;
+        }
+
+        else
+        {
+            // Debug.
+            Serial.println("compatible.");
+
+            return true;
+        }
+
+        // return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
     }
 
     /**
@@ -254,10 +273,17 @@ namespace hal
      */
     const char *CompatibilityTable::getDevboardName()
     {
-        if (device.type.devboard > DEVBOARD_COUNT)
+        if (device.type.devboard >= DEVBOARD_COUNT)
         {
+            // Debug.
+            Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
+
+        // Debug.
+        Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
+        Serial.println(deviceNames[device.type.devboard]);
 
         return deviceNames[device.type.devboard];
     }
