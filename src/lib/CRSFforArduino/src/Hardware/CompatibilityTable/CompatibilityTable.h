@@ -106,7 +106,7 @@ namespace hal
         ct_devices_t device;
 
         const char *deviceNames[DEVBOARD_COUNT] = {
-            }"Incompatible device",
+            "Incompatible device",
             "Adafruit QT Py ESP32 Pico",
             "Adafruit Feather M0",
             "Adafruit Feather M0 Express",

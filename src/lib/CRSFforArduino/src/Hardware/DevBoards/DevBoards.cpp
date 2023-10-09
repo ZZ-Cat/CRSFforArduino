@@ -138,7 +138,7 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
-#if not (defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
+#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
             uart_port->~Uart();
 #endif
         }

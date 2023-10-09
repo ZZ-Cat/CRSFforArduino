@@ -36,7 +36,7 @@
 namespace hal
 {
     class DevBoards
-#if not (defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
+#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
         : private HardwareSerial
 #endif
     {
