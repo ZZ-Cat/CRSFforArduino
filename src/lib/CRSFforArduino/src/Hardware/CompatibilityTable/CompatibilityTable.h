@@ -81,7 +81,7 @@ namespace hal
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
-            DEVBOARD_TEENSY_31,
+            DEVBOARD_TEENSY_31_32,
             DEVBOARD_TEENSY_35,
             DEVBOARD_TEENSY_36,
             DEVBOARD_TEENSY_40,

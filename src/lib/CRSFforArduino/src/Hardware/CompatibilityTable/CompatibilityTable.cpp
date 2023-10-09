@@ -185,8 +185,10 @@ namespace hal
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif
 #elif defined(__MK20DX256__)
-#if defined(ARDUINO_TEENSY31)
-        device.type.devboard = DEVBOARD_TEENSY_31;
+/* PlatformIO treats Teensy 3.1 and Teensy 3.2 as the same board, but the Arduino IDE treats them
+as two separate boards. To prevent a false negative, check for both boards. */
+#if defined(ARDUINO_TEENSY31) || defined(ARDUINO_TEENSY32)
+        device.type.devboard = DEVBOARD_TEENSY_31_32;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else // Incompatible devboards
 #warning "Devboard not supported. Please check the compatibility table."
