@@ -38,8 +38,19 @@ namespace hal
 // TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
 // #if ARDUINO >= 10700
 
+// Arduino ESP32 Architecture
+#if defined(ARDUINO_ARCH_ESP32)
+
+// Adafruit devboards
+#if defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
+        device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
+#else
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
 // Arduino SAMD Architecture
-#if defined(ARDUINO_ARCH_SAMD)
+#elif defined(ARDUINO_ARCH_SAMD)
 
 // Adafruit devboards
 #if USB_VID == 0x239A

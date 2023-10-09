@@ -336,6 +336,8 @@ For example, if you are using an Adafruit Metro M4 Express, you would use `pio r
 CRSF for Arduino is designed to be compatible with modern hardware.
 While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, here is a list of target development boards CRSF for Arduino is compatible with (Keep in mind that this list is not exhaustive, & actual compatibility with everything listed here may be untested):
 
+- ESP32 based boards:
+  - Adafruit QtPy ESP32
 - SAMD21 based boards:
   - Adafruit Feather M0 & all of its variants, including the Adafruit Feather M0 Express
   - Adafruit ItsyBitsy M0 Express

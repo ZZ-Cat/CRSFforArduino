@@ -45,6 +45,9 @@ namespace hal
             // Unknown device.
             DEVBOARD_IS_INCOMPATIBLE = 0,
 
+            // Adafruit ESP32 boards.
+            DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO,
+
             // Adafruit SAMD21 boards.
             DEVBOARD_ADAFRUIT_FEATHER_M0,
             DEVBOARD_ADAFRUIT_FEATHER_M0_EXPRESS,
@@ -103,7 +106,8 @@ namespace hal
         ct_devices_t device;
 
         const char *deviceNames[DEVBOARD_COUNT] = {
-            "Incompatible device",
+            }"Incompatible device",
+            "Adafruit QT Py ESP32 Pico",
             "Adafruit Feather M0",
             "Adafruit Feather M0 Express",
             "Adafruit ItsyBitsy M0 Express",

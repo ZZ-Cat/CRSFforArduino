@@ -31,7 +31,11 @@
     ],
     "license": "GPL-3.0-or-later",
     "frameworks": "arduino",
-    "platforms": "atmelsam",
+    "platforms": [
+        "atmelsam",
+        "espressif32",
+        "teensy"
+    ],
     "headers": [
         "Arduino.h",
         "CRSFforArduino.h"

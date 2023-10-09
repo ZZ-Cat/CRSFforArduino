@@ -119,6 +119,12 @@ namespace hal
 
         // Debug.
         Serial.println("[Development Board | DEBUG]: Using Serial1.");
+#elif defined(ARDUINO_ARCH_ESP32)
+        // Default to Serial1 if ESP32 is being used. May expand this in the future, if requested.
+        uart_port = &Serial1;
+
+        // Debug.
+        Serial.println("[Development Board | DEBUG]: Using Serial1.");
 #else
         uart_port = nullptr;
 
@@ -132,13 +138,13 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
-#ifndef TEENSYDUINO
+#if not (defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
             uart_port->~Uart();
 #endif
         }
     }
 
-    void DevBoards::begin(unsigned long baudrate, uint16_t config)
+    void DevBoards::begin(unsigned long baudrate, int config)
     {
         // Begin the UART port.
         uart_port->begin(baudrate, config);
@@ -180,7 +186,7 @@ namespace hal
         return uart_port->write(c);
     }
 
-#if defined(TEENSYDUINO)
+#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
     size_t DevBoards::write(const uint8_t *buffer, size_t size)
     {
         // Write a buffer to the UART port.
