@@ -2,8 +2,8 @@
  * @file main_telemetry.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates how to use CRSF for Arduino to send GPS telemetry to an ExpressLRS RC receiver.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

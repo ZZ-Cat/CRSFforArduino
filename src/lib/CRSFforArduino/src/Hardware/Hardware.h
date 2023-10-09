@@ -2,8 +2,8 @@
  * @file Hardware.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file is the top level of the hardware abstraction layer.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

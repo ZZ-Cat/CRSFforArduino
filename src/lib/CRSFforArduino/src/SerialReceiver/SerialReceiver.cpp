@@ -2,8 +2,8 @@
  * @file SerialReceiver.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the implementation file for the Serial Receiver Interface.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -59,7 +59,9 @@ namespace serialReceiver
 
     bool SerialReceiver::begin()
     {
-        board->enterCriticalSection();
+        // Debug.
+        Serial.print("[Serial Receiver | INFO]: Initialising... ");
+        // board->enterCriticalSection();
 
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
@@ -80,9 +82,14 @@ namespace serialReceiver
         {
             if (_rxPin == 0xffu && _txPin == 0xffu)
             {
-                board->exitCriticalSection();
+                // board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | ERROR]: RX and TX pins are not set.");
                 return false;
             }
+
+            board->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
             crsf = new CRSF();
@@ -91,6 +98,9 @@ namespace serialReceiver
             if (crsf == nullptr)
             {
                 board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
                 return false;
             }
 
@@ -106,6 +116,9 @@ namespace serialReceiver
             if (telemetry == nullptr)
             {
                 board->exitCriticalSection();
+
+                // Debug.
+                Serial.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
                 return false;
             }
 
@@ -119,11 +132,17 @@ namespace serialReceiver
             {
                 board->read();
             }
+
+            // Debug.
+            Serial.println("Done.");
             return true;
         }
         else
         {
-            board->exitCriticalSection();
+            // board->exitCriticalSection();
+
+            // Debug.
+            Serial.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
             return false;
         }
     }

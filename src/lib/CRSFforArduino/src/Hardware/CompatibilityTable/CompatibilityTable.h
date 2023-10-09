@@ -2,8 +2,8 @@
  * @file CompatibilityTable.h
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the Compatibility Table header file.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -79,6 +79,14 @@ namespace hal
             // Seeed Studio boards.
             DEVBOARD_SEEEDSTUDIO_XIAO_M0,
 
+            // Teensy boards.
+            DEVBOARD_TEENSY_30,
+            DEVBOARD_TEENSY_31_32,
+            DEVBOARD_TEENSY_35,
+            DEVBOARD_TEENSY_36,
+            DEVBOARD_TEENSY_40,
+            DEVBOARD_TEENSY_41,
+
             DEVBOARD_COUNT
         } ct_devboards_t;
 
@@ -119,6 +127,12 @@ namespace hal
             "Arduino MKRZERO",
             "Arduino Nano 33 IoT",
             "Arduino Zero",
-            "Seeed Studio Xiao SAMD21"};
+            "Seeed Studio Xiao SAMD21",
+            "Teensy 3.0",
+            "Teensy 3.1/3.2",
+            "Teensy 3.5",
+            "Teensy 3.6",
+            "Teensy 4.0",
+            "Teensy 4.1"};
     };
 } // namespace hal

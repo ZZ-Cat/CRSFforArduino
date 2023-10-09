@@ -3,8 +3,8 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the implementation of the Compatibility Table.
  * It is used to determine if the target development board is compatible with CRSF for Arduino.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -175,6 +175,55 @@ namespace hal
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 
+#elif defined(CORE_TEENSY)
+#if defined(__MK20DX128__)
+#if defined(ARDUINO_TEENSY30)
+        device.type.devboard = DEVBOARD_TEENSY_30;
+#pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#elif defined(__MK20DX256__)
+/* PlatformIO treats Teensy 3.1 and Teensy 3.2 as the same board, but the Arduino IDE treats them
+as two separate boards. To prevent a false negative, check for both boards. */
+#if defined(ARDUINO_TEENSY31) || defined(ARDUINO_TEENSY32)
+        device.type.devboard = DEVBOARD_TEENSY_31_32;
+#pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#elif defined(__MK64FX512__)
+#if defined(ARDUINO_TEENSY35)
+        device.type.devboard = DEVBOARD_TEENSY_35;
+#pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#elif defined(__MK66FX1M0__)
+#if defined(ARDUINO_TEENSY36)
+        device.type.devboard = DEVBOARD_TEENSY_36;
+#pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#elif defined(__IMXRT1062__)
+#if defined(ARDUINO_TEENSY40)
+        device.type.devboard = DEVBOARD_TEENSY_40;
+#elif defined(ARDUINO_TEENSY41)
+        device.type.devboard = DEVBOARD_TEENSY_41;
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+#else // Incompatible devboards
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
 #else // Unsupported architecture
 #error "Unsupported architecture. Please check the compatibility table."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
@@ -197,7 +246,26 @@ namespace hal
      */
     bool CompatibilityTable::isDevboardCompatible(const char *name)
     {
-        return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
+        // Debug.
+        Serial.print("[Compatibility Table | DEBUG]: Board is ");
+
+        if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
+        {
+            // Debug.
+            Serial.println("incompatible.");
+
+            return false;
+        }
+
+        else
+        {
+            // Debug.
+            Serial.println("compatible.");
+
+            return true;
+        }
+
+        // return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
     }
 
     /**
@@ -207,10 +275,17 @@ namespace hal
      */
     const char *CompatibilityTable::getDevboardName()
     {
-        if (device.type.devboard > DEVBOARD_COUNT)
+        if (device.type.devboard >= DEVBOARD_COUNT)
         {
+            // Debug.
+            Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
+
+        // Debug.
+        Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
+        Serial.println(deviceNames[device.type.devboard]);
 
         return deviceNames[device.type.devboard];
     }

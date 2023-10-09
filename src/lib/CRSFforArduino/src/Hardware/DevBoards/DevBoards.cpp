@@ -2,8 +2,8 @@
  * @file DevBoards.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the DevBoards implementation file. It is used to configure CRSF for Arduino for specific development boards.
- * @version 0.4.0
- * @date 2023-08-08
+ * @version 0.5.0
+ * @date 2023-09-17
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -84,6 +84,9 @@ namespace hal
         if (uart_port != nullptr)
         {
             uart_port->~Uart();
+
+            // Debug.
+            Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
         }
 
         // Set the UART port.
@@ -91,18 +94,36 @@ namespace hal
         {
             case 0:
                 uart_port = &Serial1;
+
+                // Debug.
+                Serial.println("[Development Board | DEBUG]: Using Serial1.");
                 break;
 
             case 1: // TO-DO: Fix this.
                 uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
+
+                // Debug.
+                Serial.println("[Development Board | DEBUG]: Using Serial2.");
                 break;
 
             default:
                 uart_port = nullptr;
+
+                // Debug.
+                Serial.println("[Development Board | ERROR]: No UART port was defined.");
                 break;
         }
+#elif defined(TEENSYDUINO)
+        // Default to Serial1 if Teensyduino is being used. May expand this in the future, if requested.
+        uart_port = &Serial1;
+
+        // Debug.
+        Serial.println("[Development Board | DEBUG]: Using Serial1.");
 #else
         uart_port = nullptr;
+
+        // Debug.
+        Serial.println("[Development Board | ERROR]: No UART port was defined.");
 #endif
     }
 
@@ -111,7 +132,9 @@ namespace hal
         // If UART port was defined beforehand, delete it.
         if (uart_port != nullptr)
         {
+#ifndef TEENSYDUINO
             uart_port->~Uart();
+#endif
         }
     }
 
@@ -156,6 +179,14 @@ namespace hal
         // Write a byte to the UART port.
         return uart_port->write(c);
     }
+
+#if defined(TEENSYDUINO)
+    size_t DevBoards::write(const uint8_t *buffer, size_t size)
+    {
+        // Write a buffer to the UART port.
+        return uart_port->write(buffer, size);
+    }
+#endif
 
     DevBoards::operator bool()
     {
