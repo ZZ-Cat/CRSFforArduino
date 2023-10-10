@@ -109,6 +109,8 @@
 #define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
 #define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
+const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this is right, but we can always manually put in the number of channels desired
+
 CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
@@ -146,7 +148,7 @@ void loop()
     if (millis() - lastPrint >= 100)
     {
         lastPrint = millis();
-        for(int i = 1; i <= crsfProtocol::RC_CHANNEL_COUNT; i++){
+        for(int i = 1; i <= channelCount; i++){
           //Serial.print("Channel");
           Serial.print(i);
           Serial.print(":");
