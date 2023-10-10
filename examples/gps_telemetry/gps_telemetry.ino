@@ -112,6 +112,21 @@ void loop()
         speed = random(0, 6625);
         groundCourse = random(0, 359);
         satellites = random(0, 16);
+        
+        Serial.print("Lat:");
+        Serial.print(latitude);
+        Serial.print("\tLon:");
+        Serial.print(longitude);
+        Serial.print("\tAlt:");
+        Serial.print(altitude);
+        Serial.print("\tSpeed:");
+        Serial.print(speed);
+        Serial.print("\tGroundCourse:");
+        Serial.print(groundCourse);
+        Serial.print("\tSatellites:");
+        Serial.print(satellites);
+        Serial.println();
+        
 #endif
 
         // Update the GPS telemetry data with the new values.
@@ -127,23 +142,14 @@ void loop()
     if (timeNow - lastPrint >= 100)
     {
         lastPrint = timeNow;
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
-        Serial.println(">");
+        for(int i = 1; i <= crsfProtocol::RC_CHANNEL_COUNT; i++){
+          //Serial.print("Channel");
+          Serial.print(i);
+          Serial.print(":");
+          Serial.print(crsf.rcToUs(crsf.getChannel(i)));
+          Serial.print("\t");
+        }
+        Serial.println();     
     }
 #endif
 }
