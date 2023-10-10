@@ -40,9 +40,17 @@ This provides you with up to 16 11-bit full resolution channels & telemetry with
 If you want to use CRSF for Arduino in the Arduino IDE, you need these:
 
 - [Arduino IDE](https://www.arduino.cc/en/software)
-- [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
-- [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
-- [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+  - ESP32 targets:
+    - Additional Boards URL: `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
+    - [Arduino ESP32 Board Support Pack](https://github.com/espressif/arduino-esp32)
+  - SAMD21 & SAMD51 targets:
+    - Additional Boards URL: `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json`
+    - [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
+    - [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
+    - [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
+  - Teensy 3.x & Teensy 4.x targets:
+    - Additional Boards URL: `https://www.pjrc.com/teensy/package_teensy_index.json`
+    - [Teensy Board Support Pack](https://github.com/PaulStoffregen/cores)
 
 ## Prerequisites - Visual Studio Code & PlatformIO
 
