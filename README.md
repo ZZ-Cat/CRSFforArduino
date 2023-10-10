@@ -364,7 +364,7 @@ While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, 
   - Adafruit Metro M4 Express AirLift Lite
 - SAME51 based boards:
   - Adafruit Feather M4 CAN Express
-- Teensy 3.x
+- Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
 
