@@ -46,6 +46,8 @@ float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
 uint8_t satellites = 4;
 
+const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this is right, but we can always manually put in the number of channels desired
+
 CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
 void setup()
@@ -142,7 +144,7 @@ void loop()
     if (timeNow - lastPrint >= 100)
     {
         lastPrint = timeNow;
-        for(int i = 1; i <= crsfProtocol::RC_CHANNEL_COUNT; i++){
+        for(int i = 1; i <= channelCount; i++){
           //Serial.print("Channel");
           Serial.print(i);
           Serial.print(":");
