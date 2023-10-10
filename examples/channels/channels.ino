@@ -146,23 +146,14 @@ void loop()
     if (millis() - lastPrint >= 100)
     {
         lastPrint = millis();
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
-        Serial.println(">");
+        for(int i = 1; i <= crsfProtocol::RC_CHANNEL_COUNT; i++){
+          //Serial.print("Channel");
+          Serial.print(i);
+          Serial.print(":");
+          Serial.print(crsf.rcToUs(crsf.getChannel(i)));
+          Serial.print("\t");
+        }
+        Serial.println();    
     }
 }
 
