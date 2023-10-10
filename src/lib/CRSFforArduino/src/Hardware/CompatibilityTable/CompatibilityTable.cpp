@@ -42,7 +42,9 @@ namespace hal
 #if defined(ARDUINO_ARCH_ESP32)
 
 // Adafruit devboards
-#if defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
+#if defined(ARDUINO_FEATHER_ESP32)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32;
+#elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
 #else
 #warning "Devboard not supported. Please check the compatibility table."
