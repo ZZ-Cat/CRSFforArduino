@@ -44,6 +44,8 @@ namespace hal
 // Adafruit devboards
 #if defined(ARDUINO_FEATHER_ESP32)
         device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32;
+#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S2;
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
 #else
