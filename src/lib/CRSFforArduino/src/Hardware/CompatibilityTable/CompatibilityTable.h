@@ -50,6 +50,7 @@ namespace hal
             DEVBOARD_ADAFRUIT_FEATHER_ESP32S2,
             DEVBOARD_ADAFRUIT_METRO_ESP32S2,
             DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO,
+            DEVBOARD_ADAFRUIT_QTPY_ESP32S3,
 
             // Adafruit SAMD21 boards.
             DEVBOARD_ADAFRUIT_FEATHER_M0,
@@ -114,6 +115,7 @@ namespace hal
             "Adafruit Feather ESP32-S2",
             "Adafruit Metro ESP32-S2",
             "Adafruit QT Py ESP32 Pico",
+            "Adafruit QT Py ESP32-S3",
             "Adafruit Feather M0",
             "Adafruit Feather M0 Express",
             "Adafruit ItsyBitsy M0 Express",
