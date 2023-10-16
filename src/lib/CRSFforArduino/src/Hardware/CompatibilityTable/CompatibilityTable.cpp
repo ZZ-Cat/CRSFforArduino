@@ -62,6 +62,10 @@ namespace hal
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32S3;
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
+
+// Arduino devboards
+#elif defined(ARDUINO_NANO_ESP32)
+        device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
 #else
 #warning "Devboard not supported. Please check the compatibility table."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
