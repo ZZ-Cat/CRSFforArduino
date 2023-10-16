@@ -48,6 +48,8 @@ namespace hal
         device.type.devboard = DEVBOARD_ADAFRUIT_METRO_ESP32S2;
 #elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM)
         device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S2;
+#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S3;
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32C3)
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32C3;
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32S3_NOPSRAM)
