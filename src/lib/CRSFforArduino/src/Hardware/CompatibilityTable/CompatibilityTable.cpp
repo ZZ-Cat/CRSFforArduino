@@ -72,6 +72,8 @@ namespace hal
 // Seeed Studio ESP32 devboards.
 #elif defined(ARDUINO_XIAO_ESP32C3)
         device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_ESP32C3;
+#elif defined(ARDUINO_XIAO_ESP32S3)
+        device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_ESP32S3;
 
 // Arduino devboards
 #elif defined(ARDUINO_NANO_ESP32)
