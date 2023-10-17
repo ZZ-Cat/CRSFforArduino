@@ -65,7 +65,7 @@ namespace hal
 
 // Espressif devboards.
 #elif defined(ARDUINO_ESP32C3_DEV)
-        device.type.devboard = DEVBOARD_ESPRESSIF_ESP32C3_DEVKITC02;
+        device.type.devboard = DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT;
 
 // Arduino devboards
 #elif defined(ARDUINO_NANO_ESP32)
