@@ -75,6 +75,10 @@ namespace hal
 #elif defined(ARDUINO_XIAO_ESP32S3)
         device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_ESP32S3;
 
+// SparkFun ESP32 devboards.
+#elif defined(ARDUINO_ESP32_IOT_REDBOARD)
+        device.type.devboard = DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT;
+
 // Arduino devboards
 #elif defined(ARDUINO_NANO_ESP32)
         device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
