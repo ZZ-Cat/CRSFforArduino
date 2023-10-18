@@ -35,8 +35,7 @@
 
 namespace hal
 {
-    class DevBoards
-        : private Stream
+    class DevBoards : private Stream
     {
       public:
         DevBoards();
