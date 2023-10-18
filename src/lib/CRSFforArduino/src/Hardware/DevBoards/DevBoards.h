@@ -36,7 +36,7 @@
 namespace hal
 {
     class DevBoards
-#ifndef TEENSYDUINO
+#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
         : private HardwareSerial
 #endif
     {
@@ -48,14 +48,14 @@ namespace hal
         void clearUART();
 
         // Hardware Serial functions.
-        void begin(unsigned long baudrate, uint16_t config = SERIAL_8N1);
+        void begin(unsigned long baudrate, int config = SERIAL_8N1);
         void end();
         int available(void);
         int peek(void);
         int read(void);
         void flush(void);
         size_t write(uint8_t c);
-#if defined(TEENSYDUINO)
+#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
         size_t write(const uint8_t *buffer, size_t size);
 #else
         using Print::write; // pull in write(str) and write(buf, size) from Print

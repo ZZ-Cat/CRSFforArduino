@@ -45,6 +45,18 @@ namespace hal
             // Unknown device.
             DEVBOARD_IS_INCOMPATIBLE = 0,
 
+            // Adafruit ESP32 boards.
+            DEVBOARD_ADAFRUIT_FEATHER_ESP32,
+            DEVBOARD_ADAFRUIT_FEATHER_ESP32S2,
+            DEVBOARD_ADAFRUIT_FEATHER_ESP32S3,
+            DEVBOARD_ADAFRUIT_FEATHER_ESP32S3_NOPSRAM,
+            DEVBOARD_ADAFRUIT_ITSYBITSY_ESP32,
+            DEVBOARD_ADAFRUIT_METRO_ESP32S2,
+            DEVBOARD_ADAFRUIT_QTPY_ESP32C3,
+            DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO,
+            DEVBOARD_ADAFRUIT_QTPY_ESP32S2,
+            DEVBOARD_ADAFRUIT_QTPY_ESP32S3,
+
             // Adafruit SAMD21 boards.
             DEVBOARD_ADAFRUIT_FEATHER_M0,
             DEVBOARD_ADAFRUIT_FEATHER_M0_EXPRESS,
@@ -63,6 +75,9 @@ namespace hal
             // Adafruit SAME51 boards.
             DEVBOARD_ADAFRUIT_FEATHER_M4_CAN,
 
+            // Arduino ESP32 boards.
+            DEVBOARD_ARDUINO_NANO_ESP32,
+
             // Arduino SAMD21 boards.
             DEVBOARD_ARDUINO_MKR1000,
             DEVBOARD_ARDUINO_MKRFOX1200,
@@ -76,8 +91,20 @@ namespace hal
             DEVBOARD_ARDUINO_NANO_33_IOT,
             DEVBOARD_ARDUINO_ZERO,
 
+            // Espresif ESP32 boards.
+            DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
+            DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
+
             // Seeed Studio boards.
+            DEVBOARD_SEEEDSTUDIO_XIAO_ESP32C3,
+            DEVBOARD_SEEEDSTUDIO_XIAO_ESP32S3,
             DEVBOARD_SEEEDSTUDIO_XIAO_M0,
+
+            // SparkFun Boards
+            DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT,
+            DEVBOARD_SPARKFUN_THING_ESP32,
+            DEVBOARD_SPARKFUN_THING_PLUS_ESP32,
+            DEVBOARD_SPARKFUN_THING_PLUS_ESP32S2,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
@@ -104,6 +131,16 @@ namespace hal
 
         const char *deviceNames[DEVBOARD_COUNT] = {
             "Incompatible device",
+            "Adafruit Feather ESP32",
+            "Adafruit Feather ESP32-S2",
+            "Adafruit Feather ESP32-S3",
+            "Adafruit Feather ESP32-S3 (no PSRAM)",
+            "Adafruit ItsyBitsy ESP32",
+            "Adafruit Metro ESP32-S2",
+            "Adafruit QT Py ESP32 C3",
+            "Adafruit QT Py ESP32 Pico",
+            "Adafruit QT Py ESP32-S2",
+            "Adafruit QT Py ESP32-S3",
             "Adafruit Feather M0",
             "Adafruit Feather M0 Express",
             "Adafruit ItsyBitsy M0 Express",
@@ -116,6 +153,7 @@ namespace hal
             "Adafruit Metro M4 AirLift Lite",
             "Adafruit Metro M4 Express",
             "Adafruit Feather M4 CAN",
+            "Arduino Nano ESP32",
             "Arduino MKR1000",
             "Arduino MKRFOX1200",
             "Arduino MKRGSM1400",
@@ -127,7 +165,15 @@ namespace hal
             "Arduino MKRZERO",
             "Arduino Nano 33 IoT",
             "Arduino Zero",
+            "Espressif ESP32-C3 DevKit",
+            "Espressif ESP32-S3 DevKit",
+            "Seeed Studio Xiao ESP32-C3",
+            "Seeed Studio Xiao ESP32-S3",
             "Seeed Studio Xiao SAMD21",
+            "SparkFun RedBoard ESP32 IoT",
+            "SparkFun Thing ESP32",
+            "SparkFun Thing Plus ESP32",
+            "SparkFun Thing Plus ESP32-S2",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",

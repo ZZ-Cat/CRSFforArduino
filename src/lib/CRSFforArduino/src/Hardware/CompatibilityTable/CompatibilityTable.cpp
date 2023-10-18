@@ -38,8 +38,63 @@ namespace hal
 // TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
 // #if ARDUINO >= 10700
 
+// Arduino ESP32 Architecture
+#if defined(ARDUINO_ARCH_ESP32)
+
+// Adafruit devboards
+#if defined(ARDUINO_FEATHER_ESP32)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32;
+#elif defined(ARDUINO_METRO_ESP32S2)
+        device.type.devboard = DEVBOARD_ADAFRUIT_METRO_ESP32S2;
+#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S2_NOPSRAM)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S2;
+#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S3;
+#elif defined(ARDUINO_ADAFRUIT_FEATHER_ESP32S3_NOPSRAM)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_ESP32S3_NOPSRAM;
+#elif defined(ARDUINO_ADAFRUIT_ITSYBITSY_ESP32)
+        device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_ESP32;
+#elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32C3)
+        device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32C3;
+#elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32S2)
+        device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32S2;
+#elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32S3_NOPSRAM)
+        device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32S3;
+#elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32_PICO)
+        device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
+
+// Espressif devboards.
+#elif defined(ARDUINO_ESP32C3_DEV)
+        device.type.devboard = DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT;
+#elif defined(ARDUINO_ESP32S3_DEV)
+        device.type.devboard = DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT;
+
+// Seeed Studio ESP32 devboards.
+#elif defined(ARDUINO_XIAO_ESP32C3)
+        device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_ESP32C3;
+#elif defined(ARDUINO_XIAO_ESP32S3)
+        device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_ESP32S3;
+
+// SparkFun ESP32 devboards.
+#elif defined(ARDUINO_ESP32_IOT_REDBOARD)
+        device.type.devboard = DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT;
+#elif defined(ARDUINO_ESP32_THING)
+        device.type.devboard = DEVBOARD_SPARKFUN_THING_ESP32;
+#elif defined(ARDUINO_ESP32_THING_PLUS)
+        device.type.devboard = DEVBOARD_SPARKFUN_THING_PLUS_ESP32;
+#elif defined(ARDUINO_ESP32S2_THING_PLUS)
+        device.type.devboard = DEVBOARD_SPARKFUN_THING_PLUS_ESP32S2;
+
+// Arduino devboards
+#elif defined(ARDUINO_NANO_ESP32)
+        device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
+#else
+#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#endif
+
 // Arduino SAMD Architecture
-#if defined(ARDUINO_ARCH_SAMD)
+#elif defined(ARDUINO_ARCH_SAMD)
 
 // Adafruit devboards
 #if USB_VID == 0x239A
