@@ -78,6 +78,8 @@ namespace hal
 // SparkFun ESP32 devboards.
 #elif defined(ARDUINO_ESP32_IOT_REDBOARD)
         device.type.devboard = DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT;
+#elif defined(ARDUINO_ESP32_THING)
+        device.type.devboard = DEVBOARD_SPARKFUN_THING_ESP32;
 
 // Arduino devboards
 #elif defined(ARDUINO_NANO_ESP32)
