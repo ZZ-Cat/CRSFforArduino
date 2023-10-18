@@ -82,6 +82,8 @@ namespace hal
         device.type.devboard = DEVBOARD_SPARKFUN_THING_ESP32;
 #elif defined(ARDUINO_ESP32_THING_PLUS)
         device.type.devboard = DEVBOARD_SPARKFUN_THING_PLUS_ESP32;
+#elif defined(ARDUINO_ESP32S2_THING_PLUS)
+        device.type.devboard = DEVBOARD_SPARKFUN_THING_PLUS_ESP32S2;
 
 // Arduino devboards
 #elif defined(ARDUINO_NANO_ESP32)
