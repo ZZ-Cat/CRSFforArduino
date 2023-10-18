@@ -103,6 +103,7 @@ namespace hal
             // SparkFun Boards
             DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT,
             DEVBOARD_SPARKFUN_THING_ESP32,
+            DEVBOARD_SPARKFUN_THING_PLUS_ESP32,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
@@ -170,6 +171,7 @@ namespace hal
             "Seeed Studio Xiao SAMD21",
             "SparkFun RedBoard ESP32 IoT",
             "SparkFun Thing ESP32",
+            "SparkFun Thing Plus ESP32",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",
