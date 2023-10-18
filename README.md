@@ -345,7 +345,26 @@ CRSF for Arduino is designed to be compatible with modern hardware.
 While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, here is a list of target development boards CRSF for Arduino is compatible with (Keep in mind that this list is not exhaustive, & actual compatibility with everything listed here may be untested):
 
 - ESP32 based boards:
+  - Adafruit Feather ESP32
+  - Adafruit Feather ESP32-S2
+  - Adafruit Feather ESP32-S3 (2 MB PSRAM)
+  - Adafruit Feather ESP32-S3 (NO PSRAM)
+  - Adafruit ItsyBitsy ESP32
+  - Adafruit Metro ESP32-S2
   - Adafruit QtPy ESP32
+  - Adafruit QtPy ESP32 Pico
+  - Adafruit QtPy ESP32-C3
+  - Adafruit QtPy ESP32-S2
+  - Adafruit QtPy ESP32-S3
+  - Arduino Nano ESP32
+  - Espressif ESP32-C3-DevKit
+  - Espressif ESP32-S3-DevKit
+  - Seeed Studio XIAO ESP32-C3
+  - Seeed Studio XIAO ESP32-S3
+  - SparkFun ESP32 RedBoard IoT
+  - SparkFun ESP32 Thing
+  - SparkFun ESP32 Thing Plus
+  - SparkFun ESP32-S2 Thing Plus
 - SAMD21 based boards:
   - Adafruit Feather M0 & all of its variants, including the Adafruit Feather M0 Express
   - Adafruit ItsyBitsy M0 Express
