@@ -36,9 +36,7 @@
 namespace hal
 {
     class DevBoards
-#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
-        : private HardwareSerial
-#endif
+        : private Stream
     {
       public:
         DevBoards();
@@ -55,11 +53,8 @@ namespace hal
         int read(void);
         void flush(void);
         size_t write(uint8_t c);
-#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
         size_t write(const uint8_t *buffer, size_t size);
-#else
         using Print::write; // pull in write(str) and write(buf, size) from Print
-#endif
         operator bool();
 
         // Critical section functions.

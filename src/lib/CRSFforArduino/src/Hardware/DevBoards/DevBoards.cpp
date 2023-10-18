@@ -186,13 +186,11 @@ namespace hal
         return uart_port->write(c);
     }
 
-#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
     size_t DevBoards::write(const uint8_t *buffer, size_t size)
     {
         // Write a buffer to the UART port.
         return uart_port->write(buffer, size);
     }
-#endif
 
     DevBoards::operator bool()
     {
