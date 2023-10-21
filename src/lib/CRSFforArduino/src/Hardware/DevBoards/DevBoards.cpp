@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the DevBoards implementation file. It is used to configure CRSF for Arduino for specific development boards.
  * @version 0.5.0
- * @date 2023-09-17
+ * @date 2023-10-22
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -186,13 +186,11 @@ namespace hal
         return uart_port->write(c);
     }
 
-#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
     size_t DevBoards::write(const uint8_t *buffer, size_t size)
     {
         // Write a buffer to the UART port.
         return uart_port->write(buffer, size);
     }
-#endif
 
     DevBoards::operator bool()
     {

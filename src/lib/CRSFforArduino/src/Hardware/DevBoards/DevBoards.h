@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file contains the DevBoards class, which is used to configure CRSF for Arduino for specific development boards.
  * @version 0.5.0
- * @date 2023-09-17
+ * @date 2023-10-22
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -35,10 +35,7 @@
 
 namespace hal
 {
-    class DevBoards
-#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
-        : private HardwareSerial
-#endif
+    class DevBoards : private Stream
     {
       public:
         DevBoards();
@@ -55,11 +52,8 @@ namespace hal
         int read(void);
         void flush(void);
         size_t write(uint8_t c);
-#if defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32)
         size_t write(const uint8_t *buffer, size_t size);
-#else
         using Print::write; // pull in write(str) and write(buf, size) from Print
-#endif
         operator bool();
 
         // Critical section functions.
