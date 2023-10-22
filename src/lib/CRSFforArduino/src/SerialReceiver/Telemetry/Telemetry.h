@@ -42,6 +42,9 @@
 
 namespace serialReceiver
 {
+#define USE_BATTERY_TELEMETRY 1     // Set USE_BATTERY_TELEMETRY to 1 to enable battery telemetry.
+#define USE_GPS_TELEMETRY 1         // Set USE_GPS_TELEMETRY to 1 to enable GPS telemetry.
+
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
 #ifndef USE_DMA
         ,
@@ -59,7 +62,7 @@ namespace serialReceiver
 
         // void setAttitudeData(float roll, float pitch, float yaw);
         // void setBaroAltitudeData(float altitude);
-        // void setBatterySensorData(float voltage, float current, float capacity);
+        void setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent);
         // void setFlightModeData(const char *flightMode);
         void setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites);
         // void setVarioData(float vario);
@@ -74,7 +77,7 @@ namespace serialReceiver
         void _initialiseFrame();
         // void _appendAttitudeData();
         // void _appendBaroAltitudeData();
-        // void _appendBatterySensorData();
+        void _appendBatterySensorData();
         // void _appendFlightModeData();
         void _appendGPSData();
         // void _appendHeartbeatData();

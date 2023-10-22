@@ -139,7 +139,7 @@ namespace crsfProtocol
         CRSF_TELEMETRY_FRAME_START_INDEX = 0,
         // CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
         // CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
-        // CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
+        CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
         // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
         CRSF_TELEMETRY_FRAME_GPS_INDEX,
         // CRSF_TELEMETRY_FRAME_HEARTBEAT_INDEX,
@@ -184,6 +184,15 @@ namespace crsfProtocol
         frameDefinition_t frame;
     } frame_t;
 
+    // Battery Sensor Data to pass to the telemetry frame.
+    typedef struct batterySensorData_s
+    {
+        uint16_t voltage;   // Average battery cell voltage.
+        uint16_t current;   // Amperage.
+        uint32_t capacity;  // mAh drawn.
+        uint8_t percent;    // Battery % remaining.
+    } batterySensorData_t;
+
     // GPS Data to pass to the telemetry frame.
     typedef struct gpsData_s
     {
@@ -198,6 +207,7 @@ namespace crsfProtocol
     // Struct to hold data for the telemetry frame.
     typedef struct telemetryData_s
     {
+        batterySensorData_t battery;
         gpsData_t gps;
     } telemetryData_t;
 
