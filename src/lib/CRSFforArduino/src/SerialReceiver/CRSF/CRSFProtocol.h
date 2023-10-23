@@ -187,10 +187,10 @@ namespace crsfProtocol
     // Battery Sensor Data to pass to the telemetry frame.
     typedef struct batterySensorData_s
     {
-        uint16_t voltage;   // Average battery cell voltage.
-        uint16_t current;   // Amperage.
-        uint32_t capacity;  // mAh drawn.
-        uint8_t percent;    // Battery % remaining.
+        uint16_t voltage;  // Average battery cell voltage.
+        uint16_t current;  // Amperage.
+        uint32_t capacity; // mAh drawn.
+        uint8_t percent;   // Battery % remaining.
     } batterySensorData_t;
 
     // GPS Data to pass to the telemetry frame.
