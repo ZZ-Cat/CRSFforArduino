@@ -339,6 +339,13 @@ For example, if you are using an Adafruit Metro M4 Express, you would use `pio r
    - Arduino IDE: `Tools ► Serial Monitor` from the menu or `ctrl+shift+m` on your keyboard.
 2. Your RC channel values will be there, & they will change as you move the sticks on your RC handset.
 
+### Viewing telemetry
+
+1. Flash the telemetry example to your target development board.
+2. Connect your receiver to the default Rx and Tx pins on your development board.
+3. In your RC handset go to `Model Settings ► Telemetry`.
+4. Click `Discover new` and your telemetry should be automatically populated on your screen.
+
 ## Compatible development boards
 
 CRSF for Arduino is designed to be compatible with modern hardware.
@@ -425,11 +432,16 @@ You _must_ refer to your development board's documentation to determine where yo
 
 ## Telemetry
 
-Currently, the only telemetry that is supported is GPS data.
+Currently, the only telemetry that is supported is battery sensor and GPS data.
 This is because I am still working on the telemetry side of things.
 
 The following telemetry data is supported:
 
+- Battery sensor data:
+  - Average battery cell voltage (in millivolts)
+  - Current (in milliamperes)
+  - Fuel (in milliampere-hours)
+  - Percent remaining
 - GPS data:
   - Latitude (in decimal degrees)
   - Longitude (in decimal degrees)
@@ -442,13 +454,11 @@ The following telemetry data is supported:
 
 - CRSF for Arduino is not compatible with AVR based microcontrollers.
   - This is because the AVR microcontrollers are simply not powerful enough to meet the minimum requirements of the CRSF protocol.
-- Certain instances of DMA can cause SAMD51 based development boards to crash.
-  - A workaround is in place to prevent this from happening, but it is not a permanent solution.
-  - This is currently being investigated.
+- The current DMA driver for both SAMD21 and SAMD51 targets have proven to be problematic and have been disabled for the time being.
 - Software serial is not supported.
   - This is because software serial is not capable of running at the required baud rate of 420 KB/s.
   - This also means that CRSF for Arduino is restricted to using hardware serial only.
-- CRSF for Arduino provides no sensor drivers. This is by design.
+- CRSF for Arduino provides no sensor drivers for telemetry. This is by design.
   - There are already plenty of libraries out there that provide sensor drivers for your development board.
   - You are free to use any sensor library that you want with CRSF for Arduino.
 
