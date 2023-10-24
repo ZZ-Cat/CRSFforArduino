@@ -57,6 +57,14 @@ uint8_t satellites = 4;
 
 CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
+#if VIEW_RC_CHANNELS > 0
+const int channelCount = 8;
+const char *channelNames[crsfProtocol::RC_CHANNEL_COUNT] = {
+    "A", "E", "T", "R", "Aux1", "Aux2", "Aux3", "Aux4", "Aux5", "Aux6", "Aux7", "Aux8", "Aux9", "Aux10", "Aux11", "Aux12"};
+
+static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
+#endif
+
 void setup()
 {
 #if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
@@ -170,22 +178,17 @@ void loop()
     if (timeNow - lastPrint >= 100)
     {
         lastPrint = timeNow;
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf.rcToUs(crsf.getChannel(8)));
+        Serial.print("RC Channels <");
+        for (uint8_t i = 0; i < channelCount; i++)
+        {
+            Serial.print(channelNames[i]);
+            Serial.print(": ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(i + 1)));
+            if (i < channelCount - 1)
+            {
+                Serial.print(", ");
+            }
+        }
         Serial.println(">");
     }
 #endif
