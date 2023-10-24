@@ -4,7 +4,7 @@
  * @brief This is the implementation of the Compatibility Table.
  * It is used to determine if the target development board is compatible with CRSF for Arduino.
  * @version 0.5.0
- * @date 2023-10-22
+ * @date 2023-10-24
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
