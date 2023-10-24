@@ -47,7 +47,14 @@ namespace serialReceiver
         SerialBuffer::reset();
 
         uint8_t index = 0;
+
+#if USE_BATTERY_TELEMETRY > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
+#endif
+
+#if USE_GPS_TELEMETRY > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX);
+#endif
 
         _telemetryFrameScheduleCount = index;
     }
@@ -64,6 +71,17 @@ namespace serialReceiver
         static uint8_t scheduleIndex = 0;
         const uint8_t currentSchedule = _telemetryFrameSchedule[scheduleIndex];
 
+#if USE_BATTERY_TELEMETRY > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX))
+        {
+            _initialiseFrame();
+            _appendBatterySensorData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if USE_GPS_TELEMETRY > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX))
         {
             _initialiseFrame();
@@ -71,20 +89,45 @@ namespace serialReceiver
             _finaliseFrame();
             sendFrame = true;
         }
+#endif
 
         scheduleIndex = (scheduleIndex + 1) % _telemetryFrameScheduleCount;
 
         return sendFrame;
     }
 
+    void Telemetry::setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent)
+    {
+#if USE_BATTERY_TELEMETRY > 0
+        _telemetryData.battery.voltage = (voltage + 5) / 10;
+        _telemetryData.battery.current = current / 10;
+        _telemetryData.battery.capacity = capacity;
+        _telemetryData.battery.percent = percent;
+#else
+        (void)voltage;
+        (void)current;
+        (void)capacity;
+        (void)percent;
+#endif
+    }
+
     void Telemetry::setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites)
     {
+#if USE_GPS_TELEMETRY > 0
         _telemetryData.gps.latitude = latitude * 10000000;
         _telemetryData.gps.longitude = longitude * 10000000;
         _telemetryData.gps.altitude = (constrain(altitude, 0, 5000 * 100) / 100) + 1000;
         _telemetryData.gps.speed = ((speed * 36 + 50) / 100);
         _telemetryData.gps.groundCourse = (course * 100);
         _telemetryData.gps.satellites = satellites;
+#else
+        (void)latitude;
+        (void)longitude;
+        (void)altitude;
+        (void)speed;
+        (void)course;
+        (void)satellites;
+#endif
     }
 
     void Telemetry::sendTelemetryData(DevBoards *db)
@@ -99,6 +142,17 @@ namespace serialReceiver
     {
         SerialBuffer::reset();
         SerialBuffer::writeU8(CRSF_SYNC_BYTE);
+    }
+
+    void Telemetry::_appendBatterySensorData()
+    {
+        SerialBuffer::writeU8(CRSF_FRAME_BATTERY_SENSOR_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_BATTERY_SENSOR);
+
+        SerialBuffer::writeU16BE(_telemetryData.battery.voltage);
+        SerialBuffer::writeU16BE(_telemetryData.battery.current);
+        SerialBuffer::writeU24BE(_telemetryData.battery.capacity);
+        SerialBuffer::writeU8(_telemetryData.battery.percent);
     }
 
     void Telemetry::_appendGPSData()

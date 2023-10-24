@@ -73,6 +73,29 @@ namespace sketchLayer
         return _serialReceiver->rcToUs(rc);
     }
 
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current battery data.
+     * 
+     * @param voltage In millivolts * 100 (eg 3.8V = 380.0F).
+     * @param current In milliamps * 10 (eg 1.5A = 150.0F).
+     * @param fuel In milliampere hours (eg 100 mAh = 100).
+     * @param percent In percent (eg 50% = 50).
+     */
+    void CRSFforArduino::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
+    {
+        _serialReceiver->telemetryWriteBattery(voltage, current, fuel, percent);
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current GPS data.
+     * 
+     * @param latitude In decimal degrees.
+     * @param longitude In decimal degrees.
+     * @param altitude In centimetres.
+     * @param speed in centimeters per second.
+     * @param groundCourse In degrees.
+     * @param satellites In view.
+     */
     void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
     {
         _serialReceiver->telemetryWriteGPS(latitude, longitude, altitude, speed, groundCourse, satellites);
