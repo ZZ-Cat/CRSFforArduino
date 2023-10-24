@@ -432,9 +432,6 @@ You _must_ refer to your development board's documentation to determine where yo
 
 ## Telemetry
 
-Currently, the only telemetry that is supported is battery sensor and GPS data.
-This is because I am still working on the telemetry side of things.
-
 The following telemetry data is supported:
 
 - Battery sensor data:
