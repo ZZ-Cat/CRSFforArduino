@@ -1,7 +1,7 @@
 /**
  * @file telemetry.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This example sketch demonstrates how to pass data from a GPS module into CRSF for Arduino & transmit it as telemetry.
+ * @brief This demonstrates how to use CRSF for Arduino to send telemetry to your RC transmitter using the CRSF protocol.
  * @version 0.5.0
  * @date 2023-10-22
  * 
@@ -31,12 +31,20 @@
 #include "CRSFforArduino.h"
 
 /* Configuration Options. */
-#define VIEW_RC_CHANNELS         0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
-#define GENERATE_RANDOM_GPS_DATA 0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
-#define SERIAL_RX_PIN            0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
-#define SERIAL_TX_PIN            1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
+#define VIEW_RC_CHANNELS             0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
+#define USE_SERIAL_PLOTTER           1 // Set USE_SERIAL_PLOTTER to 1 to view this example's data in the Arduino IDE's serial plotter.
+#define GENERATE_RANDOM_BATTERY_DATA 0 // Set GENERATE_RANDOM_BATTERY_DATA to 1 to generate random battery sensor telemetry data.
+#define GENERATE_RANDOM_GPS_DATA     0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
+#define SERIAL_RX_PIN                0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
+#define SERIAL_TX_PIN                1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
+
+/* Initialise the battery sensor telemetry with default values. */
+float batteryVoltage = 385.0F; // Battery voltage is in millivolts (mV * 100).
+float batteryCurrent = 150.0F; // Battery current is in milliamps (mA * 10).
+uint32_t batteryFuel = 700;    // Battery fuel is in milliamp hours (mAh).
+uint8_t batteryPercent = 50;   // Battery percentage remaining is in percent (0 - 100).
 
 /* Initialise the GPS telemetry data with default values. */
 float latitude = -41.18219482686493F; // Latitude is in decimal degrees.
@@ -48,24 +56,35 @@ uint8_t satellites = 4;
 
 const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this is right, but we can always manually put in the number of channels desired
 
+/* The CRSF Protocol only supports up to 16 proportional RC channels.
+So, an assert is needed to prevent channelCount from being set to any arbitary number that is higher than 16. */
+static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
+
 CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
+
+#if USE_SERIAL_PLOTTER == 0 && VIEW_RC_CHANNELS > 0
+const char *channelNames[crsfProtocol::RC_CHANNEL_COUNT] = {
+    "A", "E", "T", "R", "Aux1", "Aux2", "Aux3", "Aux4", "Aux5", "Aux6", "Aux7", "Aux8", "Aux9", "Aux10", "Aux11", "Aux12"};
+#endif
 
 void setup()
 {
-#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG) || USE_SERIAL_PLOTTER > 0
     Serial.begin(115200);
     while (!Serial)
     {
         ;
     }
 
+#if USE_SERIAL_PLOTTER == 0
     Serial.println("GPS Telemetry Example");
+#endif
 #endif
 
     /* Initialise CRSF for Arduino */
     if (!crsf.begin())
     {
-#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
+#if (VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)) && USE_SERIAL_PLOTTER == 0
         Serial.println("CRSF for Arduino initialization failed!");
 #endif
         while (1)
@@ -74,7 +93,7 @@ void setup()
         }
     }
 
-#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
+#if (VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)) && USE_SERIAL_PLOTTER == 0
     /* Show the user that the sketch is ready. */
     Serial.println("Ready");
     delay(1000);
@@ -87,7 +106,41 @@ void loop()
     // Use timeNow to store the current time in milliseconds.
     timeNow = millis();
 
-    /* Here, you would normally update the GPS telemetry data with the latest values from your GPS module.
+    /* Battery Telemetry
+
+    Normally, you read the battery voltage and current from two analog pins on your Arduino board or from a
+    battery sensor connected to your Arduino board.
+    For the purposes of this example, we will just update the following with random values:
+    - Battery Voltage
+    - Battery Current
+
+    These values are updated at a rate of 10 Hz.
+    Battery fuel and percentage remaining are calculated from the battery voltage and current values, with
+    a simulated battery capacity of 1000 mAh. */
+
+    /* Update the battery sensor telemetry at a rate of 10 Hz. */
+    static unsigned long lastBatteryUpdate = 0;
+    if (timeNow - lastBatteryUpdate >= 100)
+    {
+        lastBatteryUpdate = timeNow;
+
+#if GENERATE_RANDOM_BATTERY_DATA > 0
+        // Generate random values for the battery sensor telemetry.
+        batteryVoltage = random(300, 420);
+        batteryCurrent = random(0, 1000);
+#endif
+
+        // Calculate the battery fuel and percentage remaining.
+        // batteryFuel = (uint32_t)(batteryFuel + (batteryCurrent / 36000));
+        // batteryPercent = (uint8_t)(batteryFuel / 10);
+
+        // Update the battery sensor telemetry with the new values.
+        crsf.telemetryWriteBattery(batteryVoltage, batteryCurrent, batteryFuel, batteryPercent);
+    }
+
+    /* GPS Telemetry
+
+    Normally, you would update the GPS telemetry data with the latest values from your GPS module.
     For the purposes of this example, we will just update the following with random values:
     - Latitude
     - Longitude
@@ -101,10 +154,10 @@ void loop()
     */
 
     /* Update the GPS telemetry data at a rate of 1 Hz. */
-    static unsigned long lastUpdate = 0;
-    if (timeNow - lastUpdate >= 1000)
+    static unsigned long lastGpsUpdate = 0;
+    if (timeNow - lastGpsUpdate >= 1000)
     {
-        lastUpdate = timeNow;
+        lastGpsUpdate = timeNow;
 
 #if GENERATE_RANDOM_GPS_DATA > 0
         // Generate random values for the GPS telemetry data.
@@ -114,7 +167,8 @@ void loop()
         speed = random(0, 6625);
         groundCourse = random(0, 359);
         satellites = random(0, 16);
-        
+
+#if USE_SERIAL_PLOTTER > 0
         Serial.print("Lat:");
         Serial.print(latitude);
         Serial.print("\tLon:");
@@ -128,7 +182,7 @@ void loop()
         Serial.print("\tSatellites:");
         Serial.print(satellites);
         Serial.println();
-        
+#endif
 #endif
 
         // Update the GPS telemetry data with the new values.
@@ -144,14 +198,30 @@ void loop()
     if (timeNow - lastPrint >= 100)
     {
         lastPrint = timeNow;
-        for(int i = 1; i <= channelCount; i++){
-          //Serial.print("Channel");
-          Serial.print(i);
-          Serial.print(":");
-          Serial.print(crsf.rcToUs(crsf.getChannel(i)));
-          Serial.print("\t");
+#if USE_SERIAL_PLOTTER == 0
+        for (int i = 1; i <= channelCount; i++)
+        {
+            //Serial.print("Channel");
+            Serial.print(i);
+            Serial.print(":");
+            Serial.print(crsf.rcToUs(crsf.getChannel(i)));
+            Serial.print("\t");
         }
-        Serial.println();     
+        Serial.println();
+#else
+        Serial.print("RC Channels <");
+        for (uint8_t i = 0; i < channelCount; i++)
+        {
+            Serial.print(channelNames[i]);
+            Serial.print(": ");
+            Serial.print(crsf.rcToUs(crsf.getChannel(i + 1)));
+            if (i < channelCount - 1)
+            {
+                Serial.print(", ");
+            }
+        }
+        Serial.println(">");
+#endif
     }
 #endif
 }
