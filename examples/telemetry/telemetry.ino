@@ -1,5 +1,5 @@
 /**
- * @file gps_telemetry.ino
+ * @file telemetry.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This example sketch demonstrates how to pass data from a GPS module into CRSF for Arduino & transmit it as telemetry.
  * @version 0.5.0
