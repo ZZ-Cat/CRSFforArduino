@@ -28,6 +28,7 @@
 
 #include "Arduino.h"
 #ifdef USE_DMA
+#warning "DMA is enabled. This is an experimental feature and may not work as expected."
 #if defined(ARDUINO_ARCH_SAMD)
 #include "Adafruit_ZeroDMA.h"
 #endif
