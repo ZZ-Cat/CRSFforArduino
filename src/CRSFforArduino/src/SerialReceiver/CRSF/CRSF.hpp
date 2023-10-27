@@ -37,7 +37,7 @@
 #ifdef USE_DMA
 #include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
 #endif
-#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.hpp"
+#include "../CRC/CRC.hpp"
 #endif
 // #include "Hardware.h"
 

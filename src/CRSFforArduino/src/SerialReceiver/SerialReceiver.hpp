@@ -32,7 +32,7 @@
 #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Hardware/Hardware.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/Hardware.hpp"
+#include "../Hardware/Hardware.hpp"
 #endif
 
 namespace serialReceiver

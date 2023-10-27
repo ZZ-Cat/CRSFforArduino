@@ -34,10 +34,10 @@
 #include "SerialReceiver/CRSF/CRSFProtocol.hpp"
 #include "SerialReceiver/SerialBuffer/SerialBuffer.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
-#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.hpp"
-#include "lib/CRSFforArduino/src/SerialReceiver/CRSF/CRSFProtocol.hpp"
-#include "lib/CRSFforArduino/src/SerialReceiver/SerialBuffer/SerialBuffer.hpp"
+#include "../../Hardware/DevBoards/DevBoards.hpp"
+#include "../CRC/CRC.hpp"
+#include "../CRSF/CRSFProtocol.hpp"
+#include "../SerialBuffer/SerialBuffer.hpp"
 #endif
 
 namespace serialReceiver

@@ -28,11 +28,11 @@
 
 #include "Arduino.h"
 
-#if defined(ARDUINO) && defined(PLATFORMIO)
+// #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "SerialReceiver/SerialReceiver.hpp"
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/SerialReceiver/SerialReceiver.hpp"
-#endif
+// #elif defined(ARDUINO) && !defined(PLATFORMIO)
+// #include "lib/CRSFforArduino/src/SerialReceiver/SerialReceiver.hpp"
+// #endif
 
 namespace sketchLayer
 {
