@@ -26,4 +26,4 @@
 
 #pragma once
 
-#include "lib/CRSFforArduino/src/CRSFforArduino.hpp"
+#include "CRSFforArduino/src/CRSFforArduino.hpp"
