@@ -1,7 +1,7 @@
 /**
- * @file CRSFforArduino.h
+ * @file CRC.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Top level header for CRSF for Arduino, to help with Arduino IDE compatibility.
+ * @brief CRC class declaration.
  * @version 0.5.0
  * @date 2023-10-24
  *
@@ -25,5 +25,28 @@
  */
 
 #pragma once
+#include "Arduino.h"
 
-#include "lib/CRSFforArduino/src/CRSFforArduino.h"
+namespace serialReceiver
+{
+#define CRC_OPTIMISATION_SPEED    0
+#define CRC_OPTIMISATION_SIZE     1
+#define CRC_OPTIMISATION_HARDWARE 2
+
+    class CRC
+    {
+      public:
+        CRC();
+        virtual ~CRC();
+
+        uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
+        uint8_t calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length);
+
+      private:
+#if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
+        uint8_t *crc_8_dvb_s2_table;
+#elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
+        uint8_t crc_8_dvb_s2(uint8_t crc, uint8_t data);
+#endif
+    };
+} // namespace serialReceiver

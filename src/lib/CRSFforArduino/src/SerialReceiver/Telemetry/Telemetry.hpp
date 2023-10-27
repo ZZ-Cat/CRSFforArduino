@@ -1,5 +1,5 @@
 /**
- * @file Telemetry.h
+ * @file Telemetry.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Telemetry class definition.
  * @version 0.5.0
@@ -29,15 +29,15 @@
 #include "Arduino.h"
 
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#include "Hardware/DevBoards/DevBoards.h"
-#include "SerialReceiver/CRC/CRC.h"
-#include "SerialReceiver/CRSF/CRSFProtocol.h"
-#include "SerialReceiver/SerialBuffer/SerialBuffer.h"
+#include "Hardware/DevBoards/DevBoards.hpp"
+#include "SerialReceiver/CRC/CRC.hpp"
+#include "SerialReceiver/CRSF/CRSFProtocol.hpp"
+#include "SerialReceiver/SerialBuffer/SerialBuffer.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.h"
-#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.h"
-#include "lib/CRSFforArduino/src/SerialReceiver/CRSF/CRSFProtocol.h"
-#include "lib/CRSFforArduino/src/SerialReceiver/SerialBuffer/SerialBuffer.h"
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
+#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.hpp"
+#include "lib/CRSFforArduino/src/SerialReceiver/CRSF/CRSFProtocol.hpp"
+#include "lib/CRSFforArduino/src/SerialReceiver/SerialBuffer/SerialBuffer.hpp"
 #endif
 
 namespace serialReceiver

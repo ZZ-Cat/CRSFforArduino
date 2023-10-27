@@ -1,5 +1,5 @@
 /**
- * @file Hardware.h
+ * @file Hardware.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file is the top level of the hardware abstraction layer.
  * @version 0.5.0
@@ -26,7 +26,7 @@
 
 #pragma once
 
-#include "CompatibilityTable/CompatibilityTable.h"
-#include "DevBoards/DevBoards.h"
+#include "CompatibilityTable/CompatibilityTable.hpp"
+#include "DevBoards/DevBoards.hpp"
 
 using namespace hal;

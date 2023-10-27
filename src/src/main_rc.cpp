@@ -31,7 +31,7 @@
 #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
-#include "CRSFforArduino.h"
+#include "CRSFforArduino.hpp"
 
 #define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
 #define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.

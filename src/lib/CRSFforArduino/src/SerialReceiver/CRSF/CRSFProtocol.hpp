@@ -1,5 +1,5 @@
 /**
- * @file CRSFProtocol.h
+ * @file CRSFProtocol.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file contains enums and structs for the CRSF protocol.
  * @version 0.5.0

@@ -30,7 +30,7 @@ To work around this, preprocessor directives are used to exclude the main_teleme
 #if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 
-#include "CRSFforArduino.h"
+#include "CRSFforArduino.hpp"
 
 /* Configuration Options. */
 #define VIEW_RC_CHANNELS             0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.

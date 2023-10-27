@@ -24,7 +24,7 @@
  * 
  */
 
-#include "CRC.h"
+#include "CRC.hpp"
 
 namespace serialReceiver
 {

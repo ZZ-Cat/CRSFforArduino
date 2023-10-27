@@ -24,7 +24,7 @@
  * 
  */
 
-#include "SerialBuffer.h"
+#include "SerialBuffer.hpp"
 
 namespace genericStreamBuffer
 {

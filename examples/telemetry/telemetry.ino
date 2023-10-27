@@ -28,7 +28,7 @@
 #error "This example sketch is not compatible with PlatformIO. Please use the main_gps-telemetry.cpp example instead."
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
 
-#include "CRSFforArduino.h"
+#include "CRSFforArduino.hpp"
 
 /* Configuration Options. */
 #define VIEW_RC_CHANNELS             0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.

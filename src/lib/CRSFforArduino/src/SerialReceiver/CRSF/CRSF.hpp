@@ -1,7 +1,7 @@
 /**
- * @file CRSFforArduino.h
+ * @file CRSF.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
+ * @brief CRSF class definition.
  * @version 0.5.0
  * @date 2023-10-24
  *
@@ -21,40 +21,49 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * 
  */
 
 #pragma once
 
 #include "Arduino.h"
-
+#include "CRSFProtocol.hpp"
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#include "SerialReceiver/SerialReceiver.h"
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/SerialReceiver/SerialReceiver.h"
+#ifdef USE_DMA
+#include "Hardware/DevBoards/DevBoards.hpp"
 #endif
+#include "SerialReceiver/CRC/CRC.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#ifdef USE_DMA
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
+#endif
+#include "lib/CRSFforArduino/src/SerialReceiver/CRC/CRC.hpp"
+#endif
+// #include "Hardware.h"
 
-namespace sketchLayer
+namespace serialReceiver
 {
-    class CRSFforArduino : private serialReceiver::SerialReceiver
+    class CRSF
+#ifdef USE_DMA
+        : private hal::DevBoards
+#endif
     {
       public:
-        CRSFforArduino();
-        CRSFforArduino(uint8_t RxPin, uint8_t TxPin);
-        ~CRSFforArduino();
-        bool begin();
+        CRSF();
+        virtual ~CRSF();
+        void begin();
         void end();
-        void update();
-        uint16_t getChannel(uint8_t channel);
-        uint16_t rcToUs(uint16_t rc);
-        uint16_t readRcChannel(uint8_t channel, bool raw = false);
-
-        void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
-        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+        void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
+        bool receiveFrames(uint8_t rxByte);
+        void getRcChannels(uint16_t *rcChannels);
 
       private:
-        SerialReceiver *_serialReceiver;
+        bool rcFrameReceived;
+        uint16_t frameCount;
+        uint32_t timePerFrame;
+        crsfProtocol::frame_t rxFrame;
+        crsfProtocol::frame_t rcChannelsFrame;
+        CRC *crc8;
+        uint8_t calculateFrameCRC();
     };
-} // namespace sketchLayer
-
-using namespace sketchLayer;
+} // namespace serialReceiver

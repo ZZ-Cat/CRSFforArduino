@@ -1,5 +1,5 @@
 /**
- * @file SerialBuffer.cpp
+ * @file SerialBuffer.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief SerialBuffer class definition.
  * @version 0.5.0
@@ -30,9 +30,9 @@
 
 #ifdef USE_DMA
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#include "Hardware/DevBoards/DevBoards.h"
+#include "Hardware/DevBoards/DevBoards.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.h"
+#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
 #endif
 #endif
 

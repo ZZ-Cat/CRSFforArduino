@@ -1,5 +1,5 @@
 /**
- * @file DevBoards.h
+ * @file DevBoards.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file contains the DevBoards class, which is used to configure CRSF for Arduino for specific development boards.
  * @version 0.5.0

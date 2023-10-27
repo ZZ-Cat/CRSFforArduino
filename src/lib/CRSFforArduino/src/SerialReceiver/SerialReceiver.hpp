@@ -1,5 +1,5 @@
 /**
- * @file SerialReceiver.h
+ * @file SerialReceiver.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the header file for the Serial Receiver Interface.
  * @version 0.5.0
@@ -27,12 +27,12 @@
 #pragma once
 
 #include "Arduino.h"
-#include "CRSF/CRSF.h"
-#include "Telemetry/Telemetry.h"
+#include "CRSF/CRSF.hpp"
+#include "Telemetry/Telemetry.hpp"
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#include "Hardware/Hardware.h"
+#include "Hardware/Hardware.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/Hardware.h"
+#include "lib/CRSFforArduino/src/Hardware/Hardware.hpp"
 #endif
 
 namespace serialReceiver

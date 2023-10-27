@@ -24,7 +24,7 @@
  * 
  */
 
-#include "Telemetry.h"
+#include "Telemetry.hpp"
 
 using namespace crsfProtocol;
 

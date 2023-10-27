@@ -24,7 +24,7 @@
  * 
  */
 
-#include "CRSF.h"
+#include "CRSF.hpp"
 
 using namespace crsfProtocol;
 

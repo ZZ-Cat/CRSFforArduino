@@ -1,5 +1,5 @@
 /**
- * @file SerialReceiver.h
+ * @file SerialReceiver.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the implementation file for the Serial Receiver Interface.
  * @version 0.5.0
@@ -24,7 +24,7 @@
  * 
  */
 
-#include "SerialReceiver.h"
+#include "SerialReceiver.hpp"
 
 using namespace crsfProtocol;
 

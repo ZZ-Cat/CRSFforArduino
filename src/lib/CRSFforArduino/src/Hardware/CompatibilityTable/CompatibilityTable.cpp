@@ -25,7 +25,7 @@
  * 
  */
 
-#include "CompatibilityTable.h"
+#include "CompatibilityTable.hpp"
 
 namespace hal
 {

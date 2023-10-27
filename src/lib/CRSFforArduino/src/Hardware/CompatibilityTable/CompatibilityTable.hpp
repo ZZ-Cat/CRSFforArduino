@@ -1,5 +1,5 @@
 /**
- * @file CompatibilityTable.h
+ * @file CompatibilityTable.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the Compatibility Table header file.
  * @version 0.5.0
