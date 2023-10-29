@@ -33,6 +33,8 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 
 ## For more information
 
+- [About forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks)
+- [Creating a Pull Request from your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
 - Issue Templates
   - [Bug Reports](ISSUE_TEMPLATE/bug_report.md)
