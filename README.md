@@ -449,7 +449,9 @@ The following telemetry data is supported:
 
 - CRSF for Arduino is not compatible with AVR based microcontrollers.
   - This is because the AVR microcontrollers are simply not powerful enough to meet the minimum requirements of the CRSF protocol.
-- The current DMA driver for both SAMD21 and SAMD51 targets have proven to be problematic and have been disabled for the time being.
+- DMA for both SAMD21 and SAMD51 targets is currently broken, and is disabled for the time being.
+  If you build CRSF for Arduino with `USE_DMA` enabled, you will see this warning message: `DMA is enabled. This is an experimental feature and may not work as expected.`
+  At this point, DMA may be removed from CRSF for Arduino, as it brings _very little_ benefit to the project... if any at all.
 - Software serial is not supported.
   - This is because software serial is not capable of running at the required baud rate of 420 KB/s.
   - This also means that CRSF for Arduino is restricted to using hardware serial only.
