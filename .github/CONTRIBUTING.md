@@ -42,8 +42,6 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 - [About forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks)
 - [Creating a Pull Request from your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
-- Issue Templates
-  - [Bug Reports](ISSUE_TEMPLATE/bug_report.md)
-  - [Feature Requests](ISSUE_TEMPLATE/feature_request.md)
+- [Submit an Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose)
 - [License](/LICENSE.md)
 - [README](/README.md)
