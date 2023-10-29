@@ -393,8 +393,6 @@ While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, 
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
 
-Compatibility with other microcontroller boards may be added in future, if there is demand for it. Keep in mind that this will be subject to hardware limitations of the host microcontroller itself.
-
 In order for CRSF for Arduino to run, the host microcontroller _must_ meet these minimum requirements:
 
 - Core Clock Speed: 48 MHz or higher.
