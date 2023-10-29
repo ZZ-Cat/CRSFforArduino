@@ -8,9 +8,9 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 ### **Do...**
 
 1. Read the README in its entirety _before_ submitting an issue, as your "bug" may very well be a case of PICNIC.
-2. Respond in a timely manner.
-3. If something isn't working, please provide evidence.
-4. Provide as much detail as is absolutely necessary & _keep it concise._
+2. Respond in a timely and respectful manner.
+3. If something isn't working, please provide evidence - EG Screenshots of compiler errors.
+4. Provide concise details.
 5. Make use of issue templates - Especially if it's your first time submitting an issue to someone's repository on GitHub.
 6. Use the Discussions tab for things are not Issues or Pull Requests, but are still relevant to CRSF for Arduino.
 7. Format your code. CRSF for Arduino uses clang-format as a formatter. So, use that if you actually want to contribute to CRSF for Arduino's development.
