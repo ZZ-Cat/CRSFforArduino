@@ -486,3 +486,14 @@ I give credit where credit is due. Because CRSF for Arduino isn't entirely my ow
       - [Author](https://github.com/PaintYourDragon)
       - [License](https://github.com/adafruit/Adafruit_ZeroDMA/blob/master/LICENSE)
     - [Website](https://www.adafruit.com/)
+
+## Contributing
+
+If you would like to contribute to the development to CRSF for Arduino, here is what you can do:
+
+1. Read my [code of conduct](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/CODE_OF_CONDUCT.md) and [contribution guidelines](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/.github/CONTRIBUTING.md);
+2. Fork CRSF for Arduino;
+3. Make your contribution to the codebase;
+4. Submit your changes in your fork as a Pull Request back to CRSF for Arduino.
+
+Your contributions are very welcome, and if it benefits the project and community, it will be merged into the Main-Trunk.
