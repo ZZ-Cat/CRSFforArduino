@@ -25,11 +25,17 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 
 ## A few notable points
 
-- CRSF for Arduino requires _all_ commits to be properly signed/verfied. Pull Requests that have unverified commits will not be accepted.
-- Not every Pull Request can/will be accepted. Simply because you submitted it, that doesn't automatically guarantee that your Pull Request will be merged.
-- With the above rule being said... I reserve the right to decline any Pull Request if I deem it necessary to do so. I also reserve the right to decline a Pull Request with or without providing a reason to do so (even though I prefer to tell you why it was declined).
-- All Pull Requests to the Main-Trunk must be reviewed before they can be merged. If I suggest to you to make changes to your Pull Request, don't fight me on it. I already have a reason why those changes need to be made (& I already would have told you what that reason is).
-- I have a few GitHub Actions automations that need to pass, before your Pull Request can be merged.
+- CRSF for Arduino requires _all_ commits to be properly signed and verfied.  
+  This means that you _must_ have commit signing with either an SSH or GPG key set-up.
+  Pull Requests with unverified commits _will not_ be accepted.
+- Not every Pull Request can or will be accepted.  
+  Simply because you submitted it, that doesn't automatically guarantee that your Pull Request will be merged.  
+  Generally speaking, I will let you know as to why your Pull Request will not be merged. Nine-times-out-of-ten, it's because of something that's easily fixable within reason.
+- I reserve the right to decline any Pull Request(s) if I deem it necessary to do so.
+- All Pull Requests to the Main-Trunk _must_ be reviewed before they can be merged.
+  If I suggest to you to make changes to your Pull Request, don't fight me on it. I already have a reason why those changes need to be made and I would have told you what that reason is. If you are having difficulty with something, let me know.
+- All checks on your Pull Request _must_ pass before it can be merged.
+  These checks ensure correct code formatting, and the codebase compiles successfully on all supported development boards.
 
 ## For more information
 
