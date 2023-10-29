@@ -305,11 +305,9 @@ void SERCOM1_3_Handler()
 In the `examples` folder, there are two sketches that I use to test this library:
 
 - `channels.ino`
-  This example demonstrates how to read RC channels data from your connected ExpressLRS receiver.
-  It contains instructions on how to set your hardware up & how to connect your receiver to your development board.
-  It also details binding procedures (if needed), & the channel ranges & channel order.
-- `gps_telemetry.ino`
-  This example demonstrates how to pass data from your GPS module to CRSF for Arduino & send it as telemetry back to your controller.
+  This example demonstrates how to read RC channels data from your connected receiver.
+- `telemetry.ino`
+  This example demonstrates how to pass data from your sensors to your controller using CRSF for Arduino.
 
 You can build these examples to see how CRSF for Arduino works.
 
