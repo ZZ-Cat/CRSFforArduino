@@ -403,8 +403,8 @@ You need to be available for testing functionality to ensure CRSF for Arduino is
 
 ## Compatible receivers
 
-Generally speaking, if your transmitter & receiver combo supports ExpressLRS or TBS Crossfire, it's automatically compatible.
-Keep in mind that CRSF for Arduino is tested almost exclusively on ExpressLRS hardware.
+Any receiver that uses the Crossfire Protocol is compatible with CRSF for Arduino.  
+Generally this applies to any TBS Crossfire and TBS Tracer receiver, and any receiver that's running ExpressLRS firmware.
 
 For wiring, here is how you do it:
 
