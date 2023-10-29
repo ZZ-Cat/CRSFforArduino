@@ -309,11 +309,10 @@ You can build these examples to see how CRSF for Arduino works.
 
 Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 
-1. Build your sketch ► `pio run` in your CLI or `ctrl+alt+b` on your keyboard.
-2. Flash your sketch ► `pio run -t upload` in your CLI or `ctrl+alt+u` on your keyboard.
+1. Build your sketch ► `pio run -e <board_name>` in your CLI.
+2. Flash your sketch ► `pio run -e <board_name> -t upload` in your CLI.
 
-The above steps will default to the Adafruit Metro M0 development board.
-To build & flash your sketch to a different development board, use `pio run -e <board name>` to build your sketch & `pio run -e <board name> -t upload` to flash your sketch to your development board.
+Replace `<board_name>` with your chosen development board in the `platformio.ini` configuration file.
 For example, if you are using an Adafruit Metro M4 Express, you would use `pio run -e adafruit_metro_m4` to build your sketch & `pio run -e adafruit_metro_m4 -t upload` to flash your sketch to your Metro M4 Express.
 
 ### Flashing - Arduino IDE
