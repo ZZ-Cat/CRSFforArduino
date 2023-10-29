@@ -63,12 +63,8 @@ If you want to use CRSF for Arduino with PlatoformIO & Visual Studio Code, you n
   - [PlatformIO IDE](https://platformio.org/)
 
 Pro tips:
-Up in the Arduino IDE prerequisites, I mention a list of third-party libraries & board support packages. If you are using PlatformIO, that list does not necessarily apply here. CRSF for Arduino comes with a `platformio.ini` file that already defines the necessary library dependencies & board support profiles. PlatformIO will automatically download all of the necessary files to setup your build environment.
-
-When you run `pio run` this defaults to the Adafruit Metro M4 Express development board.
+In PlatformIO, CRSF for Arduino's dependencies are automatically installed, when you build your project for the first time.  
 The `platformio.ini` file contains a list of development boards that is compatible with CRSF for Arduino.
-If you are using a different development board, you can use `pio run -e <board name>` to build your sketch for your target development board & `pio run -e <board name> -t upload` to flash your sketch to your target development board.
-For example, if you are using an Adafruit Feather M0 Express, you would use `pio run -e adafruit_feather_m0_express` to build your sketch & `pio run -e adafruit_feather_m0_express -t upload` to flash your sketch to your development board.
 
 ## Installation - Straight from the Main-Trunk
 
