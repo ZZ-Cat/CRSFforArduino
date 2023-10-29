@@ -1,6 +1,6 @@
 # Contributing to CRSF for Arduino
 
-Thank you for helping to make CRSF for Arduino better.
+Thank you for helping to make CRSF for Arduino better.  
 Before you can go Gung Ho on coding, there are a few house rules I need you to familiarise yourself with.
 
 ## Do's & don'ts of CRSF for Arduino
