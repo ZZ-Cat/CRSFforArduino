@@ -28,13 +28,6 @@ Traditional PWM RC receivers are becoming a thing of the past & (by extension) a
 CRSF is _the_ de-facto standard for RC nowadays, & it is time to bring it to the world of Arduino!
 This means that your development board is now compatible with any receiver that runs ExpressLRS firmware.
 
-## Why ExpressLRS?
-
-For starters, it's an open source radio control link that offers incredibly low latency, long range (EG [100 kilometers on 2.4GHz](https://youtu.be/IjQYLyvai6s) without failsafe), & it's incredibly robust in rough RF environments.
-
-An ExpressLRS receiver communicates to your development board through one of the board's Serial/UART ports.
-This provides you with up to 16 11-bit full resolution channels & telemetry without taking up unnecessary amounts of pin real estate.
-
 ## Prerequisites - Arduino IDE
 
 If you want to use CRSF for Arduino in the Arduino IDE, you need these:
