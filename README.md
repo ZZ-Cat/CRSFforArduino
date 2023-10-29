@@ -417,6 +417,10 @@ For wiring, here is how you do it:
 As a workaround, CRSF for Arduino automatically selects the closest available pins that has a suitable UART port.
 You _must_ refer to your development board's documentation to determine where your default Tx & Rx pins are. These are the pins that CRSF for Arduino will use.
 
+**Regarding logic levels:**  
+The Rx and Tx lines on your receiver is 3.3 volts. _NOT_ 5 volts.  
+If your development board outputs a logic level of 5 volts on its serial pins, you _must_ use a level shifter. Otherwise you will kill the Rx and Tx pins on your receiver.
+
 ## Telemetry
 
 The following telemetry data is supported:
