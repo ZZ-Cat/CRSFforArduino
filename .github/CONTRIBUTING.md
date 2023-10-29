@@ -11,7 +11,7 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 2. Respond in a timely and respectful manner.
 3. If something isn't working, please provide evidence - EG Screenshots of compiler errors.
 4. Provide concise details.
-5. Use the Discussions tab for things are not Issues or Pull Requests, but are still relevant to CRSF for Arduino.
+5. For general feedback, comments and questions, use the [Discussions Tab](https://github.com/ZZ-Cat/CRSFforArduino/discussions).
 6. Format your code. CRSF for Arduino uses clang-format as a formatter. So, use that if you actually want to contribute to CRSF for Arduino's development.
 
 ### **Don't...**
