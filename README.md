@@ -24,9 +24,14 @@ If you have spotted any bugs, something isn't working the way it should, or you 
 
 ## Description
 
-Traditional PWM RC receivers are becoming a thing of the past & (by extension) are getting harder & harder to come by.
-CRSF is _the_ de-facto standard for RC nowadays, & it is time to bring it to the world of Arduino!
-This means that your development board is now compatible with any receiver that runs ExpressLRS firmware.
+CRSF for Arduino brings the Crossfire Protocol to the Arduino ecosystem.  
+This library enables you to connect either a TBS Crossfire or ExpressLRS receiver to your development board,
+giving you access to telemetry and up to 16 11-bit proportional RC channels over a tried-and-true serial protocol.
+
+The Crossfire Protocol (better known as CRSF) is used by both Team BlackSheep (in their Crossfire and Tracer receivers) and
+ExpressLRS. The latter of the two are well-known in the FPV drone community for their ultra low latency and long range control
+link.  
+By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you have a control link between your RC handset and your development project that is robust in tough RF environments.
 
 ## Prerequisites - Arduino IDE
 
