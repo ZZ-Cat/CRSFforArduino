@@ -339,8 +339,7 @@ For example, if you are using an Adafruit Metro M4 Express, you would use `pio r
 
 ## Compatible development boards
 
-CRSF for Arduino is designed to be compatible with modern hardware.
-While CRSF for Arduino is primarily developed on the Adafruit Metro M4 Express, here is a list of target development boards CRSF for Arduino is compatible with (Keep in mind that this list is not exhaustive, & actual compatibility with everything listed here may be untested):
+CRSF for Arduino is compatible with these development boards:
 
 - ESP32 based boards:
   - Adafruit Feather ESP32
@@ -399,9 +398,8 @@ In order for CRSF for Arduino to run, the host microcontroller _must_ meet these
 - CPU: ARM Cortex M0+ or later.
 - UART Baud Rate: 420 KB/s.
 
-I am now aware that Arduino are making an R4 of their UNO & Adafruit are making a Metro M7. This is exciting news for me, because I would like to make these development boards fully compatible with CRSF for Arduino as & when their respective underlying code & toolchain support is added.
-
-As for other development boards (& their host microcontrollers), if they meet the minimum requirements & you are still having compatibility issues, it is likely that I have not yet added your board to the Compatibility Table. Consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & we can go from there.
+If your development board is not on the list above and it meets the minimum requirements, consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & I will work with you to add support for your development board.  
+You need to be available for testing functionality to ensure CRSF for Arduino is working properly, as well as helping me debug any issues that crop up.
 
 ## Compatible receivers
 
