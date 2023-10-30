@@ -37,6 +37,38 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 - All checks on your Pull Request _must_ pass before it can be merged.
   These checks ensure correct code formatting, and the codebase compiles successfully on all supported development boards.
 
+## Ghosting
+
+### What is it?
+
+This describes a situation where I have not received any interaction from you over a signifcant amount of time.  
+I define "a significant amount of time" to be three weeks or more.  
+For example, if you open an issue, and I ask for clarification on said issue and you have not replied to that message over a significant amount of time. This is ghosting.  
+Another example is I tag you in a Pull Request because I require your assistance, yet there has not been any dialog from you over a significant amount of time. That is also ghosting.
+
+### Why is ghosting bad?
+
+Short answer: It's unprofessional.  
+
+Consider this scenario:  
+You submit an Issue, requesting compatibility for your development board.  
+I don't have the board-in-question available to me on-hand to test on my own end, so I elect to enlist your assistance.  
+I go ahead and open a Pull Request, tagging you in it (and asking you to test the Pull Request).  
+Only...  
+One week passes. Okay, they're probably busy with life stuff and maybe they will respond over the weekend.  
+Weekend comes... still no response. Okay, I will give them another week.  
+Second week comes... still no response. Maybe if I give them another week? Hopefully they might respond?.
+Third week goes by... still no response, and CRSF for Arduino's development has stalled.
+
+### How I combat it
+
+For a start, I have a grace period of up to 14 days past the last interaction you have had with me.  
+After the 14 days is up, I decide (at my discretion) to close your Issue or Pull Request. In the context of a Pull Request, depending on the state of the code (EG Accuracy, completeness and functionality), at my discretion, I may merge the Pull Request "as-is", and any potential bugs that it could introduce (that I may have missed), you are welcome to open an Issue about it later on.
+
+This grace period exists to mitigate stalled development, and keep the development of CRSF for Arduino moving along.  
+People that genuinely want to help out with the project, they typically respond within 24~72 hours, with some outlying exceptions responding up to 7~12 days apart.  
+This grace period strikes a balance between my need to keep the project moving, and giving someone time to do what they need to do in their own private life as well as contributing to CRSF for Arduino.
+
 ## For more information
 
 - [About forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks)
