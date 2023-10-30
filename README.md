@@ -330,6 +330,9 @@ For example, if you are using an Adafruit Metro M4 Express, you would use `pio r
    - Arduino IDE: `Tools ► Serial Monitor` from the menu or `ctrl+shift+m` on your keyboard.
 2. Your RC channel values will be there, & they will change as you move the sticks on your RC handset.
 
+In the Arduino IDE, if you prefer to use the Serial Plotter, set `USE_SERIAL_PLOTTER` to 1 in `telemetry.ino` before flashing it to your development board.  
+Please note: Support for the Serial Plotter is experimental at this stage.
+
 ### Viewing telemetry
 
 1. Flash the telemetry example to your target development board.
