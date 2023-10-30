@@ -1,5 +1,5 @@
 name: Submit a bug report
-description: Create a bug report & help me improve CRSF for Arduino
+description: Create a bug report and help me improve CRSF for Arduino
 labels: ["🐞 Bug 🐞", "Pending 📌"]
 body:
   - type: markdown
@@ -98,7 +98,7 @@ body:
   - type: textarea
     attributes:
       label: Current behaviour
-      description: Provide a clear & concise description of the bug.
+      description: Provide a clear and concise description of the bug.
       placeholder: |
         A clear and concise description of what the bug is.
         EG: When I try to compile the code I get this error...
@@ -107,7 +107,7 @@ body:
   - type: textarea
     attributes:
       label: Expected behaviour
-      description: Provide a clear & concise description of what you expected to happen.
+      description: Provide a clear and concise description of what you expected to happen.
       placeholder: |
         A clear and concise description of what you expected to happen.
         EG: The code should compile without any errors.
@@ -117,7 +117,7 @@ body:
     attributes:
       label: Steps to reproduce
       description: |
-        Provide a clear & concise description of how to reproduce the bug.
+        Provide a clear and concise description of how to reproduce the bug.
         Please include any code that is required to reproduce the bug.
       placeholder: |
         A clear and concise description of how to reproduce the bug.
