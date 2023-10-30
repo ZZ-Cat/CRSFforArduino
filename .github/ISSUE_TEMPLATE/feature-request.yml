@@ -1,6 +1,6 @@
 name: Submit a feature request
 description: Suggest an idea for CRSF for Arduino to help make it better.
-labels: ["✨️ Enhancement ✨️"]
+labels: ["✨️ Enhancement ✨️", "Pending 📌"]
 body:
   - type: markdown
     attributes:
