@@ -3,7 +3,7 @@
 Thank you for helping to make CRSF for Arduino better.  
 Before you can go Gung Ho on coding, there are a few house rules I need you to familiarise yourself with.
 
-## Do's & don'ts of CRSF for Arduino
+## Do's and don'ts of CRSF for Arduino
 
 ### **Do...**
 
@@ -16,10 +16,10 @@ Before you can go Gung Ho on coding, there are a few house rules I need you to f
 
 ### **Don't...**
 
-1. Use CRSF for Arduino on incompatible hardware & write me an issue about "strange behaviour".
+1. Use CRSF for Arduino on incompatible hardware and write me an issue about "strange behaviour".
 2. Ghost me for more than 14 consecutive days.
-3. Write things like "This isn't working" & refuse to provide any information &/or context beyond that.
-4. Write walls of text. Do this & watch how quickly I mark your issue as "TL;DR" & close it without any response from me.
+3. Write things like "This isn't working" and refuse to provide any information &/or context beyond that.
+4. Write walls of text. Do this and watch how quickly I mark your issue as "TL;DR" and close it without any response from me.
 5. Beg for updates. Please don't do this. If you do, I will intentionally take longer to release said update to spite you.
 6. Assume that the project is "dead" after any significant amount of time has passed.
 
