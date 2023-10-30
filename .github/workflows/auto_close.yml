@@ -12,7 +12,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: 'This issue has been closed due to inactivity in over 30 days after being marked for closure.'
           stale-pr-message: 'This pull request has been closed due to inactivity in over 30 days after being marked for closure.'
-          days-before-stale: 30
+          days-before-stale: 7
           days-before-close: 60
           stale-issue-label: 'Stale 🚮'
           exempt-issue-labels: '🚨 Help Wanted 🚨, Note to self ✏️🗒, Pending 📌, ...in progress 🚧'
