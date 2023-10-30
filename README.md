@@ -76,8 +76,8 @@ If you want bleeding edge features & want to help me out on developing CRSF for 
 4. Place the `CRSFforArduino` folder into your `libraries` directory.
 
 Pro Tip:
-If you're like me & subscribe to the "Both! Both? Both. Both is good." (as quoted by Miguel & Tulio from The Road to El Dorado) philosophy, you can put the top level `CRSFforArduino` folder into your Arduino IDE's `libraries` directory as is. Leave everything there. If you also have Visual Studio Code _and_ PlatformIO, you can go ahead & open up the _top level_ `CRSFforArduino` folder in Visual Studio Code, & PlatformIO will automatically set you up & (by rights) you should be good to go.
-This gives you the ability to load up CRSF for Arduino in both the Arduino IDE & Visual Studio Code at the same time.
+If you want to easily switch between the Arduino IDE and PlatformIO, simply put the top level `CRSFforArduino` folder into your Arduino IDE's `libraries` directory as it is and leave everything there.  
+Then, open up the _top level_ `CRSFforArduino` folder in Visual Studio Code. PlatformIO will automatically set you up and you should be good to go.
 
 ## Installation - From the Releases Section
 
