@@ -6,7 +6,7 @@
 [![Build Status](https://github.com/ZZ-Cat/CRSFforArduino/workflows/Arduino/badge.svg)](https://github.com/ZZ-Cat/CRSFforArduino/actions)
 [![Build Status](https://github.com/ZZ-Cat/CRSFforArduino/workflows/PlatformIO/badge.svg)](https://github.com/ZZ-Cat/CRSFforArduino/actions)
 
-## Written & developed by
+## Written and developed by
 
 Cassandra "ZZ Cat" Robinson
 
@@ -14,11 +14,11 @@ Cassandra "ZZ Cat" Robinson
 
 ### This is not yet ready for prime time release
 
-CRSF for Arduino is undergoing active development & is not yet ready for prime time release.
+CRSF for Arduino is undergoing active development and is not yet ready for prime time release.
 If you choose to use CRSF for Arduino in its current state, do so at your own risk.
 Some features may be broken, bugged, untested, missing, or the code as a whole may resemble a pigeon flying by swinging its head around in circles.
 
-Fear not! I am working on this library (aside from flying my helicopters & helping out with other heli-related projects) & I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
+Fear not! I am working on this library (aside from flying my helicopters and helping out with other heli-related projects) and I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
 
 If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSF for Arduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
 
@@ -41,18 +41,18 @@ If you want to use CRSF for Arduino in the Arduino IDE, you need these:
   - ESP32 targets:
     - Additional Boards URL: `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
     - [Arduino ESP32 Board Support Pack](https://github.com/espressif/arduino-esp32)
-  - SAMD21 & SAMD51 targets:
+  - SAMD21 and SAMD51 targets:
     - Additional Boards URL: `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json`
     - [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
     - [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
     - [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
-  - Teensy 3.x & Teensy 4.x targets:
+  - Teensy 3.x and Teensy 4.x targets:
     - Additional Boards URL: `https://www.pjrc.com/teensy/package_teensy_index.json`
     - [Teensy Board Support Pack](https://github.com/PaulStoffregen/cores)
 
-## Prerequisites - Visual Studio Code & PlatformIO
+## Prerequisites - Visual Studio Code and PlatformIO
 
-If you want to use CRSF for Arduino with PlatoformIO & Visual Studio Code, you need these:
+If you want to use CRSF for Arduino with PlatoformIO and Visual Studio Code, you need these:
 
 - [Visual Studio Code](https://code.visualstudio.com/) with the following extensions:
   - [C/C++ Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack), which includes:
@@ -68,10 +68,10 @@ The `platformio.ini` file contains a list of development boards that is compatib
 
 ## Installation - Straight from the Main-Trunk
 
-If you want bleeding edge features & want to help me out on developing CRSF for Arduino, this is how you go about it:
+If you want bleeding edge features and want to help me out on developing CRSF for Arduino, this is how you go about it:
 
 1. Click the green `<> code` button.
-2. Click `download zip` & save it in a convenient location on your hard drive.
+2. Click `download zip` and save it in a convenient location on your hard drive.
 3. Extract the top level `CRSFforArduino` folder - For PlatformIO users, this is all you need to do. Arduino users, continue on from here.
 4. Place the `CRSFforArduino` folder into your `libraries` directory.
 
@@ -81,20 +81,20 @@ Then, open up the _top level_ `CRSFforArduino` folder in Visual Studio Code. Pla
 
 ## Installation - From the Releases Section
 
-Currently, the only releases that are available right now are all pre-releases & are Major version 0.x.x.
+Currently, the only releases that are available right now are all pre-releases and are Major version 0.x.x.
 This means that each pre-release is a snapshot of the current developmental state of CRSF for Arduino.
-While every effort has gone into ensuring stability at the time that these releases are made, there may still be the odd gremlin or two that have stowed away somewhere & made it through my quality control.
+While every effort has gone into ensuring stability at the time that these releases are made, there may still be the odd gremlin or two that have stowed away somewhere and made it through my quality control.
 
-With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, & that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
+With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, and that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
 
 ## How to use CRSF for Arduino
 
 ### The API
 
 1. Add my library to your sketch with `#include "CRSFforArduino.h"`
-2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino()`. For now, you can leave the parentheses empty. There is ongoing work to allow you to specify what pins your receiver is connected to. For now, it defaults to pins 0 & 1 for Tx & Rx respectively.
-3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver. In case something goes wrong, `crsf.begin()` returns a boolean value of `true` if initialisation is successful, & `false` if it is not.
-4. In your `loop()`, you need to call `crsf.update()`. This handles all of the data processing (including receiving RC channels & sending telemetry) & should be called as often as possible. You no longer need to read back the return value of `crsf.update()`, as it no longer returns anything. Everything is handled internally now.
+2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino()`. For now, you can leave the parentheses empty. There is ongoing work to allow you to specify what pins your receiver is connected to. For now, it defaults to pins 0 and 1 for Tx and Rx respectively.
+3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver. In case something goes wrong, `crsf.begin()` returns a boolean value of `true` if initialisation is successful, and `false` if it is not.
+4. In your `loop()`, you need to call `crsf.update()`. This handles all of the data processing (including receiving RC channels and sending telemetry) and should be called as often as possible. You no longer need to read back the return value of `crsf.update()`, as it no longer returns anything. Everything is handled internally now.
 5. To read your RC channel values, use `crsf.readRcChannel(n)`. Here, `n` refers to your channel number from 1 to 16.
 
 If you want to read the raw RC value instead of microseconds from your RC channel, `readRcChannel()` can take an optional second argument of `true` to return the raw RC value instead of microseconds. For example, `crsf.readRcChannel(1, true)` will return the raw RC value from channel 1.
@@ -102,7 +102,7 @@ If you want to read the raw RC value instead of microseconds from your RC channe
 The example below demonstrates what your code should look like, using the instructions above:
 
 ```c++
-/* Arduino is included here for shits & giggles. */
+/* Arduino is included here for shits and giggles. */
 #include "Arduino.h"
 
 /* 1. Add Cassie Robinson's CRSFforArduino.h library. */
@@ -169,7 +169,7 @@ void loop()
 }
 ```
 
-If you want to transmit data from your GPS module as telemetry, do `crsf.telemetryWriteGPS(lat, lon, alt, spd, gCourse, numSats)`, where `lat` & `lon` are your GPS' location data in decimal degrees, `alt` is your GPS' height above sea level in centimetres (cm), `gCourse` is your GPS' course over ground (AKA "Compass/heading") in degrees, & `numSats` is your GPS' number of satellites that it is seeing.
+If you want to transmit data from your GPS module as telemetry, do `crsf.telemetryWriteGPS(lat, lon, alt, spd, gCourse, numSats)`, where `lat` and `lon` are your GPS' location data in decimal degrees, `alt` is your GPS' height above sea level in centimetres (cm), `gCourse` is your GPS' course over ground (AKA "Compass/heading") in degrees, and `numSats` is your GPS' number of satellites that it is seeing.
 You can use this function in the same context as your calling code that polls your GPS module:
 
 ```c++
@@ -208,7 +208,7 @@ void setup()
     /* 4. Initialize your GPS module. */
     gpsSerial.begin(9600);
 
-    // We need to set pins 10 & 11 to be SERCOM pins.
+    // We need to set pins 10 and 11 to be SERCOM pins.
     pinPeripheral(10, PIO_SERCOM);
     pinPeripheral(11, PIO_SERCOM);
 
@@ -313,7 +313,7 @@ Flashing is a lot simpler with PlatformIO when compared to the Arduino IDE.
 2. Flash your sketch ► `pio run -e <board_name> -t upload` in your CLI.
 
 Replace `<board_name>` with your chosen development board in the `platformio.ini` configuration file.
-For example, if you are using an Adafruit Metro M4 Express, you would use `pio run -e adafruit_metro_m4` to build your sketch & `pio run -e adafruit_metro_m4 -t upload` to flash your sketch to your Metro M4 Express.
+For example, if you are using an Adafruit Metro M4 Express, you would use `pio run -e adafruit_metro_m4` to build your sketch and `pio run -e adafruit_metro_m4 -t upload` to flash your sketch to your Metro M4 Express.
 
 ### Flashing - Arduino IDE
 
@@ -325,10 +325,10 @@ For example, if you are using an Adafruit Metro M4 Express, you would use `pio r
 ### Viewing RC data
 
 1. Open up the Serial Monitor.
-   - PlatformIO: Click the Serial Monitor tab, configure the port, baud rate & click `Start Monitoring`.
-   - PuTTY: In the configuration, select the `Serial line`, set the `Connection type` to `Serial` & set the `Speed` to your baud rate setting (default is 115200). Then, click `Open`.
+   - PlatformIO: Click the Serial Monitor tab, configure the port, baud rate and click `Start Monitoring`.
+   - PuTTY: In the configuration, select the `Serial line`, set the `Connection type` to `Serial` and set the `Speed` to your baud rate setting (default is 115200). Then, click `Open`.
    - Arduino IDE: `Tools ► Serial Monitor` from the menu or `ctrl+shift+m` on your keyboard.
-2. Your RC channel values will be there, & they will change as you move the sticks on your RC handset.
+2. Your RC channel values will be there, and they will change as you move the sticks on your RC handset.
 
 In the Arduino IDE, if you prefer to use the Serial Plotter, set `USE_SERIAL_PLOTTER` to 1 in `telemetry.ino` before flashing it to your development board.  
 Please note: Support for the Serial Plotter is experimental at this stage.
@@ -366,7 +366,7 @@ CRSF for Arduino is compatible with these development boards:
   - SparkFun ESP32 Thing Plus
   - SparkFun ESP32-S2 Thing Plus
 - SAMD21 based boards:
-  - Adafruit Feather M0 & all of its variants, including the Adafruit Feather M0 Express
+  - Adafruit Feather M0 and all of its variants, including the Adafruit Feather M0 Express
   - Adafruit ItsyBitsy M0 Express
   - Adafruit Metro M0 Express
   - Adafruit QtPy M0
@@ -377,7 +377,7 @@ CRSF for Arduino is compatible with these development boards:
     - MKR GSM 1400
     - MKR NB 1500
     - MKR VIDOR 4000
-    - MKR WAN 1300 & MKR WAN 1310
+    - MKR WAN 1300 and MKR WAN 1310
     - MKR WIFI 1010
     - MKR Zero
   - Arduino Nano 33 IoT
@@ -401,7 +401,7 @@ In order for CRSF for Arduino to run, the host microcontroller _must_ meet these
 - CPU: ARM Cortex M0+ or later.
 - UART Baud Rate: 420 KB/s.
 
-If your development board is not on the list above and it meets the minimum requirements, consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) & I will work with you to add support for your development board.  
+If your development board is not on the list above and it meets the minimum requirements, consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) and I will work with you to add support for your development board.  
 You need to be available for testing functionality to ensure CRSF for Arduino is working properly, as well as helping me debug any issues that crop up.
 
 ## Compatible receivers
@@ -416,9 +416,9 @@ For wiring, here is how you do it:
 - T (or Tx) on your receiver goes to ►Rx/Pin0 on your development board. This step can catch you out, if you're not careful.
 - R (or Rx) on your reciever goes to ◄Tx/Pin1 on your development board. This step can catch you out, if you're not careful.
 
-**NB:** Some development boards (especially smaller ones) may not route the primary UART port to the default 0 & 1 pins, as these pins may be used for other purposes or they simply are not physically available to you on the device.
+**NB:** Some development boards (especially smaller ones) may not route the primary UART port to the default 0 and 1 pins, as these pins may be used for other purposes or they simply are not physically available to you on the device.
 As a workaround, CRSF for Arduino automatically selects the closest available pins that has a suitable UART port.
-You _must_ refer to your development board's documentation to determine where your default Tx & Rx pins are. These are the pins that CRSF for Arduino will use.
+You _must_ refer to your development board's documentation to determine where your default Tx and Rx pins are. These are the pins that CRSF for Arduino will use.
 
 **Regarding logic levels:**  
 The Rx and Tx lines on your receiver is 3.3 volts. _NOT_ 5 volts.  
@@ -441,7 +441,7 @@ The following telemetry data is supported:
   - Course over ground (in degrees)
   - Number of satellites
 
-## Known issues & limitations
+## Known issues and limitations
 
 - CRSF for Arduino is not compatible with AVR based microcontrollers.
   - This is because the AVR microcontrollers are simply not powerful enough to meet the minimum requirements of the CRSF protocol.
@@ -457,7 +457,7 @@ The following telemetry data is supported:
 
 ## Software license
 
-As always, I believe in freedom & I want to pass that freedom onto you.
+As always, I believe in freedom and I want to pass that freedom onto you.
 Which is why I am proud to license CRSF for Arduino to you under the [GNU GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).
 
 ## Attributions
@@ -470,9 +470,9 @@ I give credit where credit is due. Because CRSF for Arduino isn't entirely my ow
     - [License](https://github.com/ExpressLRS/ExpressLRS/blob/master/LICENSE)
     - [Source Code](https://github.com/ExpressLRS/ExpressLRS)
     - [Website](https://www.expresslrs.org/3.0/)
-  - [Team BlackSheep FPV](https://github.com/tbs-fpv) - The folks behind the CRSF protocol that both ExpressLRS & CRSF for Arduino uses.
+  - [Team BlackSheep FPV](https://github.com/tbs-fpv) - The folks behind the CRSF protocol that both ExpressLRS and CRSF for Arduino uses.
   - [This issue](https://github.com/tbs-fpv/freedomtx/issues/26) on [FreedomTX's repository.](https://github.com/tbs-fpv/freedomtx/issues/26)
-    - This gets a mention here, because I will benefit _greatly_ from an officially documented public repository for the CRSF protocol. The evolution of the protocol itself will help shape CRSF for Arduino, & I will be able to refer to that in addition to my references here.
+    - This gets a mention here, because I will benefit _greatly_ from an officially documented public repository for the CRSF protocol. The evolution of the protocol itself will help shape CRSF for Arduino, and I will be able to refer to that in addition to my references here.
 - References for CRSF for Arduino
   - [BetaFlight](https://github.com/betaflight)
     - [Development Team](https://github.com/orgs/betaflight/people)
