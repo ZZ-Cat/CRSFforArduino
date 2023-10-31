@@ -1,6 +1,6 @@
 name: Submit a feature request
 description: Suggest an idea for CRSF for Arduino to help make it better.
-labels: ["✨️ Enhancement ✨️"]
+labels: ["✨️ Enhancement ✨️", "Pending 📌"]
 body:
   - type: markdown
     attributes:
@@ -19,21 +19,21 @@ body:
   - type: textarea
     attributes:
       label: Is your feature request related to a problem?
-      description: Please provide a clear & concise description of what the problem is.
+      description: Please provide a clear and concise description of what the problem is.
       placeholder: I'm always frustrated when [...]
     validations:
       required: true
   - type: textarea
     attributes:
       label: Describe the solution you'd like
-      description: Please provide a clear & concise description of what you want to happen.
+      description: Please provide a clear and concise description of what you want to happen.
       placeholder: I'd like to be able to [...]
     validations:
       required: true
   - type: textarea
     attributes:
       label: Describe alternatives you've considered
-      description: Please provide a clear & concise description of any alternative solutions or features you've considered.
+      description: Please provide a clear and concise description of any alternative solutions or features you've considered.
       placeholder: |
         I have considered [...]
         But it will not work because [...]

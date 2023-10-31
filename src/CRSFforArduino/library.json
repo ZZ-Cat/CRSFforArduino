@@ -1,0 +1,46 @@
+{
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "CRSFforArduino",
+    "version": "0.5.0",
+    "description": "Arduino library for Crossfire protocol",
+    "keywords": [
+        "adafruit",
+        "arduino",
+        "communication",
+        "crossfire",
+        "crsf",
+        "elrs",
+        "expresslrs",
+        "tbs",
+        "telemetry",
+        "protocol",
+        "remote control",
+        "rc"
+    ],
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/ZZ-Cat/CRSFforArduino"
+    },
+    "authors": [
+        {
+            "name": "Cassandra \"ZZ Cat\" Robinson",
+            "email": "nicad.heli.flier@gmail.com",
+            "maintainer": true
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+    "frameworks": "arduino",
+    "platforms": [
+        "atmelsam",
+        "espressif32",
+        "teensy"
+    ],
+    "headers": [
+        "Arduino.h",
+        "CRSFforArduino.h"
+    ],
+    "dependencies":
+    {
+    }
+}
