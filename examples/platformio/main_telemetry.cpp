@@ -53,7 +53,7 @@ float longitude = 174.9497131419602F; // Longitude is in decimal degrees.
 float altitude = 100.0F;              // Altitude is in centimetres.
 float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
-uint8_t satellites = 4;
+uint8_t satellites = 7;               // 7 satellites are in view (implies a 3D fix).
 
 CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
 
