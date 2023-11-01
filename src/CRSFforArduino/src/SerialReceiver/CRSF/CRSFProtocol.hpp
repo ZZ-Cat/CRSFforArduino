@@ -137,7 +137,7 @@ namespace crsfProtocol
     typedef enum
     {
         CRSF_TELEMETRY_FRAME_START_INDEX = 0,
-        // CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
+        CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
         // CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
         CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
         // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
@@ -184,6 +184,14 @@ namespace crsfProtocol
         frameDefinition_t frame;
     } frame_t;
 
+    // Attitude Data to pass to the telemetry frame.
+    typedef struct attitudeData_s
+    {
+        int16_t roll;  // Roll angle in radians.
+        int16_t pitch; // Pitch angle in radians.
+        int16_t yaw;   // Yaw angle in radians.
+    } attitudeData_t;
+
     // Battery Sensor Data to pass to the telemetry frame.
     typedef struct batterySensorData_s
     {
@@ -207,6 +215,7 @@ namespace crsfProtocol
     // Struct to hold data for the telemetry frame.
     typedef struct telemetryData_s
     {
+        attitudeData_t attitude;
         batterySensorData_t battery;
         gpsData_t gps;
     } telemetryData_t;

@@ -74,6 +74,18 @@ namespace sketchLayer
     }
 
     /**
+     * @brief Sends a CRSF Telemetry Frame with the current attitude data.
+     * 
+     * @param roll In radians * 10 (eg 1.5 radians = 15).
+     * @param pitch In radians * 10 (eg 1.5 radians = 15).
+     * @param yaw In radians * 10 (eg 1.5 radians = 15).
+     */
+    void CRSFforArduino::telemetryWriteAttitude(float roll, float pitch, float yaw)
+    {
+        _serialReceiver->telemetryWriteAttitude(roll, pitch, yaw);
+    }
+
+    /**
      * @brief Sends a CRSF Telemetry Frame with the current battery data.
      * 
      * @param voltage In millivolts * 100 (eg 3.8V = 380.0F).

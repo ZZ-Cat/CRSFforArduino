@@ -240,6 +240,11 @@ namespace serialReceiver
         return (uint16_t)((rc * 0.62477120195241F) + 881);
     }
 
+    void SerialReceiver::telemetryWriteAttitude(float roll, float pitch, float yaw)
+    {
+        telemetry->setAttitudeData(roll, pitch, yaw);
+    }
+
     void SerialReceiver::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
     {
         telemetry->setBatteryData(voltage, current, fuel, percent);

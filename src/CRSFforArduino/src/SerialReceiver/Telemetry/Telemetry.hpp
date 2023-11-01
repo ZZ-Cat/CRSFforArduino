@@ -42,6 +42,7 @@
 
 namespace serialReceiver
 {
+#define USE_ATTITUDE_TELEMETRY 1 // Set USE_ATTITUDE_TELEMETRY to 1 to enable attitude telemetry.
 #define USE_BATTERY_TELEMETRY 1 // Set USE_BATTERY_TELEMETRY to 1 to enable battery telemetry.
 #define USE_GPS_TELEMETRY     1 // Set USE_GPS_TELEMETRY to 1 to enable GPS telemetry.
 
@@ -60,7 +61,7 @@ namespace serialReceiver
 
         bool update();
 
-        // void setAttitudeData(float roll, float pitch, float yaw);
+        void setAttitudeData(float roll, float pitch, float yaw);
         // void setBaroAltitudeData(float altitude);
         void setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent);
         // void setFlightModeData(const char *flightMode);
@@ -75,7 +76,7 @@ namespace serialReceiver
         crsfProtocol::telemetryData_t _telemetryData;
 
         void _initialiseFrame();
-        // void _appendAttitudeData();
+        void _appendAttitudeData();
         // void _appendBaroAltitudeData();
         void _appendBatterySensorData();
         // void _appendFlightModeData();

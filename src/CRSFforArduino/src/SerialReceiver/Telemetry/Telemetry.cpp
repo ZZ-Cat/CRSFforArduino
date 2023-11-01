@@ -47,6 +47,9 @@ namespace serialReceiver
         SerialBuffer::reset();
 
         uint8_t index = 0;
+#if USE_ATTITUDE_TELEMETRY > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX);
+#endif
 
 #if USE_BATTERY_TELEMETRY > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
@@ -71,6 +74,16 @@ namespace serialReceiver
         static uint8_t scheduleIndex = 0;
         const uint8_t currentSchedule = _telemetryFrameSchedule[scheduleIndex];
 
+#if USE_ATTITUDE_TELEMETRY > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX))
+        {
+            _initialiseFrame();
+            _appendAttitudeData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
 #if USE_BATTERY_TELEMETRY > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX))
         {
@@ -94,6 +107,19 @@ namespace serialReceiver
         scheduleIndex = (scheduleIndex + 1) % _telemetryFrameScheduleCount;
 
         return sendFrame;
+    }
+
+    void Telemetry::setAttitudeData(float roll, float pitch, float yaw)
+    {
+#if USE_ATTITUDE_TELEMETRY > 0
+        _telemetryData.attitude.roll = (roll * 1000.0F);
+        _telemetryData.attitude.pitch = (pitch * 1000.0F);
+        _telemetryData.attitude.yaw = (yaw * 1000.0F);
+#else
+        (void)roll;
+        (void)pitch;
+        (void)yaw;
+#endif
     }
 
     void Telemetry::setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent)
@@ -142,6 +168,16 @@ namespace serialReceiver
     {
         SerialBuffer::reset();
         SerialBuffer::writeU8(CRSF_SYNC_BYTE);
+    }
+
+    void Telemetry::_appendAttitudeData()
+    {
+        SerialBuffer::writeU8(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_ATTITUDE);
+
+        SerialBuffer::writeU16BE(_telemetryData.attitude.pitch);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.roll);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.yaw);
     }
 
     void Telemetry::_appendBatterySensorData()

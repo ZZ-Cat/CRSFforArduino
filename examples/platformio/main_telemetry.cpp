@@ -102,6 +102,27 @@ void loop()
     // Use timeNow to store the current time in milliseconds.
     timeNow = millis();
 
+    /* Attitude Telemetry
+
+    Normally, you would read the raw attitude data from your IMU and convert it to roll, pitch and yaw values.
+    For the purposes of this example, we will just update the following with random values:
+    - Roll
+    - Pitch
+    - Yaw
+
+    These values are updated at a rate of 100 Hz.
+    */
+
+    /* Update the attitude telemetry at a rate of 100 Hz. */
+    static unsigned long lastAttitudeUpdate = 0;
+    if (timeNow - lastAttitudeUpdate >= 10)
+    {
+        lastAttitudeUpdate = timeNow;
+
+        /* Update the attitude telemetry with the new values. */
+        crsf.telemetryWriteAttitude(10.0F, 0.0F, 0.0F);
+    }
+
     /* Battery Telemetry
 
     Normally, you read the battery voltage and current from two analog pins on your Arduino board or from a
