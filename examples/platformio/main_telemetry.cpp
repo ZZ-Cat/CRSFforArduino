@@ -42,9 +42,9 @@ To work around this, preprocessor directives are used to exclude the main_teleme
 uint32_t timeNow = 0;
 
 /* Initialise the attitude telemetry with default values. */
-int16_t roll = -200;  // Roll is in decided degrees (eg -200 = -20.0 degrees).
+int16_t roll = -200; // Roll is in decided degrees (eg -200 = -20.0 degrees).
 int16_t pitch = 150; // Pitch is in decided degrees (eg 150 = 15.0 degrees).
-uint16_t yaw = 2758;  // Yaw is in decided degrees (eg 2758 = 275.8 degrees).
+uint16_t yaw = 2758; // Yaw is in decided degrees (eg 2758 = 275.8 degrees).
 
 /* Initialise the battery sensor telemetry with default values. */
 float batteryVoltage = 385.0F; // Battery voltage is in millivolts (mV * 100).

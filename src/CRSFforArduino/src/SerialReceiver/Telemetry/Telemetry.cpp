@@ -30,10 +30,10 @@ using namespace crsfProtocol;
 
 namespace serialReceiver
 {
-#define PI 3.1415926535897932384626433832795F
+#define PI  3.1415926535897932384626433832795F
 #define RAD PI / 180.0F
 
-    Telemetry::Telemetry():
+    Telemetry::Telemetry() :
         CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
