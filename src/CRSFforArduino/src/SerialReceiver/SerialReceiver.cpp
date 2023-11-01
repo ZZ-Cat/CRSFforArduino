@@ -240,7 +240,7 @@ namespace serialReceiver
         return (uint16_t)((rc * 0.62477120195241F) + 881);
     }
 
-    void SerialReceiver::telemetryWriteAttitude(float roll, float pitch, float yaw)
+    void SerialReceiver::telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw)
     {
         telemetry->setAttitudeData(roll, pitch, yaw);
     }

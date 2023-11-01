@@ -30,7 +30,10 @@ using namespace crsfProtocol;
 
 namespace serialReceiver
 {
-    Telemetry::Telemetry() :
+#define PI 3.1415926535897932384626433832795F
+#define RAD PI / 180.0F
+
+    Telemetry::Telemetry():
         CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
@@ -109,12 +112,12 @@ namespace serialReceiver
         return sendFrame;
     }
 
-    void Telemetry::setAttitudeData(float roll, float pitch, float yaw)
+    void Telemetry::setAttitudeData(int16_t roll, int16_t pitch, int16_t yaw)
     {
 #if USE_ATTITUDE_TELEMETRY > 0
-        _telemetryData.attitude.roll = (roll * 1000.0F);
-        _telemetryData.attitude.pitch = (pitch * 1000.0F);
-        _telemetryData.attitude.yaw = (yaw * 1000.0F);
+        _telemetryData.attitude.roll = _decidegreeToRadians(roll);
+        _telemetryData.attitude.pitch = -_decidegreeToRadians(pitch);
+        _telemetryData.attitude.yaw = _decidegreeToRadians(yaw);
 #else
         (void)roll;
         (void)pitch;
@@ -162,6 +165,20 @@ namespace serialReceiver
         size_t length = SerialBuffer::getLength();
 
         db->write(buffer, length);
+    }
+
+    int16_t Telemetry::_decidegreeToRadians(int16_t decidegrees)
+    {
+        /* convert angle in decidegree to radians/10000 with reducing angle to +/-180 degree range */
+        while (decidegrees > 18000)
+        {
+            decidegrees -= 36000;
+        }
+        while (decidegrees < -18000)
+        {
+            decidegrees += 36000;
+        }
+        return (int16_t)(RAD * 1000.0F * decidegrees);
     }
 
     void Telemetry::_initialiseFrame()

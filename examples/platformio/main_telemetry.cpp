@@ -41,6 +41,11 @@ To work around this, preprocessor directives are used to exclude the main_teleme
 
 uint32_t timeNow = 0;
 
+/* Initialise the attitude telemetry with default values. */
+int16_t roll = -200;  // Roll is in decided degrees (eg -200 = -20.0 degrees).
+int16_t pitch = 150; // Pitch is in decided degrees (eg 150 = 15.0 degrees).
+uint16_t yaw = 2758;  // Yaw is in decided degrees (eg 2758 = 275.8 degrees).
+
 /* Initialise the battery sensor telemetry with default values. */
 float batteryVoltage = 385.0F; // Battery voltage is in millivolts (mV * 100).
 float batteryCurrent = 150.0F; // Battery current is in milliamps (mA * 10).
@@ -120,7 +125,7 @@ void loop()
         lastAttitudeUpdate = timeNow;
 
         /* Update the attitude telemetry with the new values. */
-        crsf.telemetryWriteAttitude(10.0F, 0.0F, 0.0F);
+        crsf.telemetryWriteAttitude(roll, pitch, yaw);
     }
 
     /* Battery Telemetry
