@@ -86,6 +86,17 @@ namespace sketchLayer
     }
 
     /**
+     * @brief Sends a CRSF Telemetry Frame with the current barometric altitude data.
+     * 
+     * @param altitude In decimeters (eg 1m = 10)
+     * @param vario In centimetres per second (eg 1m/s = 100)
+     */
+    void CRSFforArduino::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
+    {
+        _serialReceiver->telemetryWriteBaroAltitude(altitude, vario);
+    }
+
+    /**
      * @brief Sends a CRSF Telemetry Frame with the current battery data.
      * 
      * @param voltage In millivolts * 100 (eg 3.8V = 380.0F).

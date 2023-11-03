@@ -245,6 +245,11 @@ namespace serialReceiver
         telemetry->setAttitudeData(roll, pitch, yaw);
     }
 
+    void SerialReceiver::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
+    {
+        telemetry->setBaroAltitudeData(altitude, vario);
+    }
+
     void SerialReceiver::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
     {
         telemetry->setBatteryData(voltage, current, fuel, percent);

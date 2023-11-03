@@ -54,6 +54,10 @@ namespace serialReceiver
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX);
 #endif
 
+#if USE_BARO_ALT_TELEMETRY > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX);
+#endif
+
 #if USE_BATTERY_TELEMETRY > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
 #endif
@@ -82,6 +86,16 @@ namespace serialReceiver
         {
             _initialiseFrame();
             _appendAttitudeData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if USE_BARO_ALT_TELEMETRY > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX))
+        {
+            _initialiseFrame();
+            _appendBaroAltitudeData();
             _finaliseFrame();
             sendFrame = true;
         }
@@ -122,6 +136,17 @@ namespace serialReceiver
         (void)roll;
         (void)pitch;
         (void)yaw;
+#endif
+    }
+
+    void Telemetry::setBaroAltitudeData(uint16_t altitude, int16_t vario)
+    {
+#if USE_BARO_ALT_TELEMETRY > 0
+        _telemetryData.baroAltitude.altitude = altitude + 10000;
+        _telemetryData.baroAltitude.vario = vario;
+#else
+        (void)altitude;
+        (void)vario;
 #endif
     }
 
@@ -195,6 +220,15 @@ namespace serialReceiver
         SerialBuffer::writeU16BE(_telemetryData.attitude.pitch);
         SerialBuffer::writeU16BE(_telemetryData.attitude.roll);
         SerialBuffer::writeU16BE(_telemetryData.attitude.yaw);
+    }
+
+    void Telemetry::_appendBaroAltitudeData()
+    {
+        SerialBuffer::writeU8(CRSF_FRAME_BARO_ALTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_BARO_ALTITUDE);
+
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.altitude);
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.vario);
     }
 
     void Telemetry::_appendBatterySensorData()

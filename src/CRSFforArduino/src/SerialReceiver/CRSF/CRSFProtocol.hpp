@@ -138,7 +138,7 @@ namespace crsfProtocol
     {
         CRSF_TELEMETRY_FRAME_START_INDEX = 0,
         CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
-        // CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
+        CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
         CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
         // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
         CRSF_TELEMETRY_FRAME_GPS_INDEX,
@@ -192,6 +192,13 @@ namespace crsfProtocol
         int16_t yaw;   // Yaw angle in radians.
     } attitudeData_t;
 
+    // Barometric Altitude and Variometer Data to pass to the telemetry frame.
+    typedef struct baroAltitudeData_s
+    {
+        uint16_t altitude; // Altitude in decimeters + 10000 or metres if high bit is set.
+        int16_t vario;     // Variometer in centimeters per second.
+    } baroAltitudeData_t;
+
     // Battery Sensor Data to pass to the telemetry frame.
     typedef struct batterySensorData_s
     {
@@ -216,6 +223,7 @@ namespace crsfProtocol
     typedef struct telemetryData_s
     {
         attitudeData_t attitude;
+        baroAltitudeData_t baroAltitude;
         batterySensorData_t battery;
         gpsData_t gps;
     } telemetryData_t;
