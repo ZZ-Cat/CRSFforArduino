@@ -42,11 +42,6 @@
 
 namespace serialReceiver
 {
-#define USE_ATTITUDE_TELEMETRY 1 // Set USE_ATTITUDE_TELEMETRY to 1 to enable attitude telemetry.
-#define USE_BARO_ALT_TELEMETRY 1 // Set USE_BARO_ALT_TELEMETRY to 1 to enable barometric altitude telemetry.
-#define USE_BATTERY_TELEMETRY  1 // Set USE_BATTERY_TELEMETRY to 1 to enable battery telemetry.
-#define USE_GPS_TELEMETRY      1 // Set USE_GPS_TELEMETRY to 1 to enable GPS telemetry.
-
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
 #ifndef USE_DMA
         ,

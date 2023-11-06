@@ -26,7 +26,9 @@
 
 #pragma once
 
+#include "CFA_Config.hpp"
 #include "CompatibilityTable/CompatibilityTable.hpp"
 #include "DevBoards/DevBoards.hpp"
 
+using namespace crsfForArduinoConfig;
 using namespace hal;

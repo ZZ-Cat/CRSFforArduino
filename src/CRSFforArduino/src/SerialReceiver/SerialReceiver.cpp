@@ -36,7 +36,10 @@ namespace serialReceiver
         _txPin = 1;
         board = new DevBoards();
         ct = new CompatibilityTable();
+
+#if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#endif
     }
 
     SerialReceiver::SerialReceiver(uint8_t rxPin, uint8_t txPin)
@@ -45,7 +48,10 @@ namespace serialReceiver
         _txPin = txPin;
         board = new DevBoards();
         ct = new CompatibilityTable();
+
+#if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#endif
     }
 
     SerialReceiver::~SerialReceiver()
@@ -54,7 +60,10 @@ namespace serialReceiver
         _txPin = 0xffu;
         delete board;
         delete ct;
+
+#if CRSF_RC_ENABLED > 0
         delete[] _rcChannels;
+#endif
     }
 
     bool SerialReceiver::begin()
@@ -63,19 +72,25 @@ namespace serialReceiver
         Serial.print("[Serial Receiver | INFO]: Initialising... ");
         // board->enterCriticalSection();
 
+#if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
         // Initialize the RC Channels.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
         for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
         {
+#if CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
             if (i == RC_CHANNEL_THROTTLE)
             {
-                _rcChannels[i] = 172;
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
             }
             else
             {
-                _rcChannels[i] = 992;
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
             }
+#else
+            _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+#endif
         }
+#endif
 
         // Check if the board is compatible.
         if (ct->isDevboardCompatible(ct->getDevboardName()))
@@ -109,6 +124,7 @@ namespace serialReceiver
             board->setUART(0, _rxPin, _txPin);
             board->begin(BAUD_RATE);
 
+#if CRSF_TELEMETRY_ENABLED > 0
             // Initialise telemetry.
             telemetry = new Telemetry();
 
@@ -123,6 +139,7 @@ namespace serialReceiver
             }
 
             telemetry->begin();
+#endif
 
             board->exitCriticalSection();
 
@@ -166,15 +183,18 @@ namespace serialReceiver
             delete crsf;
         }
 
+#if CRSF_TELEMETRY_ENABLED > 0
         // Check if telemetry was initialized.
         if (telemetry != nullptr)
         {
             telemetry->end();
             delete telemetry;
         }
+#endif
         board->exitCriticalSection();
     }
 
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
     void SerialReceiver::processFrames()
     {
         while (board->available() > 0)
@@ -183,18 +203,24 @@ namespace serialReceiver
             {
                 flushRemainingFrames();
 
+#if CRSF_TELEMETRY_ENABLED > 0
                 // Check if it is time to send telemetry.
                 if (telemetry->update())
                 {
                     telemetry->sendTelemetryData(board);
                 }
+#endif
             }
         }
 
+#if CRSF_RC_ENABLED > 0
         // Update the RC Channels.
         crsf->getRcChannels(_rcChannels);
+#endif
     }
+#endif
 
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
     void SerialReceiver::flushRemainingFrames()
     {
         board->flush();
@@ -203,7 +229,9 @@ namespace serialReceiver
             board->read();
         }
     }
+#endif
 
+#if CRSF_RC_ENABLED > 0
     uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
     {
         if (channel <= 15)
@@ -239,24 +267,35 @@ namespace serialReceiver
     {
         return (uint16_t)((rc * 0.62477120195241F) + 881);
     }
+#endif
 
+#if CRSF_TELEMETRY_ENABLED > 0
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
     void SerialReceiver::telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw)
     {
         telemetry->setAttitudeData(roll, pitch, yaw);
     }
+#endif
 
+#if CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
     void SerialReceiver::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
     {
         telemetry->setBaroAltitudeData(altitude, vario);
     }
+#endif
 
+#if CRSF_TELEMETRY_BATTERY_ENABLED > 0
     void SerialReceiver::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
     {
         telemetry->setBatteryData(voltage, current, fuel, percent);
     }
+#endif
 
+#if CRSF_TELEMETRY_GPS_ENABLED > 0
     void SerialReceiver::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
     {
         telemetry->setGPSData(latitude, longitude, altitude, speed, groundCourse, satellites);
     }
+#endif
+#endif
 } // namespace serialReceiver

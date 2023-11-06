@@ -47,25 +47,42 @@ namespace serialReceiver
         bool begin();
         void end();
 
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         void processFrames();
+#endif
 
+#if CRSF_RC_ENABLED > 0
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
+#endif
 
+#if CRSF_TELEMETRY_ENABLED > 0
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+#endif
+
 
       private:
         CRSF *crsf;
         CompatibilityTable *ct;
         DevBoards *board;
+
+#if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;
+#endif
+        
         uint8_t _rxPin = 0xffu;
         uint8_t _txPin = 0xffu;
+
+#if CRSF_RC_ENABLED > 0
         uint16_t *_rcChannels;
+#endif
+
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         void flushRemainingFrames();
+#endif
     };
 } // namespace serialReceiver

@@ -30,47 +30,91 @@ namespace sketchLayer
 {
     CRSFforArduino::CRSFforArduino()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         _serialReceiver = new SerialReceiver();
+#endif
     }
 
     CRSFforArduino::CRSFforArduino(uint8_t rxPin, uint8_t txPin)
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         _serialReceiver = new SerialReceiver(rxPin, txPin);
+#else
+        // Prevent compiler warnings
+        (void)rxPin;
+        (void)txPin;
+#endif
     }
 
     CRSFforArduino::~CRSFforArduino()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         delete _serialReceiver;
+#endif
     }
 
     bool CRSFforArduino::begin()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         return _serialReceiver->begin();
+#else
+        // Return false if RC is disabled
+        return false;
+#endif
     }
 
     void CRSFforArduino::end()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         _serialReceiver->end();
+#endif
     }
 
     void CRSFforArduino::update()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         _serialReceiver->processFrames();
+#endif
     }
 
     uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
     {
+#if CRSF_RC_ENABLED > 0
         return _serialReceiver->readRcChannel(channel - 1, raw);
+#else
+        // Prevent compiler warnings
+        (void)channel;
+        (void)raw;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
     }
 
     uint16_t CRSFforArduino::getChannel(uint8_t channel)
     {
+#if CRSF_RC_ENABLED > 0
         return _serialReceiver->getChannel(channel - 1);
+#else
+        // Prevent compiler warnings
+        (void)channel;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
     }
 
     uint16_t CRSFforArduino::rcToUs(uint16_t rc)
     {
+#if CRSF_RC_ENABLED > 0
         return _serialReceiver->rcToUs(rc);
+#else
+        // Prevent compiler warnings
+        (void)rc;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
     }
 
     /**
@@ -82,7 +126,14 @@ namespace sketchLayer
      */
     void CRSFforArduino::telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw)
     {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
         _serialReceiver->telemetryWriteAttitude(roll, pitch, yaw);
+#else
+        // Prevent compiler warnings
+        (void)roll;
+        (void)pitch;
+        (void)yaw;
+#endif
     }
 
     /**
@@ -93,7 +144,13 @@ namespace sketchLayer
      */
     void CRSFforArduino::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
     {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
         _serialReceiver->telemetryWriteBaroAltitude(altitude, vario);
+#else
+        // Prevent compiler warnings
+        (void)altitude;
+        (void)vario;
+#endif
     }
 
     /**
@@ -106,7 +163,15 @@ namespace sketchLayer
      */
     void CRSFforArduino::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
     {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
         _serialReceiver->telemetryWriteBattery(voltage, current, fuel, percent);
+#else
+        // Prevent compiler warnings
+        (void)voltage;
+        (void)current;
+        (void)fuel;
+        (void)percent;
+#endif
     }
 
     /**
@@ -121,6 +186,16 @@ namespace sketchLayer
      */
     void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
     {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _serialReceiver->telemetryWriteGPS(latitude, longitude, altitude, speed, groundCourse, satellites);
+#else
+        // Prevent compiler warnings
+        (void)latitude;
+        (void)longitude;
+        (void)altitude;
+        (void)speed;
+        (void)groundCourse;
+        (void)satellites;
+#endif
     }
 } // namespace sketchLayer

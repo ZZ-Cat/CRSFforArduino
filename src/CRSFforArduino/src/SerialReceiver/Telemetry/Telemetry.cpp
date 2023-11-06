@@ -25,6 +25,7 @@
  */
 
 #include "Telemetry.hpp"
+#include "CFA_Config.hpp"
 
 using namespace crsfProtocol;
 
@@ -50,19 +51,19 @@ namespace serialReceiver
         SerialBuffer::reset();
 
         uint8_t index = 0;
-#if USE_ATTITUDE_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_ATTITUDE_TELEMETRY_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX);
 #endif
 
-#if USE_BARO_ALT_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX);
 #endif
 
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
 #endif
 
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX);
 #endif
 
@@ -76,12 +77,13 @@ namespace serialReceiver
 
     bool Telemetry::update()
     {
+#if CRSF_TELEMETRY_ENABLED > 0
         bool sendFrame = false;
 
         static uint8_t scheduleIndex = 0;
         const uint8_t currentSchedule = _telemetryFrameSchedule[scheduleIndex];
 
-#if USE_ATTITUDE_TELEMETRY > 0
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX))
         {
             _initialiseFrame();
@@ -91,7 +93,7 @@ namespace serialReceiver
         }
 #endif
 
-#if USE_BARO_ALT_TELEMETRY > 0
+#if CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX))
         {
             _initialiseFrame();
@@ -101,7 +103,7 @@ namespace serialReceiver
         }
 #endif
 
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_BATTERY_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX))
         {
             _initialiseFrame();
@@ -111,7 +113,7 @@ namespace serialReceiver
         }
 #endif
 
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_GPS_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX))
         {
             _initialiseFrame();
@@ -124,11 +126,14 @@ namespace serialReceiver
         scheduleIndex = (scheduleIndex + 1) % _telemetryFrameScheduleCount;
 
         return sendFrame;
+#else
+        return false;
+#endif
     }
 
     void Telemetry::setAttitudeData(int16_t roll, int16_t pitch, int16_t yaw)
     {
-#if USE_ATTITUDE_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
         _telemetryData.attitude.roll = _decidegreeToRadians(roll);
         _telemetryData.attitude.pitch = -_decidegreeToRadians(pitch);
         _telemetryData.attitude.yaw = _decidegreeToRadians(yaw);
@@ -141,7 +146,7 @@ namespace serialReceiver
 
     void Telemetry::setBaroAltitudeData(uint16_t altitude, int16_t vario)
     {
-#if USE_BARO_ALT_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
         _telemetryData.baroAltitude.altitude = altitude + 10000;
         _telemetryData.baroAltitude.vario = vario;
 #else
@@ -152,7 +157,7 @@ namespace serialReceiver
 
     void Telemetry::setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent)
     {
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
         _telemetryData.battery.voltage = (voltage + 5) / 10;
         _telemetryData.battery.current = current / 10;
         _telemetryData.battery.capacity = capacity;
@@ -167,7 +172,7 @@ namespace serialReceiver
 
     void Telemetry::setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites)
     {
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _telemetryData.gps.latitude = latitude * 10000000;
         _telemetryData.gps.longitude = longitude * 10000000;
         _telemetryData.gps.altitude = (constrain(altitude, 0, 5000 * 100) / 100) + 1000;
