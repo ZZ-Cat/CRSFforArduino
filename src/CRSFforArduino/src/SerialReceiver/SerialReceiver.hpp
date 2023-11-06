@@ -64,7 +64,6 @@ namespace serialReceiver
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 #endif
 
-
       private:
         CRSF *crsf;
         CompatibilityTable *ct;
@@ -73,7 +72,7 @@ namespace serialReceiver
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;
 #endif
-        
+
         uint8_t _rxPin = 0xffu;
         uint8_t _txPin = 0xffu;
 

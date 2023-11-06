@@ -36,8 +36,8 @@ namespace crsfForArduinoConfig
 /* CRSFforArduino version
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION "0.5.0"
-#define CRSFFORARDUINO_VERSION_DATE "2023-11-1"
+#define CRSFFORARDUINO_VERSION       "0.5.0"
+#define CRSFFORARDUINO_VERSION_DATE  "2023-11-1"
 #define CRSFFORARDUINO_VERSION_MAJOR 0
 #define CRSFFORARDUINO_VERSION_MINOR 5
 #define CRSFFORARDUINO_VERSION_PATCH 0
@@ -50,12 +50,12 @@ See https://semver.org/ for more information. */
 - RC_CHANNEL_CENTER: The center value of an RC channel.
 - RC_INITIALISE_CHANNELS: Whether or not to initialise the RC channels to their center values.
 - RC_INITIALISE_THROTTLECHANNEL: When enabled, the throttle channel is set to its minimum value. */
-#define CRSF_RC_ENABLED 1
-#define CRSF_RC_MAX_CHANNELS 16
-#define CRSF_RC_CHANNEL_MIN 172
-#define CRSF_RC_CHANNEL_MAX 1811
-#define CRSF_RC_CHANNEL_CENTER 992
-#define CRSF_RC_INITIALISE_CHANNELS 1
+#define CRSF_RC_ENABLED                    1
+#define CRSF_RC_MAX_CHANNELS               16
+#define CRSF_RC_CHANNEL_MIN                172
+#define CRSF_RC_CHANNEL_MAX                1811
+#define CRSF_RC_CHANNEL_CENTER             992
+#define CRSF_RC_INITIALISE_CHANNELS        1
 #define CRSF_RC_INITIALISE_THROTTLECHANNEL 1
 
 /* Telemetry Options
@@ -65,15 +65,15 @@ See https://semver.org/ for more information. */
 - TELEMETRY_BATTERY_ENABLED: Enables or disables battery telemetry output.
 - TELEMETRY_GPS_ENABLED: Enables or disables GPS telemetry output.
 - TELEMETRY_SIMULATE_ARBITRARY_VALUES: When enabled, arbitrary values are sent for telemetry. */
-#define CRSF_TELEMETRY_ENABLED 1
-#define CRSF_TELEMETRY_ATTITUDE_ENABLED 1
+#define CRSF_TELEMETRY_ENABLED              1
+#define CRSF_TELEMETRY_ATTITUDE_ENABLED     1
 #define CRSF_TELEMETRY_BAROALTITUDE_ENABLED 1
-#define CRSF_TELEMETRY_BATTERY_ENABLED 1
-#define CRSF_TELEMETRY_GPS_ENABLED 1
+#define CRSF_TELEMETRY_BATTERY_ENABLED      1
+#define CRSF_TELEMETRY_GPS_ENABLED          1
 
 /* Debug Options
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port. */
-#define CRSF_DEBUG_ENABLED 0
+#define CRSF_DEBUG_ENABLED     0
 #define CRSF_DEBUG_SERIAL_PORT Serial
 
 /* Compiler warning if both RC and Telemetry are disabled. */
@@ -84,7 +84,7 @@ See https://semver.org/ for more information. */
 /* Static assert if all telemetry options are disabled.
 Better to use CRSF_TELEMETRY_ENABLED instead. */
 #if CRSF_TELEMETRY_ATTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BATTERY_ENABLED == 0 && CRSF_TELEMETRY_GPS_ENABLED == 0
-static_assert(false, "All telemetry options are disabled. Set CRSF_TELEMETRY_ENABLED to 0 to disable telemetry instead.");
+    static_assert(false, "All telemetry options are disabled. Set CRSF_TELEMETRY_ENABLED to 0 to disable telemetry instead.");
 #endif
 
 }; // namespace crsfForArduinoConfig
