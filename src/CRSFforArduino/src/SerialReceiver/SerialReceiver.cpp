@@ -68,8 +68,10 @@ namespace serialReceiver
 
     bool SerialReceiver::begin()
     {
+#if CRSF_DEBUG_ENABLED > 0
         // Debug.
-        Serial.print("[Serial Receiver | INFO]: Initialising... ");
+        CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
+#endif
         // board->enterCriticalSection();
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
@@ -99,8 +101,10 @@ namespace serialReceiver
             {
                 // board->exitCriticalSection();
 
+#if CRSF_DEBUG_ENABLED > 0
                 // Debug.
-                Serial.println("\n[Serial Receiver | ERROR]: RX and TX pins are not set.");
+                CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | ERROR]: RX and TX pins are not set.");
+#endif
                 return false;
             }
 
@@ -114,8 +118,10 @@ namespace serialReceiver
             {
                 board->exitCriticalSection();
 
+#if CRSF_DEBUG_ENABLED > 0
                 // Debug.
-                Serial.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
+                CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
+#endif
                 return false;
             }
 
@@ -133,8 +139,10 @@ namespace serialReceiver
             {
                 board->exitCriticalSection();
 
+#if CRSF_DEBUG_ENABLED > 0
                 // Debug.
-                Serial.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
+                CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
+#endif
                 return false;
             }
 
@@ -150,16 +158,20 @@ namespace serialReceiver
                 board->read();
             }
 
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            Serial.println("Done.");
+            CRSF_DEBUG_SERIAL_PORT.println("Done.");
+#endif
             return true;
         }
         else
         {
             // board->exitCriticalSection();
 
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            Serial.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
+            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
+#endif
             return false;
         }
     }
