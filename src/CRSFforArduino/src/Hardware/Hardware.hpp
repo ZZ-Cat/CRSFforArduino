@@ -26,7 +26,11 @@
 
 #pragma once
 
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "../CFA_Config.hpp"
+#endif
 #include "CompatibilityTable/CompatibilityTable.hpp"
 #include "DevBoards/DevBoards.hpp"
 

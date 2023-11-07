@@ -25,7 +25,11 @@
  */
 
 #include "Telemetry.hpp"
+#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "../../CFA_Config.hpp"
+#endif
 
 using namespace crsfProtocol;
 
