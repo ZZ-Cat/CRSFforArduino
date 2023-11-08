@@ -55,7 +55,7 @@ namespace serialReceiver
         SerialBuffer::reset();
 
         uint8_t index = 0;
-#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_ATTITUDE_TELEMETRY_ENABLED > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX);
 #endif
 
