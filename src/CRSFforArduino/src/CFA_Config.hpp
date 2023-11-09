@@ -63,12 +63,14 @@ See https://semver.org/ for more information. */
 - TELEMETRY_ATTITUDE_ENABLED: Enables or disables attitude telemetry output.
 - TELEMETRY_BAROALTITUDE_ENABLED: Enables or disables barometric altitude telemetry output.
 - TELEMETRY_BATTERY_ENABLED: Enables or disables battery telemetry output.
+- TELEMETRY_FLIGHTMODE_ENABLED: Enables or disables flight mode telemetry output.
 - TELEMETRY_GPS_ENABLED: Enables or disables GPS telemetry output.
 - TELEMETRY_SIMULATE_ARBITRARY_VALUES: When enabled, arbitrary values are sent for telemetry. */
 #define CRSF_TELEMETRY_ENABLED              1
 #define CRSF_TELEMETRY_ATTITUDE_ENABLED     1
 #define CRSF_TELEMETRY_BAROALTITUDE_ENABLED 1
 #define CRSF_TELEMETRY_BATTERY_ENABLED      1
+#define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   1
 #define CRSF_TELEMETRY_GPS_ENABLED          1
 
 /* Debug Options

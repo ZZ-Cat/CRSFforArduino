@@ -248,6 +248,23 @@ namespace genericStreamBuffer
         return 4;
     }
 
+    // Write a string
+    size_t SerialBuffer::writeString(const char *string)
+    {
+        size_t length = strlen(string);
+
+        if (bufferIndex + length > bufferSizeMax)
+        {
+            return 0;
+        }
+
+        memcpy(buffer + bufferIndex, string, length);
+        bufferIndex += length;
+        bufferLength = bufferIndex;
+
+        return length;
+    }
+
     // Get the current buffer length
     size_t SerialBuffer::getLength()
     {

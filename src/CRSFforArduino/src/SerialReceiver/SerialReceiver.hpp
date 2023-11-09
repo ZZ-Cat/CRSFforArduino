@@ -37,9 +37,27 @@
 
 namespace serialReceiver
 {
+    typedef enum flightModeId_e
+    {
+        FLIGHT_MODE_DISARMED = 0,
+        FLIGHT_MODE_ACRO,
+        FLIGHT_MODE_WAIT,
+        FLIGHT_MODE_FAILSAFE,
+        FLIGHT_MODE_GPS_RESCUE,
+        FLIGHT_MODE_PASSTHROUGH,
+        FLIGHT_MODE_ANGLE,
+        FLIGHT_MODE_HORIZON,
+        FLIGHT_MODE_AIRMODE,
+        FLIGHT_MODE_COUNT
+    } flightModeId_t;
+
+    // Function pointer for Flight Mode Callback
+    typedef void (*flightModeCallback_t)(flightModeId_t);
+
     class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
     {
-      public:
+    public:
+
         SerialReceiver();
         SerialReceiver(uint8_t rxPin, uint8_t txPin);
         virtual ~SerialReceiver();
@@ -54,7 +72,11 @@ namespace serialReceiver
 #if CRSF_RC_ENABLED > 0
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
+        uint16_t usToRc(uint16_t us);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
+        bool setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
+        void setFlightModeCallback(flightModeCallback_t callback);
+        void handleFlightMode();
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
@@ -78,6 +100,16 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         uint16_t *_rcChannels;
+
+        typedef struct flightMode_s
+        {
+            uint8_t channel = 0;
+            uint16_t min = 0;
+            uint16_t max = 0;
+        } flightMode_t;
+
+        flightMode_t *_flightModes = nullptr;
+        flightModeCallback_t _flightModeCallback = nullptr;
 #endif
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0

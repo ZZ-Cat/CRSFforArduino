@@ -45,10 +45,17 @@ namespace sketchLayer
         bool begin();
         void end();
         void update();
+
+        // RC channel functions.
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
+        // Flight mode functions.
+        bool setFlightMode(serialReceiver::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
+        void setFlightModeCallback(void (*callback)(serialReceiver::flightModeId_t flightMode));
+
+        // Telemetry functions.
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);

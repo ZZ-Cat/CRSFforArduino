@@ -39,6 +39,7 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
 #endif
     }
 
@@ -51,6 +52,7 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
 #endif
     }
 
@@ -63,6 +65,7 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         delete[] _rcChannels;
+        delete[] _flightModes;
 #endif
     }
 
@@ -278,6 +281,46 @@ namespace serialReceiver
     uint16_t SerialReceiver::rcToUs(uint16_t rc)
     {
         return (uint16_t)((rc * 0.62477120195241F) + 881);
+    }
+
+    uint16_t SerialReceiver::usToRc(uint16_t us)
+    {
+        return (uint16_t)((us - 881) / 0.62477120195241F);
+    }
+
+    bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    {
+        if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
+        {
+            _flightModes[flightMode].channel = channel;
+            _flightModes[flightMode].min = min;
+            _flightModes[flightMode].max = max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void SerialReceiver::setFlightModeCallback(flightModeCallback_t callback)
+    {
+        _flightModeCallback = callback;
+    }
+
+    void SerialReceiver::handleFlightMode()
+    {
+        if (_flightModeCallback != nullptr)
+        {
+            for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
+            {
+                if (_rcChannels[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels[_flightModes[i].channel] <= _flightModes[i].max)
+                {
+                    _flightModeCallback((flightModeId_t)i);
+                    break;
+                }
+            }
+        }
     }
 #endif
 

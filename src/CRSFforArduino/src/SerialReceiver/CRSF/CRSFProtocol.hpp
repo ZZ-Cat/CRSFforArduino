@@ -140,7 +140,7 @@ namespace crsfProtocol
         CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX,
         CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX,
         CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX,
-        // CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
+        CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX,
         CRSF_TELEMETRY_FRAME_GPS_INDEX,
         // CRSF_TELEMETRY_FRAME_HEARTBEAT_INDEX,
         // CRSF_TELEMETRY_FRAME_VARIO_INDEX,
@@ -208,6 +208,12 @@ namespace crsfProtocol
         uint8_t percent;   // Battery % remaining.
     } batterySensorData_t;
 
+    // Flight Mode Data to pass to the telemetry frame.
+    typedef struct flightModeData_s
+    {
+        char flightMode[CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE]; // Flight mode string.
+    } flightModeData_t;
+
     // GPS Data to pass to the telemetry frame.
     typedef struct gpsData_s
     {
@@ -225,6 +231,7 @@ namespace crsfProtocol
         attitudeData_t attitude;
         baroAltitudeData_t baroAltitude;
         batterySensorData_t battery;
+        flightModeData_t flightMode;
         gpsData_t gps;
     } telemetryData_t;
 

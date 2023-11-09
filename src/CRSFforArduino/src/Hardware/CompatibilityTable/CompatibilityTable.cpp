@@ -302,12 +302,12 @@ as two separate boards. To prevent a false negative, check for both boards. */
     bool CompatibilityTable::isDevboardCompatible(const char *name)
     {
         // Debug.
-        Serial.print("[Compatibility Table | DEBUG]: Board is ");
+        // Serial.print("[Compatibility Table | DEBUG]: Board is ");
 
         if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
         {
             // Debug.
-            Serial.println("incompatible.");
+            // Serial.println("incompatible.");
 
             return false;
         }
@@ -315,7 +315,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         else
         {
             // Debug.
-            Serial.println("compatible.");
+            // Serial.println("compatible.");
 
             return true;
         }
@@ -333,14 +333,14 @@ as two separate boards. To prevent a false negative, check for both boards. */
         if (device.type.devboard >= DEVBOARD_COUNT)
         {
             // Debug.
-            Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+            // Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
 
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
 
         // Debug.
-        Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
-        Serial.println(deviceNames[device.type.devboard]);
+        // Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
+        // Serial.println(deviceNames[device.type.devboard]);
 
         return deviceNames[device.type.devboard];
     }

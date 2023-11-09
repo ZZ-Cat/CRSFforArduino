@@ -67,6 +67,10 @@ namespace serialReceiver
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
 #endif
 
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX);
+#endif
+
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX);
 #endif
@@ -112,6 +116,16 @@ namespace serialReceiver
         {
             _initialiseFrame();
             _appendBatterySensorData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX))
+        {
+            _initialiseFrame();
+            _appendFlightModeData();
             _finaliseFrame();
             sendFrame = true;
         }
@@ -171,6 +185,16 @@ namespace serialReceiver
         (void)current;
         (void)capacity;
         (void)percent;
+#endif
+    }
+
+    void Telemetry::setFlightModeData(const char *flightMode)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        size_t length = strlen(flightMode);
+        memcpy(_telemetryData.flightMode.flightMode, flightMode, length);
+#else
+        (void)flightMode;
 #endif
     }
 
@@ -249,6 +273,24 @@ namespace serialReceiver
         SerialBuffer::writeU16BE(_telemetryData.battery.current);
         SerialBuffer::writeU24BE(_telemetryData.battery.capacity);
         SerialBuffer::writeU8(_telemetryData.battery.percent);
+    }
+
+    void Telemetry::_appendFlightModeData()
+    {
+        // Return if the length of the flight mode string is greater than the flight mode payload size.
+        size_t length = strlen(_telemetryData.flightMode.flightMode);
+        if (length > CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE)
+        {
+            return;
+        }
+
+        SerialBuffer::writeU8(length + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
+
+        SerialBuffer::writeString(_telemetryData.flightMode.flightMode);
+
+        // Null terminate the string.
+        SerialBuffer::writeU8(0);
     }
 
     void Telemetry::_appendGPSData()

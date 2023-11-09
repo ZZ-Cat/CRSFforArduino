@@ -70,6 +70,9 @@ namespace genericStreamBuffer
         size_t writeU24BE(uint32_t value);
         size_t writeU32BE(uint32_t value);
 
+        // Write a string
+        size_t writeString(const char *string);
+
         // Get the current buffer length
         size_t getLength();
 
