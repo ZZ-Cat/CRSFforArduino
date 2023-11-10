@@ -144,8 +144,6 @@ namespace sketchLayer
 #endif
     }
 
-        
-
     /**
      * @brief Sends a CRSF Telemetry Frame with the current attitude data.
      * 

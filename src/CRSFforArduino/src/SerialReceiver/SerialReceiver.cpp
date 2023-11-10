@@ -351,27 +351,27 @@ namespace serialReceiver
     {
         switch (flightModeId)
         {
-        case FLIGHT_MODE_FAILSAFE:
-            flightModeStr = "!FS!";
-            break;
-        case FLIGHT_MODE_GPS_RESCUE:
-            flightModeStr = "RTH";
-            break;
-        case FLIGHT_MODE_PASSTHROUGH:
-            flightModeStr = "MANU";
-            break;
-        case FLIGHT_MODE_ANGLE:
-            flightModeStr = "STAB";
-            break;
-        case FLIGHT_MODE_HORIZON:
-            flightModeStr = "HOR";
-            break;
-        case FLIGHT_MODE_AIRMODE:
-            flightModeStr = "AIR";
-            break;
-        default:
-            flightModeStr = "ACRO";
-            break;
+            case FLIGHT_MODE_FAILSAFE:
+                flightModeStr = "!FS!";
+                break;
+            case FLIGHT_MODE_GPS_RESCUE:
+                flightModeStr = "RTH";
+                break;
+            case FLIGHT_MODE_PASSTHROUGH:
+                flightModeStr = "MANU";
+                break;
+            case FLIGHT_MODE_ANGLE:
+                flightModeStr = "STAB";
+                break;
+            case FLIGHT_MODE_HORIZON:
+                flightModeStr = "HOR";
+                break;
+            case FLIGHT_MODE_AIRMODE:
+                flightModeStr = "AIR";
+                break;
+            default:
+                flightModeStr = "ACRO";
+                break;
         }
 
         // Serial.println(flightModeStr);

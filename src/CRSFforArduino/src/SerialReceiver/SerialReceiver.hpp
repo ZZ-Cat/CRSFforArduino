@@ -56,8 +56,7 @@ namespace serialReceiver
 
     class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
     {
-    public:
-
+      public:
         SerialReceiver();
         SerialReceiver(uint8_t rxPin, uint8_t txPin);
         virtual ~SerialReceiver();
