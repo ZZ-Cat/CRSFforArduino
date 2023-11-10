@@ -60,7 +60,7 @@ namespace serialReceiver
         void setAttitudeData(int16_t roll, int16_t pitch, int16_t yaw);
         void setBaroAltitudeData(uint16_t altitude, int16_t vario);
         void setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent);
-        void setFlightModeData(const char *flightMode);
+        void setFlightModeData(const char *flightMode, bool armed = false);
         void setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites);
         // void setVarioData(float vario);
 

@@ -188,12 +188,17 @@ namespace serialReceiver
 #endif
     }
 
-    void Telemetry::setFlightModeData(const char *flightMode)
+    void Telemetry::setFlightModeData(const char *flightMode, bool armed)
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
         size_t length = strlen(flightMode);
         memset(_telemetryData.flightMode.flightMode, 0, sizeof(_telemetryData.flightMode.flightMode));
         memcpy(_telemetryData.flightMode.flightMode, flightMode, length);
+
+        if (armed)
+        {
+            strcat(_telemetryData.flightMode.flightMode, "*");
+        }
 #else
         (void)flightMode;
 #endif
