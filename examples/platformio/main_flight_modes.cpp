@@ -55,10 +55,10 @@ void setup()
 {
     // Initialise the Serial Port and wait for it to open.
     Serial.begin(115200);
-    while (!Serial)
-    {
-        ;
-    }
+    // while (!Serial)
+    // {
+    //     ;
+    // }
 
     Serial.println("Flight Modes Example");
 

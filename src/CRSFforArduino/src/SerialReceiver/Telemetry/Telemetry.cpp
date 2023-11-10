@@ -192,6 +192,7 @@ namespace serialReceiver
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
         size_t length = strlen(flightMode);
+        memset(_telemetryData.flightMode.flightMode, 0, sizeof(_telemetryData.flightMode.flightMode));
         memcpy(_telemetryData.flightMode.flightMode, flightMode, length);
 #else
         (void)flightMode;
@@ -278,7 +279,7 @@ namespace serialReceiver
     void Telemetry::_appendFlightModeData()
     {
         // Return if the length of the flight mode string is greater than the flight mode payload size.
-        size_t length = strlen(_telemetryData.flightMode.flightMode);
+        size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
         if (length > CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE)
         {
             return;
@@ -288,6 +289,8 @@ namespace serialReceiver
         SerialBuffer::writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
 
         SerialBuffer::writeString(_telemetryData.flightMode.flightMode);
+
+        SerialBuffer::writeU8('\0');
     }
 
     void Telemetry::_appendGPSData()
