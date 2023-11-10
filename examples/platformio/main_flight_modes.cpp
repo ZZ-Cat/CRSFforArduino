@@ -30,7 +30,7 @@
 
 #define FLIGHT_MODE_ARM_CHANNEL 5 // Set FLIGHT_MODE_ARM_CHANNEL to the channel that you want to use to simulate arming your drone.
 #define FLIGHT_MODE_ARM_MIN     1000
-#define FLIGHT_MODE_ARM_MAX     1500
+#define FLIGHT_MODE_ARM_MAX     1800
 
 #define FLIGHT_MODE_ACRO_CHANNEL 8 // Set FLIGHT_MODE_ACRO_CHANNEL to the channel that you want to use to simulate acro mode.
 #define FLIGHT_MODE_ACRO_MIN     900
