@@ -288,9 +288,6 @@ namespace serialReceiver
         SerialBuffer::writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
 
         SerialBuffer::writeString(_telemetryData.flightMode.flightMode);
-
-        // Null terminate the string.
-        SerialBuffer::writeU8(0);
     }
 
     void Telemetry::_appendGPSData()

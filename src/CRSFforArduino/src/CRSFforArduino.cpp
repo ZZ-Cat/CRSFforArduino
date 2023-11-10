@@ -203,6 +203,16 @@ namespace sketchLayer
 #endif
     }
 
+    void CRSFforArduino::telemetryWriteFlightMode(serialReceiver::flightModeId_t flightMode)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        _serialReceiver->telemetryWriteFlightMode(flightMode);
+#else
+        // Prevent compiler warnings
+        (void)flightMode;
+#endif
+    }
+
     /**
      * @brief Sends a CRSF Telemetry Frame with the current GPS data.
      * 

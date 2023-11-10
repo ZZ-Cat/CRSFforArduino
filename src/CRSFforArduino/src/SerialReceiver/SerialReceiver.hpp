@@ -83,6 +83,7 @@ namespace serialReceiver
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
+        void telemetryWriteFlightMode(flightModeId_t flightMode);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 #endif
 
@@ -108,6 +109,7 @@ namespace serialReceiver
             uint16_t max = 0;
         } flightMode_t;
 
+        const char *flightModeStr = "ACRO";
         flightMode_t *_flightModes = nullptr;
         flightModeCallback_t _flightModeCallback = nullptr;
 #endif

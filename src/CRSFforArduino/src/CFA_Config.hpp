@@ -58,6 +58,8 @@ See https://semver.org/ for more information. */
 #define CRSF_RC_INITIALISE_CHANNELS        1
 #define CRSF_RC_INITIALISE_THROTTLECHANNEL 1
 
+#define CRSF_FLIGHTMODES_ENABLED 1
+
 /* Telemetry Options
 - TELEMETRY_ENABLED: Enables or disables telemetry output.
 - TELEMETRY_ATTITUDE_ENABLED: Enables or disables attitude telemetry output.

@@ -165,6 +165,8 @@ void onFlightModeUpdate(serialReceiver::flightModeId_t flightMode)
             break;
         }
         lastFlightMode = flightMode;
+
+        crsf.telemetryWriteFlightMode(flightMode);
     }
 }
 
