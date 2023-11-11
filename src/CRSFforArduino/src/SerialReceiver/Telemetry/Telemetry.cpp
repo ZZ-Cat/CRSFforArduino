@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Telemetry class implementation.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -25,11 +25,19 @@
  */
 
 #include "Telemetry.hpp"
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "../../CFA_Config.hpp"
+#endif
 
 using namespace crsfProtocol;
 
 namespace serialReceiver
 {
+#define PI  3.1415926535897932384626433832795F
+#define RAD PI / 180.0F
+
     Telemetry::Telemetry() :
         CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
@@ -47,12 +55,23 @@ namespace serialReceiver
         SerialBuffer::reset();
 
         uint8_t index = 0;
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX);
+#endif
 
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX);
+#endif
+
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX);
 #endif
 
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX);
+#endif
+
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _telemetryFrameSchedule[index++] = (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX);
 #endif
 
@@ -66,12 +85,33 @@ namespace serialReceiver
 
     bool Telemetry::update()
     {
+#if CRSF_TELEMETRY_ENABLED > 0
         bool sendFrame = false;
 
         static uint8_t scheduleIndex = 0;
         const uint8_t currentSchedule = _telemetryFrameSchedule[scheduleIndex];
 
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_ATTITUDE_INDEX))
+        {
+            _initialiseFrame();
+            _appendAttitudeData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BARO_ALTITUDE_INDEX))
+        {
+            _initialiseFrame();
+            _appendBaroAltitudeData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if CRSF_TELEMETRY_BATTERY_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_BATTERY_SENSOR_INDEX))
         {
             _initialiseFrame();
@@ -81,7 +121,17 @@ namespace serialReceiver
         }
 #endif
 
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_FLIGHT_MODE_INDEX))
+        {
+            _initialiseFrame();
+            _appendFlightModeData();
+            _finaliseFrame();
+            sendFrame = true;
+        }
+#endif
+
+#if CRSF_TELEMETRY_GPS_ENABLED > 0
         if (currentSchedule & (1 << CRSF_TELEMETRY_FRAME_GPS_INDEX))
         {
             _initialiseFrame();
@@ -94,11 +144,38 @@ namespace serialReceiver
         scheduleIndex = (scheduleIndex + 1) % _telemetryFrameScheduleCount;
 
         return sendFrame;
+#else
+        return false;
+#endif
+    }
+
+    void Telemetry::setAttitudeData(int16_t roll, int16_t pitch, int16_t yaw)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+        _telemetryData.attitude.roll = _decidegreeToRadians(roll);
+        _telemetryData.attitude.pitch = -_decidegreeToRadians(pitch);
+        _telemetryData.attitude.yaw = _decidegreeToRadians(yaw);
+#else
+        (void)roll;
+        (void)pitch;
+        (void)yaw;
+#endif
+    }
+
+    void Telemetry::setBaroAltitudeData(uint16_t altitude, int16_t vario)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+        _telemetryData.baroAltitude.altitude = altitude + 10000;
+        _telemetryData.baroAltitude.vario = vario;
+#else
+        (void)altitude;
+        (void)vario;
+#endif
     }
 
     void Telemetry::setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent)
     {
-#if USE_BATTERY_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
         _telemetryData.battery.voltage = (voltage + 5) / 10;
         _telemetryData.battery.current = current / 10;
         _telemetryData.battery.capacity = capacity;
@@ -111,9 +188,25 @@ namespace serialReceiver
 #endif
     }
 
+    void Telemetry::setFlightModeData(const char *flightMode, bool armed)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        size_t length = strlen(flightMode);
+        memset(_telemetryData.flightMode.flightMode, 0, sizeof(_telemetryData.flightMode.flightMode));
+        memcpy(_telemetryData.flightMode.flightMode, flightMode, length);
+
+        if (armed)
+        {
+            strcat(_telemetryData.flightMode.flightMode, "*");
+        }
+#else
+        (void)flightMode;
+#endif
+    }
+
     void Telemetry::setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites)
     {
-#if USE_GPS_TELEMETRY > 0
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
         _telemetryData.gps.latitude = latitude * 10000000;
         _telemetryData.gps.longitude = longitude * 10000000;
         _telemetryData.gps.altitude = (constrain(altitude, 0, 5000 * 100) / 100) + 1000;
@@ -138,10 +231,43 @@ namespace serialReceiver
         db->write(buffer, length);
     }
 
+    int16_t Telemetry::_decidegreeToRadians(int16_t decidegrees)
+    {
+        /* convert angle in decidegree to radians/10000 with reducing angle to +/-180 degree range */
+        while (decidegrees > 18000)
+        {
+            decidegrees -= 36000;
+        }
+        while (decidegrees < -18000)
+        {
+            decidegrees += 36000;
+        }
+        return (int16_t)(RAD * 1000.0F * decidegrees);
+    }
+
     void Telemetry::_initialiseFrame()
     {
         SerialBuffer::reset();
         SerialBuffer::writeU8(CRSF_SYNC_BYTE);
+    }
+
+    void Telemetry::_appendAttitudeData()
+    {
+        SerialBuffer::writeU8(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_ATTITUDE);
+
+        SerialBuffer::writeU16BE(_telemetryData.attitude.pitch);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.roll);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.yaw);
+    }
+
+    void Telemetry::_appendBaroAltitudeData()
+    {
+        SerialBuffer::writeU8(CRSF_FRAME_BARO_ALTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_BARO_ALTITUDE);
+
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.altitude);
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.vario);
     }
 
     void Telemetry::_appendBatterySensorData()
@@ -153,6 +279,23 @@ namespace serialReceiver
         SerialBuffer::writeU16BE(_telemetryData.battery.current);
         SerialBuffer::writeU24BE(_telemetryData.battery.capacity);
         SerialBuffer::writeU8(_telemetryData.battery.percent);
+    }
+
+    void Telemetry::_appendFlightModeData()
+    {
+        // Return if the length of the flight mode string is greater than the flight mode payload size.
+        size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
+        if (length > CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE)
+        {
+            return;
+        }
+
+        SerialBuffer::writeU8(length + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
+
+        SerialBuffer::writeString(_telemetryData.flightMode.flightMode);
+
+        SerialBuffer::writeU8('\0');
     }
 
     void Telemetry::_appendGPSData()

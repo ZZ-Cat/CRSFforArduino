@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Telemetry class definition.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -42,9 +42,6 @@
 
 namespace serialReceiver
 {
-#define USE_BATTERY_TELEMETRY 1 // Set USE_BATTERY_TELEMETRY to 1 to enable battery telemetry.
-#define USE_GPS_TELEMETRY     1 // Set USE_GPS_TELEMETRY to 1 to enable GPS telemetry.
-
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
 #ifndef USE_DMA
         ,
@@ -60,10 +57,10 @@ namespace serialReceiver
 
         bool update();
 
-        // void setAttitudeData(float roll, float pitch, float yaw);
-        // void setBaroAltitudeData(float altitude);
+        void setAttitudeData(int16_t roll, int16_t pitch, int16_t yaw);
+        void setBaroAltitudeData(uint16_t altitude, int16_t vario);
         void setBatteryData(float voltage, float current, uint32_t capacity, uint8_t percent);
-        // void setFlightModeData(const char *flightMode);
+        void setFlightModeData(const char *flightMode, bool armed = false);
         void setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites);
         // void setVarioData(float vario);
 
@@ -74,11 +71,13 @@ namespace serialReceiver
         uint8_t _telemetryFrameSchedule[crsfProtocol::CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
         crsfProtocol::telemetryData_t _telemetryData;
 
+        int16_t _decidegreeToRadians(int16_t decidegrees);
+
         void _initialiseFrame();
-        // void _appendAttitudeData();
-        // void _appendBaroAltitudeData();
+        void _appendAttitudeData();
+        void _appendBaroAltitudeData();
         void _appendBatterySensorData();
-        // void _appendFlightModeData();
+        void _appendFlightModeData();
         void _appendGPSData();
         // void _appendHeartbeatData();
         // void _appendVarioData();

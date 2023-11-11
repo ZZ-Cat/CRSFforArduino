@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file is the top level of the hardware abstraction layer.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -26,7 +26,13 @@
 
 #pragma once
 
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "../CFA_Config.hpp"
+#endif
 #include "CompatibilityTable/CompatibilityTable.hpp"
 #include "DevBoards/DevBoards.hpp"
 
+using namespace crsfForArduinoConfig;
 using namespace hal;

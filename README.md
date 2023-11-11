@@ -296,14 +296,21 @@ void SERCOM1_3_Handler()
 
 ### Example Sketches
 
-In the `examples` folder, there are two sketches that I use to test this library:
+In the `examples` folder, there are three sketches that I use to test this library:
 
 - `channels.ino`
   This example demonstrates how to read RC channels data from your connected receiver.
+- `flight_modes.ino`
+  This example demonstrates how one may implement Flight Modes in their project and use Flight Modes Telemetry.
 - `telemetry.ino`
   This example demonstrates how to pass data from your sensors to your controller using CRSF for Arduino.
 
 You can build these examples to see how CRSF for Arduino works.
+
+### Configuration
+
+`CFA_Config.hpp` is used to tailor CRSF for Arduino for your project's needs.
+For more information, please view #47.
 
 ### Flashing - PlatformIO (VS Code)
 
@@ -428,11 +435,26 @@ If your development board outputs a logic level of 5 volts on its serial pins, y
 
 The following telemetry data is supported:
 
+- Attitude/Artificial Horizon data:
+  - Roll, Pitch and Yaw are all in decidegrees
+- Barometric Altitude and Variometer data:
+  - Altitude (in decimetres)
+  - Variometer (in centmetres per second)
 - Battery sensor data:
   - Average battery cell voltage (in millivolts)
   - Current (in milliamperes)
   - Fuel (in milliampere-hours)
   - Percent remaining
+- Flight Modes:
+  - Betaflight's Flight Modes:
+    - Acro
+    - Angle
+    - Disarmed (is registered with a `*` flag)
+    - Failsafe
+    - GPS Rescue (Including Wait for GPS Fix)
+    - Horizon
+    - Passthrough
+    - "Air mode"
 - GPS data:
   - Latitude (in decimal degrees)
   - Longitude (in decimal degrees)

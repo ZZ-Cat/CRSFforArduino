@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the DevBoards implementation file. It is used to configure CRSF for Arduino for specific development boards.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -86,7 +86,7 @@ namespace hal
             uart_port->~Uart();
 
             // Debug.
-            Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
+            // Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
         }
 
         // Set the UART port.
@@ -96,21 +96,21 @@ namespace hal
                 uart_port = &Serial1;
 
                 // Debug.
-                Serial.println("[Development Board | DEBUG]: Using Serial1.");
+                // Serial.println("[Development Board | DEBUG]: Using Serial1.");
                 break;
 
             case 1: // TO-DO: Fix this.
                 uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 
                 // Debug.
-                Serial.println("[Development Board | DEBUG]: Using Serial2.");
+                // Serial.println("[Development Board | DEBUG]: Using Serial2.");
                 break;
 
             default:
                 uart_port = nullptr;
 
                 // Debug.
-                Serial.println("[Development Board | ERROR]: No UART port was defined.");
+                // Serial.println("[Development Board | ERROR]: No UART port was defined.");
                 break;
         }
 #elif defined(TEENSYDUINO)
@@ -118,18 +118,18 @@ namespace hal
         uart_port = &Serial1;
 
         // Debug.
-        Serial.println("[Development Board | DEBUG]: Using Serial1.");
+        // Serial.println("[Development Board | DEBUG]: Using Serial1.");
 #elif defined(ARDUINO_ARCH_ESP32)
         // Default to Serial1 if ESP32 is being used. May expand this in the future, if requested.
         uart_port = &Serial1;
 
         // Debug.
-        Serial.println("[Development Board | DEBUG]: Using Serial1.");
+        // Serial.println("[Development Board | DEBUG]: Using Serial1.");
 #else
         uart_port = nullptr;
 
         // Debug.
-        Serial.println("[Development Board | ERROR]: No UART port was defined.");
+        // Serial.println("[Development Board | ERROR]: No UART port was defined.");
 #endif
     }
 

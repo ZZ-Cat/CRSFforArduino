@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief SerialBuffer class definition.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -69,6 +69,9 @@ namespace genericStreamBuffer
         size_t writeU16BE(uint16_t value);
         size_t writeU24BE(uint32_t value);
         size_t writeU32BE(uint32_t value);
+
+        // Write a string
+        size_t writeString(const char *string);
 
         // Get the current buffer length
         size_t getLength();

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This demonstrates how to use CRSF for Arduino to send telemetry to your RC transmitter using the CRSF protocol.
  * @version 0.5.0
- * @date 2023-10-24
+ * @date 2023-11-1
  * 
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -39,6 +39,15 @@
 #define SERIAL_TX_PIN                1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
+
+/* Initialise the attitude telemetry with default values. */
+int16_t roll = -200; // Roll is in decided degrees (eg -200 = -20.0 degrees).
+int16_t pitch = 150; // Pitch is in decided degrees (eg 150 = 15.0 degrees).
+uint16_t yaw = 2758; // Yaw is in decided degrees (eg 2758 = 275.8 degrees).
+
+/* Initialise the barometric altitude telemetry with default values. */
+uint16_t baroAltitude = 10; // Barometric altitude is in decimetres (eg 10 = 1.0 metres).
+int16_t verticalSpeed = 50; // Vertical speed is in centimetres per second (eg 50 = 0.5 metres per second).
 
 /* Initialise the battery sensor telemetry with default values. */
 float batteryVoltage = 385.0F; // Battery voltage is in millivolts (mV * 100).
@@ -105,6 +114,49 @@ void loop()
 
     // Use timeNow to store the current time in milliseconds.
     timeNow = millis();
+
+    /* Attitude Telemetry
+
+    Normally, you would read the raw attitude data from your IMU and convert it to roll, pitch and yaw values.
+    For the purposes of this example, we will just update the following with random values:
+    - Roll
+    - Pitch
+    - Yaw
+
+    These values are updated at a rate of 100 Hz.
+    */
+
+    /* Update the attitude telemetry at a rate of 100 Hz. */
+    static unsigned long lastAttitudeUpdate = 0;
+    if (timeNow - lastAttitudeUpdate >= 10)
+    {
+        lastAttitudeUpdate = timeNow;
+
+        /* Update the attitude telemetry with the new values. */
+        crsf.telemetryWriteAttitude(roll, pitch, yaw);
+    }
+
+    /* Barometric Altitude Telemetry
+
+    Normally, you would read the barometric altitude and vertical speed from a barometric pressure sensor
+    connected to your Arduino board.
+
+    For the purposes of this example, we will just update the following with random values:
+    - Barometric Altitude
+    - Vertical Speed
+
+    These values are updated at a rate of 10 Hz.
+    */
+
+    /* Update the barometric altitude telemetry at a rate of 10 Hz. */
+    static unsigned long lastBaroAltitudeUpdate = 0;
+    if (timeNow - lastBaroAltitudeUpdate >= 100)
+    {
+        lastBaroAltitudeUpdate = timeNow;
+
+        /* Update the barometric altitude telemetry with the new values. */
+        crsf.telemetryWriteBaroAltitude(baroAltitude, verticalSpeed);
+    }
 
     /* Battery Telemetry
 
