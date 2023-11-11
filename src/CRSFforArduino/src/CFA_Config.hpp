@@ -49,6 +49,8 @@ See https://semver.org/ for more information. */
 - RC_CHANNEL_MAX: The maximum value of an RC channel.
 - RC_CHANNEL_CENTER: The center value of an RC channel.
 - RC_INITIALISE_CHANNELS: Whether or not to initialise the RC channels to their center values.
+- RC_INITIALISE_ARMCHANNEL: When enabled, the arm channel is set to its minimum value.
+  - NB: This refers to the Aux1 channel and is intended for use with ExpressLRS receivers.
 - RC_INITIALISE_THROTTLECHANNEL: When enabled, the throttle channel is set to its minimum value. */
 #define CRSF_RC_ENABLED                    1
 #define CRSF_RC_MAX_CHANNELS               16
@@ -56,6 +58,7 @@ See https://semver.org/ for more information. */
 #define CRSF_RC_CHANNEL_MAX                1811
 #define CRSF_RC_CHANNEL_CENTER             992
 #define CRSF_RC_INITIALISE_CHANNELS        1
+#define CRSF_RC_INITIALISE_ARMCHANNEL      1
 #define CRSF_RC_INITIALISE_THROTTLECHANNEL 1
 
 #define CRSF_FLIGHTMODES_ENABLED 1

@@ -85,10 +85,31 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
         // Initialize the RC Channels.
+        // Arm is set to 178 (1000us) to prevent the FC from arming.
         // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
         for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
         {
-#if CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
+#if CRSF_RC_INITIALISE_ARMCHANNEL > 0 && CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
+            if (i == RC_CHANNEL_AUX1 || i == RC_CHANNEL_THROTTLE)
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+            }
+            else
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            }
+
+#elif CRSF_RC_INITIALISE_ARMCHANNEL > 0
+            if (i == RC_CHANNEL_AUX1)
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+            }
+            else
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            }
+
+#elif CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
             if (i == RC_CHANNEL_THROTTLE)
             {
                 _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
