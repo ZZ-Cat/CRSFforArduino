@@ -296,10 +296,12 @@ void SERCOM1_3_Handler()
 
 ### Example Sketches
 
-In the `examples` folder, there are two sketches that I use to test this library:
+In the `examples` folder, there are three sketches that I use to test this library:
 
 - `channels.ino`
   This example demonstrates how to read RC channels data from your connected receiver.
+- `flight_modes.ino`
+  This example demonstrates how one may implement Flight Modes in their project and use Flight Modes Telemetry.
 - `telemetry.ino`
   This example demonstrates how to pass data from your sensors to your controller using CRSF for Arduino.
 
