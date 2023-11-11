@@ -67,6 +67,7 @@ When enabled, you are given an event-driven API that allows you to easily implem
 and assign them to a switch on your controller.
 Pro Tip: You can combine the Flight Mode API with the Telemetry API to send flight mode
 information back to your controller. */
+#define CRSF_FLIGHTMODES_ENABLED 0
 
 /* Telemetry Options
 - TELEMETRY_ENABLED: Enables or disables the Telemetry API.
@@ -80,7 +81,7 @@ information back to your controller. */
 #define CRSF_TELEMETRY_ATTITUDE_ENABLED     1
 #define CRSF_TELEMETRY_BAROALTITUDE_ENABLED 1
 #define CRSF_TELEMETRY_BATTERY_ENABLED      1
-#define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   1
+#define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   0
 #define CRSF_TELEMETRY_GPS_ENABLED          1
 
 /* Debug Options
