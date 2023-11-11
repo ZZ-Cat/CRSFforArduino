@@ -90,7 +90,7 @@ See https://semver.org/ for more information. */
 
 /* Static assert if all telemetry options are disabled.
 Better to use CRSF_TELEMETRY_ENABLED instead. */
-#if CRSF_TELEMETRY_ATTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BATTERY_ENABLED == 0 && CRSF_TELEMETRY_GPS_ENABLED == 0
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BATTERY_ENABLED == 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED == 0 && CRSF_TELEMETRY_GPS_ENABLED == 0
     static_assert(false, "All telemetry options are disabled. Set CRSF_TELEMETRY_ENABLED to 0 to disable telemetry instead.");
 #endif
 
