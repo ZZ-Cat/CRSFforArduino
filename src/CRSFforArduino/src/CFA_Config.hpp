@@ -43,7 +43,7 @@ See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION_PATCH 0
 
 /* RC Options
-- RC_ENABLED: Enables or disables RC input.
+- RC_ENABLED: Enables or disables the RC API.
 - RC_MAX_CHANNELS: The maximum number of RC channels to be received.
 - RC_CHANNEL_MIN: The minimum value of an RC channel.
 - RC_CHANNEL_MAX: The maximum value of an RC channel.
@@ -61,10 +61,15 @@ See https://semver.org/ for more information. */
 #define CRSF_RC_INITIALISE_ARMCHANNEL      1
 #define CRSF_RC_INITIALISE_THROTTLECHANNEL 1
 
-#define CRSF_FLIGHTMODES_ENABLED 1
+/* Flight Modes
+Enables or disables the Flight Mode API.
+When enabled, you are given an event-driven API that allows you to easily implement flight modes
+and assign them to a switch on your controller.
+Pro Tip: You can combine the Flight Mode API with the Telemetry API to send flight mode
+information back to your controller. */
 
 /* Telemetry Options
-- TELEMETRY_ENABLED: Enables or disables telemetry output.
+- TELEMETRY_ENABLED: Enables or disables the Telemetry API.
 - TELEMETRY_ATTITUDE_ENABLED: Enables or disables attitude telemetry output.
 - TELEMETRY_BAROALTITUDE_ENABLED: Enables or disables barometric altitude telemetry output.
 - TELEMETRY_BATTERY_ENABLED: Enables or disables battery telemetry output.
@@ -82,6 +87,8 @@ See https://semver.org/ for more information. */
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port. */
 #define CRSF_DEBUG_ENABLED     0
 #define CRSF_DEBUG_SERIAL_PORT Serial
+
+/* All warnings and asserts below this point are to ensure that the configuration is valid. */
 
 /* Compiler warning if both RC and Telemetry are disabled. */
 #if CRSF_RC_ENABLED == 0 && CRSF_TELEMETRY_ENABLED == 0
