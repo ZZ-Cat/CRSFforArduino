@@ -88,6 +88,11 @@ See https://semver.org/ for more information. */
 #warning "Both CRSF_RC_ENABLED and CRSF_TELEMETRY_ENABLED are disabled. CRSF for Arduino will not do anything."
 #endif
 
+/* Static assert if Flight Modes are enabled, but RC is disabled. */
+#if CRSF_FLIGHTMODES_ENABLED == 1 && CRSF_RC_ENABLED == 0
+    static_assert(false, "CRSF_FLIGHTMODES_ENABLED is enabled, but CRSF_RC_ENABLED is disabled. Flight Modes require RC to be enabled.");
+#endif
+
 /* Static assert if all telemetry options are disabled.
 Better to use CRSF_TELEMETRY_ENABLED instead. */
 #if CRSF_TELEMETRY_ATTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED == 0 && CRSF_TELEMETRY_BATTERY_ENABLED == 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED == 0 && CRSF_TELEMETRY_GPS_ENABLED == 0
