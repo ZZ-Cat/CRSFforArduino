@@ -29,7 +29,7 @@
 
 #include "CRSFforArduino.hpp"
 
- /* Tested with the following equipment:
+/* Tested with the following equipment:
 - Controller: RadioMaster TX16S Max Edition Mk1
   - Firmware: EdgeTX 2.10.0 Nightly
   - Lua Script: iNav OpenTX Telemetry Widget 2.2.3
