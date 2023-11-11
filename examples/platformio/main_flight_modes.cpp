@@ -28,6 +28,20 @@
 
 #include "CRSFforArduino.hpp"
 
+ /* Tested with the following equipment:
+- Controller: RadioMaster TX16S Max Edition Mk1
+  - Firmware: EdgeTX 2.10.0 Nightly
+  - Lua Script: iNav OpenTX Telemetry Widget 2.2.3
+  - Transmitter Module: RadioMaster Ranger
+    - Firmware: ExpressLRS 3.3.1
+- Receiver: RadioMaster RP3 Diversity
+  - Firmware: ExpressLRS 3.3.1
+- Development Board: Adafruit Metro M4 Express
+  - Board Package: Adafruit SAMD Boards 1.7.5
+  - Framework: Arduino 1.8.13
+  - Library: CRSF for Arduino 0.5.0
+ */
+
 #define FLIGHT_MODE_ARM_CHANNEL 5 // Set FLIGHT_MODE_ARM_CHANNEL to the channel that you want to use to simulate arming your drone.
 #define FLIGHT_MODE_ARM_MIN     1000
 #define FLIGHT_MODE_ARM_MAX     1800
@@ -126,6 +140,9 @@ void loop()
 
 void onFlightModeUpdate(serialReceiver::flightModeId_t flightMode)
 {
+    /* Here is where you would put your flight mode implementation.
+    For this example, we will just print the flight mode to the serial port,
+    and send it to the controller as telemetry. */
     static serialReceiver::flightModeId_t lastFlightMode = serialReceiver::FLIGHT_MODE_DISARMED;
 
     if (flightMode != lastFlightMode)
