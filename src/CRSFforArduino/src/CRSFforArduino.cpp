@@ -75,7 +75,10 @@ namespace sketchLayer
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         _serialReceiver->processFrames();
 #endif
+
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         _serialReceiver->handleFlightMode();
+#endif
     }
 
     uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
@@ -120,7 +123,7 @@ namespace sketchLayer
 
     bool CRSFforArduino::setFlightMode(serialReceiver::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
-#if CRSF_RC_ENABLED > 0
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         return _serialReceiver->setFlightMode(flightMode, channel - 1, _serialReceiver->usToRc(min), _serialReceiver->usToRc(max));
 #else
         // Prevent compiler warnings
@@ -136,7 +139,7 @@ namespace sketchLayer
 
     void CRSFforArduino::setFlightModeCallback(void (*callback)(serialReceiver::flightModeId_t flightMode))
     {
-#if CRSF_RC_ENABLED > 0
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         _serialReceiver->setFlightModeCallback(callback);
 #else
         // Prevent compiler warnings

@@ -73,9 +73,12 @@ namespace serialReceiver
         uint16_t rcToUs(uint16_t rc);
         uint16_t usToRc(uint16_t us);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
+
+#if CRSF_FLIGHTMODES_ENABLED > 0
         bool setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
         void setFlightModeCallback(flightModeCallback_t callback);
         void handleFlightMode();
+#endif
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
@@ -100,7 +103,13 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         uint16_t *_rcChannels;
+#endif
 
+#if CRSF_TELEMETRY_ENABLED > 0
+        const char *flightModeStr = "ACRO";
+#endif
+
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         typedef struct flightMode_s
         {
             uint8_t channel = 0;
@@ -108,7 +117,6 @@ namespace serialReceiver
             uint16_t max = 0;
         } flightMode_t;
 
-        const char *flightModeStr = "ACRO";
         flightMode_t *_flightModes = nullptr;
         flightModeCallback_t _flightModeCallback = nullptr;
 #endif

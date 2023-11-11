@@ -39,7 +39,9 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#if CRSF_FLIGHTMODES_ENABLED > 0
         _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
 #endif
     }
 
@@ -52,7 +54,9 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#if CRSF_FLIGHTMODES_ENABLED > 0
         _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
 #endif
     }
 
@@ -65,7 +69,9 @@ namespace serialReceiver
 
 #if CRSF_RC_ENABLED > 0
         delete[] _rcChannels;
+#if CRSF_FLIGHTMODES_ENABLED > 0
         delete[] _flightModes;
+#endif
 #endif
     }
 
@@ -288,6 +294,7 @@ namespace serialReceiver
         return (uint16_t)((us - 881) / 0.62477120195241F);
     }
 
+#if CRSF_FLIGHTMODES_ENABLED > 0
     bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
         if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
@@ -322,6 +329,7 @@ namespace serialReceiver
             }
         }
     }
+#endif
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
