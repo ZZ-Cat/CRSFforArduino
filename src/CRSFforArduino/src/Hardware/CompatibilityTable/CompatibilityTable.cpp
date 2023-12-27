@@ -196,12 +196,12 @@ namespace hal
 // Arduino MKRZERO
 #elif USB_PID == 0x804F
         device.type.devboard = DEVBOARD_ARDUINO_MKRZERO;
-// Arduino Zero
-#elif USB_PID == 0x804D
-        device.type.devboard = DEVBOARD_ARDUINO_ZERO;
 // Arduino Nano 33 IoT
 #elif USB_PID == 0x8057
         device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
+// Arduino Zero
+#elif USB_PID == 0x804D
+        device.type.devboard = DEVBOARD_ARDUINO_ZERO;
 // Device is not supported
 #else
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
