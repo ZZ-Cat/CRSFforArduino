@@ -199,7 +199,7 @@ namespace hal
 // Arduino Zero
 #elif USB_PID == 0x804D
         device.type.devboard = DEVBOARD_ARDUINO_ZERO;
-// Arduino Nano 33 IoT
+// Arduino Nano 33 IoT -
 #elif USB_PID == 0x8057
         device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
 // Device is not supported
