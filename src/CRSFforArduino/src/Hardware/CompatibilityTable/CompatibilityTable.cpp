@@ -64,6 +64,8 @@ namespace hal
         device.type.devboard = DEVBOARD_ADAFRUIT_QTPY_ESP32_PICO;
 
 // Espressif devboards.
+#elif defined(ARDUINO_ESP32_DEV)
+        device.type.devboard = DEVBOARD_ESPRESSIF_ESP32_DEVMODULE;
 #elif defined(ARDUINO_ESP32C3_DEV)
         device.type.devboard = DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT;
 #elif defined(ARDUINO_ESP32S3_DEV)

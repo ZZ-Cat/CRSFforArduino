@@ -92,6 +92,7 @@ namespace hal
             DEVBOARD_ARDUINO_ZERO,
 
             // Espresif ESP32 boards.
+            DEVBOARD_ESPRESSIF_ESP32_DEVMODULE,
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
 
@@ -165,6 +166,7 @@ namespace hal
             "Arduino MKRZERO",
             "Arduino Nano 33 IoT",
             "Arduino Zero",
+            "Espressif ESP32 Dev Module",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
             "Seeed Studio Xiao ESP32-C3",

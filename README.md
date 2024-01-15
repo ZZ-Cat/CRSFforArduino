@@ -364,6 +364,7 @@ CRSF for Arduino is compatible with these development boards:
   - Adafruit QtPy ESP32-S2
   - Adafruit QtPy ESP32-S3
   - Arduino Nano ESP32
+  - Espressif ESP32 Dev Module
   - Espressif ESP32-C3-DevKit
   - Espressif ESP32-S3-DevKit
   - Seeed Studio XIAO ESP32-C3
