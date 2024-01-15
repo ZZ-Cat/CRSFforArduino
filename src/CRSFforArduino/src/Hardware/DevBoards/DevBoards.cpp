@@ -146,8 +146,13 @@ namespace hal
 
     void DevBoards::begin(unsigned long baudrate, int config)
     {
+#if defined(ARDUINO_ARCH_ESP32)
+        // Begin the UART port.
+        uart_port->begin(baudrate, config, RX, TX);
+#else
         // Begin the UART port.
         uart_port->begin(baudrate, config);
+#endif
     }
 
     void DevBoards::end()
