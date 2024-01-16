@@ -25,6 +25,7 @@
  * 
  */
 
+#include "./CFA_Config.hpp"
 #include "CompatibilityTable.hpp"
 
 namespace hal
@@ -304,21 +305,24 @@ as two separate boards. To prevent a false negative, check for both boards. */
      */
     bool CompatibilityTable::isDevboardCompatible(const char *name)
     {
-        // Debug.
-        // Serial.print("[Compatibility Table | DEBUG]: Board is ");
-
         if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
         {
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            // Serial.println("incompatible.");
+            CRSF_DEBUG_SERIAL_PORT.print("[Compatibility Table | DEBUG]: Board is ");
+            CRSF_DEBUG_SERIAL_PORT.println("incompatible.");
+#endif
 
             return false;
         }
 
         else
         {
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            // Serial.println("compatible.");
+            CRSF_DEBUG_SERIAL_PORT.print("[Compatibility Table | DEBUG]: Board is ");
+            CRSF_DEBUG_SERIAL_PORT.println("compatible.");
+#endif
 
             return true;
         }
@@ -335,15 +339,19 @@ as two separate boards. To prevent a false negative, check for both boards. */
     {
         if (device.type.devboard >= DEVBOARD_COUNT)
         {
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            // Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+#endif
 
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
 
+#if CRSF_DEBUG_ENABLED > 0
         // Debug.
-        // Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
-        // Serial.println(deviceNames[device.type.devboard]);
+        CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | DEBUG]: Board is ");
+        CRSF_DEBUG_SERIAL_PORT.println(deviceNames[device.type.devboard]);
+#endif
 
         return deviceNames[device.type.devboard];
     }
