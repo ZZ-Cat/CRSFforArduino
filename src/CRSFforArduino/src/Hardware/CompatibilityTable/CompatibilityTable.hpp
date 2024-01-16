@@ -137,7 +137,7 @@ namespace hal
             "Adafruit Feather ESP32-S3 (no PSRAM)",
             "Adafruit ItsyBitsy ESP32",
             "Adafruit Metro ESP32-S2",
-            "Adafruit QT Py ESP32 C3",
+            "Adafruit QT Py ESP32-C3",
             "Adafruit QT Py ESP32 Pico",
             "Adafruit QT Py ESP32-S2",
             "Adafruit QT Py ESP32-S3",
