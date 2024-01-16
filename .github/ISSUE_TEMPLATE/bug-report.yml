@@ -65,7 +65,6 @@ body:
         - Arduino MKR WiFi 1010
         - Arduino MKR ZERO
         - Arduino Nano 33 IoT
-        - Arduino Nano ESP32
         - Arduino Zero
         - Espressif ESP32-C3 DevKitC-02
         - Espressif ESP32-C3 DevKitM-1
