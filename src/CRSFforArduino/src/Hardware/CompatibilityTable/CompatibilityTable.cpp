@@ -374,7 +374,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
 
         else
         {
-#if CRSF_DEBUG_ENABLED > 0
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
             // Debug.
             CRSF_DEBUG_SERIAL_PORT.print("[Compatibility Table | DEBUG]: Board is ");
             CRSF_DEBUG_SERIAL_PORT.println("compatible.");
@@ -403,7 +403,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
 
-#if CRSF_DEBUG_ENABLED > 0
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
         // Debug.
         CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | DEBUG]: Board is ");
         CRSF_DEBUG_SERIAL_PORT.println(deviceNames[device.type.devboard]);
