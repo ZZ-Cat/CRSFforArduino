@@ -90,8 +90,9 @@ namespace hal
 #elif defined(ARDUINO_NANO_ESP32)
         device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
 #else
+        // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 
 // Arduino SAMD Architecture
@@ -113,9 +114,9 @@ namespace hal
 // Adafruit Metro M0 Express
 #elif USB_PID == 0x8013
         device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M0_EXPRESS;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
 
@@ -129,9 +130,9 @@ namespace hal
 // Adafruit Metro M4 AirLift Lite
 #elif USB_PID == 0x8037
         device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M4_AIRLIFT_LITE;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
 
@@ -139,9 +140,9 @@ namespace hal
 // Adafruit ItsyBitsy M4 Express
 #if USB_PID == 0x802B
         device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_M4_EXPRESS;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
 
@@ -149,9 +150,9 @@ namespace hal
 // Adafruit Grand Central M4
 #if USB_PID == 0x8020
         device.type.devboard = DEVBOARD_ADAFRUIT_GRAND_CENTRAL_M4;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
 
@@ -159,14 +160,14 @@ namespace hal
 // Adafruit Feather M4 CAN
 #if USB_PID == 0x80CD
         device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M4_CAN;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
-#else // Incompatible devboards
+#else // The architecture is known, but the board and chip are not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 // Arduino devboards
@@ -203,11 +204,15 @@ namespace hal
 // Arduino Nano 33 IoT
 #elif USB_PID == 0x8057
         device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
+// The architecture is known, but the board and chip are not.
+#else
+#warning "Devboard not supported. Please check the compatibility table."
+device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 // Seeed Studio devboards
@@ -218,18 +223,18 @@ namespace hal
 #if USB_PID == 0x802F
         device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_M0;
 
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #warning "Devboard not supported. Please check the compatibility table."
 #endif
 
-#else // Incompatible devboards
+#else // The architecture is known, but the board and chip are not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
-#else // Incompatible devboards
+#else // Unable to verify the vendor ID. Board is incompatible.
 #warning "Devboard not supported. Please check the compatibility table."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
@@ -240,8 +245,9 @@ namespace hal
         device.type.devboard = DEVBOARD_TEENSY_30;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else
+        // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK20DX256__)
 /* PlatformIO treats Teensy 3.1 and Teensy 3.2 as the same board, but the Arduino IDE treats them
@@ -249,38 +255,38 @@ as two separate boards. To prevent a false negative, check for both boards. */
 #if defined(ARDUINO_TEENSY31) || defined(ARDUINO_TEENSY32)
         device.type.devboard = DEVBOARD_TEENSY_31_32;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
+#else // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK64FX512__)
 #if defined(ARDUINO_TEENSY35)
         device.type.devboard = DEVBOARD_TEENSY_35;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
+#else // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK66FX1M0__)
 #if defined(ARDUINO_TEENSY36)
         device.type.devboard = DEVBOARD_TEENSY_36;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
+#else // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__IMXRT1062__)
 #if defined(ARDUINO_TEENSY40)
         device.type.devboard = DEVBOARD_TEENSY_40;
 #elif defined(ARDUINO_TEENSY41)
         device.type.devboard = DEVBOARD_TEENSY_41;
-#else // Incompatible devboards
+#else // The architecture and chip is known, but the board is not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
-#else // Incompatible devboards
+#else // The architecture is known, but the board and chip are not.
 #warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 #else // Unsupported architecture
@@ -314,6 +320,28 @@ as two separate boards. To prevent a false negative, check for both boards. */
 #endif
 
             return false;
+        }
+
+        else if (strcmp(name, deviceNames[DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP]) == 0)
+        {
+#if CRSF_DEBUG_ENABLED > 0
+            // Warning.
+            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: Board is ");
+            CRSF_DEBUG_SERIAL_PORT.println("permissively incompatible (unknown board and chip).");
+#endif
+
+            return true;
+        }
+
+        else if (strcmp(name, deviceNames[DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD]) == 0)
+        {
+#if CRSF_DEBUG_ENABLED > 0
+            // Warning.
+            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: Board is ");
+            CRSF_DEBUG_SERIAL_PORT.println("permissively incompatible (unknown board).");
+#endif
+
+            return true;
         }
 
         else

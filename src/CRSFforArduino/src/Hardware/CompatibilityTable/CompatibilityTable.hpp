@@ -42,8 +42,14 @@ namespace hal
       private:
         typedef enum ct_devboards_e
         {
-            // Unknown device.
+            // Incompatible device. Non-permissive.
             DEVBOARD_IS_INCOMPATIBLE = 0,
+
+            // Permissive incompatibility:
+            // - The architecture and chip is known, but the board is not.
+            // - The architecture is known, but the board and chip are not.
+            DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD,
+            DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP,
 
             // Adafruit ESP32 boards.
             DEVBOARD_ADAFRUIT_FEATHER_ESP32,
@@ -131,6 +137,8 @@ namespace hal
 
         const char *deviceNames[DEVBOARD_COUNT] = {
             "Incompatible device",
+            "Permissively incompatible device (unknown board)",
+            "Permissively incompatible device (unknown board and chip)",
             "Adafruit Feather ESP32",
             "Adafruit Feather ESP32-S2",
             "Adafruit Feather ESP32-S3",
