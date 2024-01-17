@@ -318,9 +318,26 @@ as two separate boards. To prevent a false negative, check for both boards. */
         if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
         {
 #if CRSF_DEBUG_ENABLED > 0
-            // Debug.
-            CRSF_DEBUG_SERIAL_PORT.print("[Compatibility Table | DEBUG]: Board is ");
-            CRSF_DEBUG_SERIAL_PORT.println("incompatible.");
+            // Print a generic error message.
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | ERROR]: The target board is not compatible with CRSF for Arduino.");
+#if defined(F_CPU)
+#if F_CPU >= 48000000
+            // F_CPU must be at least 48 MHz (or higher).
+
+            // Print instructions for requesting board support.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request compatibility for this board, you may do the following:");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. In the Issues tab of the CRSFforArduino repository, click the New Issue button.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
+#else
+            // F_CPU is less than 48 MHz.
+            CRSF_DEBUG_SERIAL_PORT.println("The target board's clock speed is less than 48 MHz. CRSF for Arduino requires a clock speed of at least 48 MHz.");
+#endif
+#else
+            // F_CPU is not defined. This is a fatal error and should not happen under normal circumstances.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | FATAL ERROR]: F_CPU is not defined.");
+#endif
 #endif
 
             return false;
@@ -343,6 +360,13 @@ as two separate boards. To prevent a false negative, check for both boards. */
             // Warning.
             CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: Board is ");
             CRSF_DEBUG_SERIAL_PORT.println("permissively incompatible (unknown board).");
+
+            // Print instructions for requesting board support.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board, you may do the following:");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. In the Issues tab of the CRSF for Arduino repository, click the New Issue button.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
 #endif
 
             return true;
