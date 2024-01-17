@@ -25,8 +25,12 @@
  * 
  */
 
-#include "./CFA_Config.hpp"
 #include "CompatibilityTable.hpp"
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "./CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "./CRSFforArduino/src/CFA_Config.hpp"
+#endif
 
 namespace hal
 {
