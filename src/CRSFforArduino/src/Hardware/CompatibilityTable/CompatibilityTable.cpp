@@ -216,7 +216,7 @@ namespace hal
 // The architecture is known, but the board and chip are not.
 #else
 #warning "Devboard not supported. Please check the compatibility table."
-device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 // Seeed Studio devboards
