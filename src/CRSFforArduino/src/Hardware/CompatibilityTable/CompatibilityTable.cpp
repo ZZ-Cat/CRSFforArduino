@@ -347,8 +347,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         {
 #if CRSF_DEBUG_ENABLED > 0
             // Warning.
-            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: Board is ");
-            CRSF_DEBUG_SERIAL_PORT.println("permissively incompatible (unknown board and chip).");
+            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: The target board and the chipset that it's using are unknown. CRSF for Arduino will attempt to run on this board, but it may not work properly.");
 #endif
 
             return true;
@@ -358,8 +357,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         {
 #if CRSF_DEBUG_ENABLED > 0
             // Warning.
-            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: Board is ");
-            CRSF_DEBUG_SERIAL_PORT.println("permissively incompatible (unknown board).");
+            CRSF_DEBUG_SERIAL_PORT.print("\r\n[Compatibility Table | WARNING]: The target board is unknown. CRSF for Arduino will attempt to run on this board, but it may not work properly.");
 
             // Print instructions for requesting board support.
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board, you may do the following:");
