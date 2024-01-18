@@ -26,6 +26,11 @@
  */
 
 #include "CompatibilityTable.hpp"
+#if defined(ARDUINO) && defined(PLATFORMIO)
+#include "./CFA_Config.hpp"
+#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#include "./CRSFforArduino/src/CFA_Config.hpp"
+#endif
 
 namespace hal
 {
@@ -89,8 +94,9 @@ namespace hal
 #elif defined(ARDUINO_NANO_ESP32)
         device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
 #else
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 
 // Arduino SAMD Architecture
@@ -112,10 +118,10 @@ namespace hal
 // Adafruit Metro M0 Express
 #elif USB_PID == 0x8013
         device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M0_EXPRESS;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51J19A__)
@@ -128,44 +134,44 @@ namespace hal
 // Adafruit Metro M4 AirLift Lite
 #elif USB_PID == 0x8037
         device.type.devboard = DEVBOARD_ADAFRUIT_METRO_M4_AIRLIFT_LITE;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51G19A__)
 // Adafruit ItsyBitsy M4 Express
 #if USB_PID == 0x802B
         device.type.devboard = DEVBOARD_ADAFRUIT_ITSYBITSY_M4_EXPRESS;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51P20A__)
 // Adafruit Grand Central M4
 #if USB_PID == 0x8020
         device.type.devboard = DEVBOARD_ADAFRUIT_GRAND_CENTRAL_M4;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAME51J19A__)
 // Adafruit Feather M4 CAN
 #if USB_PID == 0x80CD
         device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_M4_CAN;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture is known, but the board and chip are not.
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 // Arduino devboards
@@ -202,11 +208,15 @@ namespace hal
 // Arduino Nano 33 IoT
 #elif USB_PID == 0x8057
         device.type.devboard = DEVBOARD_ARDUINO_NANO_33_IOT;
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
+// The architecture is known, but the board and chip are not.
+#else
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 // Seeed Studio devboards
@@ -217,19 +227,19 @@ namespace hal
 #if USB_PID == 0x802F
         device.type.devboard = DEVBOARD_SEEEDSTUDIO_XIAO_M0;
 
-// Device is not supported
+// The architecture and chip is known, but the board is not.
 #else
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
-#warning "Devboard not supported. Please check the compatibility table."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture is known, but the board and chip are not.
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
+#else // Unable to verify the vendor ID. Board is incompatible.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 
@@ -239,8 +249,9 @@ namespace hal
         device.type.devboard = DEVBOARD_TEENSY_30;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK20DX256__)
 /* PlatformIO treats Teensy 3.1 and Teensy 3.2 as the same board, but the Arduino IDE treats them
@@ -248,42 +259,42 @@ as two separate boards. To prevent a false negative, check for both boards. */
 #if defined(ARDUINO_TEENSY31) || defined(ARDUINO_TEENSY32)
         device.type.devboard = DEVBOARD_TEENSY_31_32;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK64FX512__)
 #if defined(ARDUINO_TEENSY35)
         device.type.devboard = DEVBOARD_TEENSY_35;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK66FX1M0__)
 #if defined(ARDUINO_TEENSY36)
         device.type.devboard = DEVBOARD_TEENSY_36;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__IMXRT1062__)
 #if defined(ARDUINO_TEENSY40)
         device.type.devboard = DEVBOARD_TEENSY_40;
 #elif defined(ARDUINO_TEENSY41)
         device.type.devboard = DEVBOARD_TEENSY_41;
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
-#else // Incompatible devboards
-#warning "Devboard not supported. Please check the compatibility table."
-        device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
+#else // The architecture is known, but the board and chip are not.
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 #else // Unsupported architecture
-#error "Unsupported architecture. Please check the compatibility table."
+#error "Unsupported architecture. CRSF for Arduino only supports the ESP32, SAMD, and Teensy architectures."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
 
@@ -304,26 +315,123 @@ as two separate boards. To prevent a false negative, check for both boards. */
      */
     bool CompatibilityTable::isDevboardCompatible(const char *name)
     {
-        // Debug.
-        // Serial.print("[Compatibility Table | DEBUG]: Board is ");
-
         if (strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) == 0)
         {
-            // Debug.
-            // Serial.println("incompatible.");
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            // Error.
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | ERROR]: The target board is not compatible with CRSF for Arduino.");
+#endif
+
+#if defined(F_CPU)
+#if F_CPU >= 48000000
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\t\t\t       CRSF for Arduino will not run on this board.");
+
+            // Print instructions for requesting board support.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board and its chipset, you may do the following:");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. Go to CRSFforArduino's repository at: http://tinyurl.com/4je6bzv7");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
+#endif
+#else
+            // F_CPU is less than 48 MHz.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | ERROR]: The target board's clock speed is less than 48 MHz. CRSF for Arduino requires a clock speed of at least 48 MHz or higher.");
+#endif
+#endif
+#else
+            // F_CPU is not defined. This is a fatal error and should not happen under normal circumstances.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | FATAL ERROR]: F_CPU is not defined.");
+#endif
+#endif
 
             return false;
         }
 
-        else
+        else if (strcmp(name, deviceNames[DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP]) == 0)
         {
-            // Debug.
-            // Serial.println("compatible.");
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            // Warning.
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | WARNING]: The target board and its chipset may not be compatible with CRSF for Arduino.");
+#endif
+
+#if defined(F_CPU)
+#if F_CPU >= 48000000
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\t\t\t\t The target board and the chipset that it's using are unknown.\r\n\t\t\t\t CRSF for Arduino will attempt to run on this board, but it may not work properly.");
+
+            // Print instructions for requesting board support.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board and its chipset, you may do the following:");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. Go to CRSFforArduino's repository at: http://tinyurl.com/4je6bzv7");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
+#endif
+#else
+            // F_CPU is less than 48 MHz.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | ERROR]: The target board's clock speed is less than 48 MHz. CRSF for Arduino requires a clock speed of at least 48 MHz or higher.");
+#endif
+
+            return false;
+#endif
+#else
+            // F_CPU is not defined. This is a fatal error and should not happen under normal circumstances.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | FATAL ERROR]: F_CPU is not defined.");
+#endif
+
+            return false;
+#endif
 
             return true;
         }
 
-        // return strcmp(name, deviceNames[DEVBOARD_IS_INCOMPATIBLE]) != 0 ? true : false;
+        else if (strcmp(name, deviceNames[DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD]) == 0)
+        {
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            // Warning.
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | WARNING]: The target board may not be compatible with CRSF for Arduino.");
+#endif
+
+#if defined(F_CPU)
+#if F_CPU >= 48000000
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\t\t\t\t The target board is unknown.\r\n\t\t\t\t CRSF for Arduino will attempt to run on this board, but it may not work properly.");
+
+            // Print instructions for requesting board support.
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board and its chipset, you may do the following:");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. Go to CRSFforArduino's repository at: http://tinyurl.com/4je6bzv7");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
+#endif
+#else
+            // F_CPU is less than 48 MHz.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | ERROR]: The target board's clock speed is less than 48 MHz. CRSF for Arduino requires a clock speed of at least 48 MHz or higher.");
+#endif
+
+            return false;
+#endif
+#else
+            // F_CPU is not defined. This is a fatal error and should not happen under normal circumstances.
+#if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT > 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | FATAL ERROR]: F_CPU is not defined.");
+#endif
+
+            return false;
+#endif
+
+            return true;
+        }
+
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -335,15 +443,13 @@ as two separate boards. To prevent a false negative, check for both boards. */
     {
         if (device.type.devboard >= DEVBOARD_COUNT)
         {
+#if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            // Serial.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Compatibility Table | FATAL ERROR]: Board index is out of bounds.");
+#endif
 
             return deviceNames[DEVBOARD_IS_INCOMPATIBLE];
         }
-
-        // Debug.
-        // Serial.print("\r\n[Compatibility Table | DEBUG]: Board is ");
-        // Serial.println(deviceNames[device.type.devboard]);
 
         return deviceNames[device.type.devboard];
     }

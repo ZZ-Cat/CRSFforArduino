@@ -198,10 +198,11 @@ namespace serialReceiver
         {
             // board->exitCriticalSection();
 
-#if CRSF_DEBUG_ENABLED > 0
+            // This is now handled by the Compatibility Table.
+            // #if CRSF_DEBUG_ENABLED > 0
             // Debug.
-            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
-#endif
+            //             CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | ERROR]: Devboard is not compatible.");
+            // #endif
             return false;
         }
     }
