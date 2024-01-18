@@ -326,7 +326,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
 
             // Print instructions for requesting board support.
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request compatibility for this board, you may do the following:");
-            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. In the Issues tab of the CRSFforArduino repository, click the New Issue button.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. Go to CRSFforArduino's repository at: http://tinyurl.com/4je6bzv7");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
@@ -363,7 +363,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
 
             // Print instructions for requesting board support.
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: If you would like to request support for this board, you may do the following:");
-            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. In the Issues tab of the CRSF for Arduino repository, click the New Issue button.");
+            CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 1. Go to CRSFforArduino's repository at: http://tinyurl.com/4je6bzv7");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 2. Click the Get Started button next to the \"Devboard Compatibility Request\" issue template.");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: 3. Fill out the template and submit the issue.");
             CRSF_DEBUG_SERIAL_PORT.println("[Compatibility Table | INFO]: Remember to check that your issue does not already exist before submitting it.");
