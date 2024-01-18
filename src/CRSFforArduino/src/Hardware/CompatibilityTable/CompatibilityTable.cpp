@@ -95,7 +95,7 @@ namespace hal
         device.type.devboard = DEVBOARD_ARDUINO_NANO_ESP32;
 #else
         // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 
@@ -121,7 +121,7 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51J19A__)
@@ -137,7 +137,7 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51G19A__)
@@ -147,7 +147,7 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAMD51P20A__)
@@ -157,7 +157,7 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #elif defined(__SAME51J19A__)
@@ -167,10 +167,10 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 #else // The architecture is known, but the board and chip are not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
@@ -211,11 +211,11 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 // The architecture is known, but the board and chip are not.
 #else
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
@@ -230,16 +230,16 @@ namespace hal
 // The architecture and chip is known, but the board is not.
 #else
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
 #endif
 
 #else // The architecture is known, but the board and chip are not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 #else // Unable to verify the vendor ID. Board is incompatible.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 
@@ -250,7 +250,7 @@ namespace hal
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else
         // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK20DX256__)
@@ -260,7 +260,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         device.type.devboard = DEVBOARD_TEENSY_31_32;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK64FX512__)
@@ -268,7 +268,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         device.type.devboard = DEVBOARD_TEENSY_35;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__MK66FX1M0__)
@@ -276,7 +276,7 @@ as two separate boards. To prevent a false negative, check for both boards. */
         device.type.devboard = DEVBOARD_TEENSY_36;
 #pragma message "Teensy 3.x is not recommended for new projects. Please consider using Teensy 4.0 or later instead."
 #else // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #elif defined(__IMXRT1062__)
@@ -285,16 +285,16 @@ as two separate boards. To prevent a false negative, check for both boards. */
 #elif defined(ARDUINO_TEENSY41)
         device.type.devboard = DEVBOARD_TEENSY_41;
 #else // The architecture and chip is known, but the board is not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 #else // The architecture is known, but the board and chip are not.
-#warning "Devboard not supported. Please check the compatibility table."
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
 #endif
 
 #else // Unsupported architecture
-#error "Unsupported architecture. Please check the compatibility table."
+#error "Unsupported architecture. CRSF for Arduino only supports the ESP32, SAMD, and Teensy architectures."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
 
