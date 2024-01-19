@@ -34,7 +34,7 @@ namespace serialReceiver
     {
         _rxPin = 0;
         _txPin = 1;
-        board = new DevBoards();
+        _uart = new hw_uart();
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0
@@ -49,7 +49,7 @@ namespace serialReceiver
     {
         _rxPin = rxPin;
         _txPin = txPin;
-        board = new DevBoards();
+        _uart = new hw_uart();
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0
@@ -64,7 +64,7 @@ namespace serialReceiver
     {
         _rxPin = 0xffu;
         _txPin = 0xffu;
-        delete board;
+        delete _uart;
         delete ct;
 
 #if CRSF_RC_ENABLED > 0
@@ -81,7 +81,7 @@ namespace serialReceiver
         // Debug.
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
-        // board->enterCriticalSection();
+        // _uart->enterCriticalSection();
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
         // Initialize the RC Channels.
@@ -124,12 +124,12 @@ namespace serialReceiver
         }
 #endif
 
-        // Check if the board is compatible.
+        // Check if the _uart is compatible.
         if (ct->isDevboardCompatible(ct->getDevboardName()))
         {
             if (_rxPin == 0xffu && _txPin == 0xffu)
             {
-                // board->exitCriticalSection();
+                // _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
                 // Debug.
@@ -138,7 +138,7 @@ namespace serialReceiver
                 return false;
             }
 
-            board->enterCriticalSection();
+            _uart->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
             crsf = new CRSF();
@@ -146,7 +146,7 @@ namespace serialReceiver
             // Check that the CRSF Protocol was initialized successfully.
             if (crsf == nullptr)
             {
-                board->exitCriticalSection();
+                _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
                 // Debug.
@@ -157,8 +157,8 @@ namespace serialReceiver
 
             crsf->begin();
             crsf->setFrameTime(BAUD_RATE, 10);
-            board->setUART(0, _rxPin, _txPin);
-            board->begin(BAUD_RATE);
+            _uart->setUART(0, _rxPin, _txPin);
+            _uart->begin(BAUD_RATE);
 
 #if CRSF_TELEMETRY_ENABLED > 0
             // Initialise telemetry.
@@ -167,7 +167,7 @@ namespace serialReceiver
             // Check that the telemetry was initialised successfully.
             if (telemetry == nullptr)
             {
-                board->exitCriticalSection();
+                _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
                 // Debug.
@@ -179,13 +179,13 @@ namespace serialReceiver
             telemetry->begin();
 #endif
 
-            board->exitCriticalSection();
+            _uart->exitCriticalSection();
 
             // Clear the UART buffer.
-            board->flush();
-            while (board->available() > 0)
+            _uart->flush();
+            while (_uart->available() > 0)
             {
-                board->read();
+                _uart->read();
             }
 
 #if CRSF_DEBUG_ENABLED > 0
@@ -196,7 +196,7 @@ namespace serialReceiver
         }
         else
         {
-            // board->exitCriticalSection();
+            // _uart->exitCriticalSection();
 
             // This is now handled by the Compatibility Table.
             // #if CRSF_DEBUG_ENABLED > 0
@@ -209,15 +209,15 @@ namespace serialReceiver
 
     void SerialReceiver::end()
     {
-        board->flush();
-        while (board->available() > 0)
+        _uart->flush();
+        while (_uart->available() > 0)
         {
-            board->read();
+            _uart->read();
         }
 
-        board->enterCriticalSection();
-        board->end();
-        board->clearUART();
+        _uart->enterCriticalSection();
+        _uart->end();
+        _uart->clearUART();
 
         // Check if the CRSF Protocol was initialized.
         if (crsf != nullptr)
@@ -234,15 +234,15 @@ namespace serialReceiver
             delete telemetry;
         }
 #endif
-        board->exitCriticalSection();
+        _uart->exitCriticalSection();
     }
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
     void SerialReceiver::processFrames()
     {
-        while (board->available() > 0)
+        while (_uart->available() > 0)
         {
-            if (crsf->receiveFrames((uint8_t)board->read()))
+            if (crsf->receiveFrames((uint8_t)_uart->read()))
             {
                 flushRemainingFrames();
 
@@ -250,7 +250,7 @@ namespace serialReceiver
                 // Check if it is time to send telemetry.
                 if (telemetry->update())
                 {
-                    telemetry->sendTelemetryData(board);
+                    telemetry->sendTelemetryData(_uart);
                 }
 #endif
             }
@@ -266,10 +266,10 @@ namespace serialReceiver
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
     void SerialReceiver::flushRemainingFrames()
     {
-        board->flush();
-        while (board->available() > 0)
+        _uart->flush();
+        while (_uart->available() > 0)
         {
-            board->read();
+            _uart->read();
         }
     }
 #endif

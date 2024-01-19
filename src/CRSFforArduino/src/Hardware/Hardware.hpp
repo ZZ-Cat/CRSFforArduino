@@ -32,7 +32,7 @@
 #include "../CFA_Config.hpp"
 #endif
 #include "CompatibilityTable/CompatibilityTable.hpp"
-#include "DevBoards/DevBoards.hpp"
+#include "hw_uart/hw_uart.hpp"
 
 using namespace crsfForArduinoConfig;
 using namespace hal;

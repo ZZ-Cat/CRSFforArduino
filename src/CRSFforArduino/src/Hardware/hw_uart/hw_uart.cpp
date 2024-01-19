@@ -1,7 +1,7 @@
 /**
- * @file DevBoards.cpp
+ * @file hw_uart.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This is the DevBoards implementation file. It is used to configure CRSF for Arduino for specific development boards.
+ * @brief This is the hw_uart implementation file. It is used to configure CRSF for Arduino for specific development boards.
  * @version 1.0.0
  * @date 2024-1-20
  *
@@ -24,7 +24,7 @@
  * 
  */
 
-#include "DevBoards.hpp"
+#include "hw_uart.hpp"
 
 namespace hal
 {
@@ -55,11 +55,11 @@ namespace hal
     // #endif
     // #endif
 
-    DevBoards::DevBoards()
+    hw_uart::hw_uart()
     {
     }
 
-    DevBoards::~DevBoards()
+    hw_uart::~hw_uart()
     {
         // #ifdef USE_DMA
         // #if defined(ARDUINO_ARCH_SAMD)
@@ -77,7 +77,7 @@ namespace hal
         // #endif
     }
 
-    void DevBoards::setUART(uint8_t port, uint8_t rx, uint8_t tx)
+    void hw_uart::setUART(uint8_t port, uint8_t rx, uint8_t tx)
     {
         return;
         // #if defined(ARDUINO_ARCH_SAMD)
@@ -134,7 +134,7 @@ namespace hal
         // #endif
     }
 
-    void DevBoards::clearUART()
+    void hw_uart::clearUART()
     {
         return;
         // If UART port was defined beforehand, delete it.
@@ -146,61 +146,61 @@ namespace hal
         //         }
     }
 
-    void DevBoards::begin(unsigned long baudrate, int config)
+    void hw_uart::begin(unsigned long baudrate, int config)
     {
         // Begin the UART port.
         uart_port->begin(baudrate, config);
     }
 
-    void DevBoards::end()
+    void hw_uart::end()
     {
         // End the UART port.
         uart_port->end();
     }
 
-    int DevBoards::available(void)
+    int hw_uart::available(void)
     {
         // Return the number of bytes available in the UART port.
         return uart_port->available();
     }
 
-    int DevBoards::peek(void)
+    int hw_uart::peek(void)
     {
         // Return the next byte in the UART port without removing it from the buffer.
         return uart_port->peek();
     }
 
-    int DevBoards::read(void)
+    int hw_uart::read(void)
     {
         // Return the next byte in the UART port and remove it from the buffer.
         return uart_port->read();
     }
 
-    void DevBoards::flush(void)
+    void hw_uart::flush(void)
     {
         // Flush the UART port.
         uart_port->flush();
     }
 
-    size_t DevBoards::write(uint8_t c)
+    size_t hw_uart::write(uint8_t c)
     {
         // Write a byte to the UART port.
         return uart_port->write(c);
     }
 
-    size_t DevBoards::write(const uint8_t *buffer, size_t size)
+    size_t hw_uart::write(const uint8_t *buffer, size_t size)
     {
         // Write a buffer to the UART port.
         return uart_port->write(buffer, size);
     }
 
-    DevBoards::operator bool()
+    hw_uart::operator bool()
     {
         // Return if the UART port is available.
         return uart_port->operator bool();
     }
 
-    void DevBoards::enterCriticalSection()
+    void hw_uart::enterCriticalSection()
     {
         // Enter a critical section.
 #if defined(ARDUINO_ARCH_SAMD)
@@ -213,7 +213,7 @@ namespace hal
         critical_section_counter++;
     }
 
-    void DevBoards::exitCriticalSection()
+    void hw_uart::exitCriticalSection()
     {
         // Decrement the critical section counter.
         critical_section_counter--;
@@ -230,7 +230,7 @@ namespace hal
     }
 
     // #if defined(USE_DMA)
-    //     void DevBoards::memcpy_dma(void *dest, void *src, size_t size)
+    //     void hw_uart::memcpy_dma(void *dest, void *src, size_t size)
     //     {
     // #if defined(ARDUINO_ARCH_SAMD)
     //         // If DMA memory was not initialized, initialize it.
@@ -309,7 +309,7 @@ namespace hal
     // #endif
     //     }
 
-    //     void DevBoards::memset_dma(void *dest, int value, size_t size)
+    //     void hw_uart::memset_dma(void *dest, int value, size_t size)
     //     {
     // #if defined(ARDUINO_ARCH_SAMD)
     //         // If DMA memory was not initialized, initialize it.

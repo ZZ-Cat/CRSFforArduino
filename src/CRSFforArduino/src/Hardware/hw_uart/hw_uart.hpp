@@ -1,7 +1,7 @@
 /**
- * @file DevBoards.hpp
+ * @file hw_uart.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This file contains the DevBoards class, which is used to configure CRSF for Arduino for specific development boards.
+ * @brief This file contains the hw_uart class, which is used to configure CRSF for Arduino for specific development boards.
  * @version 1.0.0
  * @date 2024-1-20
  *
@@ -36,11 +36,11 @@
 
 namespace hal
 {
-    class DevBoards : private Stream
+    class hw_uart : private Stream
     {
       public:
-        DevBoards();
-        virtual ~DevBoards();
+        hw_uart();
+        virtual ~hw_uart();
 
         void setUART(uint8_t port, uint8_t rx, uint8_t tx);
         void clearUART();

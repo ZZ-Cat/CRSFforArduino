@@ -54,7 +54,7 @@ namespace serialReceiver
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
-    class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
+    class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private hw_uart
     {
       public:
         SerialReceiver();
@@ -92,7 +92,7 @@ namespace serialReceiver
       private:
         CRSF *crsf;
         CompatibilityTable *ct;
-        DevBoards *board;
+        hw_uart *_uart;
 
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;

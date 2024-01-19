@@ -29,12 +29,12 @@
 #include "Arduino.h"
 
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#include "Hardware/DevBoards/DevBoards.hpp"
+#include "Hardware/hw_uart/hw_uart.hpp"
 #include "SerialReceiver/CRC/CRC.hpp"
 #include "SerialReceiver/CRSF/CRSFProtocol.hpp"
 #include "SerialReceiver/SerialBuffer/SerialBuffer.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "../../Hardware/DevBoards/DevBoards.hpp"
+#include "../../Hardware/hw_uart/hw_uart.hpp"
 #include "../CRC/CRC.hpp"
 #include "../CRSF/CRSFProtocol.hpp"
 #include "../SerialBuffer/SerialBuffer.hpp"
@@ -43,10 +43,10 @@
 namespace serialReceiver
 {
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
-#ifndef USE_DMA
+// #ifndef USE_DMA
         ,
-                      private hal::DevBoards
-#endif
+                      private hal::hw_uart
+// #endif
     {
       public:
         Telemetry();
@@ -64,7 +64,7 @@ namespace serialReceiver
         void setGPSData(float latitude, float longitude, float altitude, float speed, float course, uint8_t satellites);
         // void setVarioData(float vario);
 
-        void sendTelemetryData(DevBoards *db);
+        void sendTelemetryData(hw_uart *db);
 
       private:
         uint8_t _telemetryFrameScheduleCount;
