@@ -57,10 +57,26 @@ namespace hal
 
     hw_uart::hw_uart()
     {
+        uart_port = &Serial1;
+    }
+
+    hw_uart::hw_uart(uint8_t port, uint8_t rx, uint8_t tx)
+    {
+        switch (port)
+        {
+        default:
+            uart_port = nullptr;
+            break;
+
+        case 1:
+            uart_port = &Serial1;
+            break;
+        }
     }
 
     hw_uart::~hw_uart()
     {
+        uart_port = nullptr;
         // #ifdef USE_DMA
         // #if defined(ARDUINO_ARCH_SAMD)
         //         // If DMA memory was initialized, delete it.

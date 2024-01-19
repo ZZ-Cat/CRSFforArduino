@@ -40,6 +40,7 @@ namespace hal
     {
       public:
         hw_uart();
+        hw_uart(uint8_t port, uint8_t rx, uint8_t tx);
         virtual ~hw_uart();
 
         void setUART(uint8_t port, uint8_t rx, uint8_t tx);
@@ -70,10 +71,6 @@ namespace hal
       private:
         uint16_t critical_section_counter = 0;
 
-#if defined(ARDUINO_ARCH_SAMD)
-        Uart *uart_port;
-#else
         HardwareSerial *uart_port;
-#endif
     };
 } // namespace hal

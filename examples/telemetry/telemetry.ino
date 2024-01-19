@@ -35,8 +35,6 @@
 #define USE_SERIAL_PLOTTER           1 // Set USE_SERIAL_PLOTTER to 1 to view this example's data in the Arduino IDE's serial plotter.
 #define GENERATE_RANDOM_BATTERY_DATA 0 // Set GENERATE_RANDOM_BATTERY_DATA to 1 to generate random battery sensor telemetry data.
 #define GENERATE_RANDOM_GPS_DATA     0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
-#define SERIAL_RX_PIN                0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
-#define SERIAL_TX_PIN                1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
 
@@ -69,7 +67,7 @@ const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this
 So, an assert is needed to prevent channelCount from being set to any arbitary number that is higher than 16. */
 static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
 
-CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
+CRSFforArduino crsf = CRSFforArduino();
 
 #if USE_SERIAL_PLOTTER == 0 && VIEW_RC_CHANNELS > 0
 const char *channelNames[crsfProtocol::RC_CHANNEL_COUNT] = {

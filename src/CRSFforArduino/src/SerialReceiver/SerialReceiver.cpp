@@ -32,8 +32,6 @@ namespace serialReceiver
 {
     SerialReceiver::SerialReceiver()
     {
-        _rxPin = 0;
-        _txPin = 1;
         _uart = new hw_uart();
         ct = new CompatibilityTable();
 
@@ -47,9 +45,7 @@ namespace serialReceiver
 
     SerialReceiver::SerialReceiver(uint8_t rxPin, uint8_t txPin)
     {
-        _rxPin = rxPin;
-        _txPin = txPin;
-        _uart = new hw_uart();
+        _uart = new hw_uart(1, rxPin, txPin);
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0
@@ -62,8 +58,6 @@ namespace serialReceiver
 
     SerialReceiver::~SerialReceiver()
     {
-        _rxPin = 0xffu;
-        _txPin = 0xffu;
         delete _uart;
         delete ct;
 
@@ -127,17 +121,6 @@ namespace serialReceiver
         // Check if the _uart is compatible.
         if (ct->isDevboardCompatible(ct->getDevboardName()))
         {
-            if (_rxPin == 0xffu && _txPin == 0xffu)
-            {
-                // _uart->exitCriticalSection();
-
-#if CRSF_DEBUG_ENABLED > 0
-                // Debug.
-                CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | ERROR]: RX and TX pins are not set.");
-#endif
-                return false;
-            }
-
             _uart->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
@@ -157,7 +140,6 @@ namespace serialReceiver
 
             crsf->begin();
             crsf->setFrameTime(BAUD_RATE, 10);
-            _uart->setUART(0, _rxPin, _txPin);
             _uart->begin(BAUD_RATE);
 
 #if CRSF_TELEMETRY_ENABLED > 0

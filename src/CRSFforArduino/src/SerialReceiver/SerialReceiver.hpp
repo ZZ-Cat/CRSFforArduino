@@ -98,9 +98,6 @@ namespace serialReceiver
         Telemetry *telemetry;
 #endif
 
-        uint8_t _rxPin = 0xffu;
-        uint8_t _txPin = 0xffu;
-
 #if CRSF_RC_ENABLED > 0
         uint16_t *_rcChannels;
 #endif
