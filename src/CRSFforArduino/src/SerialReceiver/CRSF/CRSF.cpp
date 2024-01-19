@@ -46,24 +46,24 @@ namespace serialReceiver
         frameCount = 0;
         timePerFrame = 0;
 
-#ifdef USE_DMA
-        memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#else
+        // #ifdef USE_DMA
+        //         memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        // #else
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#endif
+        // #endif
     }
 
     void CRSF::end()
     {
-#ifdef USE_DMA
-        memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#else
+        // #ifdef USE_DMA
+        //         memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        // #else
         memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
         memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#endif
+        // #endif
 
         timePerFrame = 0;
         frameCount = 0;
@@ -118,25 +118,25 @@ namespace serialReceiver
                         case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
                             if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
                             {
-#ifdef USE_DMA
-#ifdef __SAMD51__
-                                memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is a workaround for the crash on SAMD51.
-#else
-                                memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is the line that causes the crash on SAMD51.
-#endif
-#else
+                                // #ifdef USE_DMA
+                                // #ifdef __SAMD51__
+                                //                                 memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is a workaround for the crash on SAMD51.
+                                // #else
+                                //                                 memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is the line that causes the crash on SAMD51.
+                                // #endif
+                                // #else
                                 memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
-#endif
+                                // #endif
                                 rcFrameReceived = true;
                             }
                             break;
                     }
                 }
-#ifdef USE_DMA
-                memset_dma(&rxFrame, 0, CRSF_FRAME_SIZE_MAX); // ◄ This line works fine on both SAMD21 and SAMD51.
-#else
+                // #ifdef USE_DMA
+                //                 memset_dma(&rxFrame, 0, CRSF_FRAME_SIZE_MAX); // ◄ This line works fine on both SAMD21 and SAMD51.
+                // #else
                 memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-#endif
+                // #endif
                 framePosition = 0;
 
                 return true;
