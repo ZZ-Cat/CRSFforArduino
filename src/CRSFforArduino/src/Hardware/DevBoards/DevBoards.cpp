@@ -136,13 +136,14 @@ namespace hal
 
     void DevBoards::clearUART()
     {
+        return;
         // If UART port was defined beforehand, delete it.
-        if (uart_port != nullptr)
-        {
-#if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
-            uart_port->~Uart();
-#endif
-        }
+        //         if (uart_port != nullptr)
+        //         {
+        // #if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
+        //             uart_port->~Uart();
+        // #endif
+        //         }
     }
 
     void DevBoards::begin(unsigned long baudrate, int config)
