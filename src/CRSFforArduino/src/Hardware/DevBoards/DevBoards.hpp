@@ -27,12 +27,12 @@
 #pragma once
 
 #include "Arduino.h"
-#ifdef USE_DMA
-#warning "DMA is enabled. This is an experimental feature and may not work as expected."
-#if defined(ARDUINO_ARCH_SAMD)
-#include "Adafruit_ZeroDMA.h"
-#endif
-#endif
+// #ifdef USE_DMA
+// #warning "DMA is enabled. This is an experimental feature and may not work as expected."
+// #if defined(ARDUINO_ARCH_SAMD)
+// #include "Adafruit_ZeroDMA.h"
+// #endif
+// #endif
 
 namespace hal
 {
@@ -61,11 +61,11 @@ namespace hal
         void enterCriticalSection();
         void exitCriticalSection();
 
-#ifdef USE_DMA
-        // DMA functions.
-        void memcpy_dma(void *dest, void *src, size_t size);
-        void memset_dma(void *dest, int value, size_t size);
-#endif
+        // #ifdef USE_DMA
+        //         // DMA functions.
+        //         void memcpy_dma(void *dest, void *src, size_t size);
+        //         void memset_dma(void *dest, int value, size_t size);
+        // #endif
 
       private:
         uint16_t critical_section_counter = 0;
