@@ -79,58 +79,59 @@ namespace hal
 
     void DevBoards::setUART(uint8_t port, uint8_t rx, uint8_t tx)
     {
-#if defined(ARDUINO_ARCH_SAMD)
-        // If UART port was defined beforehand, delete it.
-        if (uart_port != nullptr)
-        {
-            uart_port->~Uart();
+        return;
+        // #if defined(ARDUINO_ARCH_SAMD)
+        //         // If UART port was defined beforehand, delete it.
+        //         if (uart_port != nullptr)
+        //         {
+        //             uart_port->~Uart();
 
-            // Debug.
-            // Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
-        }
+        //             // Debug.
+        //             // Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
+        //         }
 
-        // Set the UART port.
-        switch (port)
-        {
-            case 0:
-                uart_port = &Serial1;
+        //         // Set the UART port.
+        //         switch (port)
+        //         {
+        //             case 0:
+        //                 uart_port = &Serial1;
 
-                // Debug.
-                // Serial.println("[Development Board | DEBUG]: Using Serial1.");
-                break;
+        //                 // Debug.
+        //                 // Serial.println("[Development Board | DEBUG]: Using Serial1.");
+        //                 break;
 
-            case 1: // TO-DO: Fix this.
-                uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
+        //             case 1: // TO-DO: Fix this.
+        //                 uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 
-                // Debug.
-                // Serial.println("[Development Board | DEBUG]: Using Serial2.");
-                break;
+        //                 // Debug.
+        //                 // Serial.println("[Development Board | DEBUG]: Using Serial2.");
+        //                 break;
 
-            default:
-                uart_port = nullptr;
+        //             default:
+        //                 uart_port = nullptr;
 
-                // Debug.
-                // Serial.println("[Development Board | ERROR]: No UART port was defined.");
-                break;
-        }
-#elif defined(TEENSYDUINO)
-        // Default to Serial1 if Teensyduino is being used. May expand this in the future, if requested.
-        uart_port = &Serial1;
+        //                 // Debug.
+        //                 // Serial.println("[Development Board | ERROR]: No UART port was defined.");
+        //                 break;
+        //         }
+        // #elif defined(TEENSYDUINO)
+        //         // Default to Serial1 if Teensyduino is being used. May expand this in the future, if requested.
+        //         uart_port = &Serial1;
 
-        // Debug.
-        // Serial.println("[Development Board | DEBUG]: Using Serial1.");
-#elif defined(ARDUINO_ARCH_ESP32)
-        // Default to Serial1 if ESP32 is being used. May expand this in the future, if requested.
-        uart_port = &Serial1;
+        //         // Debug.
+        //         // Serial.println("[Development Board | DEBUG]: Using Serial1.");
+        // #elif defined(ARDUINO_ARCH_ESP32)
+        //         // Default to Serial1 if ESP32 is being used. May expand this in the future, if requested.
+        //         uart_port = &Serial1;
 
-        // Debug.
-        // Serial.println("[Development Board | DEBUG]: Using Serial1.");
-#else
-        uart_port = nullptr;
+        //         // Debug.
+        //         // Serial.println("[Development Board | DEBUG]: Using Serial1.");
+        // #else
+        //         uart_port = nullptr;
 
-        // Debug.
-        // Serial.println("[Development Board | ERROR]: No UART port was defined.");
-#endif
+        //         // Debug.
+        //         // Serial.println("[Development Board | ERROR]: No UART port was defined.");
+        // #endif
     }
 
     void DevBoards::clearUART()
