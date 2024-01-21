@@ -54,7 +54,7 @@ namespace serialReceiver
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
-    class SerialReceiver : /* private CRSF, */ private CompatibilityTable/* , private hw_uart */
+    class SerialReceiver : /* private CRSF, */ private CompatibilityTable /* , private hw_uart */
     {
       public:
         SerialReceiver();
