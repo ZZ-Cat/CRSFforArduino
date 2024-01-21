@@ -98,9 +98,14 @@ namespace hal
 // Raspberry Pi RP2040 Architecture
 #elif defined(ARDUINO_ARCH_RP2040)
 
+// Arduino Nano RP2040 Connect
+#if defined(ARDUINO_NANO_RP2040_CONNECT)
+        device.type.devboard = DEVBOARD_ARDUINO_NANO_RP2040_CONNECT;
+#else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
 
 // Arduino SAMD Architecture
 #elif defined(ARDUINO_ARCH_SAMD)

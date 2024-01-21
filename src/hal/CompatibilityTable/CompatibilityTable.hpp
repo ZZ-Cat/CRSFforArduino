@@ -82,6 +82,9 @@ namespace hal
             // Arduino ESP32 boards.
             DEVBOARD_ARDUINO_NANO_ESP32,
 
+            // Arduino RP2040 boards.
+            DEVBOARD_ARDUINO_NANO_RP2040_CONNECT,
+
             // Arduino SAMD21 boards.
             DEVBOARD_ARDUINO_MKR1000,
             DEVBOARD_ARDUINO_MKRFOX1200,
@@ -160,6 +163,7 @@ namespace hal
             "Adafruit Metro M4 Express",
             "Adafruit Feather M4 CAN",
             "Arduino Nano ESP32",
+            "Arduino Nano RP2040 Connect",
             "Arduino MKR1000",
             "Arduino MKRFOX1200",
             "Arduino MKRGSM1400",
