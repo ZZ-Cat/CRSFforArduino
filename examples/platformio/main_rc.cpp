@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates the full capabilities of CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-1-20
+ * @date 2024-1-22
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
