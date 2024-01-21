@@ -92,7 +92,8 @@ With that being said, installation from the Releases tab is nearly identical to 
 ### The API
 
 1. Add my library to your sketch with `#include "CRSFforArduino.h"`
-2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino()`. For now, you can leave the parentheses empty. There is ongoing work to allow you to specify what pins your receiver is connected to. For now, it defaults to pins 0 and 1 for Tx and Rx respectively.
+2. Underneath that, you need to declare `CRSFforArduino crsf = CRSFforArduino(HardwareSerial *serialPort)`.
+  The parameter `serialPort` is where you can provide your own hardware UART port and pin definitions.
 3. In your `setup()`, do `crsf.begin()` to start communicating with your connected ExpressLRS receiver. In case something goes wrong, `crsf.begin()` returns a boolean value of `true` if initialisation is successful, and `false` if it is not.
 4. In your `loop()`, you need to call `crsf.update()`. This handles all of the data processing (including receiving RC channels and sending telemetry) and should be called as often as possible. You no longer need to read back the return value of `crsf.update()`, as it no longer returns anything. Everything is handled internally now.
 5. To read your RC channel values, use `crsf.readRcChannel(n)`. Here, `n` refers to your channel number from 1 to 16.
@@ -108,9 +109,9 @@ The example below demonstrates what your code should look like, using the instru
 /* 1. Add Cassie Robinson's CRSFforArduino.h library. */
 #include "CRSFforArduino.h"
 
-/* 2. Declare a CRSFforArduino object.
+/* 2. Declare a CRSFforArduino object with your board's default UART port.
 You can call it literally anything you want. */
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
@@ -195,7 +196,7 @@ float lat, lon, alt, spd, gCourse;
 int numSats;
 
 /* 3. Declare a CRSFforArduino object. */
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {
@@ -433,6 +434,8 @@ If your development board outputs a logic level of 5 volts on its serial pins, y
 
 ## Telemetry
 
+CRSF for Arduino supports full telemetry feedback, and you can view it all in one convenient place if you're using a LUA script like the INAV Telemetry Widget for OpenTX/EdgeTX controllers.
+
 The following telemetry data is supported:
 
 - Attitude/Artificial Horizon data:
@@ -466,10 +469,10 @@ The following telemetry data is supported:
 ## Known issues and limitations
 
 - CRSF for Arduino is not compatible with AVR based microcontrollers.
-  - This is because the AVR microcontrollers are simply not powerful enough to meet the minimum requirements of the CRSF protocol.
-- DMA for both SAMD21 and SAMD51 targets is currently broken, and is disabled for the time being.
-  If you build CRSF for Arduino with `USE_DMA` enabled, you will see this warning message: `DMA is enabled. This is an experimental feature and may not work as expected.`
-  At this point, DMA may be removed from CRSF for Arduino, as it brings _very little_ benefit to the project... if any at all.
+  - CRSF for Arduino uses a _lot_ of dynamic memory, to which all AVR microcontrollers simply don't have enough of.
+  - There are ongoing tests to see what other reasons why AVR microcontrollers aren't compatible.
+- DMA for both SAMD21 and SAMD51 targets is no longer available.
+  - DMA may be re-factored later on down the track. However, it is not a priority right now.
 - Software serial is not supported.
   - This is because software serial is not capable of running at the required baud rate of 420 KB/s.
   - This also means that CRSF for Arduino is restricted to using hardware serial only.
@@ -493,14 +496,14 @@ I give credit where credit is due. Because CRSF for Arduino isn't entirely my ow
     - [Source Code](https://github.com/ExpressLRS/ExpressLRS)
     - [Website](https://www.expresslrs.org/3.0/)
   - [Team BlackSheep FPV](https://github.com/tbs-fpv) - The folks behind the CRSF protocol that both ExpressLRS and CRSF for Arduino uses.
-  - [This issue](https://github.com/tbs-fpv/freedomtx/issues/26) on [FreedomTX's repository.](https://github.com/tbs-fpv/freedomtx/issues/26)
-    - This gets a mention here, because I will benefit _greatly_ from an officially documented public repository for the CRSF protocol. The evolution of the protocol itself will help shape CRSF for Arduino, and I will be able to refer to that in addition to my references here.
 - References for CRSF for Arduino
   - [BetaFlight](https://github.com/betaflight)
     - [Development Team](https://github.com/orgs/betaflight/people)
     - [License](https://github.com/betaflight/betaflight/blob/master/LICENSE)
     - [Source Code](https://github.com/betaflight/betaflight)
     - [Website](https://betaflight.com/)
+  - [CRSF-WG](https://github.com/crsf-wg/crsf)
+    - This is the official repository for The CRSF Protocol, which CRSF for Arduino is based on.
   - [RotorFlight](https://github.com/rotorflight)
     - [Development Team](https://github.com/rotorflight#credits)
     - [License](https://github.com/rotorflight/rotorflight-firmware/blob/master/LICENSE)
