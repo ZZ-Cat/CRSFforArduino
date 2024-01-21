@@ -33,7 +33,7 @@
 
 #include "CRSFforArduino.hpp"
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {

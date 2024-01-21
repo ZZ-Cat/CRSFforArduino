@@ -108,7 +108,7 @@
 
 const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this is right, but we can always manually put in the number of channels desired
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {

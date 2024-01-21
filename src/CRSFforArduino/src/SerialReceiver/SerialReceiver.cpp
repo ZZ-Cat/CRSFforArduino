@@ -43,9 +43,9 @@ namespace serialReceiver
 #endif
     }
 
-    SerialReceiver::SerialReceiver(uint8_t rxPin, uint8_t txPin)
+    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
     {
-        _uart = new hw_uart(1, rxPin, txPin);
+        _uart = new hw_uart(hwUartPort);
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0

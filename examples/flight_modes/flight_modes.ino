@@ -59,7 +59,7 @@
 #define FLIGHT_MODE_HORIZON_MIN     1700
 #define FLIGHT_MODE_HORIZON_MAX     2100
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void onFlightModeUpdate(serialReceiver::flightModeId_t);
 

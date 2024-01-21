@@ -58,7 +58,7 @@ namespace serialReceiver
     {
       public:
         SerialReceiver();
-        SerialReceiver(uint8_t rxPin, uint8_t txPin);
+        SerialReceiver(HardwareSerial *hwUartPort);
         virtual ~SerialReceiver();
 
         bool begin();

@@ -62,7 +62,7 @@ float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
 uint8_t satellites = 7;               // 7 satellites are in view (implies a 3D fix).
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 #if VIEW_RC_CHANNELS > 0
 const int channelCount = 8;

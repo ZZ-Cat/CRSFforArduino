@@ -57,26 +57,20 @@ namespace hal
 
     hw_uart::hw_uart()
     {
-        uart_port = &Serial1;
+        _uart_port = nullptr;
     }
 
-    hw_uart::hw_uart(uint8_t port, uint8_t rx, uint8_t tx)
+    hw_uart::hw_uart(HardwareSerial *uart_port)
     {
-        switch (port)
+        if (uart_port != nullptr)
         {
-        default:
-            uart_port = nullptr;
-            break;
-
-        case 1:
-            uart_port = &Serial1;
-            break;
+            _uart_port = uart_port;
         }
     }
 
     hw_uart::~hw_uart()
     {
-        uart_port = nullptr;
+        _uart_port = nullptr;
         // #ifdef USE_DMA
         // #if defined(ARDUINO_ARCH_SAMD)
         //         // If DMA memory was initialized, delete it.
@@ -98,9 +92,9 @@ namespace hal
         return;
         // #if defined(ARDUINO_ARCH_SAMD)
         //         // If UART port was defined beforehand, delete it.
-        //         if (uart_port != nullptr)
+        //         if (_uart_port != nullptr)
         //         {
-        //             uart_port->~Uart();
+        //             _uart_port->~Uart();
 
         //             // Debug.
         //             // Serial.println("[Development Board | DEBUG]: Deleted previous UART port.");
@@ -110,21 +104,21 @@ namespace hal
         //         switch (port)
         //         {
         //             case 0:
-        //                 uart_port = &Serial1;
+        //                 _uart_port = &Serial1;
 
         //                 // Debug.
         //                 // Serial.println("[Development Board | DEBUG]: Using Serial1.");
         //                 break;
 
         //             case 1: // TO-DO: Fix this.
-        //                 uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
+        //                 _uart_port = new Uart(&sercom2, rx, tx, SERCOM_RX_PAD_1, UART_TX_PAD_0);
 
         //                 // Debug.
         //                 // Serial.println("[Development Board | DEBUG]: Using Serial2.");
         //                 break;
 
         //             default:
-        //                 uart_port = nullptr;
+        //                 _uart_port = nullptr;
 
         //                 // Debug.
         //                 // Serial.println("[Development Board | ERROR]: No UART port was defined.");
@@ -132,18 +126,18 @@ namespace hal
         //         }
         // #elif defined(TEENSYDUINO)
         //         // Default to Serial1 if Teensyduino is being used. May expand this in the future, if requested.
-        //         uart_port = &Serial1;
+        //         _uart_port = &Serial1;
 
         //         // Debug.
         //         // Serial.println("[Development Board | DEBUG]: Using Serial1.");
         // #elif defined(ARDUINO_ARCH_ESP32)
         //         // Default to Serial1 if ESP32 is being used. May expand this in the future, if requested.
-        //         uart_port = &Serial1;
+        //         _uart_port = &Serial1;
 
         //         // Debug.
         //         // Serial.println("[Development Board | DEBUG]: Using Serial1.");
         // #else
-        //         uart_port = nullptr;
+        //         _uart_port = nullptr;
 
         //         // Debug.
         //         // Serial.println("[Development Board | ERROR]: No UART port was defined.");
@@ -154,10 +148,10 @@ namespace hal
     {
         return;
         // If UART port was defined beforehand, delete it.
-        //         if (uart_port != nullptr)
+        //         if (_uart_port != nullptr)
         //         {
         // #if not(defined(TEENSYDUINO) || defined(ARDUINO_ARCH_ESP32))
-        //             uart_port->~Uart();
+        //             _uart_port->~Uart();
         // #endif
         //         }
     }
@@ -165,55 +159,55 @@ namespace hal
     void hw_uart::begin(unsigned long baudrate, int config)
     {
         // Begin the UART port.
-        uart_port->begin(baudrate, config);
+        _uart_port->begin(baudrate, config);
     }
 
     void hw_uart::end()
     {
         // End the UART port.
-        uart_port->end();
+        _uart_port->end();
     }
 
     int hw_uart::available(void)
     {
         // Return the number of bytes available in the UART port.
-        return uart_port->available();
+        return _uart_port->available();
     }
 
     int hw_uart::peek(void)
     {
         // Return the next byte in the UART port without removing it from the buffer.
-        return uart_port->peek();
+        return _uart_port->peek();
     }
 
     int hw_uart::read(void)
     {
         // Return the next byte in the UART port and remove it from the buffer.
-        return uart_port->read();
+        return _uart_port->read();
     }
 
     void hw_uart::flush(void)
     {
         // Flush the UART port.
-        uart_port->flush();
+        _uart_port->flush();
     }
 
     size_t hw_uart::write(uint8_t c)
     {
         // Write a byte to the UART port.
-        return uart_port->write(c);
+        return _uart_port->write(c);
     }
 
     size_t hw_uart::write(const uint8_t *buffer, size_t size)
     {
         // Write a buffer to the UART port.
-        return uart_port->write(buffer, size);
+        return _uart_port->write(buffer, size);
     }
 
     hw_uart::operator bool()
     {
         // Return if the UART port is available.
-        return uart_port->operator bool();
+        return _uart_port->operator bool();
     }
 
     void hw_uart::enterCriticalSection()

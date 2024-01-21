@@ -45,10 +45,10 @@ namespace sketchLayer
      * @param rxPin 
      * @param txPin 
      */
-    CRSFforArduino::CRSFforArduino(uint8_t rxPin, uint8_t txPin)
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort)
     {
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
-        _serialReceiver = new SerialReceiver(rxPin, txPin);
+        _serialReceiver = new SerialReceiver(serialPort);
 #else
         // Prevent compiler warnings
         (void)rxPin;

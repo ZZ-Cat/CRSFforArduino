@@ -67,7 +67,7 @@ const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this
 So, an assert is needed to prevent channelCount from being set to any arbitary number that is higher than 16. */
 static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
 
-CRSFforArduino crsf = CRSFforArduino();
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 #if USE_SERIAL_PLOTTER == 0 && VIEW_RC_CHANNELS > 0
 const char *channelNames[crsfProtocol::RC_CHANNEL_COUNT] = {
