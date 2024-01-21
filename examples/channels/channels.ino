@@ -145,14 +145,15 @@ void loop()
     if (millis() - lastPrint >= 100)
     {
         lastPrint = millis();
-        for(int i = 1; i <= channelCount; i++){
-          //Serial.print("Channel");
-          Serial.print(i);
-          Serial.print(":");
-          Serial.print(crsf.rcToUs(crsf.getChannel(i)));
-          Serial.print("\t");
+        for (int i = 1; i <= channelCount; i++)
+        {
+            //Serial.print("Channel");
+            Serial.print(i);
+            Serial.print(":");
+            Serial.print(crsf.rcToUs(crsf.getChannel(i)));
+            Serial.print("\t");
         }
-        Serial.println();    
+        Serial.println();
     }
 }
 

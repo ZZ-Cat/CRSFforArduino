@@ -43,10 +43,10 @@
 namespace serialReceiver
 {
     class Telemetry : private CRC, private genericStreamBuffer::SerialBuffer
-// #ifndef USE_DMA
-        /*`,
+    // #ifndef USE_DMA
+    /*`,
                       private hal::hw_uart */
-// #endif
+    // #endif
     {
       public:
         Telemetry();
