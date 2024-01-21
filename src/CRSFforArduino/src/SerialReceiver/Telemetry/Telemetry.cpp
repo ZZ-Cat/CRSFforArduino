@@ -223,7 +223,7 @@ namespace serialReceiver
 #endif
     }
 
-    void Telemetry::sendTelemetryData(hw_uart *db)
+    void Telemetry::sendTelemetryData(HardwareSerial *db)
     {
         uint8_t *buffer = SerialBuffer::getBuffer();
         size_t length = SerialBuffer::getLength();

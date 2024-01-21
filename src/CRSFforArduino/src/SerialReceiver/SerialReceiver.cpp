@@ -32,7 +32,7 @@ namespace serialReceiver
 {
     SerialReceiver::SerialReceiver()
     {
-        _uart = new hw_uart();
+        _uart = &Serial1;
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0
@@ -45,7 +45,7 @@ namespace serialReceiver
 
     SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
     {
-        _uart = new hw_uart(hwUartPort);
+        _uart = hwUartPort;
         ct = new CompatibilityTable();
 
 #if CRSF_RC_ENABLED > 0
@@ -58,7 +58,7 @@ namespace serialReceiver
 
     SerialReceiver::~SerialReceiver()
     {
-        delete _uart;
+        _uart = nullptr;
         delete ct;
 
 #if CRSF_RC_ENABLED > 0
@@ -121,7 +121,7 @@ namespace serialReceiver
         // Check if the _uart is compatible.
         if (ct->isDevboardCompatible(ct->getDevboardName()))
         {
-            _uart->enterCriticalSection();
+            // _uart->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
             crsf = new CRSF();
@@ -129,7 +129,7 @@ namespace serialReceiver
             // Check that the CRSF Protocol was initialized successfully.
             if (crsf == nullptr)
             {
-                _uart->exitCriticalSection();
+                // _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
                 // Debug.
@@ -149,7 +149,7 @@ namespace serialReceiver
             // Check that the telemetry was initialised successfully.
             if (telemetry == nullptr)
             {
-                _uart->exitCriticalSection();
+                // _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
                 // Debug.
@@ -161,7 +161,7 @@ namespace serialReceiver
             telemetry->begin();
 #endif
 
-            _uart->exitCriticalSection();
+            // _uart->exitCriticalSection();
 
             // Clear the UART buffer.
             _uart->flush();
@@ -197,9 +197,9 @@ namespace serialReceiver
             _uart->read();
         }
 
-        _uart->enterCriticalSection();
+        // _uart->enterCriticalSection();
         _uart->end();
-        _uart->clearUART();
+        // _uart->clearUART();
 
         // Check if the CRSF Protocol was initialized.
         if (crsf != nullptr)
@@ -216,7 +216,7 @@ namespace serialReceiver
             delete telemetry;
         }
 #endif
-        _uart->exitCriticalSection();
+        // _uart->exitCriticalSection();
     }
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
