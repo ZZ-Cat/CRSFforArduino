@@ -101,6 +101,10 @@ namespace hal
 // Arduino Nano RP2040 Connect
 #if defined(ARDUINO_NANO_RP2040_CONNECT)
         device.type.devboard = DEVBOARD_ARDUINO_NANO_RP2040_CONNECT;
+
+// Raspberry Pi Pico
+#elif defined(ARDUINO_RASPBERRY_PI_PICO)
+        device.type.devboard = DEVBOARD_RASPBERRYPI_PICO;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."

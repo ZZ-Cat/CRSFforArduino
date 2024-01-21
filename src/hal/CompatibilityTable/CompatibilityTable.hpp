@@ -102,6 +102,9 @@ namespace hal
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
 
+            // Raspberry Pi RP2040 boards.
+            DEVBOARD_RASPBERRYPI_PICO,
+
             // Seeed Studio boards.
             DEVBOARD_SEEEDSTUDIO_XIAO_ESP32C3,
             DEVBOARD_SEEEDSTUDIO_XIAO_ESP32S3,
@@ -177,6 +180,7 @@ namespace hal
             "Arduino Zero",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
+            "Raspberry Pi Pico",
             "Seeed Studio Xiao ESP32-C3",
             "Seeed Studio Xiao ESP32-S3",
             "Seeed Studio Xiao SAMD21",
