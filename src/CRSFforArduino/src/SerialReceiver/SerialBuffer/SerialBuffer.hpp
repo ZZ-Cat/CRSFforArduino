@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief SerialBuffer class definition.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -28,20 +28,20 @@
 
 #include "Arduino.h"
 
-#ifdef USE_DMA
-#if defined(ARDUINO) && defined(PLATFORMIO)
-#include "Hardware/DevBoards/DevBoards.hpp"
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
-#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
-#endif
-#endif
+// #ifdef USE_DMA
+// #if defined(ARDUINO) && defined(PLATFORMIO)
+// #include "Hardware/DevBoards/DevBoards.hpp"
+// #elif defined(ARDUINO) && !defined(PLATFORMIO)
+// #include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
+// #endif
+// #endif
 
 namespace genericStreamBuffer
 {
     class SerialBuffer
-#ifdef USE_DMA
-        : public hal::DevBoards
-#endif
+    // #ifdef USE_DMA
+    //         : public hal::DevBoards
+    // #endif
     {
       public:
         SerialBuffer(size_t size);

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates the full capabilities of CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -33,10 +33,7 @@
 
 #include "CRSFforArduino.hpp"
 
-#define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
-#define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
-
-CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void setup()
 {

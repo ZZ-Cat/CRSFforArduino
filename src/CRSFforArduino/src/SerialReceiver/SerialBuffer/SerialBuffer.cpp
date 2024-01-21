@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief SerialBuffer class implementation.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -50,11 +50,11 @@ namespace genericStreamBuffer
     {
         bufferIndex = 0;
         bufferLength = 0;
-#ifdef USE_DMA
-        memset_dma(buffer, 0, bufferSizeMax);
-#else
+        // #ifdef USE_DMA
+        //         memset_dma(buffer, 0, bufferSizeMax);
+        // #else
         memset(buffer, 0, bufferSizeMax);
-#endif
+        // #endif
     }
 
     // Write signed integers in little endian

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the configuration file for CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -37,9 +37,9 @@ namespace crsfForArduinoConfig
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION       "1.0.0"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-1-15"
-#define CRSFFORARDUINO_VERSION_MAJOR 0
-#define CRSFFORARDUINO_VERSION_MINOR 5
+#define CRSFFORARDUINO_VERSION_DATE  "2024-1-20"
+#define CRSFFORARDUINO_VERSION_MAJOR 1
+#define CRSFFORARDUINO_VERSION_MINOR 0
 #define CRSFFORARDUINO_VERSION_PATCH 0
 
 /* RC Options

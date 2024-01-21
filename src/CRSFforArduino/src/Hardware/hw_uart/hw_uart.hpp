@@ -1,9 +1,9 @@
 /**
- * @file DevBoards.hpp
+ * @file hw_uart.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This file contains the DevBoards class, which is used to configure CRSF for Arduino for specific development boards.
+ * @brief This file contains the hw_uart class, which is used to configure CRSF for Arduino for specific development boards.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -27,20 +27,21 @@
 #pragma once
 
 #include "Arduino.h"
-#ifdef USE_DMA
-#warning "DMA is enabled. This is an experimental feature and may not work as expected."
-#if defined(ARDUINO_ARCH_SAMD)
-#include "Adafruit_ZeroDMA.h"
-#endif
-#endif
+// #ifdef USE_DMA
+// #warning "DMA is enabled. This is an experimental feature and may not work as expected."
+// #if defined(ARDUINO_ARCH_SAMD)
+// #include "Adafruit_ZeroDMA.h"
+// #endif
+// #endif
 
 namespace hal
 {
-    class DevBoards : private Stream
+    class hw_uart : private Stream
     {
       public:
-        DevBoards();
-        virtual ~DevBoards();
+        hw_uart();
+        hw_uart(HardwareSerial *uart_port);
+        virtual ~hw_uart();
 
         void setUART(uint8_t port, uint8_t rx, uint8_t tx);
         void clearUART();
@@ -61,19 +62,15 @@ namespace hal
         void enterCriticalSection();
         void exitCriticalSection();
 
-#ifdef USE_DMA
-        // DMA functions.
-        void memcpy_dma(void *dest, void *src, size_t size);
-        void memset_dma(void *dest, int value, size_t size);
-#endif
+        // #ifdef USE_DMA
+        //         // DMA functions.
+        //         void memcpy_dma(void *dest, void *src, size_t size);
+        //         void memset_dma(void *dest, int value, size_t size);
+        // #endif
 
       private:
         uint16_t critical_section_counter = 0;
 
-#if defined(ARDUINO_ARCH_SAMD)
-        Uart *uart_port;
-#else
-        HardwareSerial *uart_port;
-#endif
+        HardwareSerial *_uart_port;
     };
 } // namespace hal

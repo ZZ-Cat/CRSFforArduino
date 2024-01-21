@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates how to use CRSF for Arduino to send telemetry to your RC transmitter using the CRSF protocol.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -36,8 +36,6 @@ To work around this, preprocessor directives are used to exclude the main_teleme
 #define VIEW_RC_CHANNELS             0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
 #define GENERATE_RANDOM_BATTERY_DATA 0 // Set GENERATE_RANDOM_BATTERY_DATA to 1 to generate random battery sensor telemetry data.
 #define GENERATE_RANDOM_GPS_DATA     0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
-#define SERIAL_RX_PIN                0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
-#define SERIAL_TX_PIN                1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
 
 uint32_t timeNow = 0;
 
@@ -64,7 +62,7 @@ float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
 uint8_t satellites = 7;               // 7 satellites are in view (implies a 3D fix).
 
-CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 #if VIEW_RC_CHANNELS > 0
 const int channelCount = 8;

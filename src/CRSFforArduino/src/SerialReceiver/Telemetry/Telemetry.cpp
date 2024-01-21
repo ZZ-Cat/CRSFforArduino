@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Telemetry class implementation.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -223,7 +223,7 @@ namespace serialReceiver
 #endif
     }
 
-    void Telemetry::sendTelemetryData(DevBoards *db)
+    void Telemetry::sendTelemetryData(HardwareSerial *db)
     {
         uint8_t *buffer = SerialBuffer::getBuffer();
         size_t length = SerialBuffer::getLength();

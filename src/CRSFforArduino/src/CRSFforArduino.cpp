@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -45,10 +45,10 @@ namespace sketchLayer
      * @param rxPin 
      * @param txPin 
      */
-    CRSFforArduino::CRSFforArduino(uint8_t rxPin, uint8_t txPin)
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort)
     {
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
-        _serialReceiver = new SerialReceiver(rxPin, txPin);
+        _serialReceiver = new SerialReceiver(serialPort);
 #else
         // Prevent compiler warnings
         (void)rxPin;

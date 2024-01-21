@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the header file for the Serial Receiver Interface.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -54,11 +54,11 @@ namespace serialReceiver
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
-    class SerialReceiver : /* private CRSF, */ private CompatibilityTable, private DevBoards
+    class SerialReceiver : /* private CRSF, */ private CompatibilityTable /* , private hw_uart */
     {
       public:
         SerialReceiver();
-        SerialReceiver(uint8_t rxPin, uint8_t txPin);
+        SerialReceiver(HardwareSerial *hwUartPort);
         virtual ~SerialReceiver();
 
         bool begin();
@@ -92,14 +92,12 @@ namespace serialReceiver
       private:
         CRSF *crsf;
         CompatibilityTable *ct;
-        DevBoards *board;
+        HardwareSerial *_uart;
+        // hw_uart *_uart;
 
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;
 #endif
-
-        uint8_t _rxPin = 0xffu;
-        uint8_t _txPin = 0xffu;
 
 #if CRSF_RC_ENABLED > 0
         uint16_t *_rcChannels;

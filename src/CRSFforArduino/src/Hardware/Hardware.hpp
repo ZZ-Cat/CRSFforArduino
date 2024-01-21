@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file is the top level of the hardware abstraction layer.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -32,7 +32,7 @@
 #include "../CFA_Config.hpp"
 #endif
 #include "CompatibilityTable/CompatibilityTable.hpp"
-#include "DevBoards/DevBoards.hpp"
+// #include "hw_uart/hw_uart.hpp"
 
 using namespace crsfForArduinoConfig;
 using namespace hal;

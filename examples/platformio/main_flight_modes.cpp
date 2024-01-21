@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Demonstrates the use of CRSF for Arduino's flight mode functionality.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -58,10 +58,7 @@
 #define FLIGHT_MODE_HORIZON_MIN     1700
 #define FLIGHT_MODE_HORIZON_MAX     2100
 
-#define SERIAL_RX_PIN 0 // Set SERIAL_RX_PIN to the pin that the CRSF receiver's TX pin is connected to.
-#define SERIAL_TX_PIN 1 // Set SERIAL_TX_PIN to the pin that the CRSF receiver's RX pin is connected to.
-
-CRSFforArduino crsf = CRSFforArduino(SERIAL_RX_PIN, SERIAL_TX_PIN);
+CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
 void onFlightModeUpdate(serialReceiver::flightModeId_t);
 

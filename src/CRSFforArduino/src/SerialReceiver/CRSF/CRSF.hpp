@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief CRSF class definition.
  * @version 1.0.0
- * @date 2024-1-15
+ * @date 2024-1-20
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -29,14 +29,14 @@
 #include "Arduino.h"
 #include "CRSFProtocol.hpp"
 #if defined(ARDUINO) && defined(PLATFORMIO)
-#ifdef USE_DMA
-#include "Hardware/DevBoards/DevBoards.hpp"
-#endif
+// #ifdef USE_DMA
+// #include "Hardware/DevBoards/DevBoards.hpp"
+// #endif
 #include "SerialReceiver/CRC/CRC.hpp"
 #elif defined(ARDUINO) && !defined(PLATFORMIO)
-#ifdef USE_DMA
-#include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
-#endif
+// #ifdef USE_DMA
+// #include "lib/CRSFforArduino/src/Hardware/DevBoards/DevBoards.hpp"
+// #endif
 #include "../CRC/CRC.hpp"
 #endif
 // #include "Hardware.h"
@@ -44,9 +44,9 @@
 namespace serialReceiver
 {
     class CRSF
-#ifdef USE_DMA
-        : private hal::DevBoards
-#endif
+    // #ifdef USE_DMA
+    //         : private hal::DevBoards
+    // #endif
     {
       public:
         CRSF();
