@@ -51,7 +51,9 @@ namespace serialReceiver
       public:
         CRSF();
         virtual ~CRSF();
+        [[deprecated("Use the constructor instead.")]]
         void begin();
+        [[deprecated("Use the destructor instead.")]]
         void end();
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
         bool receiveFrames(uint8_t rxByte);
@@ -61,8 +63,8 @@ namespace serialReceiver
         bool rcFrameReceived;
         uint16_t frameCount;
         uint32_t timePerFrame;
-        crsfProtocol::frame_t rxFrame;
-        crsfProtocol::frame_t rcChannelsFrame;
+        crsfProtocol::frame_t *rxFrame;
+        crsfProtocol::frame_t *rcChannelsFrame;
         CRC *crc8;
         uint8_t calculateFrameCRC();
     };

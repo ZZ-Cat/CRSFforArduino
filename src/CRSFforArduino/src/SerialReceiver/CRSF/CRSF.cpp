@@ -24,45 +24,93 @@
  * 
  */
 
+#include <new>
 #include "CRSF.hpp"
 
 using namespace crsfProtocol;
+using namespace std;
 
 namespace serialReceiver
 {
     CRSF::CRSF()
     {
-        crc8 = new CRC();
+        crc8 = new(nothrow) CRC();
+        if (crc8 == nullptr)
+        {
+            return;
+        }
+
+        rxFrame = new(nothrow) frame_t;
+        if (rxFrame == nullptr)
+        {
+            return;
+        }
+
+        rcChannelsFrame = new(nothrow) frame_t;
+        if (rcChannelsFrame == nullptr)
+        {
+            return;
+        }
+
+        rcFrameReceived = false;
+        frameCount = 0;
+        timePerFrame = 0;
     }
 
     CRSF::~CRSF()
     {
-        delete crc8;
+        timePerFrame = 0;
+        frameCount = 0;
+        rcFrameReceived = false;
+
+        if (rcChannelsFrame != nullptr)
+        {
+            delete rcChannelsFrame;
+            rcChannelsFrame = nullptr;
+        }
+
+        if (rxFrame != nullptr)
+        {
+            delete rxFrame;
+            rxFrame = nullptr;
+        }
+
+        if (crc8 != nullptr)
+        {
+            delete crc8;
+            crc8 = nullptr;
+        }
     }
 
     void CRSF::begin()
     {
+        // Deprecated.
+        return;
+
         rcFrameReceived = false;
         frameCount = 0;
         timePerFrame = 0;
 
         // #ifdef USE_DMA
-        //         memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        //         memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rxFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rcChannelsFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
         // #else
-        memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rxFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rcChannelsFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
         // #endif
     }
 
     void CRSF::end()
     {
+        // Deprecated.
+        return;
+
         // #ifdef USE_DMA
-        //         memset_dma(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        //         memset_dma(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rcChannelsFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
+        //         memset_dma(rxFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
         // #else
-        memset(rcChannelsFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
-        memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rcChannelsFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
+        memset(rxFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
         // #endif
 
         timePerFrame = 0;
@@ -100,23 +148,23 @@ namespace serialReceiver
         }
 
         // Assume the full frame lenthg is 5 bytes until the frame length byte is received.
-        const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, (int)CRSF_FRAME_SIZE_MAX);
+        const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame->frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, (int)CRSF_FRAME_SIZE_MAX);
 
         if (framePosition < fullFrameLength)
         {
-            rxFrame.raw[framePosition] = rxByte;
+            rxFrame->raw[framePosition] = rxByte;
             framePosition++;
 
             if (framePosition >= fullFrameLength)
             {
                 const uint8_t crc = calculateFrameCRC();
 
-                if (crc == rxFrame.raw[fullFrameLength - 1])
+                if (crc == rxFrame->raw[fullFrameLength - 1])
                 {
-                    switch (rxFrame.frame.type)
+                    switch (rxFrame->frame.type)
                     {
                         case crsfProtocol::CRSF_FRAMETYPE_RC_CHANNELS_PACKED:
-                            if (rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
+                            if (rxFrame->frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER)
                             {
                                 // #ifdef USE_DMA
                                 // #ifdef __SAMD51__
@@ -125,7 +173,7 @@ namespace serialReceiver
                                 //                                 memcpy_dma(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX); // ◄ This is the line that causes the crash on SAMD51.
                                 // #endif
                                 // #else
-                                memcpy(&rcChannelsFrame, &rxFrame, CRSF_FRAME_SIZE_MAX);
+                                memcpy(rcChannelsFrame, rxFrame, CRSF_FRAME_SIZE_MAX);
                                 // #endif
                                 rcFrameReceived = true;
                             }
@@ -135,7 +183,7 @@ namespace serialReceiver
                 // #ifdef USE_DMA
                 //                 memset_dma(&rxFrame, 0, CRSF_FRAME_SIZE_MAX); // ◄ This line works fine on both SAMD21 and SAMD51.
                 // #else
-                memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
+                memset(rxFrame->raw, 0, CRSF_FRAME_SIZE_MAX);
                 // #endif
                 framePosition = 0;
 
@@ -151,10 +199,10 @@ namespace serialReceiver
         if (rcFrameReceived)
         {
             rcFrameReceived = false;
-            if (rcChannelsFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
+            if (rcChannelsFrame->frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
             {
                 // Unpack RC Channels.
-                const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
+                const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame->frame.payload;
 
                 rcChannels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
                 rcChannels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
@@ -178,6 +226,6 @@ namespace serialReceiver
 
     uint8_t CRSF::calculateFrameCRC()
     {
-        return crc8->calculate(rxFrame.frame.type, rxFrame.frame.payload, rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC);
+        return crc8->calculate(rxFrame->frame.type, rxFrame->frame.payload, rxFrame->frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC);
     }
 } // namespace serialReceiver
