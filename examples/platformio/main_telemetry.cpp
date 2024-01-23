@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file demonstrates how to use CRSF for Arduino to send telemetry to your RC transmitter using the CRSF protocol.
  * @version 1.0.0
- * @date 2024-1-20
+ * @date 2024-1-24
  *
  * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
