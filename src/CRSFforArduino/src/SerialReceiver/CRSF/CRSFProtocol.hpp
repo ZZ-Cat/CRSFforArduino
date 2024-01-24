@@ -237,6 +237,9 @@ namespace crsfProtocol
 
     enum baudRate_e
     {
-        BAUD_RATE = 420000
+        BAUD_RATE_LEGACY = 200000,
+        BAUD_RATE_KISS = 400000,
+        BAUD_RATE_TBS = 416666,
+        BAUD_RATE_ELRS = 420000
     };
 } // namespace crsfProtocol

@@ -24,9 +24,11 @@
  * 
  */
 
+#include <new>
 #include "SerialReceiver.hpp"
 
 using namespace crsfProtocol;
+using namespace std;
 
 namespace serialReceiver
 {
@@ -124,7 +126,7 @@ namespace serialReceiver
             // _uart->enterCriticalSection();
 
             // Initialize the CRSF Protocol.
-            crsf = new CRSF();
+            crsf = new(nothrow) CRSF();
 
             // Check that the CRSF Protocol was initialized successfully.
             if (crsf == nullptr)
@@ -138,9 +140,115 @@ namespace serialReceiver
                 return false;
             }
 
-            crsf->begin();
-            crsf->setFrameTime(BAUD_RATE, 10);
-            _uart->begin(BAUD_RATE);
+            // crsf->begin();
+            // crsf->setFrameTime(BAUD_RATE_ELRS, 10);
+            // _uart->begin(BAUD_RATE_ELRS);
+
+            // Auto-baud configuration, starting at the lowest baud setting.
+            uint8_t baudIndex = 0;
+            uint32_t baudRate = BAUD_RATE_LEGACY;
+            bool frameValidFlag;
+            uint8_t framesReceived = 0;
+            uint8_t framesValid = 0;
+            uint32_t timeStart = millis();
+
+            // Configure the frame time and baud rate.
+            crsf->setFrameTime(baudRate, 10);
+            _uart->begin(baudRate);
+
+            while ((millis() - timeStart) < 30000)
+            {
+                if (millis() < timeStart)
+                {
+                    timeStart = millis();
+                }
+
+                if (framesReceived < 10)
+                {
+                    while (_uart->available() > 0)
+                    {
+                        if (crsf->receiveFrames((uint8_t)_uart->read(), &frameValidFlag))
+                        {
+                            framesReceived++;
+                            if (frameValidFlag != false)
+                            {
+                                framesValid++;
+                            }
+                            flushRemainingFrames();
+                        }
+                    }
+                }
+                else
+                {
+                    if (framesValid == 0)
+                    {
+                        _uart->flush();
+                        while (_uart->available() > 0)
+                        {
+                            _uart->read();
+                        }
+                        _uart->end();
+
+                        if (baudIndex < 4)
+                        {
+                            baudIndex++;
+
+                            switch (baudIndex)
+                            {
+                            default:
+                                baudRate = BAUD_RATE_LEGACY;
+                                break;
+
+                            case 3:
+                                baudRate = BAUD_RATE_KISS;
+                                break;
+
+                            case 1:
+                                baudRate = BAUD_RATE_TBS;
+                                break;
+
+                            case 2:
+                                baudRate = BAUD_RATE_ELRS;
+                                break;
+                            }
+                        }
+                        else
+                        {
+#if CRSF_DEBUG_ENABLED > 0
+                            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | ERROR]: No baud rate was found. Possible cause:");
+                            CRSF_DEBUG_SERIAL_PORT.println("- Invalid baud rate on the receiver side.");
+#endif
+                            return false;
+                        }
+
+                        crsf->setFrameTime(baudRate, 10);
+                        _uart->begin(baudRate);
+                        framesReceived = 0;
+                        framesValid = 0;
+                    }
+                    else if (framesValid >= 7)
+                    {
+                        // Valid data found.
+#if CRSF_DEBUG_ENABLED > 0
+                        CRSF_DEBUG_SERIAL_PORT.print("\r\n[Serial Receiver | DEBUG]: CRSF initialised with ");
+                        CRSF_DEBUG_SERIAL_PORT.print(baudRate);
+                        CRSF_DEBUG_SERIAL_PORT.println(" baud.");
+#endif
+                        break;
+                    }
+                }
+            }
+
+            if (framesReceived == 0 && framesValid == 0)
+            {
+#if CRSF_DEBUG_ENABLED > 0
+                CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | ERROR]: No data was received. Possible causes:");
+                CRSF_DEBUG_SERIAL_PORT.println("- Incorrect Rx and Tx pin connections.");
+                CRSF_DEBUG_SERIAL_PORT.println("- Receiver in fail-safe mode (lost connection to transmitter).");
+                CRSF_DEBUG_SERIAL_PORT.println("- Receiver in Wi-Fi mode (Receiver was powered on, but transmitter was not).");
+#endif
+                return false;
+            }
 
 #if CRSF_TELEMETRY_ENABLED > 0
             // Initialise telemetry.

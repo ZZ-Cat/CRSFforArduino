@@ -56,7 +56,7 @@ namespace serialReceiver
         [[deprecated("Use the destructor instead.")]]
         void end();
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
-        bool receiveFrames(uint8_t rxByte);
+        bool receiveFrames(uint8_t rxByte, bool *rxFrameValid = nullptr);
         void getRcChannels(uint16_t *rcChannels);
 
       private:

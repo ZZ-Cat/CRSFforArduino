@@ -123,7 +123,7 @@ namespace serialReceiver
         timePerFrame = ((1000000 * packetCount) / (baudRate / (CRSF_FRAME_SIZE_MAX - 1)));
     }
 
-    bool CRSF::receiveFrames(uint8_t rxByte)
+    bool CRSF::receiveFrames(uint8_t rxByte, bool *rxFrameValid)
     {
         static uint8_t framePosition = 0;
         static uint32_t frameStartTime = 0;
@@ -144,6 +144,11 @@ namespace serialReceiver
         // Reset the frame start time if the frame position is 0.
         if (framePosition == 0)
         {
+            if (rxFrameValid != nullptr)
+            {
+                *rxFrameValid = false;
+            }
+            
             frameStartTime = currentTime;
         }
 
@@ -178,6 +183,11 @@ namespace serialReceiver
                                 rcFrameReceived = true;
                             }
                             break;
+                    }
+
+                    if (rxFrameValid != nullptr)
+                    {
+                        *rxFrameValid = true;
                     }
                 }
                 // #ifdef USE_DMA
