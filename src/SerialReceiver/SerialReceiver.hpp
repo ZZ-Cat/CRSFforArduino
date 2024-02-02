@@ -31,7 +31,7 @@
 
 namespace serialReceiverLayer
 {
-    class SerialReceiver : public CRSF
+    class SerialReceiver : private CRSF
     {
     public:
         SerialReceiver(HardwareSerial *serialPort = &Serial1);
