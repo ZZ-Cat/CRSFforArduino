@@ -7,8 +7,7 @@
 DEPRECATED/
 
 # PlatformIO specific files
-test/
-platformio.ini
+test/README
 
 # Template files for CRSF for Arduino
 templates/
