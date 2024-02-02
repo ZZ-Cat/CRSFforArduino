@@ -2,9 +2,9 @@
 
 #include "CRSFProtocol.hpp"
 
-#if defined(ARDUINO) && defined(PLATFORMIO)
+#if defined(CFA_DEVELOPMENT_MODE)
 #include "CRC/CRC.hpp"
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
+#else
 #include "SerialReceiver/CRC/CRC.hpp"
 #endif
 
