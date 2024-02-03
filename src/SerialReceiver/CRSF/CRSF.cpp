@@ -2,15 +2,18 @@
 #include "CRSF.hpp"
 
 using namespace crsfProtocol;
+using namespace genericCrc;
 
 namespace serialReceiverLayer
 {
     CRSF::CRSF()
     {
+        crc8 = new CRC();
     }
 
     CRSF::~CRSF()
     {
+        delete crc8;
     }
 
     void CRSF::begin()
@@ -151,6 +154,6 @@ namespace serialReceiverLayer
 
     uint8_t CRSF::calculateFrameCRC()
     {
-        return calculate(rxFrame.frame.type, rxFrame.frame.payload, rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC);
+        return crc8->calculate(rxFrame.frame.type, rxFrame.frame.payload, rxFrame.frame.frameLength - CRSF_FRAME_LENGTH_TYPE_CRC);
     }
 } // namespace serialReceiverLayer

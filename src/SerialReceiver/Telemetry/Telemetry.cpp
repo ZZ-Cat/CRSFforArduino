@@ -13,7 +13,8 @@ namespace serialReceiverLayer
 #define RAD PI / 180.0F
 #endif
 
-    Telemetry::Telemetry()
+    Telemetry::Telemetry() :
+        CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
@@ -26,7 +27,7 @@ namespace serialReceiverLayer
 
     void Telemetry::begin()
     {
-        reset();
+        SerialBuffer::reset();
 
         uint8_t index = 0;
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
@@ -54,7 +55,7 @@ namespace serialReceiverLayer
 
     void Telemetry::end()
     {
-        reset();
+        SerialBuffer::reset();
     }
 
     bool Telemetry::update()
@@ -199,8 +200,8 @@ namespace serialReceiverLayer
 
     void Telemetry::sendTelemetryData(HardwareSerial *db)
     {
-        uint8_t *buffer = getBuffer();
-        size_t length = getLength();
+        uint8_t *buffer = SerialBuffer::getBuffer();
+        size_t length = SerialBuffer::getLength();
 
         db->write(buffer, length);
     }
@@ -221,38 +222,38 @@ namespace serialReceiverLayer
 
     void Telemetry::_initialiseFrame()
     {
-        reset();
-        writeU8(CRSF_SYNC_BYTE);
+        SerialBuffer::reset();
+        SerialBuffer::writeU8(CRSF_SYNC_BYTE);
     }
 
     void Telemetry::_appendAttitudeData()
     {
-        writeU8(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
-        writeU8(CRSF_FRAMETYPE_ATTITUDE);
+        SerialBuffer::writeU8(CRSF_FRAME_ATTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_ATTITUDE);
 
-        writeU16BE(_telemetryData.attitude.pitch);
-        writeU16BE(_telemetryData.attitude.roll);
-        writeU16BE(_telemetryData.attitude.yaw);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.pitch);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.roll);
+        SerialBuffer::writeU16BE(_telemetryData.attitude.yaw);
     }
 
     void Telemetry::_appendBaroAltitudeData()
     {
-        writeU8(CRSF_FRAME_BARO_ALTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
-        writeU8(CRSF_FRAMETYPE_BARO_ALTITUDE);
+        SerialBuffer::writeU8(CRSF_FRAME_BARO_ALTITUDE_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_BARO_ALTITUDE);
 
-        writeU16BE(_telemetryData.baroAltitude.altitude);
-        writeU16BE(_telemetryData.baroAltitude.vario);
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.altitude);
+        SerialBuffer::writeU16BE(_telemetryData.baroAltitude.vario);
     }
 
     void Telemetry::_appendBatterySensorData()
     {
-        writeU8(CRSF_FRAME_BATTERY_SENSOR_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
-        writeU8(CRSF_FRAMETYPE_BATTERY_SENSOR);
+        SerialBuffer::writeU8(CRSF_FRAME_BATTERY_SENSOR_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_BATTERY_SENSOR);
 
-        writeU16BE(_telemetryData.battery.voltage);
-        writeU16BE(_telemetryData.battery.current);
-        writeU24BE(_telemetryData.battery.capacity);
-        writeU8(_telemetryData.battery.percent);
+        SerialBuffer::writeU16BE(_telemetryData.battery.voltage);
+        SerialBuffer::writeU16BE(_telemetryData.battery.current);
+        SerialBuffer::writeU24BE(_telemetryData.battery.capacity);
+        SerialBuffer::writeU8(_telemetryData.battery.percent);
     }
 
     void Telemetry::_appendFlightModeData()
@@ -264,33 +265,33 @@ namespace serialReceiverLayer
             return;
         }
 
-        writeU8(length + CRSF_FRAME_LENGTH_TYPE_CRC);
-        writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
+        SerialBuffer::writeU8(length + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_FLIGHT_MODE);
 
-        writeString(_telemetryData.flightMode.flightMode);
+        SerialBuffer::writeString(_telemetryData.flightMode.flightMode);
 
-        writeU8('\0');
+        SerialBuffer::writeU8('\0');
     }
 
     void Telemetry::_appendGPSData()
     {
-        writeU8(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
-        writeU8(CRSF_FRAMETYPE_GPS);
+        SerialBuffer::writeU8(CRSF_FRAME_GPS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC);
+        SerialBuffer::writeU8(CRSF_FRAMETYPE_GPS);
 
-        write32BE(_telemetryData.gps.latitude);
-        write32BE(_telemetryData.gps.longitude);
-        writeU16BE(_telemetryData.gps.speed);
-        writeU16BE(_telemetryData.gps.groundCourse);
-        writeU16BE(_telemetryData.gps.altitude);
-        writeU8(_telemetryData.gps.satellites);
+        SerialBuffer::write32BE(_telemetryData.gps.latitude);
+        SerialBuffer::write32BE(_telemetryData.gps.longitude);
+        SerialBuffer::writeU16BE(_telemetryData.gps.speed);
+        SerialBuffer::writeU16BE(_telemetryData.gps.groundCourse);
+        SerialBuffer::writeU16BE(_telemetryData.gps.altitude);
+        SerialBuffer::writeU8(_telemetryData.gps.satellites);
     }
 
     void Telemetry::_finaliseFrame()
     {
-        uint8_t *buffer = getBuffer();
-        uint8_t length = getLength();
-        uint8_t crc = calculate(2, buffer[2], buffer, length);
+        uint8_t *buffer = SerialBuffer::getBuffer();
+        uint8_t length = SerialBuffer::getLength();
+        uint8_t crc = CRC::calculate(2, buffer[2], buffer, length);
 
-        writeU8(crc);
+        SerialBuffer::writeU8(crc);
     }
 } // namespace serialReceiverLayer

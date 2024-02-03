@@ -50,13 +50,12 @@ namespace serialReceiverLayer
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
-    class SerialReceiver : private CRSF, private Telemetry
+    class SerialReceiver
     {
     public:
-        SerialReceiver(HardwareSerial *serialPort = &Serial1);
+        SerialReceiver();
+        SerialReceiver(HardwareSerial *hwUartPort);
         virtual ~SerialReceiver();
-
-        void printHelloWorld();
 
         bool begin();
         void end();
@@ -87,7 +86,8 @@ namespace serialReceiverLayer
 #endif
 
     private:
-        HardwareSerial *_uart = nullptr;
+        CRSF *crsf;
+        HardwareSerial *_uart;
 
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;

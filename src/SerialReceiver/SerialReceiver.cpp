@@ -31,9 +31,21 @@ using namespace crsfProtocol;
 
 namespace serialReceiverLayer
 {
-    SerialReceiver::SerialReceiver(HardwareSerial *serialPort)
+    SerialReceiver::SerialReceiver()
     {
-        _uart = serialPort;
+        _uart = &Serial1;
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
+#endif
+    }
+
+    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
+    {
+        _uart = hwUartPort;
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
@@ -105,16 +117,44 @@ namespace serialReceiverLayer
 #endif
 
         // Initialize the CRSF Protocol.
-        // CRSF::begin();
-        setFrameTime(BAUD_RATE, 10);
+        crsf = new CRSF();
+
+        // Check that the CRSF Protocol was initialized successfully.
+        if (crsf == nullptr)
+        {
+            // _uart->exitCriticalSection();
+
+#if CRSF_DEBUG_ENABLED > 0
+            // Debug.
+            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
+#endif
+            return false;
+        }
+
+        crsf->begin();
+        crsf->setFrameTime(BAUD_RATE, 10);
         _uart->begin(BAUD_RATE);
 
 #if CRSF_TELEMETRY_ENABLED > 0
         // Initialise telemetry.
-        // telemetry = new Telemetry();
-        // telemetry->begin();
+        telemetry = new Telemetry();
+
+        // Check that the telemetry was initialised successfully.
+        if (telemetry == nullptr)
+        {
+            // _uart->exitCriticalSection();
+
+#if CRSF_DEBUG_ENABLED > 0
+            // Debug.
+            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
+#endif
+            return false;
+        }
+
+        telemetry->begin();
 #endif
 
+        // _uart->exitCriticalSection();
 
         // Clear the UART buffer.
         _uart->flush();
@@ -127,7 +167,6 @@ namespace serialReceiverLayer
         // Debug.
         CRSF_DEBUG_SERIAL_PORT.println("Done.");
 #endif
-
         return true;
     }
 
@@ -139,7 +178,26 @@ namespace serialReceiverLayer
             _uart->read();
         }
 
+        // _uart->enterCriticalSection();
         _uart->end();
+        // _uart->clearUART();
+
+        // Check if the CRSF Protocol was initialized.
+        if (crsf != nullptr)
+        {
+            crsf->end();
+            delete crsf;
+        }
+
+#if CRSF_TELEMETRY_ENABLED > 0
+        // Check if telemetry was initialized.
+        if (telemetry != nullptr)
+        {
+            telemetry->end();
+            delete telemetry;
+        }
+#endif
+        // _uart->exitCriticalSection();
     }
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
@@ -147,7 +205,7 @@ namespace serialReceiverLayer
     {
         while (_uart->available() > 0)
         {
-            if (CRSF::receiveFrames((uint8_t)_uart->read()))
+            if (crsf->receiveFrames((uint8_t)_uart->read()))
             {
                 flushRemainingFrames();
 
@@ -163,10 +221,12 @@ namespace serialReceiverLayer
 
 #if CRSF_RC_ENABLED > 0
         // Update the RC Channels.
-        CRSF::getRcChannels(_rcChannels);
+        crsf->getRcChannels(_rcChannels);
 #endif
     }
+#endif
 
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
     void SerialReceiver::flushRemainingFrames()
     {
         _uart->flush();
@@ -319,9 +379,4 @@ namespace serialReceiverLayer
     }
 #endif
 #endif
-
-    void SerialReceiver::printHelloWorld()
-    {
-        Serial.println("Hello World!");
-    }
 } // namespace serialReceiverLayer

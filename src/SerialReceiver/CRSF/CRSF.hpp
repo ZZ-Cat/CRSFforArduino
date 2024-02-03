@@ -10,7 +10,7 @@
 
 namespace serialReceiverLayer
 {
-    class CRSF : private genericCrc::CRC
+    class CRSF
     {
     public:
         CRSF();
@@ -26,6 +26,7 @@ namespace serialReceiverLayer
         uint32_t timePerFrame;
         crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;
+        genericCrc::CRC *crc8;
         uint8_t calculateFrameCRC();
     };
 } // namespace serialReceiverLayer
