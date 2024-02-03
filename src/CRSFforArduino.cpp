@@ -29,16 +29,280 @@
 
 namespace sketchLayer
 {
+    /**
+     * @brief Construct a new CRSFforArduino object.
+     * 
+     */
     CRSFforArduino::CRSFforArduino()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        // _serialReceiver = new SerialReceiver();
+#endif
     }
 
+    /**
+     * @brief Construct a new CRSFforArduino object with the specified RX and TX pins.
+     * 
+     * @param rxPin 
+     * @param txPin 
+     */
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort)
+    {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        // _serialReceiver = new SerialReceiver(serialPort);
+#else
+        // Prevent compiler warnings
+        (void)rxPin;
+        (void)txPin;
+#endif
+    }
+
+    /**
+     * @brief Destroy the CRSFforArduino object.
+     * 
+     */
     CRSFforArduino::~CRSFforArduino()
     {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        // delete _serialReceiver;
+#endif
     }
 
-    void CRSFforArduino::printTest()
+    /**
+     * @brief Initialises CRSF for Arduino.
+     * 
+     * @return true if CRSF for Arduino was initialised successfully.
+     */
+    bool CRSFforArduino::begin()
     {
-        printHelloWorld();
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        // return SerialReceiver::begin();
+#else
+        // Return false if RC is disabled
+        return false;
+#endif
+    }
+
+    /**
+     * @brief Ends CRSF for Arduino.
+     *
+     */
+    void CRSFforArduino::end()
+    {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        // SerialReceiver::end();
+#endif
+    }
+
+    /**
+     * @brief This processes RC and Telemetry frames.
+     * It should be called as often as possible.
+     *
+     */
+    void CRSFforArduino::update()
+    {
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        processFrames();
+#endif
+
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
+        handleFlightMode();
+#endif
+    }
+
+    /**
+     * @brief Reads the specified RC channel.
+     * @param channel The channel to read.
+     * @param raw If true, returns the raw RC value. If false, returns the scaled RC value in microseconds.
+     *
+     * @return The RC value.
+     */
+    uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
+    {
+#if CRSF_RC_ENABLED > 0
+        return SerialReceiver::readRcChannel(channel - 1, raw);
+#else
+        // Prevent compiler warnings
+        (void)channel;
+        (void)raw;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
+    }
+
+    /**
+     * @brief Alias for readRcChannel(channel, true).
+     * 
+     * @param channel The channel to read.
+     * @return The RC value.
+     */
+    uint16_t CRSFforArduino::getChannel(uint8_t channel)
+    {
+#if CRSF_RC_ENABLED > 0
+        return SerialReceiver::getChannel(channel - 1);
+#else
+        // Prevent compiler warnings
+        (void)channel;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
+    }
+
+    /**
+     * @brief Converts a raw RC value to microseconds.
+     * 
+     * @param rc The raw RC value to convert.
+     * @return The converted RC value in microseconds.
+     */
+    uint16_t CRSFforArduino::rcToUs(uint16_t rc)
+    {
+#if CRSF_RC_ENABLED > 0
+        return SerialReceiver::rcToUs(rc);
+#else
+        // Prevent compiler warnings
+        (void)rc;
+
+        // Return 0 if RC is disabled
+        return 0;
+#endif
+    }
+
+    /**
+     * @brief Assigns a Flight Mode to the specified channel.
+     * 
+     * @param flightMode The Flight Mode to assign.
+     * @param channel The channel to assign the Flight Mode to.
+     * @param min The minimum RC value for the Flight Mode to be active.
+     * @param max The maximum RC value for the Flight Mode to be active.
+     * @return true if the Flight Mode was assigned successfully.
+     */
+    bool CRSFforArduino::setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    {
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
+        return SerialReceiver::setFlightMode(flightMode, channel - 1, SerialReceiver::usToRc(min), SerialReceiver::usToRc(max));
+#else
+        // Prevent compiler warnings
+        (void)flightMode;
+        (void)channel;
+        (void)min;
+        (void)max;
+
+        // Return false if RC is disabled
+        return false;
+#endif
+    }
+
+    /**
+     * @brief Registers a callback function to be called when a Flight Mode is activated.
+     * This is called when the RC value for the Flight Mode channel is between the min and max values.
+     * @param callback The callback function to register.
+     */
+    void CRSFforArduino::setFlightModeCallback(void (*callback)(serialReceiverLayer::flightModeId_t flightMode))
+    {
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
+        SerialReceiver::setFlightModeCallback(callback);
+#else
+        // Prevent compiler warnings
+        (void)callback;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current attitude data.
+     * 
+     * @param roll In decidegrees (eg 15 degrees = 150).
+     * @param pitch In decidegrees (eg 20 degrees = 200).
+     * @param yaw In decidegrees (eg 30 degrees = 300).
+     */
+    void CRSFforArduino::telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+        SerialReceiver::telemetryWriteAttitude(roll, pitch, yaw);
+#else
+        // Prevent compiler warnings
+        (void)roll;
+        (void)pitch;
+        (void)yaw;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current barometric altitude data.
+     * 
+     * @param altitude In decimeters (eg 1m = 10)
+     * @param vario In centimetres per second (eg 1m/s = 100)
+     */
+    void CRSFforArduino::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+        SerialReceiver::telemetryWriteBaroAltitude(altitude, vario);
+#else
+        // Prevent compiler warnings
+        (void)altitude;
+        (void)vario;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current battery data.
+     * 
+     * @param voltage In millivolts * 100 (eg 3.8V = 380.0F).
+     * @param current In milliamps * 10 (eg 1.5A = 150.0F).
+     * @param fuel In milliampere hours (eg 100 mAh = 100).
+     * @param percent In percent (eg 50% = 50).
+     */
+    void CRSFforArduino::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_BATTERY_ENABLED > 0
+        SerialReceiver::telemetryWriteBattery(voltage, current, fuel, percent);
+#else
+        // Prevent compiler warnings
+        (void)voltage;
+        (void)current;
+        (void)fuel;
+        (void)percent;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current Flight Mode.
+     * 
+     * @param flightMode The Flight Mode to send.
+     */
+    void CRSFforArduino::telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        SerialReceiver::telemetryWriteFlightMode(flightMode);
+#else
+        // Prevent compiler warnings
+        (void)flightMode;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with the current GPS data.
+     * 
+     * @param latitude In decimal degrees.
+     * @param longitude In decimal degrees.
+     * @param altitude In centimetres.
+     * @param speed in centimeters per second.
+     * @param groundCourse In degrees.
+     * @param satellites In view.
+     */
+    void CRSFforArduino::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_GPS_ENABLED > 0
+        SerialReceiver::telemetryWriteGPS(latitude, longitude, altitude, speed, groundCourse, satellites);
+#else
+        // Prevent compiler warnings
+        (void)latitude;
+        (void)longitude;
+        (void)altitude;
+        (void)speed;
+        (void)groundCourse;
+        (void)satellites;
+#endif
     }
 } // namespace sketchLayer

@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include "Arduino.h"
 #include "SerialReceiver/SerialReceiver.hpp"
 
 namespace sketchLayer
@@ -34,7 +35,27 @@ namespace sketchLayer
     {
     public:
         CRSFforArduino();
+        CRSFforArduino(HardwareSerial *serialPort);
         ~CRSFforArduino();
+        bool begin();
+        void end();
+        void update();
+
+        // RC channel functions.
+        uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
+        uint16_t readRcChannel(uint8_t channel, bool raw = false);
+
+        // Flight mode functions.
+        bool setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
+        void setFlightModeCallback(void (*callback)(serialReceiverLayer::flightModeId_t flightMode));
+
+        // Telemetry functions.
+        void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
+        void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
+        void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
+        void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode);
+        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
         void printTest();
     private:
