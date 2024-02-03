@@ -27,17 +27,298 @@
 #include "Arduino.h"
 #include "SerialReceiver.hpp"
 
+using namespace crsfProtocol;
+
 namespace serialReceiverLayer
 {
     SerialReceiver::SerialReceiver(HardwareSerial *serialPort)
     {
-        _serialPort = serialPort;
+        _uart = serialPort;
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
+#endif
     }
 
     SerialReceiver::~SerialReceiver()
     {
-        _serialPort = nullptr;
+        _uart = nullptr;
+
+#if CRSF_RC_ENABLED > 0
+        delete[] _rcChannels;
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        delete[] _flightModes;
+#endif
+#endif
     }
+
+    bool SerialReceiver::begin()
+    {
+#if CRSF_DEBUG_ENABLED > 0
+        // Debug.
+        CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
+#endif
+        // _uart->enterCriticalSection();
+
+#if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
+        // Initialize the RC Channels.
+        // Arm is set to 178 (1000us) to prevent the FC from arming.
+        // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
+        for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
+        {
+#if CRSF_RC_INITIALISE_ARMCHANNEL > 0 && CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
+            if (i == RC_CHANNEL_AUX1 || i == RC_CHANNEL_THROTTLE)
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+            }
+            else
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            }
+
+#elif CRSF_RC_INITIALISE_ARMCHANNEL > 0
+            if (i == RC_CHANNEL_AUX1)
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+            }
+            else
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            }
+
+#elif CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
+            if (i == RC_CHANNEL_THROTTLE)
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+            }
+            else
+            {
+                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            }
+#else
+            _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+#endif
+        }
+#endif
+
+        // Initialize the CRSF Protocol.
+        // CRSF::begin();
+        setFrameTime(BAUD_RATE, 10);
+        _uart->begin(BAUD_RATE);
+
+#if CRSF_TELEMETRY_ENABLED > 0
+        // Initialise telemetry.
+        // telemetry = new Telemetry();
+        // telemetry->begin();
+#endif
+
+
+        // Clear the UART buffer.
+        _uart->flush();
+        while (_uart->available() > 0)
+        {
+            _uart->read();
+        }
+
+#if CRSF_DEBUG_ENABLED > 0
+        // Debug.
+        CRSF_DEBUG_SERIAL_PORT.println("Done.");
+#endif
+
+        return true;
+    }
+
+    void SerialReceiver::end()
+    {
+        _uart->flush();
+        while (_uart->available() > 0)
+        {
+            _uart->read();
+        }
+
+        _uart->end();
+    }
+
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+    void SerialReceiver::processFrames()
+    {
+        while (_uart->available() > 0)
+        {
+            if (CRSF::receiveFrames((uint8_t)_uart->read()))
+            {
+                flushRemainingFrames();
+
+#if CRSF_TELEMETRY_ENABLED > 0
+                // Check if it is time to send telemetry.
+                if (telemetry->update())
+                {
+                    telemetry->sendTelemetryData(_uart);
+                }
+#endif
+            }
+        }
+
+#if CRSF_RC_ENABLED > 0
+        // Update the RC Channels.
+        CRSF::getRcChannels(_rcChannels);
+#endif
+    }
+
+    void SerialReceiver::flushRemainingFrames()
+    {
+        _uart->flush();
+        while (_uart->available() > 0)
+        {
+            _uart->read();
+        }
+    }
+#endif
+
+#if CRSF_RC_ENABLED > 0
+    uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
+    {
+        if (channel <= 15)
+        {
+            if (raw == true)
+            {
+                return _rcChannels[channel];
+            }
+            else
+            {
+                /* Convert RC value from raw to microseconds.
+                - Mininum: 172 (988us)
+                - Middle: 992 (1500us)
+                - Maximum: 1811 (2012us)
+                - Scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241
+                - Offset = 988 - 172 * 0.62477120195241 = 880.53935326418548
+                */
+                return (uint16_t)((_rcChannels[channel] * 0.62477120195241F) + 881);
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    uint16_t SerialReceiver::getChannel(uint8_t channel)
+    {
+        return readRcChannel(channel, true);
+    }
+
+    uint16_t SerialReceiver::rcToUs(uint16_t rc)
+    {
+        return (uint16_t)((rc * 0.62477120195241F) + 881);
+    }
+
+    uint16_t SerialReceiver::usToRc(uint16_t us)
+    {
+        return (uint16_t)((us - 881) / 0.62477120195241F);
+    }
+
+#if CRSF_FLIGHTMODES_ENABLED > 0
+    bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    {
+        if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
+        {
+            _flightModes[flightMode].channel = channel;
+            _flightModes[flightMode].min = min;
+            _flightModes[flightMode].max = max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void SerialReceiver::setFlightModeCallback(flightModeCallback_t callback)
+    {
+        _flightModeCallback = callback;
+    }
+
+    void SerialReceiver::handleFlightMode()
+    {
+        if (_flightModeCallback != nullptr)
+        {
+            for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
+            {
+                if (_rcChannels[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels[_flightModes[i].channel] <= _flightModes[i].max)
+                {
+                    _flightModeCallback((flightModeId_t)i);
+                    break;
+                }
+            }
+        }
+    }
+#endif
+#endif
+
+#if CRSF_TELEMETRY_ENABLED > 0
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+    void SerialReceiver::telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw)
+    {
+        telemetry->setAttitudeData(roll, pitch, yaw);
+    }
+#endif
+
+#if CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+    void SerialReceiver::telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario)
+    {
+        telemetry->setBaroAltitudeData(altitude, vario);
+    }
+#endif
+
+#if CRSF_TELEMETRY_BATTERY_ENABLED > 0
+    void SerialReceiver::telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent)
+    {
+        telemetry->setBatteryData(voltage, current, fuel, percent);
+    }
+#endif
+
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+    void SerialReceiver::telemetryWriteFlightMode(flightModeId_t flightModeId)
+    {
+        switch (flightModeId)
+        {
+            case FLIGHT_MODE_FAILSAFE:
+                flightModeStr = "!FS!";
+                break;
+            case FLIGHT_MODE_GPS_RESCUE:
+                flightModeStr = "RTH";
+                break;
+            case FLIGHT_MODE_PASSTHROUGH:
+                flightModeStr = "MANU";
+                break;
+            case FLIGHT_MODE_ANGLE:
+                flightModeStr = "STAB";
+                break;
+            case FLIGHT_MODE_HORIZON:
+                flightModeStr = "HOR";
+                break;
+            case FLIGHT_MODE_AIRMODE:
+                flightModeStr = "AIR";
+                break;
+            default:
+                flightModeStr = "ACRO";
+                break;
+        }
+
+        // Serial.println(flightModeStr);
+        telemetry->setFlightModeData(flightModeStr, (bool)(flightModeId == FLIGHT_MODE_DISARMED ? true : false));
+    }
+#endif
+
+#if CRSF_TELEMETRY_GPS_ENABLED > 0
+    void SerialReceiver::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
+    {
+        telemetry->setGPSData(latitude, longitude, altitude, speed, groundCourse, satellites);
+    }
+#endif
+#endif
 
     void SerialReceiver::printHelloWorld()
     {

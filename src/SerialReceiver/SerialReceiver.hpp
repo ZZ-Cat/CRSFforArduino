@@ -27,18 +27,94 @@
 #pragma once
 
 #include "Arduino.h"
+#include "../CFA_Config.hpp"
 #include "CRSF/CRSF.hpp"
+#include "Telemetry/Telemetry.hpp"
 
 namespace serialReceiverLayer
 {
-    class SerialReceiver : private CRSF
+    typedef enum flightModeId_e
+    {
+        FLIGHT_MODE_DISARMED = 0,
+        FLIGHT_MODE_ACRO,
+        FLIGHT_MODE_WAIT,
+        FLIGHT_MODE_FAILSAFE,
+        FLIGHT_MODE_GPS_RESCUE,
+        FLIGHT_MODE_PASSTHROUGH,
+        FLIGHT_MODE_ANGLE,
+        FLIGHT_MODE_HORIZON,
+        FLIGHT_MODE_AIRMODE,
+        FLIGHT_MODE_COUNT
+    } flightModeId_t;
+
+    // Function pointer for Flight Mode Callback
+    typedef void (*flightModeCallback_t)(flightModeId_t);
+
+    class SerialReceiver : private CRSF, private Telemetry
     {
     public:
         SerialReceiver(HardwareSerial *serialPort = &Serial1);
         virtual ~SerialReceiver();
 
         void printHelloWorld();
+
+        bool begin();
+        void end();
+
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        void processFrames();
+#endif
+
+#if CRSF_RC_ENABLED > 0
+        uint16_t getChannel(uint8_t channel);
+        uint16_t rcToUs(uint16_t rc);
+        uint16_t usToRc(uint16_t us);
+        uint16_t readRcChannel(uint8_t channel, bool raw = false);
+
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        bool setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
+        void setFlightModeCallback(flightModeCallback_t callback);
+        void handleFlightMode();
+#endif
+#endif
+
+#if CRSF_TELEMETRY_ENABLED > 0
+        void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
+        void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
+        void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
+        void telemetryWriteFlightMode(flightModeId_t flightMode);
+        void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
+#endif
+
     private:
-        HardwareSerial *_serialPort = nullptr;
+        HardwareSerial *_uart = nullptr;
+
+#if CRSF_TELEMETRY_ENABLED > 0
+        Telemetry *telemetry;
+#endif
+
+#if CRSF_RC_ENABLED > 0
+        uint16_t *_rcChannels;
+#endif
+
+#if CRSF_TELEMETRY_ENABLED > 0
+        const char *flightModeStr = "ACRO";
+#endif
+
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
+        typedef struct flightMode_s
+        {
+            uint8_t channel = 0;
+            uint16_t min = 0;
+            uint16_t max = 0;
+        } flightMode_t;
+
+        flightMode_t *_flightModes = nullptr;
+        flightModeCallback_t _flightModeCallback = nullptr;
+#endif
+
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+        void flushRemainingFrames();
+#endif
     };
 } // namespace serialReceiverLayer
