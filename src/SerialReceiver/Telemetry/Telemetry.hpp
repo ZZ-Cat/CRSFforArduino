@@ -2,15 +2,9 @@
 
 #include "Arduino.h"
 
-#if defined(CFA_DEVELOPMENT_MODE)
-#include "CRC/CRC.hpp"
-#include "CRSF/CRSFProtocol.hpp"
-#include "SerialBuffer/SerialBuffer.hpp"
-#else
-#include "SerialReceiver/CRC/CRC.hpp"
-#include "SerialReceiver/CRSF/CRSFProtocol.hpp"
-#include "SerialReceiver/SerialBuffer/SerialBuffer.hpp"
-#endif
+#include "../CRC/CRC.hpp"
+#include "../CRSF/CRSFProtocol.hpp"
+#include "../SerialBuffer/SerialBuffer.hpp"
 
 namespace serialReceiverLayer
 {

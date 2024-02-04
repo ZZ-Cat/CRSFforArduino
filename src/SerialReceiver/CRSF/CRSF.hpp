@@ -1,12 +1,7 @@
 #pragma once
 
 #include "CRSFProtocol.hpp"
-
-#if defined(CFA_DEVELOPMENT_MODE)
-#include "CRC/CRC.hpp"
-#else
-#include "SerialReceiver/CRC/CRC.hpp"
-#endif
+#include "../CRC/CRC.hpp"
 
 namespace serialReceiverLayer
 {
