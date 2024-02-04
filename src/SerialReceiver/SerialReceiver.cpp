@@ -1,14 +1,14 @@
 /**
  * @file SerialReceiver.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This is the implementation file for the Serial Receiver Interface.
+ * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-2
+ * @date 2024-2-5
  *
- * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
+ * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
  * @section License GNU General Public License v3.0
- * This header file is a part of the CRSF for Arduino library.
+ * This source file is a part of the CRSF for Arduino library.
  * CRSF for Arduino is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

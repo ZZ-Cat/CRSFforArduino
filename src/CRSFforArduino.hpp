@@ -1,11 +1,12 @@
 /**
- * @file CRSFforArduino.hpp
+ * @file CRSFforArduino.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief CRSF for Arduino facilitates the use of ExpressLRS RC receivers in Arduino projects.
+ * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
+ * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-2
+ * @date 2024-2-5
  *
- * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
+ * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
  * @section License GNU General Public License v3.0
  * This header file is a part of the CRSF for Arduino library.
@@ -21,7 +22,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * 
  */
 
 #pragma once
