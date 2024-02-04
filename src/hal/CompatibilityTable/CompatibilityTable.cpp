@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "../CFA_Config.hpp"
+#include "../../CFA_Config.hpp"
 #include "CompatibilityTable.hpp"
 
 namespace hal
