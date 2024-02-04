@@ -1,7 +1,4 @@
-#include "new"
 #include "CRSFforArduino.hpp"
-
-using namespace std;
 
 void setup()
 {
@@ -11,17 +8,7 @@ void setup()
         delay(10);
     }
 
-    CRSFforArduino *crsf = new(nothrow) CRSFforArduino();
-    if (crsf == nullptr)
-    {
-        Serial.println("Failed to allocate memory for CRSFforArduino");
-        while (true)
-        {
-            delay(1000);
-        }
-    }
-
-    crsf->printTest();
+    CRSFforArduino *crsf = new CRSFforArduino();
 
     delete crsf;
     crsf = nullptr;
