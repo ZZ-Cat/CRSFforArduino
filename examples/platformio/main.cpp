@@ -1,4 +1,3 @@
-#if defined(ARDUINO) && defined(PLATFORMIO)
 #include "Arduino.h"
 #include "CRSFforArduino.hpp"
 
@@ -56,4 +55,3 @@ void loop()
         Serial.println(">");
     }
 }
-#endif
