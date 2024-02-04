@@ -24,8 +24,8 @@
  * 
  */
 
-#include "cstring"
 #include "SerialBuffer.hpp"
+#include "cstring"
 
 namespace genericStreamBuffer
 {

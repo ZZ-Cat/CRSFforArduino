@@ -26,14 +26,14 @@
 
 #pragma once
 
-#include "CRSFProtocol.hpp"
 #include "../CRC/CRC.hpp"
+#include "CRSFProtocol.hpp"
 
 namespace serialReceiverLayer
 {
     class CRSF
     {
-    public:
+      public:
         CRSF();
         virtual ~CRSF();
         void begin();
@@ -41,7 +41,8 @@ namespace serialReceiverLayer
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
         bool receiveFrames(uint8_t rxByte);
         void getRcChannels(uint16_t *rcChannels);
-    private:
+
+      private:
         bool rcFrameReceived;
         uint16_t frameCount;
         uint32_t timePerFrame;

@@ -34,7 +34,7 @@ namespace sketchLayer
 {
     class CRSFforArduino : private serialReceiverLayer::SerialReceiver
     {
-    public:
+      public:
         CRSFforArduino();
         CRSFforArduino(HardwareSerial *serialPort);
         ~CRSFforArduino();
@@ -57,7 +57,8 @@ namespace sketchLayer
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
         void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
-    private:
+
+      private:
         SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer

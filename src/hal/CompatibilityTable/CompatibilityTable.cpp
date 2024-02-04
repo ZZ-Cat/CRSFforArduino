@@ -24,9 +24,9 @@
  * 
  */
 
-#include "Arduino.h"
-#include "../../CFA_Config.hpp"
 #include "CompatibilityTable.hpp"
+#include "../../CFA_Config.hpp"
+#include "Arduino.h"
 
 namespace hal
 {

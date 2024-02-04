@@ -47,8 +47,7 @@ const char *rcChannelNames[] = {
     "Aux9",
     "Aux10",
     "Aux11",
-    "Aux12"
-};
+    "Aux12"};
 
 void setup()
 {

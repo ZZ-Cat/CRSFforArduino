@@ -26,8 +26,8 @@
 
 #pragma once
 
-#include "Arduino.h"
 #include "../CFA_Config.hpp"
+#include "Arduino.h"
 #include "CRSF/CRSF.hpp"
 #include "Telemetry/Telemetry.hpp"
 
@@ -52,7 +52,7 @@ namespace serialReceiverLayer
 
     class SerialReceiver
     {
-    public:
+      public:
         SerialReceiver();
         SerialReceiver(HardwareSerial *hwUartPort);
         virtual ~SerialReceiver();
@@ -85,7 +85,7 @@ namespace serialReceiverLayer
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 #endif
 
-    private:
+      private:
         CRSF *crsf;
         HardwareSerial *_uart;
 

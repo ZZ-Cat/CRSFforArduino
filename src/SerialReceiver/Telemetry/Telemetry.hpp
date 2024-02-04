@@ -36,7 +36,7 @@ namespace serialReceiverLayer
 {
     class Telemetry : private genericCrc::CRC, private genericStreamBuffer::SerialBuffer
     {
-    public:
+      public:
         Telemetry();
         ~Telemetry();
 
@@ -54,7 +54,7 @@ namespace serialReceiverLayer
 
         void sendTelemetryData(HardwareSerial *db);
 
-    private:
+      private:
         uint8_t _telemetryFrameScheduleCount;
         uint8_t _telemetryFrameSchedule[crsfProtocol::CRSF_TELEMETRY_FRAME_SCHEDULE_MAX];
         crsfProtocol::telemetryData_t _telemetryData;

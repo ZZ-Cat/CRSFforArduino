@@ -24,9 +24,9 @@
  * 
  */
 
-#include "Arduino.h"
-#include "../hal/CompatibilityTable/CompatibilityTable.hpp"
 #include "SerialReceiver.hpp"
+#include "../hal/CompatibilityTable/CompatibilityTable.hpp"
+#include "Arduino.h"
 
 using namespace crsfProtocol;
 using namespace hal;

@@ -33,7 +33,7 @@ namespace genericStreamBuffer
 {
     class SerialBuffer
     {
-    public:
+      public:
         SerialBuffer(size_t size = 64);
         ~SerialBuffer();
 

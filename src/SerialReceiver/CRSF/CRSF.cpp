@@ -24,8 +24,8 @@
  * 
  */
 
-#include "Arduino.h"
 #include "CRSF.hpp"
+#include "Arduino.h"
 
 using namespace crsfProtocol;
 using namespace genericCrc;

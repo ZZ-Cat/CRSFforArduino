@@ -24,8 +24,8 @@
  * 
  */
 
-#include "stdlib.h"
 #include "CRC.hpp"
+#include "stdlib.h"
 
 namespace genericCrc
 {

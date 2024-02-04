@@ -24,15 +24,15 @@
  * 
  */
 
-#include "CFA_Config.hpp"
 #include "Telemetry.hpp"
+#include "CFA_Config.hpp"
 
 using namespace crsfProtocol;
 
 namespace serialReceiverLayer
 {
 #ifndef PI
-#define PI  3.1415926535897932384626433832795F
+#define PI 3.1415926535897932384626433832795F
 #endif
 
 #ifndef RAD

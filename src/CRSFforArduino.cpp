@@ -25,8 +25,8 @@
  * 
  */
 
-#include "Arduino.h"
 #include "CRSFforArduino.hpp"
+#include "Arduino.h"
 
 namespace sketchLayer
 {
