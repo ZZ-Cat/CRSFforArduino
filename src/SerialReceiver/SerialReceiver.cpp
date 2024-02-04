@@ -25,9 +25,11 @@
  */
 
 #include "Arduino.h"
+#include "../hal/CompatibilityTable/CompatibilityTable.hpp"
 #include "SerialReceiver.hpp"
 
 using namespace crsfProtocol;
+using namespace hal;
 
 namespace serialReceiverLayer
 {
@@ -115,6 +117,23 @@ namespace serialReceiverLayer
 #endif
         }
 #endif
+
+        CompatibilityTable *ct = new CompatibilityTable();
+        if (!ct->isDevboardCompatible(ct->getDevboardName()))
+        {
+            delete ct;
+            ct = nullptr;
+            // _uart->exitCriticalSection();
+
+#if CRSF_DEBUG_ENABLED > 0
+            // Debug.
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | FATAL ERROR]: Devboard is not compatible with CRSF Protocol.");
+#endif
+            return false;
+        }
+
+        delete ct;
+        ct = nullptr;
 
         // Initialize the CRSF Protocol.
         crsf = new CRSF();
