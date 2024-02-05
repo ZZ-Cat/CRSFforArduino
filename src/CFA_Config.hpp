@@ -84,6 +84,8 @@ information back to your controller. */
 #define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   0
 #define CRSF_TELEMETRY_GPS_ENABLED          1
 
+#define CRSF_LINK_STATISTICS_ENABLED  1
+
 /* Debug Options
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port.
 - CRSF_DEBUG_SERIAL_PORT: The serial port to use for debug output. Usually the native USB port.

@@ -28,6 +28,8 @@
 
 #pragma once
 
+#include "../../CFA_Config.hpp"
+
 namespace crsfProtocol
 {
     enum rc_channels_e
@@ -116,6 +118,10 @@ namespace crsfProtocol
         CRSF_FRAMETYPE_DISPLAYPORT_CMD = 0x7D,
     } frameType_t;
 
+#if CRSF_TELEMETRY_ENABLED == 1 || CRSF_LINK_STATISTICS_ENABLED == 1
+#define CRSF_FRAME_ORIGIN_DEST_SIZE 2
+#endif
+
     typedef enum address_e
     {
         CRSF_ADDRESS_BROADCAST = 0x00,
@@ -183,6 +189,24 @@ namespace crsfProtocol
         uint8_t raw[CRSF_FRAME_SIZE_MAX];
         frameDefinition_t frame;
     } frame_t;
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+    // Link Statistics frame.
+    // Uplink is the connection from the transmitter to the receiver. Downlink is in the opposite direction.
+    typedef struct crsf_payload_link_statistics_s
+    {
+        uint8_t uplink_rssi_1; // Uplink RSSI Antenna 1 (dBm * -1)
+        uint8_t uplink_rssi_2; // Uplink RSSI Antenna 2 (dBm * -1)
+        uint8_t uplink_link_quality; // Uplink Link Quality/Packet Success Rate (%)
+        int8_t uplink_snr; // Uplink Signal-to-Noise Ratio (dB)
+        uint8_t active_antenna; // Active Antenna (0 = Antenna 1, 1 = Antenna 2)
+        uint8_t rf_mode; // RF Mode (4 fps = 0, 50 fps = 1, 150 fps = 2, 250 fps = 3, 500 fps = 4, 1000 fps = 5)
+        uint8_t uplink_tx_power; // Uplink TX Power (0 mW = 0, 10 mW = 1, 25 mW = 2, 100 mW = 3, 250 mW = 4, 500 mW = 5, 1000 mW = 6, 2000 mW = 7)
+        uint8_t downlink_rssi; // Downlink RSSI (dBm * -1)
+        uint8_t downlink_link_quality; // Downlink Link Quality/Packet Success Rate (%)
+        int8_t downlink_snr; // Downlink Signal-to-Noise Ratio (dB)
+    } crsf_payload_link_statistics_t;
+#endif
 
     // Attitude Data to pass to the telemetry frame.
     typedef struct attitudeData_s

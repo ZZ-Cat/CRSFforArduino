@@ -31,6 +31,28 @@
 
 namespace serialReceiverLayer
 {
+// #if CRSF_LINK_STATISTICS_ENABLED > 0
+    typedef struct link_statistics_s
+    {
+        int16_t rssi = 0;
+        int16_t lqi = 0;
+        int16_t snr = 0;
+        int16_t tx_power = 0;
+    } link_statistics_t;
+
+    const uint16_t tx_power_table[9] = {
+        0, // 0 mW
+        10, // 10 mW
+        25, // 25 mW
+        100, // 100 mW
+        500, // 500 mW
+        1000, // 1 W
+        2000, // 2 W
+        250, // 250 mW
+        50 // 50 mW
+    };
+// #endif
+
     class CRSF
     {
       public:
@@ -41,6 +63,7 @@ namespace serialReceiverLayer
         void setFrameTime(uint32_t baudRate, uint8_t packetCount = 10);
         bool receiveFrames(uint8_t rxByte);
         void getRcChannels(uint16_t *rcChannels);
+        void getLinkStatistics(link_statistics_t *linkStats);
 
       private:
         bool rcFrameReceived;
@@ -48,6 +71,7 @@ namespace serialReceiverLayer
         uint32_t timePerFrame;
         crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;
+        link_statistics_t linkStatistics;
         genericCrc::CRC *crc8;
         uint8_t calculateFrameCRC();
     };

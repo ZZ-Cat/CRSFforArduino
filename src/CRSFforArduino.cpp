@@ -170,6 +170,16 @@ namespace sketchLayer
 #endif
     }
 
+    void CRSFforArduino::setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics))
+    {
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        _serialReceiver->setLinkStatisticsCallback(callback);
+#else
+        // Prevent compiler warnings
+        (void)callback;
+#endif
+    }
+
     /**
      * @brief Assigns a Flight Mode to the specified channel.
      * 
