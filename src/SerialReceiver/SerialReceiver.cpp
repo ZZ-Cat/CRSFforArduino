@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -219,7 +219,7 @@ namespace serialReceiverLayer
         // _uart->exitCriticalSection();
     }
 
-#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0
     void SerialReceiver::processFrames()
     {
         while (_uart->available() > 0)
@@ -227,6 +227,15 @@ namespace serialReceiverLayer
             if (crsf->receiveFrames((uint8_t)_uart->read()))
             {
                 flushRemainingFrames();
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+                // Handle link statistics.
+                crsf->getLinkStatistics(&_linkStatistics);
+                if (_linkStatisticsCallback != nullptr)
+                {
+                    _linkStatisticsCallback(_linkStatistics);
+                }
+#endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
                 // Check if it is time to send telemetry.
@@ -245,7 +254,14 @@ namespace serialReceiverLayer
     }
 #endif
 
-#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+    void SerialReceiver::setLinkStatisticsCallback(linkStatisticsCallback_t callback)
+    {
+        _linkStatisticsCallback = callback;
+    }
+#endif
+
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0
     void SerialReceiver::flushRemainingFrames()
     {
         _uart->flush();

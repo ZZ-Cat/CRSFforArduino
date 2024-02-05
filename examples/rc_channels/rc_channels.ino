@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Example of how to read rc channels from a receiver.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

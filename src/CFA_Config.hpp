@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the configuration file for CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -37,7 +37,7 @@ namespace crsfForArduinoConfig
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION       "1.0.0"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-1-20"
+#define CRSFFORARDUINO_VERSION_DATE  "2024-2-6"
 #define CRSFFORARDUINO_VERSION_MAJOR 1
 #define CRSFFORARDUINO_VERSION_MINOR 0
 #define CRSFFORARDUINO_VERSION_PATCH 0
@@ -83,6 +83,8 @@ information back to your controller. */
 #define CRSF_TELEMETRY_BATTERY_ENABLED      1
 #define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   0
 #define CRSF_TELEMETRY_GPS_ENABLED          1
+
+#define CRSF_LINK_STATISTICS_ENABLED 1
 
 /* Debug Options
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port.

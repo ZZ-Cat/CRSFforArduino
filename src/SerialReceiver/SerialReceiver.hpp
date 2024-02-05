@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -50,6 +50,9 @@ namespace serialReceiverLayer
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
+    // Function pointer for Link Statistics Callback
+    typedef void (*linkStatisticsCallback_t)(link_statistics_t);
+
     class SerialReceiver
     {
       public:
@@ -60,8 +63,12 @@ namespace serialReceiverLayer
         bool begin();
         void end();
 
-#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
+#if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0
         void processFrames();
+#endif
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        void setLinkStatisticsCallback(linkStatisticsCallback_t callback);
 #endif
 
 #if CRSF_RC_ENABLED > 0
@@ -99,6 +106,11 @@ namespace serialReceiverLayer
 
 #if CRSF_TELEMETRY_ENABLED > 0
         const char *flightModeStr = "ACRO";
+#endif
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        link_statistics_t _linkStatistics;
+        linkStatisticsCallback_t _linkStatisticsCallback = nullptr;
 #endif
 
 #if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0

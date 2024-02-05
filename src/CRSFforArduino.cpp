@@ -4,7 +4,7 @@
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -167,6 +167,16 @@ namespace sketchLayer
 
         // Return 0 if RC is disabled
         return 0;
+#endif
+    }
+
+    void CRSFforArduino::setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics))
+    {
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        _serialReceiver->setLinkStatisticsCallback(callback);
+#else
+        // Prevent compiler warnings
+        (void)callback;
 #endif
     }
 

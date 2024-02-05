@@ -1,14 +1,14 @@
 /**
- * @file main.cpp
+ * @file link_stats.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This is the main development file for CRSF for Arduino.
+ * @brief Example of how to read link statistics from a receiver.
  * @version 1.0.0
  * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
  * @section License GNU General Public License v3.0
- * This source file is a part of the CRSF for Arduino library.
+ * This example is a part of the CRSF for Arduino library.
  * CRSF for Arduino is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -24,10 +24,25 @@
  * 
  */
 
-#include "Arduino.h"
 #include "CRSFforArduino.hpp"
 
+/* Tested with the following equipment:
+- Controller: RadioMaster TX16S Max Edition Mk1
+  - Firmware: EdgeTX 2.10.0 Nightly
+  - Lua Script: iNav OpenTX Telemetry Widget 2.2.3
+  - Transmitter Module: RadioMaster Ranger
+    - Firmware: ExpressLRS 3.3.1
+- Receiver: RadioMaster RP3 Diversity
+  - Firmware: ExpressLRS 3.3.1
+- Development Board: Adafruit Metro M4 Express
+  - Board Package: Adafruit SAMD Boards 1.7.5
+  - Framework: Arduino 1.8.13
+  - Library: CRSF for Arduino 1.0.0
+ */
+
 CRSFforArduino *crsf = nullptr;
+
+void onLinkStatisticsUpdate(serialReceiverLayer::link_statistics_t);
 
 void setup()
 {
@@ -36,6 +51,8 @@ void setup()
     {
         delay(10);
     }
+
+    Serial.println("Link Statistics Example.");
 
     crsf = new CRSFforArduino();
 
@@ -51,33 +68,33 @@ void setup()
             delay(10);
         }
     }
+
+    // Set link statistics callback.
+    crsf->setLinkStatisticsCallback(onLinkStatisticsUpdate);
+
+    Serial.println("Ready.");
+    delay(1000);
 }
 
 void loop()
 {
     crsf->update();
+}
 
-    /* Print RC channels every 100 ms. Do this using the millis() function to avoid blocking the main loop. */
+void onLinkStatisticsUpdate(serialReceiverLayer::link_statistics_t linkStatistics)
+{
     static unsigned long lastPrint = 0;
-    if (millis() - lastPrint >= 100)
+    if (millis() - lastPrint >= 200)
     {
         lastPrint = millis();
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(8)));
-        Serial.println(">");
+        Serial.print("Link Statistics: ");
+        Serial.print("RSSI: ");
+        Serial.print(linkStatistics.rssi);
+        Serial.print(", Link Quality: ");
+        Serial.print(linkStatistics.lqi);
+        Serial.print(", Signal-to-Noise Ratio: ");
+        Serial.print(linkStatistics.snr);
+        Serial.print(", Transmitter Power: ");
+        Serial.println(linkStatistics.tx_power);
     }
 }

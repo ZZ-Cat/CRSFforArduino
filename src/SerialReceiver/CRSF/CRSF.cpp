@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This decodes CRSF frames from a serial port.
  * @version 1.0.0
- * @date 2024-2-5
+ * @date 2024-2-6
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -132,6 +132,21 @@ namespace serialReceiverLayer
                                 rcFrameReceived = true;
                             }
                             break;
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+                        case CRSF_FRAMETYPE_LINK_STATISTICS:
+                            if ((rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER) && (rxFrame.frame.frameLength == CRSF_FRAME_ORIGIN_DEST_SIZE + CRSF_FRAME_LINK_STATISTICS_PAYLOAD_SIZE))
+                            {
+                                const crsf_payload_link_statistics_t *linkStatisticsPayload = (const crsf_payload_link_statistics_t *)&rxFrame.frame.payload;
+
+                                /* Decode the link statistics. */
+                                linkStatistics.rssi = (linkStatisticsPayload->active_antenna ? linkStatisticsPayload->uplink_rssi_2 : linkStatisticsPayload->uplink_rssi_1);
+                                linkStatistics.lqi = linkStatisticsPayload->uplink_link_quality;
+                                linkStatistics.snr = linkStatisticsPayload->uplink_snr;
+                                linkStatistics.tx_power = (linkStatisticsPayload->uplink_tx_power < 9) ? tx_power_table[linkStatisticsPayload->uplink_tx_power] : 0;
+                            }
+                            break;
+#endif
                     }
                 }
                 // #ifdef USE_DMA
@@ -176,6 +191,15 @@ namespace serialReceiverLayer
                 rcChannels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
             }
         }
+    }
+
+    void CRSF::getLinkStatistics(link_statistics_t *linkStats)
+    {
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        /* Copy the link statistics into the output structure. */
+        memcpy(linkStats, &linkStatistics, sizeof(link_statistics_t));
+#else
+#endif
     }
 
     uint8_t CRSF::calculateFrameCRC()
