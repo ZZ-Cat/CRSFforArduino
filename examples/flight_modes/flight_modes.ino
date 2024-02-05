@@ -1,14 +1,14 @@
 /**
- * @file main_flight_modes.ino
+ * @file flight_modes.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief Demonstrates the use of CRSF for Arduino's flight mode functionality.
+ * @brief Example of how to read flight modes from a receiver.
  * @version 1.0.0
- * @date 2024-1-20
+ * @date 2024-2-5
  *
- * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
+ * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
  * @section License GNU General Public License v3.0
- * This [file type] is a part of the CRSF for Arduino library.
+ * This example is a part of the CRSF for Arduino library.
  * CRSF for Arduino is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -23,9 +23,6 @@
  * along with CRSF for Arduino.  If not, see <https://www.gnu.org/licenses/>.
  * 
  */
-#if defined(ARDUINO) && defined(PLATFORMIO)
-#error "This example sketch is not compatible with PlatformIO. Please use the main_rc.cpp example instead."
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
 
 #include "CRSFforArduino.hpp"
 
@@ -61,7 +58,7 @@
 
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
-void onFlightModeUpdate(serialReceiver::flightModeId_t);
+void onFlightModeUpdate(serialReceiverLayer::flightModeId_t);
 
 void setup()
 {
@@ -85,7 +82,7 @@ void setup()
     }
 
     // Set flight modes.
-    if (!crsf.setFlightMode(serialReceiver::FLIGHT_MODE_DISARMED, FLIGHT_MODE_ARM_CHANNEL, FLIGHT_MODE_ARM_MIN, FLIGHT_MODE_ARM_MAX))
+    if (!crsf.setFlightMode(serialReceiverLayer::FLIGHT_MODE_DISARMED, FLIGHT_MODE_ARM_CHANNEL, FLIGHT_MODE_ARM_MIN, FLIGHT_MODE_ARM_MAX))
     {
         Serial.println("Failed to set \"DISARMED\" flight mode!");
         while (1)
@@ -94,7 +91,7 @@ void setup()
         }
     }
 
-    if (!crsf.setFlightMode(serialReceiver::FLIGHT_MODE_ACRO, FLIGHT_MODE_ACRO_CHANNEL, FLIGHT_MODE_ACRO_MIN, FLIGHT_MODE_ACRO_MAX))
+    if (!crsf.setFlightMode(serialReceiverLayer::FLIGHT_MODE_ACRO, FLIGHT_MODE_ACRO_CHANNEL, FLIGHT_MODE_ACRO_MIN, FLIGHT_MODE_ACRO_MAX))
     {
         Serial.println("Failed to set \"ACRO\" flight mode!");
         while (1)
@@ -103,7 +100,7 @@ void setup()
         }
     }
 
-    if (!crsf.setFlightMode(serialReceiver::FLIGHT_MODE_ANGLE, FLIGHT_MODE_ANGLE_CHANNEL, FLIGHT_MODE_ANGLE_MIN, FLIGHT_MODE_ANGLE_MAX))
+    if (!crsf.setFlightMode(serialReceiverLayer::FLIGHT_MODE_ANGLE, FLIGHT_MODE_ANGLE_CHANNEL, FLIGHT_MODE_ANGLE_MIN, FLIGHT_MODE_ANGLE_MAX))
     {
         Serial.println("Failed to set \"ANGLE\" flight mode!");
         while (1)
@@ -112,7 +109,7 @@ void setup()
         }
     }
 
-    if (!crsf.setFlightMode(serialReceiver::FLIGHT_MODE_HORIZON, FLIGHT_MODE_HORIZON_CHANNEL, FLIGHT_MODE_HORIZON_MIN, FLIGHT_MODE_HORIZON_MAX))
+    if (!crsf.setFlightMode(serialReceiverLayer::FLIGHT_MODE_HORIZON, FLIGHT_MODE_HORIZON_CHANNEL, FLIGHT_MODE_HORIZON_MIN, FLIGHT_MODE_HORIZON_MAX))
     {
         Serial.println("Failed to set \"HORIZON\" flight mode!");
         while (1)
@@ -136,43 +133,43 @@ void loop()
     crsf.update();
 }
 
-void onFlightModeUpdate(serialReceiver::flightModeId_t flightMode)
+void onFlightModeUpdate(serialReceiverLayer::flightModeId_t flightMode)
 {
     /* Here is where you would put your flight mode implementation.
     For this example, we will just print the flight mode to the serial port,
     and send it to the controller as telemetry. */
-    static serialReceiver::flightModeId_t lastFlightMode = serialReceiver::FLIGHT_MODE_DISARMED;
+    static serialReceiverLayer::flightModeId_t lastFlightMode = serialReceiverLayer::FLIGHT_MODE_DISARMED;
 
     if (flightMode != lastFlightMode)
     {
         Serial.print("Flight Mode: ");
         switch (flightMode)
         {
-            case serialReceiver::FLIGHT_MODE_DISARMED:
+            case serialReceiverLayer::FLIGHT_MODE_DISARMED:
                 Serial.println("Disarmed");
                 break;
-            case serialReceiver::FLIGHT_MODE_ACRO:
+            case serialReceiverLayer::FLIGHT_MODE_ACRO:
                 Serial.println("Acro");
                 break;
-            case serialReceiver::FLIGHT_MODE_WAIT:
+            case serialReceiverLayer::FLIGHT_MODE_WAIT:
                 Serial.println("Wait for GPS Lock");
                 break;
-            case serialReceiver::FLIGHT_MODE_FAILSAFE:
+            case serialReceiverLayer::FLIGHT_MODE_FAILSAFE:
                 Serial.println("Failsafe");
                 break;
-            case serialReceiver::FLIGHT_MODE_GPS_RESCUE:
+            case serialReceiverLayer::FLIGHT_MODE_GPS_RESCUE:
                 Serial.println("GPS Rescue");
                 break;
-            case serialReceiver::FLIGHT_MODE_PASSTHROUGH:
+            case serialReceiverLayer::FLIGHT_MODE_PASSTHROUGH:
                 Serial.println("Passthrough");
                 break;
-            case serialReceiver::FLIGHT_MODE_ANGLE:
+            case serialReceiverLayer::FLIGHT_MODE_ANGLE:
                 Serial.println("Angle");
                 break;
-            case serialReceiver::FLIGHT_MODE_HORIZON:
+            case serialReceiverLayer::FLIGHT_MODE_HORIZON:
                 Serial.println("Horizon");
                 break;
-            case serialReceiver::FLIGHT_MODE_AIRMODE:
+            case serialReceiverLayer::FLIGHT_MODE_AIRMODE:
                 Serial.println("Airmode");
                 break;
             default:
@@ -184,5 +181,3 @@ void onFlightModeUpdate(serialReceiver::flightModeId_t flightMode)
         crsf.telemetryWriteFlightMode(flightMode);
     }
 }
-
-#endif

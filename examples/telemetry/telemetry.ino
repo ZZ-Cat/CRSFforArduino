@@ -1,14 +1,14 @@
 /**
- * @file telemetry.ino
+ * @file flight_modes.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
- * @brief This demonstrates how to use CRSF for Arduino to send telemetry to your RC transmitter using the CRSF protocol.
+ * @brief Example of how to send telemetry back to your RC handset using CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-1-20
- * 
- * @copyright Copyright (c) 2023, Cassandra "ZZ Cat" Robinson. All rights reserved.
+ * @date 2024-2-5
+ *
+ * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
  * @section License GNU General Public License v3.0
- * This example sketch is a part of the CRSF for Arduino library.
+ * This example is a part of the CRSF for Arduino library.
  * CRSF for Arduino is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -24,15 +24,10 @@
  * 
  */
 
-#if defined(ARDUINO) && defined(PLATFORMIO)
-#error "This example sketch is not compatible with PlatformIO. Please use the main_gps-telemetry.cpp example instead."
-#elif defined(ARDUINO) && !defined(PLATFORMIO)
-
 #include "CRSFforArduino.hpp"
 
 /* Configuration Options. */
 #define VIEW_RC_CHANNELS             0 // Set VIEW_RC_CHANNELS to 1 to view the RC channel data in the serial monitor.
-#define USE_SERIAL_PLOTTER           1 // Set USE_SERIAL_PLOTTER to 1 to view this example's data in the Arduino IDE's serial plotter.
 #define GENERATE_RANDOM_BATTERY_DATA 0 // Set GENERATE_RANDOM_BATTERY_DATA to 1 to generate random battery sensor telemetry data.
 #define GENERATE_RANDOM_GPS_DATA     0 // Set GENERATE_RANDOM_GPS_DATA to 1 to generate random GPS telemetry data.
 
@@ -59,39 +54,34 @@ float longitude = 174.9497131419602F; // Longitude is in decimal degrees.
 float altitude = 100.0F;              // Altitude is in centimetres.
 float speed = 500.0F;                 // Speed is in cm/s
 float groundCourse = 275.8F;          // Ground Course is in degrees.
-uint8_t satellites = 4;
-
-const int channelCount = crsfProtocol::RC_CHANNEL_COUNT; // I'm not sure if this is right, but we can always manually put in the number of channels desired
-
-/* The CRSF Protocol only supports up to 16 proportional RC channels.
-So, an assert is needed to prevent channelCount from being set to any arbitary number that is higher than 16. */
-static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
+uint8_t satellites = 7;               // 7 satellites are in view (implies a 3D fix).
 
 CRSFforArduino crsf = CRSFforArduino(&Serial1);
 
-#if USE_SERIAL_PLOTTER == 0 && VIEW_RC_CHANNELS > 0
+#if VIEW_RC_CHANNELS > 0
+const int channelCount = 8;
 const char *channelNames[crsfProtocol::RC_CHANNEL_COUNT] = {
     "A", "E", "T", "R", "Aux1", "Aux2", "Aux3", "Aux4", "Aux5", "Aux6", "Aux7", "Aux8", "Aux9", "Aux10", "Aux11", "Aux12"};
+
+static_assert(channelCount <= crsfProtocol::RC_CHANNEL_COUNT, "The number of RC channels must be less than or equal to the maximum number of RC channels supported by CRSF.");
 #endif
 
 void setup()
 {
-#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG) || USE_SERIAL_PLOTTER > 0
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
     Serial.begin(115200);
     while (!Serial)
     {
         ;
     }
 
-#if USE_SERIAL_PLOTTER == 0
     Serial.println("GPS Telemetry Example");
-#endif
 #endif
 
     /* Initialise CRSF for Arduino */
     if (!crsf.begin())
     {
-#if (VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)) && USE_SERIAL_PLOTTER == 0
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
         Serial.println("CRSF for Arduino initialization failed!");
 #endif
         while (1)
@@ -100,7 +90,7 @@ void setup()
         }
     }
 
-#if (VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)) && USE_SERIAL_PLOTTER == 0
+#if VIEW_RC_CHANNELS > 0 || defined(CRSF_DEBUG)
     /* Show the user that the sketch is ready. */
     Serial.println("Ready");
     delay(1000);
@@ -217,22 +207,6 @@ void loop()
         speed = random(0, 6625);
         groundCourse = random(0, 359);
         satellites = random(0, 16);
-
-#if USE_SERIAL_PLOTTER > 0
-        Serial.print("Lat:");
-        Serial.print(latitude);
-        Serial.print("\tLon:");
-        Serial.print(longitude);
-        Serial.print("\tAlt:");
-        Serial.print(altitude);
-        Serial.print("\tSpeed:");
-        Serial.print(speed);
-        Serial.print("\tGroundCourse:");
-        Serial.print(groundCourse);
-        Serial.print("\tSatellites:");
-        Serial.print(satellites);
-        Serial.println();
-#endif
 #endif
 
         // Update the GPS telemetry data with the new values.
@@ -248,17 +222,6 @@ void loop()
     if (timeNow - lastPrint >= 100)
     {
         lastPrint = timeNow;
-#if USE_SERIAL_PLOTTER == 0
-        for (int i = 1; i <= channelCount; i++)
-        {
-            //Serial.print("Channel");
-            Serial.print(i);
-            Serial.print(":");
-            Serial.print(crsf.rcToUs(crsf.getChannel(i)));
-            Serial.print("\t");
-        }
-        Serial.println();
-#else
         Serial.print("RC Channels <");
         for (uint8_t i = 0; i < channelCount; i++)
         {
@@ -271,9 +234,6 @@ void loop()
             }
         }
         Serial.println(">");
-#endif
     }
 #endif
 }
-
-#endif // defined(ARDUINO) && defined(PLATFORMIO)

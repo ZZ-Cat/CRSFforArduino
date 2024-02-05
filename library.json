@@ -1,0 +1,33 @@
+{
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "CRSFforArduino",
+    "version": "1.0.0",
+    "description": "An Arduino Library for communicating with ExpressLRS and TBS Crossfire receivers.",
+    "keywords": "arduino, remote-control, arduino-library, protocols, rc, radio-control, crsf, expresslrs",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/ZZ-Cat/CRSFforArduino.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Cassandra Robinson",
+        "email": "nicad.heli.flier@gmail.com",
+        "url": "https://github.com/ZZ-Cat",
+        "maintainer": true
+      }
+    ],
+    "license": "GNU GPLv3",
+    "homepage": "https://github.com/ZZ-Cat/CRSFforArduino",
+    "dependencies": {
+    },
+    "frameworks": "Arduino",
+    "platforms": [
+        "atmelsam",
+        "espressif32",
+        "teensy"
+    ],
+    "examples": [
+    ]
+  }
