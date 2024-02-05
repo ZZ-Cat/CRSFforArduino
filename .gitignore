@@ -4,8 +4,6 @@
 # Artefacts for Visual Studio Code
 .vscode/
 
-DEPRECATED/
-
 # PlatformIO specific files
 test/README
 
