@@ -118,6 +118,7 @@ namespace sketchLayer
      *
      * @return The RC value.
      */
+    [[deprecated("Use RC channel callback instead")]]
     uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
     {
 #if CRSF_RC_ENABLED > 0
@@ -138,6 +139,7 @@ namespace sketchLayer
      * @param channel The channel to read.
      * @return The RC value.
      */
+    [[deprecated("Use RC channel callback instead")]]
     uint16_t CRSFforArduino::getChannel(uint8_t channel)
     {
 #if CRSF_RC_ENABLED > 0
@@ -167,6 +169,16 @@ namespace sketchLayer
 
         // Return 0 if RC is disabled
         return 0;
+#endif
+    }
+
+    void CRSFforArduino::setRcChannelsCallback(void (*callback)(serialReceiverLayer::rcChannels_t *rcChannels))
+    {
+#if CRSF_RC_ENABLED > 0
+        _serialReceiver->setRcChannelsCallback(callback);
+#else
+        // Prevent compiler warnings
+        (void)callback;
 #endif
     }
 

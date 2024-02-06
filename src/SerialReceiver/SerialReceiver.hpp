@@ -47,6 +47,16 @@ namespace serialReceiverLayer
         FLIGHT_MODE_COUNT
     } flightModeId_t;
 
+    typedef struct rcChannels_s
+    {
+        bool valid;
+        bool failsafe;
+        uint16_t value[crsfProtocol::RC_CHANNEL_COUNT];
+    } rcChannels_t;
+
+    // Function pointer for RC Channels Callback
+    typedef void (*rcChannelsCallback_t)(rcChannels_t *);
+
     // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
 
@@ -72,6 +82,7 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_RC_ENABLED > 0
+        void setRcChannelsCallback(rcChannelsCallback_t callback);
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
         uint16_t usToRc(uint16_t us);
@@ -101,7 +112,8 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_RC_ENABLED > 0
-        uint16_t *_rcChannels;
+        rcChannels_t *_rcChannels = nullptr;
+        rcChannelsCallback_t _rcChannelsCallback = nullptr;
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0

@@ -49,6 +49,8 @@ const char *rcChannelNames[] = {
     "Aux11",
     "Aux12"};
 
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels);
+
 void setup()
 {
     // Initialise the serial port & wait for the port to open.
@@ -76,6 +78,8 @@ void setup()
 
     rcChannelCount = rcChannelCount > crsfProtocol::RC_CHANNEL_COUNT ? crsfProtocol::RC_CHANNEL_COUNT : rcChannelCount;
 
+    crsf->setRcChannelsCallback(onReceiveRcChannels);
+
     // Show the user that the sketch is ready.
     Serial.println("RC Channels Example");
     delay(1000);
@@ -86,7 +90,10 @@ void setup()
 void loop()
 {
     crsf->update();
+}
 
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels)
+{
     /* Print RC channels every 100 ms. */
     unsigned long thisTime = millis();
     static unsigned long lastTime = millis();

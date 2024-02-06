@@ -46,6 +46,7 @@ namespace sketchLayer
         uint16_t getChannel(uint8_t channel);
         uint16_t rcToUs(uint16_t rc);
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
+        void setRcChannelsCallback(void (*callback)(serialReceiverLayer::rcChannels_t *rcChannels));
 
         // Link statistics functions.
         void setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics));

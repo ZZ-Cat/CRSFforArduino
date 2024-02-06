@@ -38,7 +38,10 @@ namespace serialReceiverLayer
         _uart = &Serial1;
 
 #if CRSF_RC_ENABLED > 0
-        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = false;
+        _rcChannels->failsafe = false;
+        memset(_rcChannels->value, 0, sizeof(_rcChannels->value));
 #if CRSF_FLIGHTMODES_ENABLED > 0
         _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
 #endif
@@ -50,7 +53,10 @@ namespace serialReceiverLayer
         _uart = hwUartPort;
 
 #if CRSF_RC_ENABLED > 0
-        _rcChannels = new uint16_t[RC_CHANNEL_COUNT];
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = false;
+        _rcChannels->failsafe = false;
+        memset(_rcChannels->value, 0, sizeof(_rcChannels->value));
 #if CRSF_FLIGHTMODES_ENABLED > 0
         _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
 #endif
@@ -62,7 +68,8 @@ namespace serialReceiverLayer
         _uart = nullptr;
 
 #if CRSF_RC_ENABLED > 0
-        delete[] _rcChannels;
+        delete _rcChannels;
+        _rcChannels = nullptr;
 #if CRSF_FLIGHTMODES_ENABLED > 0
         delete[] _flightModes;
 #endif
@@ -86,34 +93,34 @@ namespace serialReceiverLayer
 #if CRSF_RC_INITIALISE_ARMCHANNEL > 0 && CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
             if (i == RC_CHANNEL_AUX1 || i == RC_CHANNEL_THROTTLE)
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_MIN;
             }
             else
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_CENTER;
             }
 
 #elif CRSF_RC_INITIALISE_ARMCHANNEL > 0
             if (i == RC_CHANNEL_AUX1)
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_MIN;
             }
             else
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_CENTER;
             }
 
 #elif CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
             if (i == RC_CHANNEL_THROTTLE)
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_MIN;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_MIN;
             }
             else
             {
-                _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+                _rcChannels->value[i] = CRSF_RC_CHANNEL_CENTER;
             }
 #else
-            _rcChannels[i] = CRSF_RC_CHANNEL_CENTER;
+            _rcChannels->value[i] = CRSF_RC_CHANNEL_CENTER;
 #endif
         }
 #endif
@@ -249,7 +256,11 @@ namespace serialReceiverLayer
 
 #if CRSF_RC_ENABLED > 0
         // Update the RC Channels.
-        crsf->getRcChannels(_rcChannels);
+        crsf->getRcChannels(_rcChannels->value);
+        if (_rcChannelsCallback != nullptr)
+        {
+            _rcChannelsCallback(_rcChannels);
+        }
 #endif
     }
 #endif
@@ -273,13 +284,18 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_RC_ENABLED > 0
+    void SerialReceiver::setRcChannelsCallback(rcChannelsCallback_t callback)
+    {
+        _rcChannelsCallback = callback;
+    }
+
     uint16_t SerialReceiver::readRcChannel(uint8_t channel, bool raw)
     {
         if (channel <= 15)
         {
             if (raw == true)
             {
-                return _rcChannels[channel];
+                return _rcChannels->value[channel];
             }
             else
             {
@@ -290,7 +306,7 @@ namespace serialReceiverLayer
                 - Scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241
                 - Offset = 988 - 172 * 0.62477120195241 = 880.53935326418548
                 */
-                return (uint16_t)((_rcChannels[channel] * 0.62477120195241F) + 881);
+                return (uint16_t)((_rcChannels->value[channel] * 0.62477120195241F) + 881);
             }
         }
         else
