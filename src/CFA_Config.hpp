@@ -42,6 +42,11 @@ See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION_MINOR 0
 #define CRSFFORARDUINO_VERSION_PATCH 0
 
+/* Failsafe Options
+- CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.
+- CRSF_FAILSAFE_RSSI_THRESHOLD: The minimum RSSI value for the receiver to be considered connected.
+  - NB: It is considered good practice to set this value to the same as the RSSI Sensitivity Limit in your Lua script.
+*/
 #define CRSF_FAILSAFE_LQI_THRESHOLD  80
 #define CRSF_FAILSAFE_RSSI_THRESHOLD 105
 
