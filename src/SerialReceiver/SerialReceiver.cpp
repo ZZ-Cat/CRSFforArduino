@@ -256,6 +256,7 @@ namespace serialReceiverLayer
 
 #if CRSF_RC_ENABLED > 0
         // Update the RC Channels.
+        crsf->getFailSafe(&_rcChannels->failsafe);
         crsf->getRcChannels(_rcChannels->value);
         if (_rcChannelsCallback != nullptr)
         {

@@ -163,6 +163,18 @@ namespace serialReceiverLayer
         return false;
     }
 
+    void CRSF::getFailSafe(bool *failSafe)
+    {
+        if (linkStatistics.lqi <= CRSF_FAILSAFE_LQI_THRESHOLD || linkStatistics.rssi >= CRSF_FAILSAFE_RSSI_THRESHOLD)
+        {
+            *failSafe = true;
+        }
+        else
+        {
+            *failSafe = false;
+        }
+    }
+
     void CRSF::getRcChannels(uint16_t *rcChannels)
     {
         if (rcFrameReceived)

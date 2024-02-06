@@ -64,26 +64,40 @@ void loop()
 
 void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels)
 {
-    static unsigned long lastPrint = 0;
+    static unsigned long lastPrint = millis();
     if (millis() - lastPrint >= 100)
     {
         lastPrint = millis();
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[0]));
-        Serial.print(", E: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[1]));
-        Serial.print(", T: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[2]));
-        Serial.print(", R: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[3]));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[4]));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[5]));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[6]));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf->rcToUs(rcChannels->value[7]));
-        Serial.println(">");
+
+        static bool initialised = false;
+        static bool lastFailSafe = false;
+        if (rcChannels->failsafe != lastFailSafe || !initialised)
+        {
+            initialised = true;
+            lastFailSafe = rcChannels->failsafe;
+            Serial.print("FailSafe: ");
+            Serial.println(lastFailSafe ? "Active" : "Inactive");
+        }
+
+        if (rcChannels->failsafe == false)
+        {
+            Serial.print("RC Channels <A: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[0]));
+            Serial.print(", E: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[1]));
+            Serial.print(", T: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[2]));
+            Serial.print(", R: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[3]));
+            Serial.print(", Aux1: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[4]));
+            Serial.print(", Aux2: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[5]));
+            Serial.print(", Aux3: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[6]));
+            Serial.print(", Aux4: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[7]));
+            Serial.println(">");
+        }
     }
 }

@@ -94,42 +94,45 @@ void loop()
 
 void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels)
 {
-    /* Print RC channels every 100 ms. */
-    unsigned long thisTime = millis();
-    static unsigned long lastTime = millis();
-
-    /* Compensate for millis() overflow. */
-    if (thisTime < lastTime)
+    if (rcChannels->failsafe == false)
     {
-        lastTime = thisTime;
-    }
+        /* Print RC channels every 100 ms. */
+        unsigned long thisTime = millis();
+        static unsigned long lastTime = millis();
 
-    if (thisTime - lastTime >= 100)
-    {
-        lastTime = thisTime;
+        /* Compensate for millis() overflow. */
+        if (thisTime < lastTime)
+        {
+            lastTime = thisTime;
+        }
+
+        if (thisTime - lastTime >= 100)
+        {
+            lastTime = thisTime;
 #if USE_SERIAL_PLOTTER > 0
-        for (int i = 1; i <= rcChannelCount; i++)
-        {
-            Serial.print(i);
-            Serial.print(":");
-            Serial.print(crsf->rcToUs(crsf->getChannel(i)));
-            Serial.print("\t");
-        }
-        Serial.println();
-#else
-        Serial.print("RC Channels <");
-        for (int i = 1; i <= rcChannelCount; i++)
-        {
-            Serial.print(rcChannelNames[i - 1]);
-            Serial.print(": ");
-            Serial.print(crsf->rcToUs(crsf->getChannel(i)));
-
-            if (i < rcChannelCount)
+            for (int i = 1; i <= rcChannelCount; i++)
             {
-                Serial.print(", ");
+                Serial.print(i);
+                Serial.print(":");
+                Serial.print(crsf->rcToUs(crsf->getChannel(i)));
+                Serial.print("\t");
             }
-        }
-        Serial.println(">");
+            Serial.println();
+#else
+            Serial.print("RC Channels <");
+            for (int i = 1; i <= rcChannelCount; i++)
+            {
+                Serial.print(rcChannelNames[i - 1]);
+                Serial.print(": ");
+                Serial.print(crsf->rcToUs(crsf->getChannel(i)));
+
+                if (i < rcChannelCount)
+                {
+                    Serial.print(", ");
+                }
+            }
+            Serial.println(">");
 #endif
+        }
     }
 }
