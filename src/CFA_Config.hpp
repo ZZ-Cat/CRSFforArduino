@@ -98,7 +98,7 @@ information back to your controller. */
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port.
 - CRSF_DEBUG_SERIAL_PORT: The serial port to use for debug output. Usually the native USB port.
 - CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT: Enables or disables debug output from the compatibility table. */
-#define CRSF_DEBUG_ENABLED                           1
+#define CRSF_DEBUG_ENABLED                           0
 #define CRSF_DEBUG_SERIAL_PORT                       Serial
 #define CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT 0
 
