@@ -42,7 +42,7 @@ See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION_MINOR 0
 #define CRSFFORARDUINO_VERSION_PATCH 0
 
-#define CRSF_FAILSAFE_LQI_THRESHOLD 80
+#define CRSF_FAILSAFE_LQI_THRESHOLD  80
 #define CRSF_FAILSAFE_RSSI_THRESHOLD 105
 
 /* RC Options
