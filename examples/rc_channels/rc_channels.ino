@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Example of how to read rc channels from a receiver.
  * @version 1.0.0
- * @date 2024-2-6
+ * @date 2024-2-7
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -49,6 +49,8 @@ const char *rcChannelNames[] = {
     "Aux11",
     "Aux12"};
 
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels);
+
 void setup()
 {
     // Initialise the serial port & wait for the port to open.
@@ -76,6 +78,8 @@ void setup()
 
     rcChannelCount = rcChannelCount > crsfProtocol::RC_CHANNEL_COUNT ? crsfProtocol::RC_CHANNEL_COUNT : rcChannelCount;
 
+    crsf->setRcChannelsCallback(onReceiveRcChannels);
+
     // Show the user that the sketch is ready.
     Serial.println("RC Channels Example");
     delay(1000);
@@ -86,43 +90,49 @@ void setup()
 void loop()
 {
     crsf->update();
+}
 
-    /* Print RC channels every 100 ms. */
-    unsigned long thisTime = millis();
-    static unsigned long lastTime = millis();
-
-    /* Compensate for millis() overflow. */
-    if (thisTime < lastTime)
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels)
+{
+    if (rcChannels->failsafe == false)
     {
-        lastTime = thisTime;
-    }
+        /* Print RC channels every 100 ms. */
+        unsigned long thisTime = millis();
+        static unsigned long lastTime = millis();
 
-    if (thisTime - lastTime >= 100)
-    {
-        lastTime = thisTime;
+        /* Compensate for millis() overflow. */
+        if (thisTime < lastTime)
+        {
+            lastTime = thisTime;
+        }
+
+        if (thisTime - lastTime >= 100)
+        {
+            lastTime = thisTime;
 #if USE_SERIAL_PLOTTER > 0
-        for (int i = 1; i <= rcChannelCount; i++)
-        {
-            Serial.print(i);
-            Serial.print(":");
-            Serial.print(crsf->rcToUs(crsf->getChannel(i)));
-            Serial.print("\t");
-        }
-        Serial.println();
-#else
-        Serial.print("RC Channels <");
-        for (int i = 1; i <= rcChannelCount; i++)
-        {
-            Serial.print(rcChannelNames[i - 1]);
-            Serial.print(": ");
-            Serial.print(crsf->rcToUs(crsf->getChannel(i)));
-
-            if (i < rcChannelCount)
+            for (int i = 1; i <= rcChannelCount; i++)
             {
-                Serial.print(", ");
+                Serial.print(i);
+                Serial.print(":");
+                Serial.print(crsf->rcToUs(crsf->getChannel(i)));
+                Serial.print("\t");
             }
-        }
-        Serial.println(">");
+            Serial.println();
+#else
+            Serial.print("RC Channels <");
+            for (int i = 1; i <= rcChannelCount; i++)
+            {
+                Serial.print(rcChannelNames[i - 1]);
+                Serial.print(": ");
+                Serial.print(crsf->rcToUs(crsf->getChannel(i)));
+
+                if (i < rcChannelCount)
+                {
+                    Serial.print(", ");
+                }
+            }
+            Serial.println(">");
 #endif
+        }
     }
 }

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the main development file for CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-6
+ * @date 2024-2-7
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -29,6 +29,8 @@
 
 CRSFforArduino *crsf = nullptr;
 
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels);
+
 void setup()
 {
     Serial.begin(115200);
@@ -51,33 +53,51 @@ void setup()
             delay(10);
         }
     }
+
+    crsf->setRcChannelsCallback(onReceiveRcChannels);
 }
 
 void loop()
 {
     crsf->update();
+}
 
-    /* Print RC channels every 100 ms. Do this using the millis() function to avoid blocking the main loop. */
-    static unsigned long lastPrint = 0;
+void onReceiveRcChannels(serialReceiverLayer::rcChannels_t *rcChannels)
+{
+    static unsigned long lastPrint = millis();
     if (millis() - lastPrint >= 100)
     {
         lastPrint = millis();
-        Serial.print("RC Channels <A: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(1)));
-        Serial.print(", E: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(2)));
-        Serial.print(", T: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(3)));
-        Serial.print(", R: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(4)));
-        Serial.print(", Aux1: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(5)));
-        Serial.print(", Aux2: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(6)));
-        Serial.print(", Aux3: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(7)));
-        Serial.print(", Aux4: ");
-        Serial.print(crsf->rcToUs(crsf->getChannel(8)));
-        Serial.println(">");
+
+        static bool initialised = false;
+        static bool lastFailSafe = false;
+        if (rcChannels->failsafe != lastFailSafe || !initialised)
+        {
+            initialised = true;
+            lastFailSafe = rcChannels->failsafe;
+            Serial.print("FailSafe: ");
+            Serial.println(lastFailSafe ? "Active" : "Inactive");
+        }
+
+        if (rcChannels->failsafe == false)
+        {
+            Serial.print("RC Channels <A: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[0]));
+            Serial.print(", E: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[1]));
+            Serial.print(", T: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[2]));
+            Serial.print(", R: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[3]));
+            Serial.print(", Aux1: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[4]));
+            Serial.print(", Aux2: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[5]));
+            Serial.print(", Aux3: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[6]));
+            Serial.print(", Aux4: ");
+            Serial.print(crsf->rcToUs(rcChannels->value[7]));
+            Serial.println(">");
+        }
     }
 }

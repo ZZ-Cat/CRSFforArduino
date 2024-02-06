@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the configuration file for CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-6
+ * @date 2024-2-7
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -37,10 +37,18 @@ namespace crsfForArduinoConfig
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION       "1.0.0"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-2-6"
+#define CRSFFORARDUINO_VERSION_DATE  "2024-2-7"
 #define CRSFFORARDUINO_VERSION_MAJOR 1
 #define CRSFFORARDUINO_VERSION_MINOR 0
 #define CRSFFORARDUINO_VERSION_PATCH 0
+
+/* Failsafe Options
+- CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.
+- CRSF_FAILSAFE_RSSI_THRESHOLD: The minimum RSSI value for the receiver to be considered connected.
+  - NB: It is considered good practice to set this value to the same as the RSSI Sensitivity Limit in your Lua script.
+*/
+#define CRSF_FAILSAFE_LQI_THRESHOLD  80
+#define CRSF_FAILSAFE_RSSI_THRESHOLD 105
 
 /* RC Options
 - RC_ENABLED: Enables or disables the RC API.

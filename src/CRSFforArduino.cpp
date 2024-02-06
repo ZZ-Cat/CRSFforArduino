@@ -4,7 +4,7 @@
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-6
+ * @date 2024-2-7
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -118,7 +118,7 @@ namespace sketchLayer
      *
      * @return The RC value.
      */
-    uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
+    [[deprecated("Use RC channel callback instead")]] uint16_t CRSFforArduino::readRcChannel(uint8_t channel, bool raw)
     {
 #if CRSF_RC_ENABLED > 0
         return _serialReceiver->readRcChannel(channel - 1, raw);
@@ -138,7 +138,7 @@ namespace sketchLayer
      * @param channel The channel to read.
      * @return The RC value.
      */
-    uint16_t CRSFforArduino::getChannel(uint8_t channel)
+    [[deprecated("Use RC channel callback instead")]] uint16_t CRSFforArduino::getChannel(uint8_t channel)
     {
 #if CRSF_RC_ENABLED > 0
         return _serialReceiver->getChannel(channel - 1);
@@ -167,6 +167,16 @@ namespace sketchLayer
 
         // Return 0 if RC is disabled
         return 0;
+#endif
+    }
+
+    void CRSFforArduino::setRcChannelsCallback(void (*callback)(serialReceiverLayer::rcChannels_t *rcChannels))
+    {
+#if CRSF_RC_ENABLED > 0
+        _serialReceiver->setRcChannelsCallback(callback);
+#else
+        // Prevent compiler warnings
+        (void)callback;
 #endif
     }
 

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This decodes CRSF frames from a serial port.
  * @version 1.0.0
- * @date 2024-2-6
+ * @date 2024-2-7
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -161,6 +161,18 @@ namespace serialReceiverLayer
         }
 
         return false;
+    }
+
+    void CRSF::getFailSafe(bool *failSafe)
+    {
+        if (linkStatistics.lqi <= CRSF_FAILSAFE_LQI_THRESHOLD || linkStatistics.rssi >= CRSF_FAILSAFE_RSSI_THRESHOLD)
+        {
+            *failSafe = true;
+        }
+        else
+        {
+            *failSafe = false;
+        }
     }
 
     void CRSF::getRcChannels(uint16_t *rcChannels)
