@@ -66,6 +66,7 @@ body:
         - Arduino Nano 33 IoT
         - Arduino Nano RP2040 Connect
         - Arduino Zero
+        - Blue Pill STM32F103C6
         - Espressif ESP32-C3 DevKitC-02
         - Espressif ESP32-C3 DevKitM-1
         - Espressif ESP32-S3 DevKitC-1-N8
