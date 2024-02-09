@@ -415,6 +415,7 @@ In order for CRSF for Arduino to run, the host microcontroller _must_ meet these
 
 - Core Clock Speed: 48 MHz or higher.
 - CPU: ARM Cortex M0+ or later.
+- Flash memory: 32 KB or more.
 - UART Baud Rate: 420 KB/s.
 
 If your development board is not on the list above and it meets the minimum requirements, consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) and I will work with you to add support for your development board.  
