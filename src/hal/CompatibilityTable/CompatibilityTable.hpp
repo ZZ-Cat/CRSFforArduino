@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Compatibility Table determines if the target development board is compatible with CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-7
+ * @date 2024-2-9
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -82,6 +82,9 @@ namespace hal
             // Arduino ESP32 boards.
             DEVBOARD_ARDUINO_NANO_ESP32,
 
+            // Arduino RP2040 boards.
+            DEVBOARD_ARDUINO_NANO_RP2040_CONNECT,
+
             // Arduino SAMD21 boards.
             DEVBOARD_ARDUINO_MKR1000,
             DEVBOARD_ARDUINO_MKRFOX1200,
@@ -98,6 +101,9 @@ namespace hal
             // Espresif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
+
+            // Raspberry Pi RP2040 boards.
+            DEVBOARD_RASPBERRYPI_PICO,
 
             // Seeed Studio boards.
             DEVBOARD_SEEEDSTUDIO_XIAO_ESP32C3,
@@ -160,6 +166,7 @@ namespace hal
             "Adafruit Metro M4 Express",
             "Adafruit Feather M4 CAN",
             "Arduino Nano ESP32",
+            "Arduino Nano RP2040 Connect",
             "Arduino MKR1000",
             "Arduino MKRFOX1200",
             "Arduino MKRGSM1400",
@@ -173,6 +180,7 @@ namespace hal
             "Arduino Zero",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
+            "Raspberry Pi Pico",
             "Seeed Studio Xiao ESP32-C3",
             "Seeed Studio Xiao ESP32-S3",
             "Seeed Studio Xiao SAMD21",
