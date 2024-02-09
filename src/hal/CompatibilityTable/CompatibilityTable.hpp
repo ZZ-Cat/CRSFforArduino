@@ -117,6 +117,7 @@ namespace hal
             DEVBOARD_SPARKFUN_THING_PLUS_ESP32S2,
 
             // STM32 boards.
+            DEVBOARD_STM32_BLUEPILL_STM32F103C6,
             DEVBOARD_STM32_GENERIC_STM32F103C4,
 
             // Teensy boards.
@@ -191,6 +192,7 @@ namespace hal
             "SparkFun Thing ESP32",
             "SparkFun Thing Plus ESP32",
             "SparkFun Thing Plus ESP32-S2",
+            "STM32 BluePill STM32F103C6",
             "STM32 Generic STM32F103C4",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
