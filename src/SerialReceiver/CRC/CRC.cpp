@@ -29,7 +29,7 @@
 
 namespace genericCrc
 {
-    CRC::CRC()
+    GenericCRC::GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
         // Allocate memory for the CRC8 DVB S2 table.
@@ -55,7 +55,7 @@ namespace genericCrc
 #endif
     }
 
-    CRC::~CRC()
+    GenericCRC::~GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
         // Free the memory allocated for the CRC8 DVB S2 table.
@@ -64,7 +64,7 @@ namespace genericCrc
     }
 
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
-    uint8_t CRC::crc_8_dvb_s2(uint8_t crc, uint8_t data)
+    uint8_t GenericCRC::crc_8_dvb_s2(uint8_t crc, uint8_t data)
     {
         crc ^= data;
         for (uint8_t i = 0; i < 8; i++)
@@ -82,11 +82,11 @@ namespace genericCrc
     }
 #endif
 
-    uint8_t CRC::calculate(uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t start, uint8_t *data, uint8_t length)
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // start is the first byte of the data to be CRC'd.
-        // data is a pointer to the data to be CRC'd.
+        // start is the first byte of the data to be GenericCRC'd.
+        // data is a pointer to the data to be GenericCRC'd.
 
         // Calculate the CRC8 DVB S2 value.
         uint8_t crc = crc_8_dvb_s2_table[0 ^ start];
@@ -108,12 +108,12 @@ namespace genericCrc
 #endif
     }
 
-    uint8_t CRC::calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length)
     {
         (void)start;
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // start is the first byte of the data to be CRC'd.
-        // data is a pointer to the data to be CRC'd.
+        // start is the first byte of the data to be GenericCRC'd.
+        // data is a pointer to the data to be GenericCRC'd.
 
         // Calculate the CRC8 DVB S2 value.
         uint8_t crc = crc_8_dvb_s2_table[0 ^ data[offset]];

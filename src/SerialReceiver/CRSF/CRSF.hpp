@@ -73,7 +73,7 @@ namespace serialReceiverLayer
         crsfProtocol::frame_t rxFrame;
         crsfProtocol::frame_t rcChannelsFrame;
         link_statistics_t linkStatistics;
-        genericCrc::CRC *crc8;
+        genericCrc::GenericCRC *crc8;
         uint8_t calculateFrameCRC();
     };
 } // namespace serialReceiverLayer

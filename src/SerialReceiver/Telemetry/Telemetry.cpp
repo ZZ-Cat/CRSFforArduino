@@ -40,7 +40,7 @@ namespace serialReceiverLayer
 #endif
 
     Telemetry::Telemetry() :
-        CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
+        GenericCRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
@@ -316,7 +316,7 @@ namespace serialReceiverLayer
     {
         uint8_t *buffer = SerialBuffer::getBuffer();
         uint8_t length = SerialBuffer::getLength();
-        uint8_t crc = CRC::calculate(2, buffer[2], buffer, length);
+        uint8_t crc = GenericCRC::calculate(2, buffer[2], buffer, length);
 
         SerialBuffer::writeU8(crc);
     }

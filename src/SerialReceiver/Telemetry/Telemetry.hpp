@@ -34,7 +34,7 @@
 
 namespace serialReceiverLayer
 {
-    class Telemetry : private genericCrc::CRC, private genericStreamBuffer::SerialBuffer
+    class Telemetry : private genericCrc::GenericCRC, private genericStreamBuffer::SerialBuffer
     {
       public:
         Telemetry();

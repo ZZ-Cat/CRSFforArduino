@@ -34,7 +34,7 @@ namespace serialReceiverLayer
 {
     CRSF::CRSF()
     {
-        crc8 = new CRC();
+        crc8 = new GenericCRC();
     }
 
     CRSF::~CRSF()

@@ -1,5 +1,5 @@
 /**
- * @file CRC.hpp
+ * @file GenericCRC.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic CRC8 implementation for the CRSF for Arduino library.
  * @version 1.0.0
@@ -34,11 +34,11 @@ namespace genericCrc
 #define CRC_OPTIMISATION_SIZE     1
 #define CRC_OPTIMISATION_HARDWARE 2
 
-    class CRC
+    class GenericCRC
     {
       public:
-        CRC();
-        virtual ~CRC();
+        GenericCRC();
+        virtual ~GenericCRC();
 
         uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
         uint8_t calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length);
