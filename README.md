@@ -378,6 +378,9 @@ CRSF for Arduino is compatible with these development boards:
   - SparkFun ESP32 Thing
   - SparkFun ESP32 Thing Plus
   - SparkFun ESP32-S2 Thing Plus
+- RP2040 based boards:
+  - Arduino Nano RP2040 Connect
+  - Raspberry Pi Pico RP2040
 - SAMD21 based boards:
   - Adafruit Feather M0 and all of its variants, including the Adafruit Feather M0 Express
   - Adafruit ItsyBitsy M0 Express
