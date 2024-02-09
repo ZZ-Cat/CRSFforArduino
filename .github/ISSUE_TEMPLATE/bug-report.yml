@@ -64,10 +64,12 @@ body:
         - Arduino MKR WiFi 1010
         - Arduino MKR ZERO
         - Arduino Nano 33 IoT
+        - Arduino Nano RP2040 Connect
         - Arduino Zero
         - Espressif ESP32-C3 DevKitC-02
         - Espressif ESP32-C3 DevKitM-1
         - Espressif ESP32-S3 DevKitC-1-N8
+        - Raspberry Pi Pico RP2040
         - Seeed Studio Xiao ESP32-C3
         - Seeed Studio Xiao ESP32-S3
         - Seeed Studio XIAO SAMD21
