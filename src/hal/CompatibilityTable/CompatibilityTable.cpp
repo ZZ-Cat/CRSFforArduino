@@ -260,8 +260,6 @@ namespace hal
 #if defined(STM32F1xx)
 #if defined(ARDUINO_BLUEPILL_F103C6)
         device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C6;
-#elif defined(ARDUINO_GENERIC_F103C4TX)
-        device.type.devboard = DEVBOARD_STM32_GENERIC_STM32F103C4;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
