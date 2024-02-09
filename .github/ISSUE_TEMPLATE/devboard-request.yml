@@ -17,6 +17,8 @@ body:
           required: true
         - label: Is the CPU an ARM Cortex M0+ or later?
           required: true
+        - label: Does the host microcontroller have at least 32 KB of flash memory?
+          required: true
         - label: Is the host microcontroller's UART peripheral able to support 420,000 (or higher) baud rate(s)?
           required: true
         - label: Is your development board currently supported in the Arduino IDE?
