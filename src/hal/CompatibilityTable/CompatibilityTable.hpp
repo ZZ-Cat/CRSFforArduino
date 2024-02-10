@@ -117,6 +117,7 @@ namespace hal
             DEVBOARD_SPARKFUN_THING_PLUS_ESP32S2,
 
             // STM32 boards.
+            DEVBOARD_ADAFRUIT_FEATHER_F405,
             DEVBOARD_ST_NUCLEO_F401RE,
             DEVBOARD_STM32_BLACKPILL_STM32F103C8,
             DEVBOARD_STM32_BLACKPILL_STM32F401CC,
@@ -229,6 +230,7 @@ namespace hal
             "SparkFun Thing ESP32",
             "SparkFun Thing Plus ESP32",
             "SparkFun Thing Plus ESP32-S2",
+            "Adafruit Feather F405",
             "ST Nucleo F401RE",
             "STM32 BlackPill STM32F103C8",
             "STM32 BlackPill STM32F401CC",

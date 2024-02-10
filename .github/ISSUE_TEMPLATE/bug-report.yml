@@ -36,6 +36,7 @@ body:
         - Adafruit Feather ESP32-S2
         - Adafruit Feather ESP32-S3 (2 MB PSRAM)
         - Adafruit Feather ESP32-S3 (No PSRAM)
+        - Adafruit Feather F405
         - Adafruit Feather M0 (Any variants EG Bluefruit LE, LoRa, etc)
         - Adafruit Feather M0 Express
         - Adafruit Feather M4 Express
