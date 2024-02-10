@@ -358,9 +358,9 @@ namespace hal
 #elif defined(ARDUINO_BLACK_F407VG)
         device.type.devboard = DEVBOARD_ST_BLACK_F407VG;
 #elif defined(ARDUINO_BLACK_F407ZE)
-            device.type.devboard = DEVBOARD_ST_BLACK_F407ZE;
+        device.type.devboard = DEVBOARD_ST_BLACK_F407ZE;
 #elif defined(ARDUINO_BLACK_F407ZG)
-            device.type.devboard = DEVBOARD_ST_BLACK_F407ZG;
+        device.type.devboard = DEVBOARD_ST_BLACK_F407ZG;
 #elif defined(ARDUINO_BLUE_F407VE_MINI)
         device.type.devboard = DEVBOARD_ST_BLUE_F407VE_MINI;
 #else
