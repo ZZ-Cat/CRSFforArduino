@@ -420,6 +420,10 @@ CRSF for Arduino is compatible with these development boards:
   - STM32F103R8
   - STM32F103RB
   - STM32F103RC
+  - STM32F103RD
+  - STM32F103RE
+  - STM32F103RF
+  - STM32F103RG
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
