@@ -377,6 +377,20 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32F412RE;
 #elif defined(ARDUINO_GENERIC_F412RGTX)
         device.type.devboard = DEVBOARD_STM32F412RG;
+#elif defined(ARDUINO_GENERIC_F413CGUX)
+        device.type.devboard = DEVBOARD_STM32F413CG;
+#elif defined(ARDUINO_GENERIC_F413CHUX)
+        device.type.devboard = DEVBOARD_STM32F413CH;
+#elif defined(ARDUINO_GENERIC_F413RGTX)
+        device.type.devboard = DEVBOARD_STM32F413RG;
+#elif defined(ARDUINO_GENERIC_F413RHUX)
+        device.type.devboard = DEVBOARD_STM32F413RH;
+#elif defined(ARDUINO_GENERIC_F415RGTX)
+        device.type.devboard = DEVBOARD_STM32F415RG;
+#elif defined(ARDUINO_GENERIC_F417VETX)
+        device.type.devboard = DEVBOARD_STM32F417VE;
+#elif defined(ARDUINO_GENERIC_F417VGTX)
+        device.type.devboard = DEVBOARD_STM32F417VG;
 #elif defined(ARDUINO_SPARKFUN_MICROMOD_F405)
         device.type.devboard = DEVBOARD_SPARKFUN_MICROMOD_F405;
 #elif defined(ARDUINO_BLACK_F407VE)
@@ -389,6 +403,8 @@ namespace hal
         device.type.devboard = DEVBOARD_ST_BLACK_F407ZG;
 #elif defined(ARDUINO_BLUE_F407VE_MINI)
         device.type.devboard = DEVBOARD_ST_BLUE_F407VE_MINI;
+#elif defined(ARDUINO_DISCO_F413ZH)
+        device.type.devboard = DEVBOARD_ST_DISCOVERY_F413ZH;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
