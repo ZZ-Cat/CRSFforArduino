@@ -462,6 +462,9 @@ CRSF for Arduino is compatible with these development boards:
     - STM32F410CB
     - STM32F410R8
     - STM32F410RB
+    - STM32F411CE
+    - STM32F411RC
+    - STM32F411RE
   - SparkFun
     - MicroMod F405
   - ST
@@ -471,6 +474,7 @@ CRSF for Arduino is compatible with these development boards:
     - Black F407ZG
     - Blue F407VE Mini
     - Nucleo F401RE
+    - Nucleo F411RE
     - Nucleo F722ZE
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.

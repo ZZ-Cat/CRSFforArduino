@@ -327,6 +327,8 @@ namespace hal
         device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_F405;
 #elif defined(ARDUINO_NUCLEO_F401RE)
         device.type.devboard = DEVBOARD_ST_NUCLEO_F401RE;
+#elif defined(ARDUINO_NUCLEO_F411RE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F411RE;
 #elif defined(ARDUINO_BLACKPILL_F401CC)
         device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F401CC;
 #elif defined(ARDUINO_BLACKPILL_F411CE)
@@ -361,6 +363,12 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32F410R8;
 #elif defined(ARDUINO_GENERIC_F410RBTX)
         device.type.devboard = DEVBOARD_STM32F410RB;
+#elif defined(ARDUINO_GENERIC_F411CEUX)
+        device.type.devboard = DEVBOARD_STM32F411CE;
+#elif defined(ARDUINO_GENERIC_F411RCTX)
+        device.type.devboard = DEVBOARD_STM32F411RC;
+#elif defined(ARDUINO_GENERIC_F411RETX)
+        device.type.devboard = DEVBOARD_STM32F411RE;
 #elif defined(ARDUINO_SPARKFUN_MICROMOD_F405)
         device.type.devboard = DEVBOARD_SPARKFUN_MICROMOD_F405;
 #elif defined(ARDUINO_BLACK_F407VE)
