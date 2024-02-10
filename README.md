@@ -408,37 +408,40 @@ CRSF for Arduino is compatible with these development boards:
 - SAME51 based boards:
   - Adafruit Feather M4 CAN Express
 - STM32 based boards:
-  - Black Pill F103C8
-  - Black Pill F103C8 (128 KB Flash memory variant)
-  - Blue Pill F103C6
-  - Blue Pill F103C8
-  - Blue Pill F103C8 (128 KB Flash memory variant)
-  - STM32F103C6
-  - STM32F103C8
-  - STM32F103CB
-  - STM32F103R6
-  - STM32F103R8
-  - STM32F103RB
-  - STM32F103RC
-  - STM32F103RD
-  - STM32F103RE
-  - STM32F103RF
-  - STM32F103RG
-  - STM32F103T6
-  - STM32F103T8
-  - STM32F103TB
-  - STM32F103V8
-  - STM32F103VB
-  - STM32F103VC
-  - STM32F103VD
-  - STM32F103VE
-  - STM32F103VF
-  - STM32F103VG
-  - STM32F103ZC
-  - STM32F103ZD
-  - STM32F103ZE
-  - STM32F103ZF
-  - STM32F103ZG
+  - Black Pill
+    - F103C8
+    - F103C8 (128 KB Flash memory variant)
+  - Blue Pill
+    - F103C6
+    - F103C8
+    - F103C8 (128 KB Flash memory variant)
+  - Generic STM32F103xx
+    - STM32F103C6
+    - STM32F103C8
+    - STM32F103CB
+    - STM32F103R6
+    - STM32F103R8
+    - STM32F103RB
+    - STM32F103RC
+    - STM32F103RD
+    - STM32F103RE
+    - STM32F103RF
+    - STM32F103RG
+    - STM32F103T6
+    - STM32F103T8
+    - STM32F103TB
+    - STM32F103V8
+    - STM32F103VB
+    - STM32F103VC
+    - STM32F103VD
+    - STM32F103VE
+    - STM32F103VF
+    - STM32F103VG
+    - STM32F103ZC
+    - STM32F103ZD
+    - STM32F103ZE
+    - STM32F103ZF
+    - STM32F103ZG
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
