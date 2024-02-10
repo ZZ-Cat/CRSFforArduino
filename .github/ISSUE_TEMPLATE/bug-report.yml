@@ -96,6 +96,13 @@ body:
         - STM32F103T6
         - STM32F103T8
         - STM32F103TB
+        - STM32F103V8
+        - STM32F103VB
+        - STM32F103VC
+        - STM32F103VD
+        - STM32F103VE
+        - STM32F103VF
+        - STM32F103VG
         - Teensy 3.0
         - Teensy 3.1/3.2
         - Teensy 3.5
