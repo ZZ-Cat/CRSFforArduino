@@ -321,6 +321,22 @@ namespace hal
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
+
+#elif defined(STM32F4xx)
+#if defined(ARDUINO_GENERIC_F401CBUX)
+        device.type.devboard = DEVBOARD_STM32F401CB;
+#elif defined(ARDUINO_GENERIC_F401CCUX)
+        device.type.devboard = DEVBOARD_STM32F401CC;
+#elif defined(ARDUINO_GENERIC_F401CDUX)
+        device.type.devboard = DEVBOARD_STM32F401CD;
+#elif defined(ARDUINO_GENERIC_F401CEUX)
+        device.type.devboard = DEVBOARD_STM32F401CE;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
 #else // The architecture is known, but the board and chip are not.
 #warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
