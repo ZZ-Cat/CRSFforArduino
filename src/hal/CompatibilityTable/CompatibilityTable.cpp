@@ -265,11 +265,11 @@ namespace hal
 #elif defined(ARDUINO_BLUEPILL_F103C8)
         device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C8;
 #elif defined(ARDUINO_GENERIC_F103C6TX)
-        device.type.devboard = DEVBOARD_STM32_GENERIC_STM32F103C6;
+        device.type.devboard = DEVBOARD_STM32F103C6;
 #elif defined(ARDUINO_GENERIC_F103C8TX)
-        device.type.devboard = DEVBOARD_STM32_GENERIC_STM32F103C8;
+        device.type.devboard = DEVBOARD_STM32F103C8;
 #elif defined(ARDUINO_GENERIC_F103CBTX)
-        device.type.devboard = DEVBOARD_STM32_GENERIC_STM32F103CB;
+        device.type.devboard = DEVBOARD_STM32F103CB;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
