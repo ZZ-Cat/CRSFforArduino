@@ -84,6 +84,7 @@ body:
         - SparkFun ESP32 Thing
         - SparkFun ESP32 Thing Plus
         - SparkFun ESP32-S2 Thing Plus
+        - SparkFun MicroMod F405
         - ST Nucleo F401RE
         - ST Nucleo F4722ZE
         - STM32F103C6

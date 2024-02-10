@@ -347,6 +347,8 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32F401RE;
 #elif defined(ARDUINO_GENERIC_F405RGTX)
         device.type.devboard = DEVBOARD_STM32F405RG;
+#elif defined(ARDUINO_SPARKFUN_MICROMOD_F405)
+        device.type.devboard = DEVBOARD_SPARKFUN_MICROMOD_F405;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."

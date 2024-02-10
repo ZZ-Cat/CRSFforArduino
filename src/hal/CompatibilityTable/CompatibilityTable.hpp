@@ -111,6 +111,7 @@ namespace hal
             DEVBOARD_SEEEDSTUDIO_XIAO_M0,
 
             // SparkFun Boards
+            DEVBOARD_SPARKFUN_MICROMOD_F405,
             DEVBOARD_SPARKFUN_REDBOARD_ESP32_IOT,
             DEVBOARD_SPARKFUN_THING_ESP32,
             DEVBOARD_SPARKFUN_THING_PLUS_ESP32,
@@ -228,6 +229,7 @@ namespace hal
             "Seeed Studio Xiao ESP32-C3",
             "Seeed Studio Xiao ESP32-S3",
             "Seeed Studio Xiao SAMD21",
+            "SparkFun MicroMod F405",
             "SparkFun RedBoard ESP32 IoT",
             "SparkFun Thing ESP32",
             "SparkFun Thing Plus ESP32",
