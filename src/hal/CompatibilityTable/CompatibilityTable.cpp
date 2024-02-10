@@ -262,6 +262,8 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F103C8;
 #elif defined(ARDUINO_BLUEPILL_F103C6)
         device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C6;
+#elif defined(ARDUINO_BLUEPILL_F103C8)
+        device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C8;
 #elif defined(ARDUINO_GENERIC_F103C6TX)
         device.type.devboard = DEVBOARD_STM32_GENERIC_STM32F103C6;
 #else
