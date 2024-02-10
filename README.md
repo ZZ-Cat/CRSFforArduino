@@ -411,6 +411,7 @@ CRSF for Arduino is compatible with these development boards:
   - Black Pill
     - F103C8
     - F103C8 (128 KB Flash memory variant)
+    - F401CC
   - Blue Pill
     - F103C6
     - F103C8
