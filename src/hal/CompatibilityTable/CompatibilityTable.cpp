@@ -329,6 +329,8 @@ namespace hal
         device.type.devboard = DEVBOARD_ST_NUCLEO_F401RE;
 #elif defined(ARDUINO_BLACKPILL_F401CC)
         device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F401CC;
+#elif defined(ARDUINO_BLACKPILL_F411CE)
+        device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F411CE;
 #elif defined(ARDUINO_GENERIC_F401CBUX)
         device.type.devboard = DEVBOARD_STM32F401CB;
 #elif defined(ARDUINO_GENERIC_F401CCUX)
