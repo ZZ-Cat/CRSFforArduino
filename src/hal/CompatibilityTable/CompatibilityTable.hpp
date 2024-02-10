@@ -167,6 +167,10 @@ namespace hal
             DEVBOARD_STM32F405RG,
             DEVBOARD_STM32F407VE,
             DEVBOARD_STM32F407VG,
+            DEVBOARD_STM32F410C8,
+            DEVBOARD_STM32F410CB,
+            DEVBOARD_STM32F410R8,
+            DEVBOARD_STM32F410RB,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
@@ -289,6 +293,10 @@ namespace hal
             "STM32F401RE",
             "STM32F407VE",
             "STM32F407VG",
+            "STM32F410C8",
+            "STM32F410CB",
+            "STM32F410R8",
+            "STM32F410RB",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",

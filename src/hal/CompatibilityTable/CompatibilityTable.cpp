@@ -351,6 +351,14 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32F407VE;
 #elif defined(ARDUINO_GENERIC_F407VGTX)
         device.type.devboard = DEVBOARD_STM32F407VG;
+#elif defined(ARDUINO_GENERIC_F410C8TX)
+        device.type.devboard = DEVBOARD_STM32F410C8;
+#elif defined(ARDUINO_GENERIC_F410CBTX)
+        device.type.devboard = DEVBOARD_STM32F410CB;
+#elif defined(ARDUINO_GENERIC_F410R8TX)
+        device.type.devboard = DEVBOARD_STM32F410R8;
+#elif defined(ARDUINO_GENERIC_F410RBTX)
+        device.type.devboard = DEVBOARD_STM32F410RB;
 #elif defined(ARDUINO_SPARKFUN_MICROMOD_F405)
         device.type.devboard = DEVBOARD_SPARKFUN_MICROMOD_F405;
 #elif defined(ARDUINO_BLACK_F407VE)

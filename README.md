@@ -457,6 +457,10 @@ CRSF for Arduino is compatible with these development boards:
     - STM32F405RE
     - STM32F407VE
     - STM32F407VG
+    - STM32F410C8
+    - STM32F410CB
+    - STM32F410R8
+    - STM32F410RB
   - SparkFun
     - MicroMod F405
   - ST
