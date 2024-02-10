@@ -36,14 +36,10 @@ namespace serialReceiverLayer
     SerialReceiver::SerialReceiver()
     {
 #if defined(ARDUINO_ARCH_STM32)
-#if defined(STM32F1)
 #if defined(HAVE_HWSERIAL1)
         _uart = &Serial1;
 #elif defined(HAVE_HWSERIAL2)
         _uart = &Serial2;
-#endif
-#else
-        _uart = &Serial1;
 #endif
 #else
         _uart = &Serial1;
