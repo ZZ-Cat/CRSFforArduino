@@ -74,9 +74,6 @@ body:
         - Espressif ESP32-C3 DevKitC-02
         - Espressif ESP32-C3 DevKitM-1
         - Espressif ESP32-S3 DevKitC-1-N8
-        - Generic STM32F103C6
-        - Generic STM32F103C8
-        - Generic STM32F103CB
         - Raspberry Pi Pico RP2040
         - Seeed Studio Xiao ESP32-C3
         - Seeed Studio Xiao ESP32-S3
@@ -85,6 +82,9 @@ body:
         - SparkFun ESP32 Thing
         - SparkFun ESP32 Thing Plus
         - SparkFun ESP32-S2 Thing Plus
+        - STM32F103C6
+        - STM32F103C8
+        - STM32F103CB
         - Teensy 3.0
         - Teensy 3.1/3.2
         - Teensy 3.5
