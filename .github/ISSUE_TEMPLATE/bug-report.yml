@@ -75,6 +75,7 @@ body:
         - Espressif ESP32-C3 DevKitM-1
         - Espressif ESP32-S3 DevKitC-1-N8
         - Generic STM32F103C6
+        - Generic STM32F103C8
         - Raspberry Pi Pico RP2040
         - Seeed Studio Xiao ESP32-C3
         - Seeed Studio Xiao ESP32-S3
