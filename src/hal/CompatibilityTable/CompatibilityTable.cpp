@@ -323,7 +323,9 @@ namespace hal
 #endif
 
 #elif defined(STM32F4xx)
-#if defined(ARDUINO_BLACKPILL_F401CC)
+#if defined(ARDUINO_NUCLEO_F401RE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F401RE;
+#elif defined(ARDUINO_BLACKPILL_F401CC)
         device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F401CC;
 #elif defined(ARDUINO_GENERIC_F401CBUX)
         device.type.devboard = DEVBOARD_STM32F401CB;
