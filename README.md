@@ -408,7 +408,11 @@ CRSF for Arduino is compatible with these development boards:
 - SAME51 based boards:
   - Adafruit Feather M4 CAN Express
 - STM32 based boards:
-  - Blue Pill STM32F103C6
+  - Black Pill F103C8
+  - Black Pill F103C8 (128 KB Flash memory variant)
+  - Blue Pill F103C6
+  - Blue Pill F103C8
+  - Generic F103C6
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
