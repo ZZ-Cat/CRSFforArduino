@@ -120,6 +120,9 @@ namespace hal
             // STM32 boards.
             DEVBOARD_ADAFRUIT_FEATHER_F405,
             DEVBOARD_ST_BLACK_F407VE,
+            DEVBOARD_ST_BLACK_F407VG,
+            DEVBOARD_ST_BLACK_F407ZE,
+            DEVBOARD_ST_BLACK_F407ZG,
             DEVBOARD_ST_BLUE_F407VE_MINI,
             DEVBOARD_ST_NUCLEO_F401RE,
             DEVBOARD_ST_NUCLEO_F722ZE,
@@ -162,6 +165,8 @@ namespace hal
             DEVBOARD_STM32F401RD,
             DEVBOARD_STM32F401RE,
             DEVBOARD_STM32F405RG,
+            DEVBOARD_STM32F407VE,
+            DEVBOARD_STM32F407VG,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
@@ -238,6 +243,9 @@ namespace hal
             "SparkFun Thing Plus ESP32-S2",
             "Adafruit Feather F405",
             "ST Black F407VE",
+            "ST Black F407VG",
+            "ST Black F407ZE",
+            "ST Black F407ZG",
             "ST Blue F407VE Mini",
             "ST Nucleo F401RE",
             "ST Nucleo F722ZE",
@@ -279,6 +287,8 @@ namespace hal
             "STM32F401RC",
             "STM32F401RD",
             "STM32F401RE",
+            "STM32F407VE",
+            "STM32F407VG",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",
