@@ -272,6 +272,12 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32F103CB;
 #elif defined(ARDUINO_GENERIC_F103R6TX)
         device.type.devboard = DEVBOARD_STM32F103R6;
+#elif defined(ARDUINO_GENERIC_F103R8TX)
+        device.type.devboard = DEVBOARD_STM32F103R8;
+#elif defined(ARDUINO_GENERIC_F103RBTX)
+        device.type.devboard = DEVBOARD_STM32F103RB;
+#elif defined(ARDUINO_GENERIC_F103RCTX)
+        device.type.devboard = DEVBOARD_STM32F103RC;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
