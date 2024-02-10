@@ -157,6 +157,7 @@ namespace hal
             DEVBOARD_STM32F401RC,
             DEVBOARD_STM32F401RD,
             DEVBOARD_STM32F401RE,
+            DEVBOARD_STM32F405RG,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
