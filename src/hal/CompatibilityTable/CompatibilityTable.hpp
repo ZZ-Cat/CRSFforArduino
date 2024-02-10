@@ -131,6 +131,9 @@ namespace hal
             DEVBOARD_STM32F103RE,
             DEVBOARD_STM32F103RF,
             DEVBOARD_STM32F103RG,
+            DEVBOARD_STM32F103T6,
+            DEVBOARD_STM32F103T8,
+            DEVBOARD_STM32F103TB,
 
             // Teensy boards.
             DEVBOARD_TEENSY_30,
@@ -218,6 +221,9 @@ namespace hal
             "STM32F103RE",
             "STM32F103RF",
             "STM32F103RG",
+            "STM32F103T6",
+            "STM32F103T8",
+            "STM32F103TB",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",
