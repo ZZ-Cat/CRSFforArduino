@@ -489,6 +489,13 @@ CRSF for Arduino is compatible with these development boards:
     - STM32F722VE
     - STM32F722ZC
     - STM32F722ZE
+  - Generic STM32H745xx (Only available with stm32duino, and not available in PlatformIO)
+    - STM32H745BG
+    - STM32H745BI
+    - STM32H745IG
+    - STM32H745II
+    - STM32H745ZG
+    - STM32H745ZI
   - SparkFun
     - MicroMod F405
   - ST
