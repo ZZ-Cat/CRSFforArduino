@@ -199,6 +199,15 @@ namespace hal
             DEVBOARD_STM32F446RC,
             DEVBOARD_STM32F446RE,
 
+            // STM32duino STM32F722 boards.
+            DEVBOARD_STM32F722IC,
+            DEVBOARD_STM32F722IE,
+            DEVBOARD_STM32F722RC,
+            DEVBOARD_STM32F722RE,
+            DEVBOARD_STM32F722VC,
+            DEVBOARD_STM32F722VE,
+            DEVBOARD_STM32F722ZC,
+
             // Teensy boards.
             DEVBOARD_TEENSY_30,
             DEVBOARD_TEENSY_31_32,
@@ -351,6 +360,13 @@ namespace hal
             "STM32F423RH",
             "STM32F446RC",
             "STM32F446RE",
+            "STM32F722IC",
+            "STM32F722IE",
+            "STM32F722RC",
+            "STM32F722RE",
+            "STM32F722VC",
+            "STM32F722VE",
+            "STM32F722ZC",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",

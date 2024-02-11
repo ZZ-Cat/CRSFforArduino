@@ -425,7 +425,23 @@ namespace hal
 
 #elif defined(STM32F7xx)
 
-#if defined(ARDUINO_DISCO_F746NG)
+#if defined(ARDUINO_GENERIC_F722ICKX) || defined(ARDUINO_GENERIC_F722ICTX)
+        device.type.devboard = DEVBOARD_STM32F722IC;
+#elif defined(ARDUINO_GENERIC_F722IEKX) || defined(ARDUINO_GENERIC_F722IETX)
+        device.type.devboard = DEVBOARD_STM32F722IE;
+#elif defined(ARDUINO_GENERIC_F722RCTX)
+        device.type.devboard = DEVBOARD_STM32F722RC;
+#elif defined(ARDUINO_GENERIC_F722RETX)
+        device.type.devboard = DEVBOARD_STM32F722RE;
+#elif defined(ARDUINO_GENERIC_F722VCTX)
+        device.type.devboard = DEVBOARD_STM32F722VC;
+#elif defined(ARDUINO_GENERIC_F722VETX)
+        device.type.devboard = DEVBOARD_STM32F722VE;
+#elif defined(ARDUINO_GENERIC_F722ZCTX)
+        device.type.devboard = DEVBOARD_STM32F722ZC;
+#elif defined(ARDUINO_GENERIC_F722ZETX)
+        device.type.devboard = DEVBOARD_STM32F722ZE;
+#elif defined(ARDUINO_DISCO_F746NG)
         device.type.devboard = DEVBOARD_ST_DISCOVERY_F746NG;
 #elif defined(ARDUINO_NUCLEO_F722ZE)
         device.type.devboard = DEVBOARD_ST_NUCLEO_F722ZE;

@@ -160,6 +160,14 @@ body:
         - STM32F423RH
         - STM32F446RC
         - STM32F446RE
+        - STM32F722IC
+        - STM32F722IE
+        - STM32F722RC
+        - STM32F722RE
+        - STM32F722VC
+        - STM32F722VE
+        - STM32F722ZC
+        - STM32F722ZE
         - Teensy 3.0
         - Teensy 3.1/3.2
         - Teensy 3.5
