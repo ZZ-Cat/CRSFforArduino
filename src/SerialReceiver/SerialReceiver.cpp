@@ -40,6 +40,8 @@ namespace serialReceiverLayer
         _uart = &Serial1;
 #elif defined(HAVE_HWSERIAL2)
         _uart = &Serial2;
+#elif defined(HAVE_HWSERIAL3)
+        _uart = &Serial3;
 #endif
 #else
         _uart = &Serial1;
