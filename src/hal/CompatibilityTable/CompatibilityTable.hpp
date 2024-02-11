@@ -208,6 +208,14 @@ namespace hal
             DEVBOARD_STM32F722VE,
             DEVBOARD_STM32F722ZC,
 
+            // STM32duino STM32H745 boards.
+            DEVBOARD_STM32H745BG,
+            DEVBOARD_STM32H745BI,
+            DEVBOARD_STM32H745IG,
+            DEVBOARD_STM32H745II,
+            DEVBOARD_STM32H745ZG,
+            DEVBOARD_STM32H745ZI,
+
             // Teensy boards.
             DEVBOARD_TEENSY_30,
             DEVBOARD_TEENSY_31_32,
@@ -367,6 +375,12 @@ namespace hal
             "STM32F722VC",
             "STM32F722VE",
             "STM32F722ZC",
+            "STM32H745BG",
+            "STM32H745BI",
+            "STM32H745IG",
+            "STM32H745II",
+            "STM32H745ZG",
+            "STM32H745ZI",
             "Teensy 3.0",
             "Teensy 3.1/3.2",
             "Teensy 3.5",

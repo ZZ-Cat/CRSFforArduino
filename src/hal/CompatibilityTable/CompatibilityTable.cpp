@@ -457,6 +457,26 @@ namespace hal
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
 #endif
 
+#elif defined(STM32H7xx)
+
+#if defined(ARDUINO_GENERIC_H745BGTX)
+        device.type.devboard = DEVBOARD_STM32H745BG;
+#elif defined(ARDUINO_GENERIC_H745BITX)
+        device.type.devboard = DEVBOARD_STM32H745BI;
+#elif defined(ARDUINO_GENERIC_H745IGKX) || defined(ARDUINO_GENERIC_H745IGTX)
+        device.type.devboard = DEVBOARD_STM32H745IG;
+#elif defined(ARDUINO_GENERIC_H745IIKX) || defined(ARDUINO_GENERIC_H745IITX)
+        device.type.devboard = DEVBOARD_STM32H745II;
+#elif defined(ARDUINO_GENERIC_H745ZGTX)
+        device.type.devboard = DEVBOARD_STM32H745ZG;
+#elif defined(ARDUINO_GENERIC_H745ZITX)
+        device.type.devboard = DEVBOARD_STM32H745ZI;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
 #else // The architecture is known, but the board and chip are not.
 #warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
