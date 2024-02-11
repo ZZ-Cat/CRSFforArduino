@@ -407,6 +407,125 @@ CRSF for Arduino is compatible with these development boards:
   - Adafruit Metro M4 Express AirLift Lite
 - SAME51 based boards:
   - Adafruit Feather M4 CAN Express
+- STM32 based boards:
+  - Adafruit
+    - Feather F405
+  - Arduino
+    - Arduino Nicla Vision
+    - Arduino Opta
+    - Arduino Portenta H7
+  - Black Pill
+    - F103C8
+    - F103C8 (128 KB Flash memory variant)
+    - F401CC
+    - F411CE
+  - Blue Pill
+    - F103C6
+    - F103C8
+    - F103C8 (128 KB Flash memory variant)
+  - Generic STM32F103xx
+    - STM32F103C6
+    - STM32F103C8
+    - STM32F103CB
+    - STM32F103R6
+    - STM32F103R8
+    - STM32F103RB
+    - STM32F103RC
+    - STM32F103RD
+    - STM32F103RE
+    - STM32F103RF
+    - STM32F103RG
+    - STM32F103T6
+    - STM32F103T8
+    - STM32F103TB
+    - STM32F103V8
+    - STM32F103VB
+    - STM32F103VC
+    - STM32F103VD
+    - STM32F103VE
+    - STM32F103VF
+    - STM32F103VG
+    - STM32F103ZC
+    - STM32F103ZD
+    - STM32F103ZE
+    - STM32F103ZF
+    - STM32F103ZG
+  - Generic STM32F4xxyy
+    - STM32F401CB
+    - STM32F401CC
+    - STM32F401CD
+    - STM32F401CE
+    - STM32F401RB
+    - STM32F401RC
+    - STM32F401RD
+    - STM32F401RE
+    - STM32F405OE (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405OG (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405RG
+    - STM32F405VG (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405ZG (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F407VE
+    - STM32F407VG
+    - STM32F410C8
+    - STM32F410CB
+    - STM32F410R8
+    - STM32F410RB
+    - STM32F411CE
+    - STM32F411RC
+    - STM32F411RE
+    - STM32F412CE
+    - STM32F412CG
+    - STM32F412RE
+    - STM32F412RG
+    - STM32F413CG
+    - STM32F413CH
+    - STM32F413RG
+    - STM32F413RH
+    - STM32F415RG
+    - STM32F417VE
+    - STM32F417VG
+    - STM32F423CH
+    - STM32F423RH
+    - STM32F446RC
+    - STM32F446RE
+  - Generic STM32F722xx (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F722IC
+    - STM32F722IE
+    - STM32F722RC
+    - STM32F722RE
+    - STM32F722VC
+    - STM32F722VE
+    - STM32F722ZC
+    - STM32F722ZE
+  - Generic STM32H745xx (Only available with stm32duino, and not available in PlatformIO)
+    - STM32H745BG
+    - STM32H745BI
+    - STM32H745IG
+    - STM32H745II
+    - STM32H745ZG
+    - STM32H745ZI
+  - Generic STM32H750xx
+    - STM32H750BT
+  - SparkFun
+    - MicroMod F405
+  - ST
+    - Black F407VE
+    - Black F407VG
+    - Black F407ZE
+    - Black F407ZG
+    - Blue F407VE Mini
+    - Discovery F413ZH
+    - Disocvery F746NG
+    - Nucleo F401RE
+    - Nucleo F411RE
+    - Nucleo F429ZI
+    - Nucleo F446RE
+    - Nucleo F722ZE
+    - Nucleo F746ZG
+    - Nucleo F756ZG
+    - Nucleo F767ZI
+    - Nucleo H723ZG
+    - Nucleo H743ZI
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x
@@ -415,6 +534,7 @@ In order for CRSF for Arduino to run, the host microcontroller _must_ meet these
 
 - Core Clock Speed: 48 MHz or higher.
 - CPU: ARM Cortex M0+ or later.
+- Flash memory: 32 KB or more.
 - UART Baud Rate: 420 KB/s.
 
 If your development board is not on the list above and it meets the minimum requirements, consider opening up an [Issue](https://github.com/ZZ-Cat/CRSFforArduino/issues/new/choose) and I will work with you to add support for your development board.  

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Compatibility Table determines if the target development board is compatible with CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-9
+ * @date 2024-2-10
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -254,6 +254,263 @@ namespace hal
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
+
+#elif defined(ARDUINO_ARCH_STM32) || defined(TARGET_STM)
+
+#if defined(STM32F1xx)
+#if defined(ARDUINO_BLACKPILL_F103C8)
+        device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F103C8;
+#elif defined(ARDUINO_BLUEPILL_F103C6)
+        device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C6;
+#elif defined(ARDUINO_BLUEPILL_F103C8)
+        device.type.devboard = DEVBOARD_STM32_BLUEPILL_STM32F103C8;
+#elif defined(ARDUINO_GENERIC_F103C6TX)
+        device.type.devboard = DEVBOARD_STM32F103C6;
+#elif defined(ARDUINO_GENERIC_F103C8TX)
+        device.type.devboard = DEVBOARD_STM32F103C8;
+#elif defined(ARDUINO_GENERIC_F103CBTX)
+        device.type.devboard = DEVBOARD_STM32F103CB;
+#elif defined(ARDUINO_GENERIC_F103R6TX)
+        device.type.devboard = DEVBOARD_STM32F103R6;
+#elif defined(ARDUINO_GENERIC_F103R8TX)
+        device.type.devboard = DEVBOARD_STM32F103R8;
+#elif defined(ARDUINO_GENERIC_F103RBTX)
+        device.type.devboard = DEVBOARD_STM32F103RB;
+#elif defined(ARDUINO_GENERIC_F103RCTX)
+        device.type.devboard = DEVBOARD_STM32F103RC;
+#elif defined(ARDUINO_GENERIC_F103RDTX)
+        device.type.devboard = DEVBOARD_STM32F103RD;
+#elif defined(ARDUINO_GENERIC_F103RETX)
+        device.type.devboard = DEVBOARD_STM32F103RE;
+#elif defined(ARDUINO_GENERIC_F103RFTX)
+        device.type.devboard = DEVBOARD_STM32F103RF;
+#elif defined(ARDUINO_GENERIC_F103RGTX)
+        device.type.devboard = DEVBOARD_STM32F103RG;
+#elif defined(ARDUINO_GENERIC_F103T6UX)
+        device.type.devboard = DEVBOARD_STM32F103T6;
+#elif defined(ARDUINO_GENERIC_F103T8UX)
+        device.type.devboard = DEVBOARD_STM32F103T8;
+#elif defined(ARDUINO_GENERIC_F103TBUX)
+        device.type.devboard = DEVBOARD_STM32F103TB;
+#elif defined(ARDUINO_GENERIC_F103V8TX)
+        device.type.devboard = DEVBOARD_STM32F103V8;
+#elif defined(ARDUINO_GENERIC_F103VBTX)
+        device.type.devboard = DEVBOARD_STM32F103VB;
+#elif defined(ARDUINO_GENERIC_F103VCTX)
+        device.type.devboard = DEVBOARD_STM32F103VC;
+#elif defined(ARDUINO_GENERIC_F103VDTX)
+        device.type.devboard = DEVBOARD_STM32F103VD;
+#elif defined(ARDUINO_GENERIC_F103VETX)
+        device.type.devboard = DEVBOARD_STM32F103VE;
+#elif defined(ARDUINO_GENERIC_F103VFTX)
+        device.type.devboard = DEVBOARD_STM32F103VF;
+#elif defined(ARDUINO_GENERIC_F103VGTX)
+        device.type.devboard = DEVBOARD_STM32F103VG;
+#elif defined(ARDUINO_GENERIC_F103ZCTX)
+        device.type.devboard = DEVBOARD_STM32F103ZC;
+#elif defined(ARDUINO_GENERIC_F103ZDTX)
+        device.type.devboard = DEVBOARD_STM32F103ZD;
+#elif defined(ARDUINO_GENERIC_F103ZETX)
+        device.type.devboard = DEVBOARD_STM32F103ZE;
+#elif defined(ARDUINO_GENERIC_F103ZFTX)
+        device.type.devboard = DEVBOARD_STM32F103ZF;
+#elif defined(ARDUINO_GENERIC_F103ZGTX)
+        device.type.devboard = DEVBOARD_STM32F103ZG;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#elif defined(STM32F4xx)
+#if defined(ARDUINO_FEATHER_F405)
+        device.type.devboard = DEVBOARD_ADAFRUIT_FEATHER_F405;
+#elif defined(ARDUINO_NUCLEO_F401RE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F401RE;
+#elif defined(ARDUINO_NUCLEO_F411RE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F411RE;
+#elif defined(ARDUINO_NUCLEO_F429ZI)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F429ZI;
+#elif defined(ARDUINO_NUCLEO_F446RE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F446RE;
+#elif defined(ARDUINO_BLACKPILL_F401CC)
+        device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F401CC;
+#elif defined(ARDUINO_BLACKPILL_F411CE)
+        device.type.devboard = DEVBOARD_STM32_BLACKPILL_STM32F411CE;
+#elif defined(ARDUINO_GENERIC_F401CBUX)
+        device.type.devboard = DEVBOARD_STM32F401CB;
+#elif defined(ARDUINO_GENERIC_F401CCUX)
+        device.type.devboard = DEVBOARD_STM32F401CC;
+#elif defined(ARDUINO_GENERIC_F401CDUX)
+        device.type.devboard = DEVBOARD_STM32F401CD;
+#elif defined(ARDUINO_GENERIC_F401CEUX)
+        device.type.devboard = DEVBOARD_STM32F401CE;
+#elif defined(ARDUINO_GENERIC_F401RBTX)
+        device.type.devboard = DEVBOARD_STM32F401RB;
+#elif defined(ARDUINO_GENERIC_F401RCTX)
+        device.type.devboard = DEVBOARD_STM32F401RC;
+#elif defined(ARDUINO_GENERIC_F401RDTX)
+        device.type.devboard = DEVBOARD_STM32F401RD;
+#elif defined(ARDUINO_GENERIC_F401RETX)
+        device.type.devboard = DEVBOARD_STM32F401RE;
+#elif defined(ARDUINO_GENERIC_F405OEYX)
+        device.type.devboard = DEVBOARD_STM32F405OE;
+#elif defined(ARDUINO_GENERIC_F405OGYX)
+        device.type.devboard = DEVBOARD_STM32F405OG;
+#elif defined(ARDUINO_GENERIC_F405RGTX)
+        device.type.devboard = DEVBOARD_STM32F405RG;
+#elif defined(ARDUINO_GENERIC_F405VGTX)
+        device.type.devboard = DEVBOARD_STM32F405VG;
+#elif defined(ARDUINO_GENERIC_F405ZGTX)
+        device.type.devboard = DEVBOARD_STM32F405ZG;
+#elif defined(ARDUINO_GENERIC_F407VETX)
+        device.type.devboard = DEVBOARD_STM32F407VE;
+#elif defined(ARDUINO_GENERIC_F407VGTX)
+        device.type.devboard = DEVBOARD_STM32F407VG;
+#elif defined(ARDUINO_GENERIC_F410C8TX)
+        device.type.devboard = DEVBOARD_STM32F410C8;
+#elif defined(ARDUINO_GENERIC_F410CBTX)
+        device.type.devboard = DEVBOARD_STM32F410CB;
+#elif defined(ARDUINO_GENERIC_F410R8TX)
+        device.type.devboard = DEVBOARD_STM32F410R8;
+#elif defined(ARDUINO_GENERIC_F410RBTX)
+        device.type.devboard = DEVBOARD_STM32F410RB;
+#elif defined(ARDUINO_GENERIC_F411CEUX)
+        device.type.devboard = DEVBOARD_STM32F411CE;
+#elif defined(ARDUINO_GENERIC_F411RCTX)
+        device.type.devboard = DEVBOARD_STM32F411RC;
+#elif defined(ARDUINO_GENERIC_F411RETX)
+        device.type.devboard = DEVBOARD_STM32F411RE;
+#elif defined(ARDUINO_GENERIC_F412CEUX)
+        device.type.devboard = DEVBOARD_STM32F412CE;
+#elif defined(ARDUINO_GENERIC_F412CGUX)
+        device.type.devboard = DEVBOARD_STM32F412CG;
+#elif defined(ARDUINO_GENERIC_F412RETX)
+        device.type.devboard = DEVBOARD_STM32F412RE;
+#elif defined(ARDUINO_GENERIC_F412RGTX)
+        device.type.devboard = DEVBOARD_STM32F412RG;
+#elif defined(ARDUINO_GENERIC_F413CGUX)
+        device.type.devboard = DEVBOARD_STM32F413CG;
+#elif defined(ARDUINO_GENERIC_F413CHUX)
+        device.type.devboard = DEVBOARD_STM32F413CH;
+#elif defined(ARDUINO_GENERIC_F413RGTX)
+        device.type.devboard = DEVBOARD_STM32F413RG;
+#elif defined(ARDUINO_GENERIC_F413RHUX)
+        device.type.devboard = DEVBOARD_STM32F413RH;
+#elif defined(ARDUINO_GENERIC_F415RGTX)
+        device.type.devboard = DEVBOARD_STM32F415RG;
+#elif defined(ARDUINO_GENERIC_F417VETX)
+        device.type.devboard = DEVBOARD_STM32F417VE;
+#elif defined(ARDUINO_GENERIC_F417VGTX)
+        device.type.devboard = DEVBOARD_STM32F417VG;
+#elif defined(ARDUINO_GENERIC_F423CHUX)
+        device.type.devboard = DEVBOARD_STM32F423CH;
+#elif defined(ARDUINO_GENERIC_F423RHTX)
+        device.type.devboard = DEVBOARD_STM32F423RH;
+#elif defined(ARDUINO_GENERIC_F446RCTX)
+        device.type.devboard = DEVBOARD_STM32F446RC;
+#elif defined(ARDUINO_GENERIC_F446RETX)
+        device.type.devboard = DEVBOARD_STM32F446RE;
+#elif defined(ARDUINO_SPARKFUN_MICROMOD_F405)
+        device.type.devboard = DEVBOARD_SPARKFUN_MICROMOD_F405;
+#elif defined(ARDUINO_BLACK_F407VE)
+        device.type.devboard = DEVBOARD_ST_BLACK_F407VE;
+#elif defined(ARDUINO_BLACK_F407VG)
+        device.type.devboard = DEVBOARD_ST_BLACK_F407VG;
+#elif defined(ARDUINO_BLACK_F407ZE)
+        device.type.devboard = DEVBOARD_ST_BLACK_F407ZE;
+#elif defined(ARDUINO_BLACK_F407ZG)
+        device.type.devboard = DEVBOARD_ST_BLACK_F407ZG;
+#elif defined(ARDUINO_BLUE_F407VE_MINI)
+        device.type.devboard = DEVBOARD_ST_BLUE_F407VE_MINI;
+#elif defined(ARDUINO_DISCO_F413ZH)
+        device.type.devboard = DEVBOARD_ST_DISCOVERY_F413ZH;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#elif defined(STM32F7xx)
+
+#if defined(ARDUINO_GENERIC_F722ICKX) || defined(ARDUINO_GENERIC_F722ICTX)
+        device.type.devboard = DEVBOARD_STM32F722IC;
+#elif defined(ARDUINO_GENERIC_F722IEKX) || defined(ARDUINO_GENERIC_F722IETX)
+        device.type.devboard = DEVBOARD_STM32F722IE;
+#elif defined(ARDUINO_GENERIC_F722RCTX)
+        device.type.devboard = DEVBOARD_STM32F722RC;
+#elif defined(ARDUINO_GENERIC_F722RETX)
+        device.type.devboard = DEVBOARD_STM32F722RE;
+#elif defined(ARDUINO_GENERIC_F722VCTX)
+        device.type.devboard = DEVBOARD_STM32F722VC;
+#elif defined(ARDUINO_GENERIC_F722VETX)
+        device.type.devboard = DEVBOARD_STM32F722VE;
+#elif defined(ARDUINO_GENERIC_F722ZCTX)
+        device.type.devboard = DEVBOARD_STM32F722ZC;
+#elif defined(ARDUINO_GENERIC_F722ZETX)
+        device.type.devboard = DEVBOARD_STM32F722ZE;
+#elif defined(ARDUINO_DISCO_F746NG)
+        device.type.devboard = DEVBOARD_ST_DISCOVERY_F746NG;
+#elif defined(ARDUINO_NUCLEO_F722ZE)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F722ZE;
+#elif defined(ARDUINO_NUCLEO_F746ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F746ZG;
+#elif defined(ARDUINO_NUCLEO_F756ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F756ZG;
+#elif defined(ARDUINO_NUCLEO_F767ZI)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F767ZI;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#elif defined(STM32H7xx)
+
+#if defined(ARDUINO_GENERIC_H745BGTX)
+        device.type.devboard = DEVBOARD_STM32H745BG;
+#elif defined(ARDUINO_GENERIC_H745BITX)
+        device.type.devboard = DEVBOARD_STM32H745BI;
+#elif defined(ARDUINO_GENERIC_H745IGKX) || defined(ARDUINO_GENERIC_H745IGTX)
+        device.type.devboard = DEVBOARD_STM32H745IG;
+#elif defined(ARDUINO_GENERIC_H745IIKX) || defined(ARDUINO_GENERIC_H745IITX)
+        device.type.devboard = DEVBOARD_STM32H745II;
+#elif defined(ARDUINO_GENERIC_H745ZGTX)
+        device.type.devboard = DEVBOARD_STM32H745ZG;
+#elif defined(ARDUINO_GENERIC_H745ZITX)
+        device.type.devboard = DEVBOARD_STM32H745ZI;
+#elif defined(ARDUINO_GENERIC_H750VBTX)
+        device.type.devboard = DEVBOARD_STM32H750BT;
+#elif defined(ARDUINO_NUCLEO_H723ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_H723ZG;
+#elif defined(ARDUINO_NUCLEO_H743ZI)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_H743ZI;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#elif defined(TARGET_STM32H7) // For some reason, Arduino are using their own define for the STM32H7 series.
+
+#if defined(ARDUINO_NICLA_VISION)
+        device.type.devboard = DEVBOARD_ARDUINO_NICLA_VISION;
+#elif defined(ARDUINO_OPTA)
+        device.type.devboard = DEVBOARD_ARDUINO_OPTA;
+#elif defined(ARDUINO_PORTENTA_H7_M4)
+        device.type.devboard = DEVBOARD_ARDUINO_PORTENTA_H7_M4;
+#elif defined(ARDUINO_PORTENTA_H7_M7)
+        device.type.devboard = DEVBOARD_ARDUINO_PORTENTA_H7;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#else // The architecture is known, but the board and chip are not.
+#warning "The target board and the chipset that it's using are unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD_AND_CHIP;
+#endif
 
 #elif defined(CORE_TEENSY)
 #if defined(__MK20DX128__)

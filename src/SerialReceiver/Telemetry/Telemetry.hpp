@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This encodes data into CRSF telemetry frames for transmission to the RC handset.
  * @version 1.0.0
- * @date 2024-2-9
+ * @date 2024-2-10
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -34,7 +34,7 @@
 
 namespace serialReceiverLayer
 {
-    class Telemetry : private genericCrc::CRC, private genericStreamBuffer::SerialBuffer
+    class Telemetry : private genericCrc::GenericCRC, private genericStreamBuffer::SerialBuffer
     {
       public:
         Telemetry();

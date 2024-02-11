@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This encodes data into CRSF telemetry frames for transmission to the RC handset.
  * @version 1.0.0
- * @date 2024-2-9
+ * @date 2024-2-10
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -40,7 +40,7 @@ namespace serialReceiverLayer
 #endif
 
     Telemetry::Telemetry() :
-        CRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
+        GenericCRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
@@ -316,7 +316,7 @@ namespace serialReceiverLayer
     {
         uint8_t *buffer = SerialBuffer::getBuffer();
         uint8_t length = SerialBuffer::getLength();
-        uint8_t crc = CRC::calculate(2, buffer[2], buffer, length);
+        uint8_t crc = GenericCRC::calculate(2, buffer[2], buffer, length);
 
         SerialBuffer::writeU8(crc);
     }

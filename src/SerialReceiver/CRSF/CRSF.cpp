@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This decodes CRSF frames from a serial port.
  * @version 1.0.0
- * @date 2024-2-9
+ * @date 2024-2-10
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -34,7 +34,7 @@ namespace serialReceiverLayer
 {
     CRSF::CRSF()
     {
-        crc8 = new CRC();
+        crc8 = new GenericCRC();
     }
 
     CRSF::~CRSF()

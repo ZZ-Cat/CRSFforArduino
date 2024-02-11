@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-9
+ * @date 2024-2-10
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -35,7 +35,17 @@ namespace serialReceiverLayer
 {
     SerialReceiver::SerialReceiver()
     {
+#if defined(ARDUINO_ARCH_STM32)
+#if defined(HAVE_HWSERIAL1)
         _uart = &Serial1;
+#elif defined(HAVE_HWSERIAL2)
+        _uart = &Serial2;
+#elif defined(HAVE_HWSERIAL3)
+        _uart = &Serial3;
+#endif
+#else
+        _uart = &Serial1;
+#endif
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;
