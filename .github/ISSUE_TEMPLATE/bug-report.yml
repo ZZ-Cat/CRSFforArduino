@@ -96,7 +96,7 @@ body:
         - ST Nucleo F411RE
         - ST Nucleo F429ZI
         - ST Nucleo F446RE
-        - ST Nucleo F4722ZE
+        - ST Nucleo F722ZE
         - STM32F103C6
         - STM32F103C8
         - STM32F103CB
