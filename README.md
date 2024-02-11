@@ -459,7 +459,11 @@ CRSF for Arduino is compatible with these development boards:
     - STM32F401RC
     - STM32F401RD
     - STM32F401RE
-    - STM32F405RE
+    - STM32F405OE (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405OG (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405RG
+    - STM32F405VG (Only available with stm32duino, and not available in PlatformIO)
+    - STM32F405ZG (Only available with stm32duino, and not available in PlatformIO)
     - STM32F407VE
     - STM32F407VG
     - STM32F410C8
