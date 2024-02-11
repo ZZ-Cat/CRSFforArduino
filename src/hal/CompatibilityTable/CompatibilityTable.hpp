@@ -206,6 +206,7 @@ namespace hal
             DEVBOARD_STM32F423RH,
             DEVBOARD_STM32F446RC,
             DEVBOARD_STM32F446RE,
+            DEVBOARD_STM32H750BT,
 
             // STM32duino STM32F722 boards.
             DEVBOARD_STM32F722IC,
@@ -382,6 +383,7 @@ namespace hal
             "STM32F423RH",
             "STM32F446RC",
             "STM32F446RE",
+            "STM32H750BT",
             "STM32F722IC",
             "STM32F722IE",
             "STM32F722RC",

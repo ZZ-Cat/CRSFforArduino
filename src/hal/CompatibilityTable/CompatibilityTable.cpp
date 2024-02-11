@@ -471,6 +471,8 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32H745ZG;
 #elif defined(ARDUINO_GENERIC_H745ZITX)
         device.type.devboard = DEVBOARD_STM32H745ZI;
+#elif defined(ARDUINO_GENERIC_H750VBTX)
+        device.type.devboard = DEVBOARD_STM32H750BT;
 #elif defined(ARDUINO_NUCLEO_H723ZG)
         device.type.devboard = DEVBOARD_ST_NUCLEO_H723ZG;
 #elif defined(ARDUINO_NUCLEO_H743ZI)

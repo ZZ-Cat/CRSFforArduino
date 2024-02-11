@@ -179,6 +179,7 @@ body:
         - STM32H745II
         - STM32H745ZG
         - STM32H745ZI
+        - STM32H750BT
         - Teensy 3.0
         - Teensy 3.1/3.2
         - Teensy 3.5
