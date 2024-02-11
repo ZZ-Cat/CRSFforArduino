@@ -101,6 +101,8 @@ body:
         - ST Nucleo F746ZG
         - ST Nucleo F756ZG
         - ST Nucleo F767ZI
+        - ST Nucleo H723ZG
+        - ST Nucleo H743ZI
         - STM32F103C6
         - STM32F103C8
         - STM32F103CB

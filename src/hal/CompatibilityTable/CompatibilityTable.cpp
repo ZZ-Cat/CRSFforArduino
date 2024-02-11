@@ -471,6 +471,10 @@ namespace hal
         device.type.devboard = DEVBOARD_STM32H745ZG;
 #elif defined(ARDUINO_GENERIC_H745ZITX)
         device.type.devboard = DEVBOARD_STM32H745ZI;
+#elif defined(ARDUINO_NUCLEO_H723ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_H723ZG;
+#elif defined(ARDUINO_NUCLEO_H743ZI)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_H743ZI;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
