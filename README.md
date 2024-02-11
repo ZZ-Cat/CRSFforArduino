@@ -489,11 +489,15 @@ CRSF for Arduino is compatible with these development boards:
     - Black F407ZG
     - Blue F407VE Mini
     - Discovery F413ZH
+    - Disocvery F746NG
     - Nucleo F401RE
     - Nucleo F411RE
     - Nucleo F429ZI
     - Nucleo F446RE
     - Nucleo F722ZE
+    - Nucleo F746ZG
+    - Nucleo F756ZG
+    - Nucleo F767ZI
 - Teensy 3.x  
   **NB:** The entire Teensy 3.x line is discontinued by the manufacturer, and is _not_ recommended for new projects.
 - Teensy 4.x

@@ -425,8 +425,16 @@ namespace hal
 
 #elif defined(STM32F7xx)
 
-#if defined(ARDUINO_NUCLEO_F722ZE)
+#if defined(ARDUINO_DISCO_F746NG)
+        device.type.devboard = DEVBOARD_ST_DISCOVERY_F746NG;
+#elif defined(ARDUINO_NUCLEO_F722ZE)
         device.type.devboard = DEVBOARD_ST_NUCLEO_F722ZE;
+#elif defined(ARDUINO_NUCLEO_F746ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F746ZG;
+#elif defined(ARDUINO_NUCLEO_F756ZG)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F756ZG;
+#elif defined(ARDUINO_NUCLEO_F767ZI)
+        device.type.devboard = DEVBOARD_ST_NUCLEO_F767ZI;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."

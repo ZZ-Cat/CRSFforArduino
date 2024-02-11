@@ -92,11 +92,15 @@ body:
         - ST Black F407ZG
         - ST Blue F407VE Mini
         - ST Discovery F413ZH
+        - ST Discovery F746NG
         - ST Nucleo F401RE
         - ST Nucleo F411RE
         - ST Nucleo F429ZI
         - ST Nucleo F446RE
         - ST Nucleo F722ZE
+        - ST Nucleo F746ZG
+        - ST Nucleo F756ZG
+        - ST Nucleo F767ZI
         - STM32F103C6
         - STM32F103C8
         - STM32F103CB
