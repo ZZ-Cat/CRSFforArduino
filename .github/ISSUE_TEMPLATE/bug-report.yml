@@ -66,6 +66,9 @@ body:
         - Arduino MKR ZERO
         - Arduino Nano 33 IoT
         - Arduino Nano RP2040 Connect
+        - Arduino Nicla Vision
+        - Arduino Opta
+        - Arduino Portenta H7
         - Arduino Zero
         - Black Pill F103C8
         - Black Pill F103C8 (128 KB Flash)

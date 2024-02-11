@@ -410,6 +410,10 @@ CRSF for Arduino is compatible with these development boards:
 - STM32 based boards:
   - Adafruit
     - Feather F405
+  - Arduino
+    - Arduino Nicla Vision
+    - Arduino Opta
+    - Arduino Portenta H7
   - Black Pill
     - F103C8
     - F103C8 (128 KB Flash memory variant)

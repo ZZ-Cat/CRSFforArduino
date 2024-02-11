@@ -255,7 +255,7 @@ namespace hal
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_SAMD_ADAFRUIT
 
-#elif defined(ARDUINO_ARCH_STM32)
+#elif defined(ARDUINO_ARCH_STM32) || defined(TARGET_STM)
 
 #if defined(STM32F1xx)
 #if defined(ARDUINO_BLACKPILL_F103C8)
@@ -475,6 +475,22 @@ namespace hal
         device.type.devboard = DEVBOARD_ST_NUCLEO_H723ZG;
 #elif defined(ARDUINO_NUCLEO_H743ZI)
         device.type.devboard = DEVBOARD_ST_NUCLEO_H743ZI;
+#else
+        // The architecture and chip is known, but the board is not.
+#warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."
+        device.type.devboard = DEVBOARD_IS_PERMISSIVELY_INCOMPATIBLE_UNKNOWN_BOARD;
+#endif
+
+#elif defined(TARGET_STM32H7) // For some reason, Arduino are using their own define for the STM32H7 series.
+
+#if defined(ARDUINO_NICLA_VISION)
+        device.type.devboard = DEVBOARD_ARDUINO_NICLA_VISION;
+#elif defined(ARDUINO_OPTA)
+        device.type.devboard = DEVBOARD_ARDUINO_OPTA;
+#elif defined(ARDUINO_PORTENTA_H7_M4)
+        device.type.devboard = DEVBOARD_ARDUINO_PORTENTA_H7_M4;
+#elif defined(ARDUINO_PORTENTA_H7_M7)
+        device.type.devboard = DEVBOARD_ARDUINO_PORTENTA_H7;
 #else
         // The architecture and chip is known, but the board is not.
 #warning "The target board is unknown. Please enable CRSF_DEBUG_ENABLED and CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT in CFA_Config.hpp for more information."

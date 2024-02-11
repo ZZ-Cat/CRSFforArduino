@@ -98,6 +98,12 @@ namespace hal
             DEVBOARD_ARDUINO_NANO_33_IOT,
             DEVBOARD_ARDUINO_ZERO,
 
+            // Arduino STM32 boards.
+            DEVBOARD_ARDUINO_NICLA_VISION,
+            DEVBOARD_ARDUINO_OPTA,
+            DEVBOARD_ARDUINO_PORTENTA_H7,
+            DEVBOARD_ARDUINO_PORTENTA_H7_M4,
+
             // Espresif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
@@ -280,6 +286,10 @@ namespace hal
             "Arduino MKRZERO",
             "Arduino Nano 33 IoT",
             "Arduino Zero",
+            "Arduino Nicla Vision",
+            "Arduino Opta",
+            "Arduino Portenta H7",
+            "Arduino Portenta H7 (M4 Core)",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
             "Raspberry Pi Pico",
