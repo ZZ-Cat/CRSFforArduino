@@ -94,6 +94,8 @@ body:
         - ST Discovery F413ZH
         - ST Nucleo F401RE
         - ST Nucleo F411RE
+        - ST Nucleo F429ZI
+        - ST Nucleo F446RE
         - ST Nucleo F4722ZE
         - STM32F103C6
         - STM32F103C8
@@ -150,6 +152,10 @@ body:
         - STM32F415RG
         - STM32F417VE
         - STM32F417VG
+        - STM32F423CH
+        - STM32F423RH
+        - STM32F446RC
+        - STM32F446RE
         - Teensy 3.0
         - Teensy 3.1/3.2
         - Teensy 3.5
