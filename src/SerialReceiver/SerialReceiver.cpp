@@ -82,6 +82,7 @@ namespace serialReceiverLayer
         _rcChannels = nullptr;
 #if CRSF_FLIGHTMODES_ENABLED > 0
         delete[] _flightModes;
+        _flightModes = nullptr;
 #endif
 #endif
     }
@@ -152,17 +153,6 @@ namespace serialReceiverLayer
 
         // Initialize the CRSF Protocol.
         crsf = new CRSF();
-
-        // Check that the CRSF Protocol was initialized successfully.
-        if (crsf == nullptr)
-        {
-#if CRSF_DEBUG_ENABLED > 0
-            // Debug.
-            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
-#endif
-            return false;
-        }
-
         crsf->begin();
         crsf->setFrameTime(BAUD_RATE, 10);
         _uart->begin(BAUD_RATE);
@@ -170,17 +160,6 @@ namespace serialReceiverLayer
 #if CRSF_TELEMETRY_ENABLED > 0
         // Initialise telemetry.
         telemetry = new Telemetry();
-
-        // Check that the telemetry was initialised successfully.
-        if (telemetry == nullptr)
-        {
-#if CRSF_DEBUG_ENABLED > 0
-            // Debug.
-            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
-#endif
-            return false;
-        }
-
         telemetry->begin();
 #endif
 
@@ -213,6 +192,7 @@ namespace serialReceiverLayer
         {
             crsf->end();
             delete crsf;
+            crsf = nullptr;
         }
 
 #if CRSF_TELEMETRY_ENABLED > 0
@@ -221,6 +201,7 @@ namespace serialReceiverLayer
         {
             telemetry->end();
             delete telemetry;
+            telemetry = nullptr;
         }
 #endif
     }
