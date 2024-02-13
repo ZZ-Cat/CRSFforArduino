@@ -40,6 +40,7 @@ namespace serialReceiverLayer
     CRSF::~CRSF()
     {
         delete crc8;
+        crc8 = nullptr;
     }
 
     void CRSF::begin()
