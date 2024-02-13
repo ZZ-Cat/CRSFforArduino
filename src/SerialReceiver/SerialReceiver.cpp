@@ -90,14 +90,13 @@ namespace serialReceiverLayer
     bool SerialReceiver::begin()
     {
 #if CRSF_DEBUG_ENABLED > 0
-        // Debug.
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
-        // Initialize the RC Channels.
-        // Arm is set to 178 (1000us) to prevent the FC from arming.
-        // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
+        /* Initialize the RC Channels.
+        Arm is set to 178 (1000us) to prevent the FC from arming.
+        Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us). */
         for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
         {
 #if CRSF_RC_INITIALISE_ARMCHANNEL > 0 && CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
@@ -135,6 +134,8 @@ namespace serialReceiverLayer
         }
 #endif
 
+        /* Check if the target development board is
+        compatible with the CRSF Protocol, and return false if it isn't. */
         CompatibilityTable *ct = new CompatibilityTable();
         if (!ct->isDevboardCompatible(ct->getDevboardName()))
         {
@@ -142,7 +143,6 @@ namespace serialReceiverLayer
             ct = nullptr;
 
 #if CRSF_DEBUG_ENABLED > 0
-            // Debug.
             CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | FATAL ERROR]: Devboard is not compatible with CRSF Protocol.");
 #endif
             return false;
@@ -151,19 +151,18 @@ namespace serialReceiverLayer
         delete ct;
         ct = nullptr;
 
-        // Initialize the CRSF Protocol.
+        /* Initialise the CRSF Protocol and Telemetry. */
         crsf = new CRSF();
         crsf->begin();
         crsf->setFrameTime(BAUD_RATE, 10);
         _uart->begin(BAUD_RATE);
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        // Initialise telemetry.
         telemetry = new Telemetry();
         telemetry->begin();
 #endif
 
-        // Clear the UART buffer.
+        /* Clear the UART buffers, and return true. */
         _uart->flush();
         while (_uart->available() > 0)
         {
@@ -171,7 +170,6 @@ namespace serialReceiverLayer
         }
 
 #if CRSF_DEBUG_ENABLED > 0
-        // Debug.
         CRSF_DEBUG_SERIAL_PORT.println("Done.");
 #endif
         return true;
@@ -179,6 +177,7 @@ namespace serialReceiverLayer
 
     void SerialReceiver::end()
     {
+        /* Clear the UART buffers. */
         _uart->flush();
         while (_uart->available() > 0)
         {
@@ -187,7 +186,8 @@ namespace serialReceiverLayer
 
         _uart->end();
 
-        // Check if the CRSF Protocol was initialized.
+        /* Tear-down and destroy the
+        CRSF Protocol if it was initialised. */
         if (crsf != nullptr)
         {
             crsf->end();
@@ -196,7 +196,8 @@ namespace serialReceiverLayer
         }
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        // Check if telemetry was initialized.
+        /* Tear-down and destroy the
+        Telemetry if it was initialised. */
         if (telemetry != nullptr)
         {
             telemetry->end();
@@ -216,7 +217,6 @@ namespace serialReceiverLayer
                 flushRemainingFrames();
 
 #if CRSF_LINK_STATISTICS_ENABLED > 0
-                // Handle link statistics.
                 crsf->getLinkStatistics(&_linkStatistics);
                 if (_linkStatisticsCallback != nullptr)
                 {
@@ -225,7 +225,6 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
-                // Check if it is time to send telemetry.
                 if (telemetry->update())
                 {
                     telemetry->sendTelemetryData(_uart);
@@ -235,7 +234,6 @@ namespace serialReceiverLayer
         }
 
 #if CRSF_RC_ENABLED > 0
-        // Update the RC Channels.
         crsf->getFailSafe(&_rcChannels->failsafe);
         crsf->getRcChannels(_rcChannels->value);
         if (_rcChannelsCallback != nullptr)
