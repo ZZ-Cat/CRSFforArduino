@@ -230,17 +230,17 @@ namespace serialReceiverLayer
                     telemetry->sendTelemetryData(_uart);
                 }
 #endif
-            }
-        }
 
 #if CRSF_RC_ENABLED > 0
-        crsf->getFailSafe(&_rcChannels->failsafe);
-        crsf->getRcChannels(_rcChannels->value);
-        if (_rcChannelsCallback != nullptr)
-        {
-            _rcChannelsCallback(_rcChannels);
-        }
+                crsf->getFailSafe(&_rcChannels->failsafe);
+                crsf->getRcChannels(_rcChannels->value);
+                if (_rcChannelsCallback != nullptr)
+                {
+                    _rcChannelsCallback(_rcChannels);
+                }
 #endif
+            }
+        }
     }
 #endif
 
