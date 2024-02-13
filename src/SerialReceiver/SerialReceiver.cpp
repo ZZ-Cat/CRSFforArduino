@@ -92,7 +92,6 @@ namespace serialReceiverLayer
         // Debug.
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
-        // _uart->enterCriticalSection();
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
         // Initialize the RC Channels.
@@ -140,7 +139,6 @@ namespace serialReceiverLayer
         {
             delete ct;
             ct = nullptr;
-            // _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
             // Debug.
@@ -158,8 +156,6 @@ namespace serialReceiverLayer
         // Check that the CRSF Protocol was initialized successfully.
         if (crsf == nullptr)
         {
-            // _uart->exitCriticalSection();
-
 #if CRSF_DEBUG_ENABLED > 0
             // Debug.
             CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
@@ -178,8 +174,6 @@ namespace serialReceiverLayer
         // Check that the telemetry was initialised successfully.
         if (telemetry == nullptr)
         {
-            // _uart->exitCriticalSection();
-
 #if CRSF_DEBUG_ENABLED > 0
             // Debug.
             CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
@@ -189,8 +183,6 @@ namespace serialReceiverLayer
 
         telemetry->begin();
 #endif
-
-        // _uart->exitCriticalSection();
 
         // Clear the UART buffer.
         _uart->flush();
@@ -214,9 +206,7 @@ namespace serialReceiverLayer
             _uart->read();
         }
 
-        // _uart->enterCriticalSection();
         _uart->end();
-        // _uart->clearUART();
 
         // Check if the CRSF Protocol was initialized.
         if (crsf != nullptr)
@@ -233,7 +223,6 @@ namespace serialReceiverLayer
             delete telemetry;
         }
 #endif
-        // _uart->exitCriticalSection();
     }
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0

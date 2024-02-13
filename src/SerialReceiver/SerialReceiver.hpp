@@ -54,13 +54,9 @@ namespace serialReceiverLayer
         uint16_t value[crsfProtocol::RC_CHANNEL_COUNT];
     } rcChannels_t;
 
-    // Function pointer for RC Channels Callback
+    /* Function pointers for callbacks. */
     typedef void (*rcChannelsCallback_t)(rcChannels_t *);
-
-    // Function pointer for Flight Mode Callback
     typedef void (*flightModeCallback_t)(flightModeId_t);
-
-    // Function pointer for Link Statistics Callback
     typedef void (*linkStatisticsCallback_t)(link_statistics_t);
 
     class SerialReceiver
