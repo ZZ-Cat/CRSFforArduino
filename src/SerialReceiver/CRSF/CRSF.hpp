@@ -31,7 +31,6 @@
 
 namespace serialReceiverLayer
 {
-    // #if CRSF_LINK_STATISTICS_ENABLED > 0
     typedef struct link_statistics_s
     {
         int16_t rssi = 0;
@@ -51,7 +50,6 @@ namespace serialReceiverLayer
         250,  // 250 mW
         50    // 50 mW
     };
-    // #endif
 
     class CRSF
     {
