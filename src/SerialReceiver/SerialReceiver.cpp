@@ -336,7 +336,7 @@ namespace serialReceiverLayer
         {
             for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
             {
-                if (_rcChannels[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels[_flightModes[i].channel] <= _flightModes[i].max)
+                if (_rcChannels->value[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels->value[_flightModes[i].channel] <= _flightModes[i].max)
                 {
                     _flightModeCallback((flightModeId_t)i);
                     break;
