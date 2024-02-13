@@ -64,7 +64,6 @@ namespace sketchLayer
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
       private:
-        SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer
 
