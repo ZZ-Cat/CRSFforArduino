@@ -434,6 +434,14 @@ namespace serialReceiverLayer
     }
 #endif
 
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+    void SerialReceiver::telemetryWriteCustomFlightMode(const char * flightModeStr, bool armed = true)
+    {
+        telemetry->setFlightModeData(flightModeStr, armed);
+    }
+#endif
+
+
 #if CRSF_TELEMETRY_GPS_ENABLED > 0
     void SerialReceiver::telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites)
     {

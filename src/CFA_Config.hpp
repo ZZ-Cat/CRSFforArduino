@@ -86,10 +86,15 @@ information back to your controller. */
 - TELEMETRY_GPS_ENABLED: Enables or disables GPS telemetry output.
 - TELEMETRY_SIMULATE_ARBITRARY_VALUES: When enabled, arbitrary values are sent for telemetry. */
 #define CRSF_TELEMETRY_ENABLED              1
+
 #define CRSF_TELEMETRY_ATTITUDE_ENABLED     1
 #define CRSF_TELEMETRY_BAROALTITUDE_ENABLED 1
 #define CRSF_TELEMETRY_BATTERY_ENABLED      1
+
+#ifndef CRSF_TELEMETRY_FLIGHTMODE_ENABLED
 #define CRSF_TELEMETRY_FLIGHTMODE_ENABLED   0
+#endif
+
 #define CRSF_TELEMETRY_GPS_ENABLED          1
 
 #define CRSF_LINK_STATISTICS_ENABLED 1
