@@ -105,6 +105,7 @@ namespace genericCrc
         }
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_HARDWARE)
+#error "CRC_OPTIMISATION_LEVEL is set to CRC_OPTIMISATION_HARDWARE, but no hardware implementation is available."
 #endif
     }
 
@@ -132,6 +133,7 @@ namespace genericCrc
         }
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_HARDWARE)
+#error "CRC_OPTIMISATION_LEVEL is set to CRC_OPTIMISATION_HARDWARE, but no hardware implementation is available."
 #endif
     }
 } // namespace genericCrc
