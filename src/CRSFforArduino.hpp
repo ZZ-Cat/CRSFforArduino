@@ -60,7 +60,7 @@ namespace sketchLayer
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
         void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode);
-        void telemetryWriteCustomFlightMode(const char * flightMode, bool armed = false);
+        void telemetryWriteCustomFlightMode(const char *flightMode, bool armed = false);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
       private:

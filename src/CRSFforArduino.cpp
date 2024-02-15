@@ -307,7 +307,7 @@ namespace sketchLayer
      * 
      * @param flightMode The Flight Mode string to send.
      */
-    void CRSFforArduino::telemetryWriteCustomFlightMode(const char * flightMode, bool armed)
+    void CRSFforArduino::telemetryWriteCustomFlightMode(const char *flightMode, bool armed)
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
         _serialReceiver->telemetryWriteCustomFlightMode(flightMode, armed);
