@@ -6,6 +6,7 @@
 
 # PlatformIO specific files
 test/README
+examples/platformio/cfa_code_test.cpp
 
 # Template files for CRSF for Arduino
 templates/
