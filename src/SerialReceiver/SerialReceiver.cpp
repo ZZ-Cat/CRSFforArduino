@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-10
+ * @date 2024-2-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -431,6 +431,13 @@ namespace serialReceiverLayer
 
         // Serial.println(flightModeStr);
         telemetry->setFlightModeData(flightModeStr, (bool)(flightModeId == FLIGHT_MODE_DISARMED ? true : false));
+    }
+#endif
+
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+    void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed = true)
+    {
+        telemetry->setFlightModeData(flightModeStr, armed);
     }
 #endif
 

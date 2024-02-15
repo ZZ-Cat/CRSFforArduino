@@ -4,7 +4,7 @@
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-10
+ * @date 2024-2-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -60,6 +60,7 @@ namespace sketchLayer
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
         void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode);
+        void telemetryWriteCustomFlightMode(const char *flightMode, bool armed = false);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
       private:

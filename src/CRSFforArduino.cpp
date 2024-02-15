@@ -4,7 +4,7 @@
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-10
+ * @date 2024-2-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -296,6 +296,21 @@ namespace sketchLayer
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
         _serialReceiver->telemetryWriteFlightMode(flightMode);
+#else
+        // Prevent compiler warnings
+        (void)flightMode;
+#endif
+    }
+
+    /**
+     * @brief Sends a CRSF Telemetry Frame with a custom Flight Mode string.
+     * 
+     * @param flightMode The Flight Mode string to send.
+     */
+    void CRSFforArduino::telemetryWriteCustomFlightMode(const char *flightMode, bool armed)
+    {
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        _serialReceiver->telemetryWriteCustomFlightMode(flightMode, armed);
 #else
         // Prevent compiler warnings
         (void)flightMode;

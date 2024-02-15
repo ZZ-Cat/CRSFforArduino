@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-10
+ * @date 2024-2-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -100,6 +100,7 @@ namespace serialReceiverLayer
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
         void telemetryWriteFlightMode(flightModeId_t flightMode);
+        void telemetryWriteCustomFlightMode(const char *flightMode, bool armed = true);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 #endif
 
