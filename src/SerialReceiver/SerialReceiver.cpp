@@ -397,7 +397,6 @@ namespace serialReceiverLayer
                 break;
         }
 
-        // Serial.println(flightModeStr);
         telemetry->setFlightModeData(flightModeStr, (bool)(flightModeId == FLIGHT_MODE_DISARMED ? true : false));
     }
 #endif
