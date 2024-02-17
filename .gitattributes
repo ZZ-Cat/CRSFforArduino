@@ -1,6 +1,7 @@
 *.c text eol=lf
 *.cpp text eol=lf
 *.h text eol=lf
+*.hpp text eol=lf
 *.ini text eol=lf
 *.ino text eol=lf
 *.json text eol=lf
