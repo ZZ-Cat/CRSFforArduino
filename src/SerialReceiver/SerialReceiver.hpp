@@ -95,7 +95,7 @@ namespace serialReceiverLayer
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
-        void telemetryWriteFlightMode(flightModeId_t flightMode);
+        void telemetryWriteFlightMode(flightModeId_t flightMode, bool disarmed = false);
         void telemetryWriteCustomFlightMode(const char *flightMode, bool armed = true);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 #endif

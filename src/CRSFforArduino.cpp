@@ -279,13 +279,14 @@ namespace sketchLayer
      * 
      * @param flightMode The Flight Mode to send.
      */
-    void CRSFforArduino::telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode)
+    void CRSFforArduino::telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode, bool disarmed)
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-        this->SerialReceiver::telemetryWriteFlightMode(flightMode);
+        this->SerialReceiver::telemetryWriteFlightMode(flightMode, disarmed);
 #else
         // Prevent compiler warnings
         (void)flightMode;
+        (void)disarmed;
 #endif
     }
 
@@ -297,7 +298,7 @@ namespace sketchLayer
     void CRSFforArduino::telemetryWriteCustomFlightMode(const char *flightMode, bool armed)
     {
 #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-        _serialReceiver->telemetryWriteCustomFlightMode(flightMode, armed);
+        this->SerialReceiver::telemetryWriteCustomFlightMode(flightMode, armed);
 #else
         // Prevent compiler warnings
         (void)flightMode;

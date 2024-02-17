@@ -370,10 +370,12 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-    void SerialReceiver::telemetryWriteFlightMode(flightModeId_t flightModeId)
+    void SerialReceiver::telemetryWriteFlightMode(flightModeId_t flightMode, bool disarmed)
     {
-        switch (flightModeId)
+        if (flightMode != FLIGHT_MODE_DISARMED)
         {
+            switch (flightMode)
+            {
             case FLIGHT_MODE_FAILSAFE:
                 flightModeStr = "!FS!";
                 break;
@@ -395,14 +397,17 @@ namespace serialReceiverLayer
             default:
                 flightModeStr = "ACRO";
                 break;
+            }
+        }
+        else
+        {
+            disarmed = true;
         }
 
-        telemetry->setFlightModeData(flightModeStr, (bool)(flightModeId == FLIGHT_MODE_DISARMED ? true : false));
+        telemetry->setFlightModeData(flightModeStr, disarmed);
     }
-#endif
 
-#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-    void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed = true)
+    void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed)
     {
         telemetry->setFlightModeData(flightModeStr, armed);
     }
