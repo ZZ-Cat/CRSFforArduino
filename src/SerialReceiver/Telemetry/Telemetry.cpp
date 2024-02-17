@@ -39,7 +39,8 @@ namespace serialReceiverLayer
 #define RAD PI / 180.0F
 #endif
 
-    Telemetry::Telemetry() : SerialBuffer(CRSF_FRAME_SIZE_MAX)
+    Telemetry::Telemetry() :
+        SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
