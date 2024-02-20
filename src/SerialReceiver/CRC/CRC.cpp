@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic CRC8 implementation for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -32,10 +32,8 @@ namespace genericCrc
     GenericCRC::GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // Allocate memory for the CRC8 DVB S2 table.
         crc_8_dvb_s2_table = (uint8_t *)malloc(256 * sizeof(uint8_t));
 
-        // Generate the CRC8 DVB S2 table.
         for (uint16_t i = 0; i < 256; i++)
         {
             uint8_t crc = i;
@@ -50,6 +48,7 @@ namespace genericCrc
                     crc <<= 1;
                 }
             }
+
             crc_8_dvb_s2_table[i] = crc & 0xff;
         }
 #endif
@@ -58,7 +57,6 @@ namespace genericCrc
     GenericCRC::~GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // Free the memory allocated for the CRC8 DVB S2 table.
         free(crc_8_dvb_s2_table);
 #endif
     }
@@ -85,26 +83,25 @@ namespace genericCrc
     uint8_t GenericCRC::calculate(uint8_t start, uint8_t *data, uint8_t length)
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // start is the first byte of the data to be GenericCRC'd.
-        // data is a pointer to the data to be GenericCRC'd.
-
-        // Calculate the CRC8 DVB S2 value.
         uint8_t crc = crc_8_dvb_s2_table[0 ^ start];
+
         for (uint8_t i = 0; i < length; i++)
         {
             crc = crc_8_dvb_s2_table[crc ^ data[i]];
         }
 
-        // Return the CRC8 DVB S2 value.
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
         uint8_t crc = crc_8_dvb_s2(0, start);
+
         for (uint8_t i = 0; i < length; i++)
         {
             crc = crc_8_dvb_s2(crc, data[i]);
         }
+
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_HARDWARE)
+#error "CRC_OPTIMISATION_LEVEL is set to CRC_OPTIMISATION_HARDWARE, but no hardware implementation is available."
 #endif
     }
 
@@ -112,26 +109,25 @@ namespace genericCrc
     {
         (void)start;
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        // start is the first byte of the data to be GenericCRC'd.
-        // data is a pointer to the data to be GenericCRC'd.
-
-        // Calculate the CRC8 DVB S2 value.
         uint8_t crc = crc_8_dvb_s2_table[0 ^ data[offset]];
+
         for (uint8_t i = offset + 1; i < length; i++)
         {
             crc = crc_8_dvb_s2_table[crc ^ data[i]];
         }
 
-        // Return the CRC8 DVB S2 value.
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SIZE)
         uint8_t crc = crc_8_dvb_s2(0, data[offset]);
+
         for (uint8_t i = offset + 1; i < length; i++)
         {
             crc = crc_8_dvb_s2(crc, data[i]);
         }
+
         return crc;
 #elif (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_HARDWARE)
+#error "CRC_OPTIMISATION_LEVEL is set to CRC_OPTIMISATION_HARDWARE, but no hardware implementation is available."
 #endif
     }
 } // namespace genericCrc

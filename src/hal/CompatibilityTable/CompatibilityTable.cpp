@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Compatibility Table determines if the target development board is compatible with CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -36,8 +36,6 @@ namespace hal
      */
     CompatibilityTable::CompatibilityTable()
     {
-// TEMPORARILY DISABLED: Arduino IDE must be 1.7.0 or greater
-// #if ARDUINO >= 10700
 
 // Arduino ESP32 Architecture
 #if defined(ARDUINO_ARCH_ESP32)
@@ -566,10 +564,6 @@ as two separate boards. To prevent a false negative, check for both boards. */
 #error "Unsupported architecture. CRSF for Arduino only supports the ESP32, SAMD, and Teensy architectures."
         device.type.devboard = DEVBOARD_IS_INCOMPATIBLE;
 #endif // ARDUINO_ARCH_SAMD
-
-        // #else
-        // #error "This library requires Arduino IDE 1.7.0 or greater. Please update your IDE."
-        // #endif // ARDUINO >= 10700
     }
 
     CompatibilityTable::~CompatibilityTable()

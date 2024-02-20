@@ -4,7 +4,7 @@
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -52,6 +52,7 @@ namespace sketchLayer
         void setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics));
 
         // Flight mode functions.
+        bool setFlightMode(serialReceiverLayer::flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max);
         bool setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
         void setFlightModeCallback(void (*callback)(serialReceiverLayer::flightModeId_t flightMode));
 
@@ -59,12 +60,11 @@ namespace sketchLayer
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
         void telemetryWriteBattery(float voltage, float current, uint32_t fuel, uint8_t percent);
-        void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode);
+        void telemetryWriteFlightMode(serialReceiverLayer::flightModeId_t flightMode, bool disarmed = false);
         void telemetryWriteCustomFlightMode(const char *flightMode, bool armed = false);
         void telemetryWriteGPS(float latitude, float longitude, float altitude, float speed, float groundCourse, uint8_t satellites);
 
       private:
-        SerialReceiver *_serialReceiver;
     };
 } // namespace sketchLayer
 

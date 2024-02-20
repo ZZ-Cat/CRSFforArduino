@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -82,6 +82,7 @@ namespace serialReceiverLayer
         _rcChannels = nullptr;
 #if CRSF_FLIGHTMODES_ENABLED > 0
         delete[] _flightModes;
+        _flightModes = nullptr;
 #endif
 #endif
     }
@@ -89,15 +90,13 @@ namespace serialReceiverLayer
     bool SerialReceiver::begin()
     {
 #if CRSF_DEBUG_ENABLED > 0
-        // Debug.
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
-        // _uart->enterCriticalSection();
 
 #if CRSF_RC_ENABLED > 0 && CRSF_RC_INITIALISE_CHANNELS > 0
-        // Initialize the RC Channels.
-        // Arm is set to 178 (1000us) to prevent the FC from arming.
-        // Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us).
+        /* Initialize the RC Channels.
+        Arm is set to 178 (1000us) to prevent the FC from arming.
+        Throttle is set to 172 (988us) to prevent the ESCs from arming. All other channels are set to 992 (1500us). */
         for (size_t i = 0; i < RC_CHANNEL_COUNT; i++)
         {
 #if CRSF_RC_INITIALISE_ARMCHANNEL > 0 && CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
@@ -135,15 +134,15 @@ namespace serialReceiverLayer
         }
 #endif
 
+        /* Check if the target development board is
+        compatible with the CRSF Protocol, and return false if it isn't. */
         CompatibilityTable *ct = new CompatibilityTable();
         if (!ct->isDevboardCompatible(ct->getDevboardName()))
         {
             delete ct;
             ct = nullptr;
-            // _uart->exitCriticalSection();
 
 #if CRSF_DEBUG_ENABLED > 0
-            // Debug.
             CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | FATAL ERROR]: Devboard is not compatible with CRSF Protocol.");
 #endif
             return false;
@@ -152,47 +151,18 @@ namespace serialReceiverLayer
         delete ct;
         ct = nullptr;
 
-        // Initialize the CRSF Protocol.
+        /* Initialise the CRSF Protocol and Telemetry. */
         crsf = new CRSF();
-
-        // Check that the CRSF Protocol was initialized successfully.
-        if (crsf == nullptr)
-        {
-            // _uart->exitCriticalSection();
-
-#if CRSF_DEBUG_ENABLED > 0
-            // Debug.
-            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: CRSF Protocol could not be initialized.");
-#endif
-            return false;
-        }
-
         crsf->begin();
         crsf->setFrameTime(BAUD_RATE, 10);
         _uart->begin(BAUD_RATE);
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        // Initialise telemetry.
         telemetry = new Telemetry();
-
-        // Check that the telemetry was initialised successfully.
-        if (telemetry == nullptr)
-        {
-            // _uart->exitCriticalSection();
-
-#if CRSF_DEBUG_ENABLED > 0
-            // Debug.
-            CRSF_DEBUG_SERIAL_PORT.println("\n[Serial Receiver | FATAL ERROR]: Telemetry could not be initialized.");
-#endif
-            return false;
-        }
-
         telemetry->begin();
 #endif
 
-        // _uart->exitCriticalSection();
-
-        // Clear the UART buffer.
+        /* Clear the UART buffers, and return true. */
         _uart->flush();
         while (_uart->available() > 0)
         {
@@ -200,7 +170,6 @@ namespace serialReceiverLayer
         }
 
 #if CRSF_DEBUG_ENABLED > 0
-        // Debug.
         CRSF_DEBUG_SERIAL_PORT.println("Done.");
 #endif
         return true;
@@ -208,32 +177,34 @@ namespace serialReceiverLayer
 
     void SerialReceiver::end()
     {
+        /* Clear the UART buffers. */
         _uart->flush();
         while (_uart->available() > 0)
         {
             _uart->read();
         }
 
-        // _uart->enterCriticalSection();
         _uart->end();
-        // _uart->clearUART();
 
-        // Check if the CRSF Protocol was initialized.
+        /* Tear-down and destroy the
+        CRSF Protocol if it was initialised. */
         if (crsf != nullptr)
         {
             crsf->end();
             delete crsf;
+            crsf = nullptr;
         }
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        // Check if telemetry was initialized.
+        /* Tear-down and destroy the
+        Telemetry if it was initialised. */
         if (telemetry != nullptr)
         {
             telemetry->end();
             delete telemetry;
+            telemetry = nullptr;
         }
 #endif
-        // _uart->exitCriticalSection();
     }
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0
@@ -246,7 +217,6 @@ namespace serialReceiverLayer
                 flushRemainingFrames();
 
 #if CRSF_LINK_STATISTICS_ENABLED > 0
-                // Handle link statistics.
                 crsf->getLinkStatistics(&_linkStatistics);
                 if (_linkStatisticsCallback != nullptr)
                 {
@@ -255,24 +225,22 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
-                // Check if it is time to send telemetry.
                 if (telemetry->update())
                 {
                     telemetry->sendTelemetryData(_uart);
                 }
 #endif
-            }
-        }
 
 #if CRSF_RC_ENABLED > 0
-        // Update the RC Channels.
-        crsf->getFailSafe(&_rcChannels->failsafe);
-        crsf->getRcChannels(_rcChannels->value);
-        if (_rcChannelsCallback != nullptr)
-        {
-            _rcChannelsCallback(_rcChannels);
-        }
+                crsf->getFailSafe(&_rcChannels->failsafe);
+                crsf->getRcChannels(_rcChannels->value);
+                if (_rcChannelsCallback != nullptr)
+                {
+                    _rcChannelsCallback(_rcChannels);
+                }
 #endif
+            }
+        }
     }
 #endif
 
@@ -342,7 +310,28 @@ namespace serialReceiverLayer
     }
 
 #if CRSF_FLIGHTMODES_ENABLED > 0
-    bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    bool SerialReceiver::setFlightMode(flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max)
+    {
+        if (flightModeId < FLIGHT_MODE_COUNT && flightModeName != nullptr && channel <= 15)
+        {
+            if (strlen(flightModeName) > 16)
+            {
+                return false;
+            }
+
+            _flightModes[flightModeId].name = flightModeName;
+            _flightModes[flightModeId].channel = channel;
+            _flightModes[flightModeId].min = min;
+            _flightModes[flightModeId].max = max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    [[deprecated]] bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
         if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
         {
@@ -368,7 +357,7 @@ namespace serialReceiverLayer
         {
             for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
             {
-                if (_rcChannels[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels[_flightModes[i].channel] <= _flightModes[i].max)
+                if (_rcChannels->value[_flightModes[i].channel] >= _flightModes[i].min && _rcChannels->value[_flightModes[i].channel] <= _flightModes[i].max)
                 {
                     _flightModeCallback((flightModeId_t)i);
                     break;
@@ -402,40 +391,66 @@ namespace serialReceiverLayer
 #endif
 
 #if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-    void SerialReceiver::telemetryWriteFlightMode(flightModeId_t flightModeId)
+    void SerialReceiver::telemetryWriteFlightMode(flightModeId_t flightMode, bool disarmed)
     {
-        switch (flightModeId)
+        if (flightMode != FLIGHT_MODE_DISARMED)
         {
-            case FLIGHT_MODE_FAILSAFE:
-                flightModeStr = "!FS!";
-                break;
-            case FLIGHT_MODE_GPS_RESCUE:
-                flightModeStr = "RTH";
-                break;
-            case FLIGHT_MODE_PASSTHROUGH:
-                flightModeStr = "MANU";
-                break;
-            case FLIGHT_MODE_ANGLE:
-                flightModeStr = "STAB";
-                break;
-            case FLIGHT_MODE_HORIZON:
-                flightModeStr = "HOR";
-                break;
-            case FLIGHT_MODE_AIRMODE:
-                flightModeStr = "AIR";
-                break;
-            default:
-                flightModeStr = "ACRO";
-                break;
-        }
+            switch (flightMode)
+            {
+                case FLIGHT_MODE_FAILSAFE:
+                    flightModeStr = "!FS!";
+                    break;
+                case FLIGHT_MODE_GPS_RESCUE:
+                    flightModeStr = "RTH";
+                    break;
+                case FLIGHT_MODE_PASSTHROUGH:
+                    flightModeStr = "MANU";
+                    break;
+                case FLIGHT_MODE_ANGLE:
+                    flightModeStr = "STAB";
+                    break;
+                case FLIGHT_MODE_HORIZON:
+                    flightModeStr = "HOR";
+                    break;
+                case FLIGHT_MODE_AIRMODE:
+                    flightModeStr = "AIR";
+                    break;
 
-        // Serial.println(flightModeStr);
-        telemetry->setFlightModeData(flightModeStr, (bool)(flightModeId == FLIGHT_MODE_DISARMED ? true : false));
-    }
+#if CRSF_CUSTOM_FLIGHT_MODES_ENABLED > 0
+                /* All 8 custom flight modes are handled here. */
+                case CUSTOM_FLIGHT_MODE1:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE2:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE3:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE4:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE5:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE6:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE7:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE8:
+                    flightModeStr = _flightModes[flightMode].name;
+                    break;
 #endif
 
-#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
-    void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed = true)
+                default:
+                    flightModeStr = "ACRO";
+                    break;
+            }
+        }
+        else
+        {
+            disarmed = true;
+        }
+
+        telemetry->setFlightModeData(flightModeStr, disarmed);
+    }
+
+    [[deprecated]] void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed)
     {
         telemetry->setFlightModeData(flightModeStr, armed);
     }

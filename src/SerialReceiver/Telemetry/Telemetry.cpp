@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This encodes data into CRSF telemetry frames for transmission to the RC handset.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -40,7 +40,7 @@ namespace serialReceiverLayer
 #endif
 
     Telemetry::Telemetry() :
-        GenericCRC(), SerialBuffer(CRSF_FRAME_SIZE_MAX)
+        SerialBuffer(CRSF_FRAME_SIZE_MAX)
     {
         _telemetryFrameScheduleCount = 0;
         memset(_telemetryFrameSchedule, 0, sizeof(_telemetryFrameSchedule));
@@ -202,6 +202,7 @@ namespace serialReceiverLayer
         }
 #else
         (void)flightMode;
+        (void)armed;
 #endif
     }
 
@@ -234,7 +235,6 @@ namespace serialReceiverLayer
 
     int16_t Telemetry::_decidegreeToRadians(int16_t decidegrees)
     {
-        /* convert angle in decidegree to radians/10000 with reducing angle to +/-180 degree range */
         while (decidegrees > 18000)
         {
             decidegrees -= 36000;
@@ -284,7 +284,6 @@ namespace serialReceiverLayer
 
     void Telemetry::_appendFlightModeData()
     {
-        // Return if the length of the flight mode string is greater than the flight mode payload size.
         size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
         if (length > CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE)
         {

@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the configuration file for CRSF for Arduino.
  * @version 1.0.0
- * @date 2024-2-14
+ * @date 2024-2-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -76,6 +76,12 @@ and assign them to a switch on your controller.
 Pro Tip: You can combine the Flight Mode API with the Telemetry API to send flight mode
 information back to your controller. */
 #define CRSF_FLIGHTMODES_ENABLED 0
+
+/* Custom Flight Modes
+Enables or disables the Custom Flight Modes.
+When enabled, this allows you to implement flight modes with custom names
+and assign them to a switch on your controller. */
+#define CRSF_CUSTOM_FLIGHT_MODES_ENABLED 0
 
 /* Telemetry Options
 - TELEMETRY_ENABLED: Enables or disables the Telemetry API.
