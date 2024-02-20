@@ -65,6 +65,7 @@ namespace serialReceiverLayer
 
     void CRSF::setFrameTime(uint32_t baudRate, uint8_t packetCount)
     {
+        /* Calculate the time per frame based on the baud rate and packet count. */
         timePerFrame = ((1000000 * packetCount) / (baudRate / (CRSF_FRAME_SIZE_MAX - 1)));
     }
 
@@ -74,34 +75,34 @@ namespace serialReceiverLayer
         static uint32_t frameStartTime = 0;
         const uint32_t currentTime = micros();
 
-        // Reset the frame position if the frame time has elapsed.
+        /* Reset the frame position if the frame time has expired. */
         if (currentTime - frameStartTime > timePerFrame)
         {
             framePosition = 0;
 
-            // This compensates for micros() overflow.
             if (currentTime < frameStartTime)
             {
                 frameStartTime = currentTime;
             }
         }
 
-        // Reset the frame start time if the frame position is 0.
         if (framePosition == 0)
         {
             frameStartTime = currentTime;
         }
 
-        // Assume the full frame lenthg is 5 bytes until the frame length byte is received.
+        /* Assume the full frame lenthg is 5 bytes until the frame length byte is received. */
         const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, (int)CRSF_FRAME_SIZE_MAX);
 
         if (framePosition < fullFrameLength)
         {
+            /* Store the received byte in the frame buffer. */
             rxFrame.raw[framePosition] = rxByte;
             framePosition++;
 
             if (framePosition >= fullFrameLength)
             {
+                /* Frame is complete, calculate the CRC and check if it is valid. */
                 const uint8_t crc = calculateFrameCRC();
 
                 if (crc == rxFrame.raw[fullFrameLength - 1])
@@ -122,7 +123,6 @@ namespace serialReceiverLayer
                             {
                                 const crsf_payload_link_statistics_t *linkStatisticsPayload = (const crsf_payload_link_statistics_t *)&rxFrame.frame.payload;
 
-                                /* Decode the link statistics. */
                                 linkStatistics.rssi = (linkStatisticsPayload->active_antenna ? linkStatisticsPayload->uplink_rssi_2 : linkStatisticsPayload->uplink_rssi_1);
                                 linkStatistics.lqi = linkStatisticsPayload->uplink_link_quality;
                                 linkStatistics.snr = linkStatisticsPayload->uplink_snr;
@@ -133,9 +133,9 @@ namespace serialReceiverLayer
                     }
                 }
 
+                /* Clear the frame buffer and reset the frame position. */
                 memset(rxFrame.raw, 0, CRSF_FRAME_SIZE_MAX);
                 framePosition = 0;
-
                 return true;
             }
         }
@@ -145,6 +145,7 @@ namespace serialReceiverLayer
 
     void CRSF::getFailSafe(bool *failSafe)
     {
+        /* Set the failsafe flag based on the link statistics thresholds. */
         if (linkStatistics.lqi <= CRSF_FAILSAFE_LQI_THRESHOLD || linkStatistics.rssi >= CRSF_FAILSAFE_RSSI_THRESHOLD)
         {
             *failSafe = true;
@@ -157,12 +158,12 @@ namespace serialReceiverLayer
 
     void CRSF::getRcChannels(uint16_t *rcChannels)
     {
+        /* Decode RC frames if one has been received. */
         if (rcFrameReceived)
         {
             rcFrameReceived = false;
             if (rcChannelsFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
             {
-                // Unpack RC Channels.
                 const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
 
                 rcChannels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
@@ -188,7 +189,6 @@ namespace serialReceiverLayer
     void CRSF::getLinkStatistics(link_statistics_t *linkStats)
     {
 #if CRSF_LINK_STATISTICS_ENABLED > 0
-        /* Copy the link statistics into the output structure. */
         memcpy(linkStats, &linkStatistics, sizeof(link_statistics_t));
 #else
 #endif
