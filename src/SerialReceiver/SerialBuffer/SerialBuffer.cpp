@@ -54,7 +54,6 @@ namespace genericStreamBuffer
         memset(buffer, 0, bufferSizeMax);
     }
 
-    // Write signed integers in little endian
     size_t SerialBuffer::write8(int8_t value)
     {
         if (bufferIndex + 1 > bufferSizeMax)
@@ -98,7 +97,6 @@ namespace genericStreamBuffer
         return 4;
     }
 
-    // Write unsigned integers in little endian
     size_t SerialBuffer::writeU8(uint8_t value)
     {
         if (bufferIndex + 1 > bufferSizeMax)
@@ -142,7 +140,6 @@ namespace genericStreamBuffer
         return 4;
     }
 
-    // Write signed integers in big endian
     size_t SerialBuffer::write8BE(int8_t value)
     {
         if (bufferIndex + 1 > bufferSizeMax)
@@ -186,7 +183,6 @@ namespace genericStreamBuffer
         return 4;
     }
 
-    // Write unsigned integers in big endian
     size_t SerialBuffer::writeU8BE(uint8_t value)
     {
         if (bufferIndex + 1 > bufferSizeMax)
@@ -245,7 +241,6 @@ namespace genericStreamBuffer
         return 4;
     }
 
-    // Write a string
     size_t SerialBuffer::writeString(const char *string)
     {
         size_t length = strlen(string);
@@ -262,25 +257,21 @@ namespace genericStreamBuffer
         return length;
     }
 
-    // Get the current buffer length
     size_t SerialBuffer::getLength()
     {
         return bufferLength;
     }
 
-    // Get the maximum buffer size
     size_t SerialBuffer::getMaxSize()
     {
         return bufferSizeMax;
     }
 
-    // Get the current buffer index
     size_t SerialBuffer::getIndex()
     {
         return bufferIndex;
     }
 
-    // Get the byte at the specified index
     uint8_t SerialBuffer::getByte(size_t index)
     {
         if (index >= bufferSizeMax)
@@ -291,7 +282,6 @@ namespace genericStreamBuffer
         return buffer[index];
     }
 
-    // Get the buffer
     uint8_t *SerialBuffer::getBuffer()
     {
         return buffer;
