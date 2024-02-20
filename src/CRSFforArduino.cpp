@@ -186,7 +186,7 @@ namespace sketchLayer
      * @param max The maximum RC value for the Flight Mode to be active.
      * @return true if the Flight Mode was assigned successfully.
      */
-    bool CRSFforArduino::setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    [[deprecated("This function must pass in the name of the Flight Mode as well as its ID.")]] bool CRSFforArduino::setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
 #if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         return this->SerialReceiver::setFlightMode(flightMode, channel - 1, this->SerialReceiver::usToRc(min), this->SerialReceiver::usToRc(max));
