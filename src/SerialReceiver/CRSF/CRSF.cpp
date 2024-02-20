@@ -191,6 +191,7 @@ namespace serialReceiverLayer
 #if CRSF_LINK_STATISTICS_ENABLED > 0
         memcpy(linkStats, &linkStatistics, sizeof(link_statistics_t));
 #else
+        (void)linkStats;
 #endif
     }
 

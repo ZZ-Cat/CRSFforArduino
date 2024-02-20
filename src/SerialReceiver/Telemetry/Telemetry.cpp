@@ -202,6 +202,7 @@ namespace serialReceiverLayer
         }
 #else
         (void)flightMode;
+        (void)armed;
 #endif
     }
 
