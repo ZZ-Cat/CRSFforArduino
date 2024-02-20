@@ -234,7 +234,6 @@ namespace serialReceiverLayer
 
     int16_t Telemetry::_decidegreeToRadians(int16_t decidegrees)
     {
-        /* convert angle in decidegree to radians/10000 with reducing angle to +/-180 degree range */
         while (decidegrees > 18000)
         {
             decidegrees -= 36000;
@@ -284,7 +283,6 @@ namespace serialReceiverLayer
 
     void Telemetry::_appendFlightModeData()
     {
-        // Return if the length of the flight mode string is greater than the flight mode payload size.
         size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
         if (length > CRSF_FRAME_FLIGHT_MODE_PAYLOAD_SIZE)
         {
