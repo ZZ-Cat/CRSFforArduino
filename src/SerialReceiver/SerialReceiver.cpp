@@ -407,7 +407,7 @@ namespace serialReceiverLayer
         telemetry->setFlightModeData(flightModeStr, disarmed);
     }
 
-    void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed)
+    [[deprecated]] void SerialReceiver::telemetryWriteCustomFlightMode(const char *flightModeStr, bool armed)
     {
         telemetry->setFlightModeData(flightModeStr, armed);
     }
