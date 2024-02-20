@@ -310,6 +310,27 @@ namespace serialReceiverLayer
     }
 
 #if CRSF_FLIGHTMODES_ENABLED > 0
+    bool SerialReceiver::setFlightMode(flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max)
+    {
+        if (flightModeId < FLIGHT_MODE_COUNT && flightModeName != nullptr && channel <= 15)
+        {
+            if (strlen(flightModeName) > 16)
+            {
+                return false;
+            }
+
+            _flightModes[flightModeId].name = flightModeName;
+            _flightModes[flightModeId].channel = channel;
+            _flightModes[flightModeId].min = min;
+            _flightModes[flightModeId].max = max;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     [[deprecated]] bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
         if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
@@ -394,6 +415,28 @@ namespace serialReceiverLayer
             case FLIGHT_MODE_AIRMODE:
                 flightModeStr = "AIR";
                 break;
+
+#if CRSF_CUSTOM_FLIGHT_MODES_ENABLED > 0
+            /* All 8 custom flight modes are handled here. */
+            case CUSTOM_FLIGHT_MODE1:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE2:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE3:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE4:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE5:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE6:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE7:
+                [[fallthrough]];
+            case CUSTOM_FLIGHT_MODE8:
+                flightModeStr = _flightModes[flightMode].name;
+                break;
+#endif
+
             default:
                 flightModeStr = "ACRO";
                 break;

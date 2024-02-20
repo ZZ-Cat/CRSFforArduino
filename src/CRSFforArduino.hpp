@@ -52,6 +52,7 @@ namespace sketchLayer
         void setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics));
 
         // Flight mode functions.
+        bool setFlightMode(serialReceiverLayer::flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max);
         bool setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
         void setFlightModeCallback(void (*callback)(serialReceiverLayer::flightModeId_t flightMode));
 

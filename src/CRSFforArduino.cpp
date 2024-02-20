@@ -180,6 +180,33 @@ namespace sketchLayer
     /**
      * @brief Assigns a Flight Mode to the specified channel.
      * 
+     * @param flightModeId The ID of the Flight Mode to assign.
+     * @param flightModeName The name of the Flight Mode to assign.
+     * @param channel The channel to assign the Flight Mode to.
+     * @param min The minimum RC value for the Flight Mode to be active.
+     * @param max The maximum RC value for the Flight Mode to be active.
+     * @return true if the Flight Mode was assigned successfully.
+     */
+    bool CRSFforArduino::setFlightMode(serialReceiverLayer::flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max)
+    {
+#if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
+        return this->SerialReceiver::setFlightMode(flightModeId, flightModeName, channel - 1, this->SerialReceiver::usToRc(min), this->SerialReceiver::usToRc(max));
+#else
+        // Prevent compiler warnings
+        (void)flightModeId;
+        (void)flightModeName;
+        (void)channel;
+        (void)min;
+        (void)max;
+
+        // Return false if RC is disabled
+        return false;
+#endif
+    }
+
+    /**
+     * @brief Assigns a Flight Mode to the specified channel.
+     * 
      * @param flightMode The Flight Mode to assign.
      * @param channel The channel to assign the Flight Mode to.
      * @param min The minimum RC value for the Flight Mode to be active.

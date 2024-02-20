@@ -44,6 +44,17 @@ namespace serialReceiverLayer
         FLIGHT_MODE_ANGLE,
         FLIGHT_MODE_HORIZON,
         FLIGHT_MODE_AIRMODE,
+
+#if CRSF_CUSTOM_FLIGHT_MODES_ENABLED > 0
+        CUSTOM_FLIGHT_MODE1,
+        CUSTOM_FLIGHT_MODE2,
+        CUSTOM_FLIGHT_MODE3,
+        CUSTOM_FLIGHT_MODE4,
+        CUSTOM_FLIGHT_MODE5,
+        CUSTOM_FLIGHT_MODE6,
+        CUSTOM_FLIGHT_MODE7,
+        CUSTOM_FLIGHT_MODE8,
+#endif
         FLIGHT_MODE_COUNT
     } flightModeId_t;
 
@@ -85,6 +96,7 @@ namespace serialReceiverLayer
         uint16_t readRcChannel(uint8_t channel, bool raw = false);
 
 #if CRSF_FLIGHTMODES_ENABLED > 0
+        bool setFlightMode(flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max);
         bool setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
         void setFlightModeCallback(flightModeCallback_t callback);
         void handleFlightMode();
@@ -125,6 +137,7 @@ namespace serialReceiverLayer
 #if CRSF_RC_ENABLED > 0 && CRSF_FLIGHTMODES_ENABLED > 0
         typedef struct flightMode_s
         {
+            const char *name = nullptr;
             uint8_t channel = 0;
             uint16_t min = 0;
             uint16_t max = 0;
