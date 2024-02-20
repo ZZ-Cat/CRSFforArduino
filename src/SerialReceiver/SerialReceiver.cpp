@@ -310,7 +310,7 @@ namespace serialReceiverLayer
     }
 
 #if CRSF_FLIGHTMODES_ENABLED > 0
-    bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
+    [[deprecated]] bool SerialReceiver::setFlightMode(flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max)
     {
         if (flightMode < FLIGHT_MODE_COUNT && channel <= 15)
         {
