@@ -397,49 +397,49 @@ namespace serialReceiverLayer
         {
             switch (flightMode)
             {
-            case FLIGHT_MODE_FAILSAFE:
-                flightModeStr = "!FS!";
-                break;
-            case FLIGHT_MODE_GPS_RESCUE:
-                flightModeStr = "RTH";
-                break;
-            case FLIGHT_MODE_PASSTHROUGH:
-                flightModeStr = "MANU";
-                break;
-            case FLIGHT_MODE_ANGLE:
-                flightModeStr = "STAB";
-                break;
-            case FLIGHT_MODE_HORIZON:
-                flightModeStr = "HOR";
-                break;
-            case FLIGHT_MODE_AIRMODE:
-                flightModeStr = "AIR";
-                break;
+                case FLIGHT_MODE_FAILSAFE:
+                    flightModeStr = "!FS!";
+                    break;
+                case FLIGHT_MODE_GPS_RESCUE:
+                    flightModeStr = "RTH";
+                    break;
+                case FLIGHT_MODE_PASSTHROUGH:
+                    flightModeStr = "MANU";
+                    break;
+                case FLIGHT_MODE_ANGLE:
+                    flightModeStr = "STAB";
+                    break;
+                case FLIGHT_MODE_HORIZON:
+                    flightModeStr = "HOR";
+                    break;
+                case FLIGHT_MODE_AIRMODE:
+                    flightModeStr = "AIR";
+                    break;
 
 #if CRSF_CUSTOM_FLIGHT_MODES_ENABLED > 0
-            /* All 8 custom flight modes are handled here. */
-            case CUSTOM_FLIGHT_MODE1:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE2:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE3:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE4:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE5:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE6:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE7:
-                [[fallthrough]];
-            case CUSTOM_FLIGHT_MODE8:
-                flightModeStr = _flightModes[flightMode].name;
-                break;
+                /* All 8 custom flight modes are handled here. */
+                case CUSTOM_FLIGHT_MODE1:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE2:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE3:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE4:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE5:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE6:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE7:
+                    [[fallthrough]];
+                case CUSTOM_FLIGHT_MODE8:
+                    flightModeStr = _flightModes[flightMode].name;
+                    break;
 #endif
 
-            default:
-                flightModeStr = "ACRO";
-                break;
+                default:
+                    flightModeStr = "ACRO";
+                    break;
             }
         }
         else
