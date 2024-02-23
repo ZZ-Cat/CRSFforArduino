@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.0.0
- * @date 2024-2-18
+ * @date 2024-2-23
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
