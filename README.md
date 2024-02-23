@@ -21,41 +21,6 @@ ExpressLRS. The latter of the two are well-known in the FPV drone community for 
 link.  
 By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you have a control link between your RC handset and your development project that is robust in tough RF environments.
 
-## Prerequisites
-
-### Arduino IDE
-
-If you want to use CRSF for Arduino in the Arduino IDE, you need these:
-
-- [Arduino IDE](https://www.arduino.cc/en/software)
-  - ESP32 targets:
-    - Additional Boards URL: `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
-    - [Arduino ESP32 Board Support Pack](https://github.com/espressif/arduino-esp32)
-  - SAMD21 and SAMD51 targets:
-    - Additional Boards URL: `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json`
-    - [Arduino SAMD Board Support Pack](https://github.com/arduino/ArduinoCore-samd)
-    - [Adafruit SAMD Board Support Pack](https://github.com/adafruit/ArduinoCore-samd)
-    - [Adafruit_ZeroDMA](https://github.com/adafruit/Adafruit_ZeroDMA)
-  - Teensy 3.x and Teensy 4.x targets:
-    - Additional Boards URL: `https://www.pjrc.com/teensy/package_teensy_index.json`
-    - [Teensy Board Support Pack](https://github.com/PaulStoffregen/cores)
-
-### Visual Studio Code and PlatformIO
-
-If you want to use CRSF for Arduino with PlatoformIO and Visual Studio Code, you need these:
-
-- [Visual Studio Code](https://code.visualstudio.com/) with the following extensions:
-  - [C/C++ Extensions Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack), which includes:
-    - C/C++
-    - C/C++ Themes
-    - CMake
-    - CMake Tools
-  - [PlatformIO IDE](https://platformio.org/)
-
-Pro tips:
-In PlatformIO, CRSF for Arduino's dependencies are automatically installed, when you build your project for the first time.  
-The `platformio.ini` file contains a list of development boards that is compatible with CRSF for Arduino.
-
 ## Known issues and limitations
 
 - CRSF for Arduino is not compatible with AVR based microcontrollers.
