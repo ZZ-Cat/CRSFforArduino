@@ -56,12 +56,14 @@ Pro tips:
 In PlatformIO, CRSF for Arduino's dependencies are automatically installed, when you build your project for the first time.  
 The `platformio.ini` file contains a list of development boards that is compatible with CRSF for Arduino.
 
-## Installation - Using as a dependency in your PlatformIO project
+## Installation
+
+### PlatformIO dependency
 
 Simply add `https://github.com/ZZ-Cat/CRSFforArduino.git @^ 1.0.0` to your `lib_deps` section in your `platformio.ini` file.  
 PlatformIO will take care of the rest. This is fairly new, so any hiccups, don't hesitate to let me know via my Issues tab.
 
-## Installation - From the Releases Section
+### Latest release
 
 Currently, the only releases that are available right now are all pre-releases and are Major version 0.x.x.
 This means that each pre-release is a snapshot of the current developmental state of CRSF for Arduino.
@@ -69,7 +71,7 @@ While every effort has gone into ensuring stability at the time that these relea
 
 With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, and that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
 
-## Installation - Straight from the Main-Trunk
+### Cloning the Main-Trunk (for contributors)
 
 If you want bleeding edge features and want to help me out on developing CRSF for Arduino, this is how you go about it:
 
