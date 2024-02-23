@@ -27,6 +27,27 @@ CRSF for Arduino's documentation is now live.
 Feel free to peruse the [Wiki](wiki) at your leisure.  
 For new users, it is _strongly_ recommended that you read the documentation in its entirety.
 
+## Features
+
+CRSF for Arduino comes packaged with these features:
+
+- 16 11-bit proportional RC channels.
+- Diverse modern hardware support from the following architectures:
+  - ESP32, RP2040, SAMD21, SAMD5x, SAME5x, STM32, and Teensy 4.x.
+- Flight Modes, both custom and standard.
+  - Standard Flight Modes are based on the Flight Modes from Betaflight 4.3.
+  - Custom Flight Modes use text-based strings that you can assign custom names to for your bespoke purposes.
+  - Both Standard and Custom Flight Modes can be sent as Telemetry back to your controller.
+- Event-driven API.
+- Fully configurable.
+  - CRSF for Arduino can be tailored to suit the needs of your individual projects.
+- Telemetry.
+  - Attitude.
+  - Barometric Altitude.
+  - Battery.
+  - Flight Modes.
+  - GPS.
+
 ## Software license
 
 As always, I believe in freedom and I want to pass that freedom onto you.
