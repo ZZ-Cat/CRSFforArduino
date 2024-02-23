@@ -21,6 +21,12 @@ ExpressLRS. The latter of the two are well-known in the FPV drone community for 
 link.  
 By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you have a control link between your RC handset and your development project that is robust in tough RF environments.
 
+## Documentation
+
+CRSF for Arduino's documentation is now live.  
+Feel free to peruse the [Wiki](wiki) at your leisure.  
+For new users, it is _strongly_ recommended that you read the documentation in its entirety.
+
 ## Software license
 
 As always, I believe in freedom and I want to pass that freedom onto you.
