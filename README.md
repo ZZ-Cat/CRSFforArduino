@@ -10,18 +10,6 @@
 
 Cassandra "ZZ Cat" Robinson
 
-## Warnings
-
-### This is not yet ready for prime time release
-
-CRSF for Arduino is undergoing active development and is not yet ready for prime time release.
-If you choose to use CRSF for Arduino in its current state, do so at your own risk.
-Some features may be broken, bugged, untested, missing, or the code as a whole may resemble a pigeon flying by swinging its head around in circles.
-
-Fear not! I am working on this library (aside from flying my helicopters and helping out with other heli-related projects) and I have every intention of making that stubborn pigeon fly by using its wings. No matter how much the basterd wants to insist on swinging its head around in circles to fly. =^/.~=
-
-If you have spotted any bugs, something isn't working the way it should, or you have any suggestions on what you want to see in CRSF for Arduino, don't hesitate to open an Issue. The Discussions tab is also open, so if you want to chat to me about my library, feel free to do so there.
-
 ## Description
 
 CRSF for Arduino brings the Crossfire Protocol to the Arduino ecosystem.  
