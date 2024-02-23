@@ -59,6 +59,14 @@ The `platformio.ini` file contains a list of development boards that is compatib
 Simply add `https://github.com/ZZ-Cat/CRSFforArduino.git @^ 1.0.0` to your `lib_deps` section in your `platformio.ini` file.  
 PlatformIO will take care of the rest. This is fairly new, so any hiccups, don't hesitate to let me know via my Issues tab.
 
+## Installation - From the Releases Section
+
+Currently, the only releases that are available right now are all pre-releases and are Major version 0.x.x.
+This means that each pre-release is a snapshot of the current developmental state of CRSF for Arduino.
+While every effort has gone into ensuring stability at the time that these releases are made, there may still be the odd gremlin or two that have stowed away somewhere and made it through my quality control.
+
+With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, and that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
+
 ## Installation - Straight from the Main-Trunk
 
 If you want bleeding edge features and want to help me out on developing CRSF for Arduino, this is how you go about it:
@@ -71,14 +79,6 @@ If you want bleeding edge features and want to help me out on developing CRSF fo
 Pro Tip:
 If you want to easily switch between the Arduino IDE and PlatformIO, simply put the top level `CRSFforArduino` folder into your Arduino IDE's `libraries` directory as it is and leave everything there.  
 Then, open up the _top level_ `CRSFforArduino` folder in Visual Studio Code. PlatformIO will automatically set you up and you should be good to go.
-
-## Installation - From the Releases Section
-
-Currently, the only releases that are available right now are all pre-releases and are Major version 0.x.x.
-This means that each pre-release is a snapshot of the current developmental state of CRSF for Arduino.
-While every effort has gone into ensuring stability at the time that these releases are made, there may still be the odd gremlin or two that have stowed away somewhere and made it through my quality control.
-
-With that being said, installation from the Releases tab is nearly identical to the installation steps above, save for how you acquire CRSF for Arduino, and that's by simply clicking on the `Source Code (zip)` link at the bottom of the release summary itself.
 
 ## Known issues and limitations
 
