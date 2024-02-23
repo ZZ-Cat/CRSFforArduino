@@ -26,6 +26,8 @@
     "platforms": [
         "atmelsam",
         "espressif32",
+        "raspberrypi",
+        "ststm32",
         "teensy"
     ],
     "examples": [
