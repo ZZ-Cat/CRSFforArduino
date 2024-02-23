@@ -22,6 +22,10 @@ telemetryWriteAttitude	KEYWORD2
 telemetryWriteBaroAltitude	KEYWORD2
 telemetryWriteBattery	KEYWORD2
 telemetryWriteGPS	KEYWORD2
+setRcChannelsCallback KEYWORD2
+setLinkStatisticsCallback KEYWORD2
+setFlightModeCallback KEYWORD2
+setFlightMode   KEYWORD2
 update	KEYWORD2
 
 # Structures (KEYWORD3)
