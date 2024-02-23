@@ -21,7 +21,9 @@ ExpressLRS. The latter of the two are well-known in the FPV drone community for 
 link.  
 By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you have a control link between your RC handset and your development project that is robust in tough RF environments.
 
-## Prerequisites - Arduino IDE
+## Prerequisites
+
+### Arduino IDE
 
 If you want to use CRSF for Arduino in the Arduino IDE, you need these:
 
@@ -38,7 +40,7 @@ If you want to use CRSF for Arduino in the Arduino IDE, you need these:
     - Additional Boards URL: `https://www.pjrc.com/teensy/package_teensy_index.json`
     - [Teensy Board Support Pack](https://github.com/PaulStoffregen/cores)
 
-## Prerequisites - Visual Studio Code and PlatformIO
+### Visual Studio Code and PlatformIO
 
 If you want to use CRSF for Arduino with PlatoformIO and Visual Studio Code, you need these:
 
