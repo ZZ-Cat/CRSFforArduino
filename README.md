@@ -24,7 +24,7 @@ By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you hav
 ## Documentation
 
 CRSF for Arduino's documentation is now live.  
-Feel free to peruse the [Wiki](wiki) at your leisure.  
+Feel free to peruse the [Wiki](https://github.com/ZZ-Cat/CRSFforArduino/wiki) at your leisure.  
 For new users, it is _strongly_ recommended that you read the documentation in its entirety.
 
 ## Features
