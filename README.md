@@ -21,20 +21,6 @@ ExpressLRS. The latter of the two are well-known in the FPV drone community for 
 link.  
 By pairing CRSF for Arduino with an ExpressLRS transmitter and receiver, you have a control link between your RC handset and your development project that is robust in tough RF environments.
 
-## Known issues and limitations
-
-- CRSF for Arduino is not compatible with AVR based microcontrollers.
-  - CRSF for Arduino uses a _lot_ of dynamic memory, to which all AVR microcontrollers simply don't have enough of.
-  - There are ongoing tests to see what other reasons why AVR microcontrollers aren't compatible.
-- DMA for both SAMD21 and SAMD51 targets is no longer available.
-  - DMA may be re-factored later on down the track. However, it is not a priority right now.
-- Software serial is not supported.
-  - This is because software serial is not capable of running at the required baud rate of 420 KB/s.
-  - This also means that CRSF for Arduino is restricted to using hardware serial only.
-- CRSF for Arduino provides no sensor drivers for telemetry. This is by design.
-  - There are already plenty of libraries out there that provide sensor drivers for your development board.
-  - You are free to use any sensor library that you want with CRSF for Arduino.
-
 ## Software license
 
 As always, I believe in freedom and I want to pass that freedom onto you.
