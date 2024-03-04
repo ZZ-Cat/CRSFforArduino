@@ -15,7 +15,6 @@ jobs:
       with:
         python-version: '3.x'
     - uses: actions/checkout@v4.1.1
-    - uses: actions/checkout@v4.1.1
       with:
         repository: adafruit/ci-arduino
         path: ci
