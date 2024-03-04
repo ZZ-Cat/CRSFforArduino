@@ -1,6 +1,10 @@
 name: Arduino
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "Main-Trunk" ]
+  pull_request:
+    branches: [ "Main-Trunk" ]
 
 jobs:
   build:
