@@ -2,9 +2,9 @@ name: 'Correct Code Formatting'
 
 on:
   push:
-    branches: [ "Main-Trunk" ]
+    branches: [ "Main-Trunk", "1.0.x-Maintenance-Branch" ]
   pull_request:
-    branches: [ "Main-Trunk" ]
+    branches: [ "Main-Trunk", "1.0.x-Maintenance-Branch" ]
 
 jobs:
   build:
