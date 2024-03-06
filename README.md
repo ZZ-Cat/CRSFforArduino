@@ -1,6 +1,6 @@
 # CRSF for Arduino
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ZZ-Cat/CRSFforArduino)](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest)  
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ZZ-Cat/CRSFforArduino)](https://github.com/ZZ-Cat/CRSFforArduino/releases/latest)
 [![GitHub license](https://img.shields.io/github/license/ZZ-Cat/CRSFforArduino)](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md)  
 ![build](https://github.com/ZZ-Cat/CRSFforArduino/actions/workflows/arduinoide_build.yml/badge.svg)  
 ![build](https://github.com/ZZ-Cat/CRSFforArduino/actions/workflows/platformio_build.yml/badge.svg)  
