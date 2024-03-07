@@ -36,7 +36,7 @@ namespace sketchLayer
     {
       public:
         CRSFforArduino();
-        CRSFforArduino(HardwareSerial *serialPort);
+        CRSFforArduino(HardwareSerial *serialPort, int rxPin = -1, int txPin = -1);
         ~CRSFforArduino();
         bool begin();
         void end();
