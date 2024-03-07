@@ -58,9 +58,17 @@ namespace serialReceiverLayer
 #endif
     }
 
-    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
+    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin)
     {
         _uart = hwUartPort;
+
+#if defined(ARDUINO_ARCH_ESP32)
+        _rxPin = rxPin;
+        _txPin = txPin;
+#else
+        (void)rxPin;
+        (void)txPin;
+#endif
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;
@@ -76,6 +84,9 @@ namespace serialReceiverLayer
     SerialReceiver::~SerialReceiver()
     {
         _uart = nullptr;
+
+        _rxPin = -1;
+        _txPin = -1;
 
 #if CRSF_RC_ENABLED > 0
         delete _rcChannels;
@@ -155,7 +166,11 @@ namespace serialReceiverLayer
         crsf = new CRSF();
         crsf->begin();
         crsf->setFrameTime(BAUD_RATE, 10);
+#if defined(ARDUINO_ARCH_ESP32)
+        _uart->begin(BAUD_RATE, SERIAL_8N1, _rxPin, _txPin);
+#else
         _uart->begin(BAUD_RATE);
+#endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
         telemetry = new Telemetry();

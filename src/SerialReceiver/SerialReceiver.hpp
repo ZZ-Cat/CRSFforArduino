@@ -74,7 +74,7 @@ namespace serialReceiverLayer
     {
       public:
         SerialReceiver();
-        SerialReceiver(HardwareSerial *hwUartPort);
+        SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin = -1, int8_t txPin = -1);
         virtual ~SerialReceiver();
 
         bool begin();
@@ -115,6 +115,9 @@ namespace serialReceiverLayer
       private:
         CRSF *crsf;
         HardwareSerial *_uart;
+
+        int8_t _rxPin = -1;
+        int8_t _txPin = -1;
 
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry;
