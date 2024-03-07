@@ -2,8 +2,8 @@
  * @file rc_channels.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Example of how to read rc channels from a receiver.
- * @version 1.0.0
- * @date 2024-2-23
+ * @version 1.0.1
+ * @date 2024-3-5
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
