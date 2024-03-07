@@ -2,8 +2,8 @@
  * @file SerialBuffer.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic serial buffer for the CRSF for Arduino library.
- * @version 1.0.1
- * @date 2024-3-5
+ * @version 1.1.0
+ * @date 2024-3-8
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

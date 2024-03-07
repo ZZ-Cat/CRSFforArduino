@@ -2,8 +2,8 @@
  * @file main.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the main development file for CRSF for Arduino.
- * @version 1.0.1
- * @date 2024-3-5
+ * @version 1.1.0
+ * @date 2024-3-8
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
