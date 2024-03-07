@@ -43,6 +43,11 @@ namespace serialReceiverLayer
 #elif defined(HAVE_HWSERIAL3)
         _uart = &Serial3;
 #endif
+#elif defined(ARDUINO_ARCH_ESP32)
+        _uart = &Serial1;
+
+        _rxPin = 0;
+        _txPin = 1;
 #else
         _uart = &Serial1;
 #endif
