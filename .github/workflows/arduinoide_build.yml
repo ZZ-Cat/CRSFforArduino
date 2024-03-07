@@ -2,9 +2,9 @@ name: Arduino
 
 on:
   push:
-    branches: [ "Main-Trunk", "1.0.x-Maintenance-Branch" ]
+    branches: [ "Main-Trunk" ]
   pull_request:
-    branches: [ "Main-Trunk", "1.0.x-Maintenance-Branch" ]
+    branches: [ "Main-Trunk" ]
 
 jobs:
   build:
