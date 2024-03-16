@@ -63,6 +63,21 @@ namespace serialReceiverLayer
 #endif
     }
 
+    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
+    {
+        _uart = hwUartPort;
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = false;
+        _rcChannels->failsafe = false;
+        memset(_rcChannels->value, 0, sizeof(_rcChannels->value));
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
+#endif
+    }
+
     SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin)
     {
         _uart = hwUartPort;

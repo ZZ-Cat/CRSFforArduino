@@ -74,7 +74,8 @@ namespace serialReceiverLayer
     {
       public:
         SerialReceiver();
-        SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin = -1, int8_t txPin = -1);
+        SerialReceiver(HardwareSerial *hwUartPort);
+        SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin);
         virtual ~SerialReceiver();
 
         bool begin();
