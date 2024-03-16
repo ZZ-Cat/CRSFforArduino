@@ -46,8 +46,17 @@ namespace serialReceiverLayer
 #elif defined(ARDUINO_ARCH_ESP32)
         _uart = &Serial1;
 
+#if defined(D0)
+        _rxPin = D0;
+#else
         _rxPin = 0;
+#endif
+
+#if defined(D1)
+        _txPin = D1;
+#else
         _txPin = 1;
+#endif
 #else
         _uart = &Serial1;
 #endif
@@ -66,6 +75,20 @@ namespace serialReceiverLayer
     SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort)
     {
         _uart = hwUartPort;
+
+#if defined(ARDUINO_ARCH_ESP32)
+        #if defined(D0)
+        _rxPin = D0;
+#else
+        _rxPin = 0;
+#endif
+
+#if defined(D1)
+        _txPin = D1;
+#else
+        _txPin = 1;
+#endif
+#endif
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;
