@@ -43,6 +43,20 @@ namespace serialReceiverLayer
 #elif defined(HAVE_HWSERIAL3)
         _uart = &Serial3;
 #endif
+#elif defined(ARDUINO_ARCH_ESP32)
+        _uart = &Serial1;
+
+#if defined(D0)
+        _rxPin = D0;
+#else
+        _rxPin = 0;
+#endif
+
+#if defined(D1)
+        _txPin = D1;
+#else
+        _txPin = 1;
+#endif
 #else
         _uart = &Serial1;
 #endif
@@ -62,6 +76,43 @@ namespace serialReceiverLayer
     {
         _uart = hwUartPort;
 
+#if defined(ARDUINO_ARCH_ESP32)
+        #if defined(D0)
+        _rxPin = D0;
+#else
+        _rxPin = 0;
+#endif
+
+#if defined(D1)
+        _txPin = D1;
+#else
+        _txPin = 1;
+#endif
+#endif
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = false;
+        _rcChannels->failsafe = false;
+        memset(_rcChannels->value, 0, sizeof(_rcChannels->value));
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+#endif
+#endif
+    }
+
+    SerialReceiver::SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin)
+    {
+        _uart = hwUartPort;
+
+#if defined(ARDUINO_ARCH_ESP32)
+        _rxPin = rxPin;
+        _txPin = txPin;
+#else
+        (void)rxPin;
+        (void)txPin;
+#endif
+
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;
         _rcChannels->valid = false;
@@ -76,6 +127,9 @@ namespace serialReceiverLayer
     SerialReceiver::~SerialReceiver()
     {
         _uart = nullptr;
+
+        _rxPin = -1;
+        _txPin = -1;
 
 #if CRSF_RC_ENABLED > 0
         delete _rcChannels;
@@ -155,7 +209,11 @@ namespace serialReceiverLayer
         crsf = new CRSF();
         crsf->begin();
         crsf->setFrameTime(BAUD_RATE, 10);
+#if defined(ARDUINO_ARCH_ESP32)
+        _uart->begin(BAUD_RATE, SERIAL_8N1, _rxPin, _txPin);
+#else
         _uart->begin(BAUD_RATE);
+#endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
         telemetry = new Telemetry();

@@ -39,8 +39,8 @@ See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION       "1.1.0"
 #define CRSFFORARDUINO_VERSION_DATE  "2024-3-8"
 #define CRSFFORARDUINO_VERSION_MAJOR 1
-#define CRSFFORARDUINO_VERSION_MINOR 0
-#define CRSFFORARDUINO_VERSION_PATCH 1
+#define CRSFFORARDUINO_VERSION_MINOR 1
+#define CRSFFORARDUINO_VERSION_PATCH 0
 
 /* Failsafe Options
 - CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.

@@ -34,7 +34,16 @@ namespace sketchLayer
      * @brief Construct a new CRSFforArduino object.
      * 
      */
-    CRSFforArduino::CRSFforArduino()
+    CRSFforArduino::CRSFforArduino() : SerialReceiver()
+    {
+    }
+
+    /**
+     * @brief Construct a new CRSFforArduino object with the specified serial port.
+     * 
+     * @param serialPort 
+     */
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort) : SerialReceiver(serialPort)
     {
     }
 
@@ -44,7 +53,7 @@ namespace sketchLayer
      * @param rxPin 
      * @param txPin 
      */
-    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort)
+    CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort, int rxPin, int txPin) : SerialReceiver(serialPort, rxPin, txPin)
     {
     }
 
