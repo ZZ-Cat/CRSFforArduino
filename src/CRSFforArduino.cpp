@@ -45,6 +45,7 @@ namespace sketchLayer
      * @param txPin 
      */
     CRSFforArduino::CRSFforArduino(HardwareSerial *serialPort)
+        : serialReceiverLayer::SerialReceiver(serialPort)
     {
     }
 
