@@ -2,8 +2,8 @@
  * @file Telemetry.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This encodes data into CRSF telemetry frames for transmission to the RC handset.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
+ * @version 1.1.0
+ * @date 2024-4-9
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
