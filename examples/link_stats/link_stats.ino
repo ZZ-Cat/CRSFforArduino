@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Example of how to read link statistics from a receiver.
  * @version 1.1.0
- * @date 2024-3-8
+ * @date 2024-4-17
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
