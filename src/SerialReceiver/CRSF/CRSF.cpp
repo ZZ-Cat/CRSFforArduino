@@ -34,6 +34,7 @@ namespace serialReceiverLayer
 {
     CRSF::CRSF()
     {
+        rcFrameReceived = false;
         crc8 = new GenericCRC();
     }
 
