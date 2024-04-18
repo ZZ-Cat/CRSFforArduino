@@ -124,6 +124,31 @@ namespace serialReceiverLayer
 #endif
     }
 
+    SerialReceiver::SerialReceiver(const SerialReceiver &serialReceiver)
+    {
+        _uart = serialReceiver._uart;
+
+        _rxPin = serialReceiver._rxPin;
+        _txPin = serialReceiver._txPin;
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = serialReceiver._rcChannels->valid;
+        _rcChannels->failsafe = serialReceiver._rcChannels->failsafe;
+        memcpy(_rcChannels->value, serialReceiver._rcChannels->value, sizeof(_rcChannels->value));
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+        for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
+        {
+            _flightModes[i].name = serialReceiver._flightModes[i].name;
+            _flightModes[i].channel = serialReceiver._flightModes[i].channel;
+            _flightModes[i].min = serialReceiver._flightModes[i].min;
+            _flightModes[i].max = serialReceiver._flightModes[i].max;
+        }
+#endif
+#endif
+    }
+
     SerialReceiver::~SerialReceiver()
     {
         _uart = nullptr;
