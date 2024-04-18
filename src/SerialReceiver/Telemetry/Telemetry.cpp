@@ -282,6 +282,7 @@ namespace serialReceiverLayer
         SerialBuffer::writeU8(_telemetryData.battery.percent);
     }
 
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
     void Telemetry::_appendFlightModeData()
     {
         size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
@@ -297,6 +298,7 @@ namespace serialReceiverLayer
 
         SerialBuffer::writeU8('\0');
     }
+#endif
 
     void Telemetry::_appendGPSData()
     {

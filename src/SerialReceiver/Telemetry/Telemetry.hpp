@@ -64,7 +64,9 @@ namespace serialReceiverLayer
         void _appendAttitudeData();
         void _appendBaroAltitudeData();
         void _appendBatterySensorData();
+  #if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
         void _appendFlightModeData();
+  #endif
         void _appendGPSData();
         void _finaliseFrame();
     };
