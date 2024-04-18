@@ -49,6 +49,23 @@ namespace genericStreamBuffer
         memcpy(buffer, serialBuffer.buffer, bufferSizeMax);
     }
 
+    SerialBuffer &SerialBuffer::operator=(const SerialBuffer &serialBuffer)
+    {
+        if (this != &serialBuffer)
+        {
+            bufferIndex = serialBuffer.bufferIndex;
+            bufferLength = serialBuffer.bufferLength;
+            bufferSizeMax = serialBuffer.bufferSizeMax;
+
+            delete[] buffer;
+            buffer = new uint8_t[bufferSizeMax];
+
+            memcpy(buffer, serialBuffer.buffer, bufferSizeMax);
+        }
+
+        return *this;
+    }
+
     SerialBuffer::~SerialBuffer()
     {
         delete[] buffer;

@@ -36,6 +36,7 @@ namespace genericStreamBuffer
       public:
         SerialBuffer(size_t size = 64);
         SerialBuffer(const SerialBuffer &serialBuffer);
+        SerialBuffer &operator=(const SerialBuffer &serialBuffer);
         ~SerialBuffer();
 
         void reset();
