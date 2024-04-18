@@ -105,7 +105,7 @@ namespace genericCrc
     }
 #endif
 
-    uint8_t GenericCRC::calculate(uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t start, const uint8_t *data, uint8_t length)
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
         uint8_t crc = crc_8_dvb_s2_table[0 ^ start];
@@ -130,7 +130,7 @@ namespace genericCrc
 #endif
     }
 
-    uint8_t GenericCRC::calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t offset, uint8_t start, const uint8_t *data, uint8_t length)
     {
         (void)start;
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)

@@ -44,8 +44,8 @@ namespace genericCrc
         GenericCRC &operator=(const GenericCRC &other);
         virtual ~GenericCRC();
 
-        uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
-        uint8_t calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length);
+        uint8_t calculate(uint8_t start, const uint8_t *data, uint8_t length);
+        uint8_t calculate(uint8_t offset, uint8_t start, const uint8_t *data, uint8_t length);
 
       private:
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
