@@ -41,6 +41,18 @@ namespace serialReceiverLayer
         crc8 = new GenericCRC();
     }
 
+    CRSF::CRSF(const CRSF &crsf)
+    {
+        rcFrameReceived = crsf.rcFrameReceived;
+        frameCount = crsf.frameCount;
+        timePerFrame = crsf.timePerFrame;
+
+        memcpy(rxFrame.raw, crsf.rxFrame.raw, CRSF_FRAME_SIZE_MAX);
+        memcpy(rcChannelsFrame.raw, crsf.rcChannelsFrame.raw, CRSF_FRAME_SIZE_MAX);
+
+        crc8 = new GenericCRC(*crsf.crc8);
+    }
+
     CRSF::~CRSF()
     {
         delete crc8;
