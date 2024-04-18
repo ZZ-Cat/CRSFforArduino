@@ -121,7 +121,7 @@ namespace serialReceiverLayer
         int8_t _txPin = -1;
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        Telemetry *telemetry;
+        Telemetry *telemetry = nullptr;
 #endif
 
 #if CRSF_RC_ENABLED > 0
