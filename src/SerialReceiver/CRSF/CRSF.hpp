@@ -56,6 +56,7 @@ namespace serialReceiverLayer
       public:
         CRSF();
         CRSF(const CRSF &crsf);
+        CRSF &operator=(const CRSF &crsf);
         virtual ~CRSF();
         void begin();
         void end();
