@@ -36,6 +36,8 @@ namespace serialReceiverLayer
     {
         rcFrameReceived = false;
         frameCount = 0;
+        timePerFrame = 0;
+
         crc8 = new GenericCRC();
     }
 
