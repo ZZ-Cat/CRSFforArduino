@@ -158,11 +158,20 @@ namespace serialReceiverLayer
             _rxPin = serialReceiver._rxPin;
             _txPin = serialReceiver._txPin;
 
+            crsf = serialReceiver.crsf;
+
+#if CRSF_TELEMETRY_ENABLED > 0
+            telemetry = serialReceiver.telemetry;
+            flightModeStr = serialReceiver.flightModeStr;
+#endif
+
 #if CRSF_RC_ENABLED > 0
             _rcChannels = new rcChannels_t;
             _rcChannels->valid = serialReceiver._rcChannels->valid;
             _rcChannels->failsafe = serialReceiver._rcChannels->failsafe;
             memcpy(_rcChannels->value, serialReceiver._rcChannels->value, sizeof(_rcChannels->value));
+
+            _rcChannelsCallback = serialReceiver._rcChannelsCallback;
 
 #if CRSF_FLIGHTMODES_ENABLED > 0
             _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
@@ -173,6 +182,11 @@ namespace serialReceiverLayer
                 _flightModes[i].min = serialReceiver._flightModes[i].min;
                 _flightModes[i].max = serialReceiver._flightModes[i].max;
             }
+#endif
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+            _linkStatistics = serialReceiver._linkStatistics;
+            _linkStatisticsCallback = serialReceiver._linkStatisticsCallback;
 #endif
 #endif
         }
