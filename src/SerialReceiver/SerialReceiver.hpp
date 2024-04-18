@@ -114,7 +114,7 @@ namespace serialReceiverLayer
 #endif
 
       private:
-        CRSF *crsf;
+        CRSF *crsf = nullptr;
         HardwareSerial *_uart;
 
         int8_t _rxPin = -1;
