@@ -38,6 +38,10 @@ namespace genericCrc
     {
       public:
         GenericCRC();
+        /* GenericCRC copy constructor. */
+        GenericCRC(const GenericCRC &other);
+        /* GenericCRC operator= */
+        GenericCRC &operator=(const GenericCRC &other);
         virtual ~GenericCRC();
 
         uint8_t calculate(uint8_t start, uint8_t *data, uint8_t length);
