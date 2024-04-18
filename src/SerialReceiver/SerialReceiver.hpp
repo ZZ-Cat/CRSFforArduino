@@ -77,6 +77,7 @@ namespace serialReceiverLayer
         SerialReceiver(HardwareSerial *hwUartPort);
         SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin);
         SerialReceiver(const SerialReceiver &serialReceiver);
+        SerialReceiver &operator=(const SerialReceiver &serialReceiver);
         virtual ~SerialReceiver();
 
         bool begin();
