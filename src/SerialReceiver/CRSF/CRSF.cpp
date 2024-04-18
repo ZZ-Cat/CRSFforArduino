@@ -154,12 +154,13 @@ namespace serialReceiverLayer
                         case CRSF_FRAMETYPE_LINK_STATISTICS:
                             if ((rxFrame.frame.deviceAddress == CRSF_ADDRESS_FLIGHT_CONTROLLER) && (rxFrame.frame.frameLength == CRSF_FRAME_ORIGIN_DEST_SIZE + CRSF_FRAME_LINK_STATISTICS_PAYLOAD_SIZE))
                             {
-                                const crsf_payload_link_statistics_t *linkStatisticsPayload = (const crsf_payload_link_statistics_t *)&rxFrame.frame.payload;
+                                crsf_payload_link_statistics_t linkStatisticsPayload;
+                                memcpy(&linkStatisticsPayload, rxFrame.frame.payload, sizeof(crsf_payload_link_statistics_t));
 
-                                linkStatistics.rssi = (linkStatisticsPayload->active_antenna ? linkStatisticsPayload->uplink_rssi_2 : linkStatisticsPayload->uplink_rssi_1);
-                                linkStatistics.lqi = linkStatisticsPayload->uplink_link_quality;
-                                linkStatistics.snr = linkStatisticsPayload->uplink_snr;
-                                linkStatistics.tx_power = (linkStatisticsPayload->uplink_tx_power < 9) ? tx_power_table[linkStatisticsPayload->uplink_tx_power] : 0;
+                                linkStatistics.rssi = (linkStatisticsPayload.active_antenna ? linkStatisticsPayload.uplink_rssi_2 : linkStatisticsPayload.uplink_rssi_1);
+                                linkStatistics.lqi = linkStatisticsPayload.uplink_link_quality;
+                                linkStatistics.snr = linkStatisticsPayload.uplink_snr;
+                                linkStatistics.tx_power = (linkStatisticsPayload.uplink_tx_power < 9) ? tx_power_table[linkStatisticsPayload.uplink_tx_power] : 0;
                             }
                             break;
 #endif
@@ -197,24 +198,25 @@ namespace serialReceiverLayer
             rcFrameReceived = false;
             if (rcChannelsFrame.frame.type == CRSF_FRAMETYPE_RC_CHANNELS_PACKED)
             {
-                const rcChannelsPacked_t *rcChannelsPacked = (rcChannelsPacked_t *)&rcChannelsFrame.frame.payload;
+                rcChannelsPacked_t rcChannelsPacked;
+                memcpy(&rcChannelsPacked, rcChannelsFrame.frame.payload, sizeof(rcChannelsPacked_t));
 
-                rcChannels[RC_CHANNEL_ROLL] = rcChannelsPacked->channel0;
-                rcChannels[RC_CHANNEL_PITCH] = rcChannelsPacked->channel1;
-                rcChannels[RC_CHANNEL_THROTTLE] = rcChannelsPacked->channel2;
-                rcChannels[RC_CHANNEL_YAW] = rcChannelsPacked->channel3;
-                rcChannels[RC_CHANNEL_AUX1] = rcChannelsPacked->channel4;
-                rcChannels[RC_CHANNEL_AUX2] = rcChannelsPacked->channel5;
-                rcChannels[RC_CHANNEL_AUX3] = rcChannelsPacked->channel6;
-                rcChannels[RC_CHANNEL_AUX4] = rcChannelsPacked->channel7;
-                rcChannels[RC_CHANNEL_AUX5] = rcChannelsPacked->channel8;
-                rcChannels[RC_CHANNEL_AUX6] = rcChannelsPacked->channel9;
-                rcChannels[RC_CHANNEL_AUX7] = rcChannelsPacked->channel10;
-                rcChannels[RC_CHANNEL_AUX8] = rcChannelsPacked->channel11;
-                rcChannels[RC_CHANNEL_AUX9] = rcChannelsPacked->channel12;
-                rcChannels[RC_CHANNEL_AUX10] = rcChannelsPacked->channel13;
-                rcChannels[RC_CHANNEL_AUX11] = rcChannelsPacked->channel14;
-                rcChannels[RC_CHANNEL_AUX12] = rcChannelsPacked->channel15;
+                rcChannels[RC_CHANNEL_ROLL] = rcChannelsPacked.channel0;
+                rcChannels[RC_CHANNEL_PITCH] = rcChannelsPacked.channel1;
+                rcChannels[RC_CHANNEL_THROTTLE] = rcChannelsPacked.channel2;
+                rcChannels[RC_CHANNEL_YAW] = rcChannelsPacked.channel3;
+                rcChannels[RC_CHANNEL_AUX1] = rcChannelsPacked.channel4;
+                rcChannels[RC_CHANNEL_AUX2] = rcChannelsPacked.channel5;
+                rcChannels[RC_CHANNEL_AUX3] = rcChannelsPacked.channel6;
+                rcChannels[RC_CHANNEL_AUX4] = rcChannelsPacked.channel7;
+                rcChannels[RC_CHANNEL_AUX5] = rcChannelsPacked.channel8;
+                rcChannels[RC_CHANNEL_AUX6] = rcChannelsPacked.channel9;
+                rcChannels[RC_CHANNEL_AUX7] = rcChannelsPacked.channel10;
+                rcChannels[RC_CHANNEL_AUX8] = rcChannelsPacked.channel11;
+                rcChannels[RC_CHANNEL_AUX9] = rcChannelsPacked.channel12;
+                rcChannels[RC_CHANNEL_AUX10] = rcChannelsPacked.channel13;
+                rcChannels[RC_CHANNEL_AUX11] = rcChannelsPacked.channel14;
+                rcChannels[RC_CHANNEL_AUX12] = rcChannelsPacked.channel15;
             }
         }
     }
