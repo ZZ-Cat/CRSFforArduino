@@ -26,7 +26,9 @@
 
 #pragma once
 
+#ifndef ENV_DEFECT_DETECTOR
 #include "../CFA_Config.hpp"
+#endif
 #include "Arduino.h"
 
 namespace serialTransmitterLayer
@@ -35,7 +37,7 @@ namespace serialTransmitterLayer
     {
         public:
             SerialTransmitter();
-            SerialTransmitter(HardwareSerial *hwUartPort);
+            explicit SerialTransmitter(HardwareSerial *hwUartPort);
             SerialTransmitter(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin);
             virtual ~SerialTransmitter();
 
