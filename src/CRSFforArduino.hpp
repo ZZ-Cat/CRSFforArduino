@@ -3,8 +3,8 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
- * @version 1.0.0
- * @date 2024-2-23
+ * @version 1.1.0
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -36,7 +36,8 @@ namespace sketchLayer
     {
       public:
         CRSFforArduino();
-        CRSFforArduino(HardwareSerial *serialPort);
+        explicit CRSFforArduino(HardwareSerial *serialPort);
+        CRSFforArduino(HardwareSerial *serialPort, int rxPin, int txPin);
         ~CRSFforArduino();
         bool begin();
         void end();

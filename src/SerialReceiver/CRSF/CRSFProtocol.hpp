@@ -2,8 +2,8 @@
  * @file CRSFProtocol.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file contains enums and structs for the CRSF protocol.
- * @version 1.0.0
- * @date 2024-2-23
+ * @version 1.1.0
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -28,7 +28,9 @@
 
 #pragma once
 
+#ifndef ENV_DEFECT_DETECTOR
 #include "../../CFA_Config.hpp"
+#endif
 
 namespace crsfProtocol
 {

@@ -7,6 +7,9 @@
 # PlatformIO specific files
 test/README
 examples/platformio/cfa_code_test.cpp
+examples/platformio/hac_driver_test.cpp
+examples/platformio/hw_multi_mutex_test.cpp
+examples/platformio/hw_mutex_test.cpp
 
 # Template files for CRSF for Arduino
 templates/

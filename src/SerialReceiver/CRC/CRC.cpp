@@ -2,8 +2,8 @@
  * @file CRC.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic CRC8 implementation for the CRSF for Arduino library.
- * @version 1.0.0
- * @date 2024-2-23
+ * @version 1.1.0
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -32,7 +32,7 @@ namespace genericCrc
     GenericCRC::GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        crc_8_dvb_s2_table = (uint8_t *)malloc(256 * sizeof(uint8_t));
+        crc_8_dvb_s2_table = new uint8_t[256];
 
         for (uint16_t i = 0; i < 256; i++)
         {
@@ -54,10 +54,35 @@ namespace genericCrc
 #endif
     }
 
+    /* GenericCRC copy constructor. */
+    GenericCRC::GenericCRC(const GenericCRC &other)
+    {
+#if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
+        crc_8_dvb_s2_table = new uint8_t[256];
+        for (uint16_t i = 0; i < 256; i++)
+        {
+            crc_8_dvb_s2_table[i] = other.crc_8_dvb_s2_table[i];
+        }
+#endif
+    }
+
+    /* GenericCRC operator= */
+    GenericCRC &GenericCRC::operator=(const GenericCRC &other)
+    {
+        if (this != &other)
+        {
+#if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
+            crc_8_dvb_s2_table = other.crc_8_dvb_s2_table;
+#endif
+        }
+        return *this;
+    }
+
     GenericCRC::~GenericCRC()
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
-        free(crc_8_dvb_s2_table);
+        delete[] crc_8_dvb_s2_table;
+        crc_8_dvb_s2_table = nullptr;
 #endif
     }
 
@@ -80,7 +105,7 @@ namespace genericCrc
     }
 #endif
 
-    uint8_t GenericCRC::calculate(uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t start, const uint8_t *data, uint8_t length)
     {
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
         uint8_t crc = crc_8_dvb_s2_table[0 ^ start];
@@ -105,7 +130,7 @@ namespace genericCrc
 #endif
     }
 
-    uint8_t GenericCRC::calculate(uint8_t offset, uint8_t start, uint8_t *data, uint8_t length)
+    uint8_t GenericCRC::calculate(uint8_t offset, uint8_t start, const uint8_t *data, uint8_t length)
     {
         (void)start;
 #if (CRC_OPTIMISATION_LEVEL == CRC_OPTIMISATION_SPEED)
