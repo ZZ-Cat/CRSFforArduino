@@ -26,7 +26,9 @@
 
 #pragma once
 
+#ifndef ENV_DEFECT_DETECTOR
 #include "../CFA_Config.hpp"
+#endif
 #include "Arduino.h"
 #include "CRSF/CRSF.hpp"
 #include "Telemetry/Telemetry.hpp"

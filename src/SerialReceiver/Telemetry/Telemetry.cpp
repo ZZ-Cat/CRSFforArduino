@@ -25,7 +25,9 @@
  */
 
 #include "Telemetry.hpp"
+#ifndef ENV_DEFECT_DETECTOR
 #include "CFA_Config.hpp"
+#endif
 
 using namespace crsfProtocol;
 

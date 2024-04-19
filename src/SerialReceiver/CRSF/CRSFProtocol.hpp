@@ -28,7 +28,9 @@
 
 #pragma once
 
+#ifndef ENV_DEFECT_DETECTOR
 #include "../../CFA_Config.hpp"
+#endif
 
 namespace crsfProtocol
 {

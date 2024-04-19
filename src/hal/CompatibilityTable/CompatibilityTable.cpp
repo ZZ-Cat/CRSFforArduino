@@ -25,7 +25,9 @@
  */
 
 #include "CompatibilityTable.hpp"
+#ifndef ENV_DEFECT_DETECTOR
 #include "../../CFA_Config.hpp"
+#endif
 #include "Arduino.h"
 
 namespace hal
