@@ -182,6 +182,7 @@ namespace serialReceiverLayer
                 _flightModes[i].min = serialReceiver._flightModes[i].min;
                 _flightModes[i].max = serialReceiver._flightModes[i].max;
             }
+            _flightModeCallback = serialReceiver._flightModeCallback;
 #endif
 
 #if CRSF_LINK_STATISTICS_ENABLED > 0
