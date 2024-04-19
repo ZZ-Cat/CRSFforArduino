@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This encodes data into CRSF telemetry frames for transmission to the RC handset.
  * @version 1.1.0
- * @date 2024-4-9
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -25,7 +25,9 @@
  */
 
 #include "Telemetry.hpp"
+#ifndef ENV_DEFECT_DETECTOR
 #include "CFA_Config.hpp"
+#endif
 
 using namespace crsfProtocol;
 
@@ -282,6 +284,7 @@ namespace serialReceiverLayer
         SerialBuffer::writeU8(_telemetryData.battery.percent);
     }
 
+#if CRSF_TELEMETRY_ENABLED > 0 && CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
     void Telemetry::_appendFlightModeData()
     {
         size_t length = strlen(_telemetryData.flightMode.flightMode) + 1;
@@ -297,6 +300,7 @@ namespace serialReceiverLayer
 
         SerialBuffer::writeU8('\0');
     }
+#endif
 
     void Telemetry::_appendGPSData()
     {

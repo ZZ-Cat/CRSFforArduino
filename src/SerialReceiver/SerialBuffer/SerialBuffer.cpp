@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic serial buffer for the CRSF for Arduino library.
  * @version 1.1.0
- * @date 2024-4-9
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -37,6 +37,33 @@ namespace genericStreamBuffer
         buffer = new uint8_t[bufferSizeMax];
 
         memset(buffer, 0, bufferSizeMax);
+    }
+
+    SerialBuffer::SerialBuffer(const SerialBuffer &serialBuffer)
+    {
+        bufferIndex = serialBuffer.bufferIndex;
+        bufferLength = serialBuffer.bufferLength;
+        bufferSizeMax = serialBuffer.bufferSizeMax;
+        buffer = new uint8_t[bufferSizeMax];
+
+        memcpy(buffer, serialBuffer.buffer, bufferSizeMax);
+    }
+
+    SerialBuffer &SerialBuffer::operator=(const SerialBuffer &serialBuffer)
+    {
+        if (this != &serialBuffer)
+        {
+            bufferIndex = serialBuffer.bufferIndex;
+            bufferLength = serialBuffer.bufferLength;
+            bufferSizeMax = serialBuffer.bufferSizeMax;
+
+            delete[] buffer;
+            buffer = new uint8_t[bufferSizeMax];
+
+            memcpy(buffer, serialBuffer.buffer, bufferSizeMax);
+        }
+
+        return *this;
     }
 
     SerialBuffer::~SerialBuffer()
