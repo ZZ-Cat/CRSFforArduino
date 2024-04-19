@@ -48,7 +48,7 @@ jobs:
         run: pio run -e defect_detector
 
       - name: Run defect detector
-        run: pio check -e defect_detector --fail-on-defect=medium --fail-on-defect=high
+        run: pio check -e defect_detector --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high
   
   # Build the project with PlatformIO
   build_on_compatible_targets:
