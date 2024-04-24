@@ -365,6 +365,7 @@ namespace hal
             "STM32F401RC",
             "STM32F401RD",
             "STM32F401RE",
+            "STM32F405RG",
             "STM32F407VE",
             "STM32F407VG",
             "STM32F410C8",
