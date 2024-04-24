@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.1.0
- * @date 2024-3-8
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -26,7 +26,9 @@
 
 #pragma once
 
+#ifndef ENV_DEFECT_DETECTOR
 #include "../CFA_Config.hpp"
+#endif
 #include "Arduino.h"
 #include "CRSF/CRSF.hpp"
 #include "Telemetry/Telemetry.hpp"
@@ -74,8 +76,10 @@ namespace serialReceiverLayer
     {
       public:
         SerialReceiver();
-        SerialReceiver(HardwareSerial *hwUartPort);
+        explicit SerialReceiver(HardwareSerial *hwUartPort);
         SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin);
+        SerialReceiver(const SerialReceiver &serialReceiver);
+        SerialReceiver &operator=(const SerialReceiver &serialReceiver);
         virtual ~SerialReceiver();
 
         bool begin();
@@ -114,14 +118,14 @@ namespace serialReceiverLayer
 #endif
 
       private:
-        CRSF *crsf;
+        CRSF *crsf = nullptr;
         HardwareSerial *_uart;
 
         int8_t _rxPin = -1;
         int8_t _txPin = -1;
 
 #if CRSF_TELEMETRY_ENABLED > 0
-        Telemetry *telemetry;
+        Telemetry *telemetry = nullptr;
 #endif
 
 #if CRSF_RC_ENABLED > 0
