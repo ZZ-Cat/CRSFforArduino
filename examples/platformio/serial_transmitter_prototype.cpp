@@ -36,6 +36,9 @@ typedef struct time_s
 /* Time structure instance. */
 time_t *time = nullptr;
 
+const size_t serial_buffer_size = 64;
+uint8_t serial_buffer[serial_buffer_size] = { 0 };
+
 /* Exit handler. */
 void exitHandler()
 {
@@ -73,6 +76,10 @@ void setup()
     /* Initialize the time structure. */
     time = new time_t;
 
+    /* Initialise Serial1 with 1.87M baud rate. */
+    Serial1.begin(1875000);
+    memset(serial_buffer, 0, serial_buffer_size);
+
     /* Set the time in microseconds. */
     time->time_us = micros();
     time->time_us_last = time->time_us;
@@ -102,6 +109,9 @@ void loop()
 
             /* Set the last time in microseconds. */
             time->time_us_last = time->time_us;
+
+            /* Write 64 bytes to Serial1. */
+            Serial1.write(serial_buffer, serial_buffer_size);
 
             /* Increment the iteration. */
             iteration++;
