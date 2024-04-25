@@ -58,15 +58,31 @@ time_t *time = nullptr;
 
 crsf_tx_frame_t crsf_tx_frame;
 
-/* Exit handler. */
-void exitHandler()
+/* Exit handlers. */
+void exit_success_handler()
 {
     /* Clean up and stop. */
     delete[] packet_rate_us;
     delete time;
 
     /* Print a message to the serial monitor. */
-    Serial.println("Done!");
+    Serial.println("Program has ended successfully.");
+}
+
+void exit_time_max_allowed_error_handler()
+{
+    /* Print a message to the serial monitor. */
+    Serial.print("Program has ended with an error: ");
+    Serial.println("Time error is greater than the maximum allowed error.");
+
+    /* Print how far the time error is from the packet rate in microseconds. */
+    Serial.print("Time Error: ");
+    Serial.print(time->time_us_error);
+    Serial.println(" us");
+
+    /* Clean up and stop. */
+    delete[] packet_rate_us;
+    delete time;
 }
 
 #if ARDUINO_IS_INCLUDED == 1
@@ -99,6 +115,9 @@ void setup()
     Serial1.begin(1875000);
     memset(&crsf_tx_frame, 0, crsf_frame_size);
 
+    /* Print a message to the serial monitor. */
+    Serial.println("Testing CRSF Serial Transmitter Prototype...");
+
     /* Set the time in microseconds. */
     time->time_us = micros();
     time->time_us_last = time->time_us;
@@ -124,11 +143,6 @@ void loop()
         /* If the time delta is greater than or equal to the packet rate in microseconds and the time error is less than the maximum allowed error. */
         if (time->time_us_delta >= packet_rate_us[selected_packet_rate] && time->time_us_error < time->time_us_max_allowed_error)
         {
-            /* Print the time delta in microseconds. */
-            Serial.print("Time Delta: ");
-            Serial.print(time->time_us_delta);
-            Serial.println(" us");
-
             /* Set the last time in microseconds. */
             time->time_us_last = time->time_us;
 
@@ -142,25 +156,15 @@ void loop()
         /* If the time error is greater than or equal to the maximum allowed error. */
         else if (time->time_us_error >= time->time_us_max_allowed_error)
         {
-            /* Print an error message to the serial monitor. */
-            Serial.println("Error: Time error is greater than or equal to 2 microseconds.");
-
-            /* Print how far the time error is from the packet rate in microseconds. */
-            Serial.print("Time Error: ");
-            Serial.print(time->time_us_error);
-            Serial.println(" us");
-
-            /* Increment the iteration. */
-            iteration++;
-
-            /* Set the last time in microseconds. */
-            time->time_us_last = time->time_us;
+            /* Exit the program. */
+            atexit(exit_time_max_allowed_error_handler);
+            exit(EXIT_FAILURE);
         }
     }
     else
     {
         /* Exit the program. */
-        atexit(exitHandler);
+        atexit(exit_success_handler);
         exit(EXIT_SUCCESS);
     }
 }
