@@ -29,8 +29,8 @@ uint32_t *packet_rate_us = nullptr;
 typedef struct time_s
 {
     uint32_t time_us = 0;
-    uint32_t time_us_last = 0xFFFFFFFF;
-    uint32_t time_us_delta = 0xFFFFFFFF;
+    uint32_t time_us_last = 0;
+    uint32_t time_us_delta = 0;
 } time_t;
 
 /* Time structure instance. */
@@ -73,8 +73,9 @@ void setup()
     /* Initialize the time structure. */
     time = new time_t;
 
-    /* Set the time in microseconds for the selected packet rate. */
-    time->time_us = packet_rate_us[selected_packet_rate];
+    /* Set the time in microseconds. */
+    time->time_us = micros();
+    time->time_us_last = time->time_us;
 }
 
 void loop()
