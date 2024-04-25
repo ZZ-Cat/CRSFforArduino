@@ -32,6 +32,7 @@ typedef struct time_s
     uint32_t time_us_last = 0;
     uint32_t time_us_delta = 0;
     int32_t time_us_error = 0;
+    const int32_t time_us_max_allowed_error = 2;
 } time_t;
 
 /* Time structure instance. */
@@ -103,8 +104,8 @@ void loop()
         /* Calculate the time error in microseconds. */
         time->time_us_error = time->time_us - (time->time_us_last + packet_rate_us[selected_packet_rate]);
 
-        /* If the time delta is greater than or equal to the packet rate in microseconds and the time error is less than 2 microseconds. */
-        if (time->time_us_delta >= packet_rate_us[selected_packet_rate] && time->time_us_error < 2)
+        /* If the time delta is greater than or equal to the packet rate in microseconds and the time error is less than the maximum allowed error. */
+        if (time->time_us_delta >= packet_rate_us[selected_packet_rate] && time->time_us_error < time->time_us_max_allowed_error)
         {
             /* Print the time delta in microseconds. */
             Serial.print("Time Delta: ");
@@ -121,8 +122,8 @@ void loop()
             iteration++;
         }
 
-        /* If the time error is greater than or equal to 2 microseconds. */
-        else if (time->time_us_error >= 2)
+        /* If the time error is greater than or equal to the maximum allowed error. */
+        else if (time->time_us_error >= time->time_us_max_allowed_error)
         {
             /* Print an error message to the serial monitor. */
             Serial.println("Error: Time error is greater than or equal to 2 microseconds.");
