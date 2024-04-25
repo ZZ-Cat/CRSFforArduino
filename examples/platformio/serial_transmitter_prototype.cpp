@@ -35,11 +35,28 @@ typedef struct time_s
     const int32_t time_us_max_allowed_error = 2;
 } time_t;
 
+/* CRSF Frame structure and union. */
+typedef struct crsf_frame_s
+{
+    uint8_t sync;
+    uint8_t length;
+    uint8_t type;
+    uint8_t payload[60];
+    uint8_t crc;
+} crsf_frame_t;
+
+const size_t crsf_frame_size = sizeof(crsf_frame_t);
+
+typedef union crsf_tx_frame_u
+{
+    crsf_frame_t frame;
+    uint8_t buffer[crsf_frame_size];
+} crsf_tx_frame_t;
+
 /* Time structure instance. */
 time_t *time = nullptr;
 
-const size_t serial_buffer_size = 64;
-uint8_t serial_buffer[serial_buffer_size] = { 0 };
+crsf_tx_frame_t crsf_tx_frame;
 
 /* Exit handler. */
 void exitHandler()
@@ -80,7 +97,7 @@ void setup()
 
     /* Initialise Serial1 with 1.87M baud rate. */
     Serial1.begin(1875000);
-    memset(serial_buffer, 0, serial_buffer_size);
+    memset(&crsf_tx_frame, 0, crsf_frame_size);
 
     /* Set the time in microseconds. */
     time->time_us = micros();
@@ -116,7 +133,7 @@ void loop()
             time->time_us_last = time->time_us;
 
             /* Write 64 bytes to Serial1. */
-            Serial1.write(serial_buffer, serial_buffer_size);
+            Serial1.write(crsf_tx_frame.buffer, crsf_frame_size);
 
             /* Increment the iteration. */
             iteration++;
