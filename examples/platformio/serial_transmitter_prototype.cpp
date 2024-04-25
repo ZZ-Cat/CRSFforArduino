@@ -198,6 +198,10 @@ void setup()
     /* Print a message to the serial monitor. */
     Serial.println("Testing CRSF Serial Transmitter Prototype...");
 
+    /* Initialise Serial1 with 1.87M baud rate. */
+    Serial1.begin(1875000);
+    memset(serial_buffer, 0, serial_buffer_size);
+
     /* Set the time in microseconds. */
     sw_timer->time_us = micros();
     sw_timer->time_us_last = sw_timer->time_us;
@@ -228,6 +232,9 @@ void loop()
 
             /* Write 64 bytes to Serial1. */
             Serial1.write(crsf_tx_frame.buffer, crsf_tx_frame.frame.length + 1);
+
+            /* Write 64 bytes to Serial1. */
+            Serial1.write(serial_buffer, serial_buffer_size);
 
             /* Increment the iteration. */
             iteration++;
