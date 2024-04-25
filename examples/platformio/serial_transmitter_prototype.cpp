@@ -220,6 +220,9 @@ void setup()
     Serial1.begin(1875000);
     memset(&crsf_tx_frame, 0, crsf_frame_size);
 
+    /* Print a message to the serial monitor. */
+    Serial.println("Testing CRSF Serial Transmitter Prototype...");
+
     /* Set the time in microseconds. */
     sw_timer->time_us = micros();
     sw_timer->time_us_last = sw_timer->time_us;
