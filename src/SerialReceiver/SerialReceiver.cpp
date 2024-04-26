@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
  * @version 1.1.0
- * @date 2024-3-8
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -122,6 +122,77 @@ namespace serialReceiverLayer
         _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
 #endif
 #endif
+    }
+
+    SerialReceiver::SerialReceiver(const SerialReceiver &serialReceiver)
+    {
+        _uart = serialReceiver._uart;
+
+        _rxPin = serialReceiver._rxPin;
+        _txPin = serialReceiver._txPin;
+
+#if CRSF_RC_ENABLED > 0
+        _rcChannels = new rcChannels_t;
+        _rcChannels->valid = serialReceiver._rcChannels->valid;
+        _rcChannels->failsafe = serialReceiver._rcChannels->failsafe;
+        memcpy(_rcChannels->value, serialReceiver._rcChannels->value, sizeof(_rcChannels->value));
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+        for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
+        {
+            _flightModes[i].name = serialReceiver._flightModes[i].name;
+            _flightModes[i].channel = serialReceiver._flightModes[i].channel;
+            _flightModes[i].min = serialReceiver._flightModes[i].min;
+            _flightModes[i].max = serialReceiver._flightModes[i].max;
+        }
+#endif
+#endif
+    }
+
+    SerialReceiver &SerialReceiver::operator=(const SerialReceiver &serialReceiver)
+    {
+        if (this != &serialReceiver)
+        {
+            _uart = serialReceiver._uart;
+
+            _rxPin = serialReceiver._rxPin;
+            _txPin = serialReceiver._txPin;
+
+            crsf = serialReceiver.crsf;
+
+#if CRSF_TELEMETRY_ENABLED > 0
+            telemetry = serialReceiver.telemetry;
+            flightModeStr = serialReceiver.flightModeStr;
+#endif
+
+#if CRSF_RC_ENABLED > 0
+            _rcChannels = new rcChannels_t;
+            _rcChannels->valid = serialReceiver._rcChannels->valid;
+            _rcChannels->failsafe = serialReceiver._rcChannels->failsafe;
+            memcpy(_rcChannels->value, serialReceiver._rcChannels->value, sizeof(_rcChannels->value));
+
+            _rcChannelsCallback = serialReceiver._rcChannelsCallback;
+
+#if CRSF_FLIGHTMODES_ENABLED > 0
+            _flightModes = new flightMode_t[FLIGHT_MODE_COUNT];
+            for (size_t i = 0; i < (size_t)FLIGHT_MODE_COUNT; i++)
+            {
+                _flightModes[i].name = serialReceiver._flightModes[i].name;
+                _flightModes[i].channel = serialReceiver._flightModes[i].channel;
+                _flightModes[i].min = serialReceiver._flightModes[i].min;
+                _flightModes[i].max = serialReceiver._flightModes[i].max;
+            }
+            _flightModeCallback = serialReceiver._flightModeCallback;
+#endif
+
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+            _linkStatistics = serialReceiver._linkStatistics;
+            _linkStatisticsCallback = serialReceiver._linkStatisticsCallback;
+#endif
+#endif
+        }
+
+        return *this;
     }
 
     SerialReceiver::~SerialReceiver()

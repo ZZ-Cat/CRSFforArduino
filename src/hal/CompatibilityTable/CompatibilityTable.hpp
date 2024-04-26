@@ -3,7 +3,7 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Compatibility Table determines if the target development board is compatible with CRSF for Arduino.
  * @version 1.1.0
- * @date 2024-3-8
+ * @date 2024-4-18
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -367,6 +367,7 @@ namespace hal
             "STM32F401RC",
             "STM32F401RD",
             "STM32F401RE",
+            "STM32F405RG",
             "STM32F407VE",
             "STM32F407VG",
             "STM32F410C8",
