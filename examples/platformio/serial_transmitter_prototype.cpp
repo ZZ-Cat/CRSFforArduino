@@ -58,6 +58,37 @@ time_t *time = nullptr;
 
 crsf_tx_frame_t crsf_tx_frame;
 
+/* CRC8-DVB-S2. */
+uint8_t crc8_dvb_s2(uint8_t crc, const uint8_t data)
+{
+    crc ^= data;
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        if (crc & 0x80)
+        {
+            crc = (crc << 1) ^ 0xD5;
+        }
+        else
+        {
+            crc <<= 1;
+        }
+    }
+    return crc;
+}
+
+/* This function calculates the CRC for the CRSF frame
+from the type to the end of the payload. */
+uint8_t calculate_crc(const crsf_tx_frame_t *crsf_tx_frame)
+{
+    uint8_t crc = 0;
+    crc = crc8_dvb_s2(crc, crsf_tx_frame->frame.type);
+    for (uint8_t i = 0; i < crsf_tx_frame->frame.length - 2; i++)
+    {
+        crc = crc8_dvb_s2(crc, crsf_tx_frame->frame.payload[i]);
+    }
+    return crc;
+}
+
 /* Exit handlers. */
 void exit_success_handler()
 {
