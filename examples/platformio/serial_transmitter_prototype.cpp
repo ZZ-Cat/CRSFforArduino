@@ -262,6 +262,12 @@ void setup()
     rc_channels_packed.ch15 = 992;
     rc_channels_packed.ch16 = 992;
 
+    /* Prepare the CRSF RC Channels Packed frame. */
+    crsf_tx_frame.frame.sync = 0xC8; // NB: EdgeTX uses 0xEE which is incorrect.
+    crsf_tx_frame.frame.length = 24;
+    crsf_tx_frame.frame.type = 0x16;
+    memcpy(crsf_tx_frame.frame.payload, &rc_channels_packed, sizeof(rc_channels_packed));
+    crsf_tx_frame.frame.crc = calculate_crc(&crsf_tx_frame);
 
     /* Print a message to the serial monitor. */
     Serial.println("Testing CRSF Serial Transmitter Prototype...");
@@ -298,7 +304,7 @@ void loop()
             Serial1.write(crsf_tx_frame.buffer, crsf_tx_frame.frame.length + 1);
 
             /* Write 64 bytes to Serial1. */
-            Serial1.write(crsf_tx_frame.buffer, crsf_frame_size);
+            Serial1.write(crsf_tx_frame.buffer, crsf_tx_frame.frame.length + 1);
 
             /* Increment the iteration. */
             iteration++;
