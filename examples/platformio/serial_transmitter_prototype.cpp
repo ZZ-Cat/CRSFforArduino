@@ -76,6 +76,29 @@ typedef union crsf_tx_frame_u
     uint8_t buffer[crsf_frame_size];
 } crsf_tx_frame_t;
 
+/* Packed 11-bit RC Channels. */
+struct rc_channels_packed_s
+{
+    uint16_t ch1 : 11;
+    uint16_t ch2 : 11;
+    uint16_t ch3 : 11;
+    uint16_t ch4 : 11;
+    uint16_t ch5 : 11;
+    uint16_t ch6 : 11;
+    uint16_t ch7 : 11;
+    uint16_t ch8 : 11;
+    uint16_t ch9 : 11;
+    uint16_t ch10 : 11;
+    uint16_t ch11 : 11;
+    uint16_t ch12 : 11;
+    uint16_t ch13 : 11;
+    uint16_t ch14 : 11;
+    uint16_t ch15 : 11;
+    uint16_t ch16 : 11;
+} __attribute__((packed));
+
+typedef struct rc_channels_packed_s rc_channels_packed_t;
+
 /* CRSF Frame structure and union. */
 typedef struct crsf_frame_s
 {
@@ -219,6 +242,26 @@ void setup()
     /* Initialise Serial1 with 1.87M baud rate. */
     Serial1.begin(1875000);
     memset(&crsf_tx_frame, 0, crsf_frame_size);
+
+    /* Initialise the RC Channels structure. */
+    rc_channels_packed_t rc_channels_packed;
+    rc_channels_packed.ch1 = 992;
+    rc_channels_packed.ch2 = 992;
+    rc_channels_packed.ch3 = 992;
+    rc_channels_packed.ch4 = 992;
+    rc_channels_packed.ch5 = 178;
+    rc_channels_packed.ch6 = 992;
+    rc_channels_packed.ch7 = 992;
+    rc_channels_packed.ch8 = 992;
+    rc_channels_packed.ch9 = 992;
+    rc_channels_packed.ch10 = 992;
+    rc_channels_packed.ch11 = 992;
+    rc_channels_packed.ch12 = 992;
+    rc_channels_packed.ch13 = 992;
+    rc_channels_packed.ch14 = 992;
+    rc_channels_packed.ch15 = 992;
+    rc_channels_packed.ch16 = 992;
+
 
     /* Print a message to the serial monitor. */
     Serial.println("Testing CRSF Serial Transmitter Prototype...");
