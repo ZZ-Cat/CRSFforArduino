@@ -26,14 +26,14 @@ const packet_rate_index_t selected_packet_rate = PACKET_RATE_50HZ;
 uint32_t *packet_rate_us = nullptr;
 
 /* Time structure for the packet rate. */
-typedef struct time_s
+typedef struct software_realtime_counter_s
 {
     uint32_t time_us = 0;
     uint32_t time_us_last = 0;
     uint32_t time_us_delta = 0;
     int32_t time_us_error = 0;
     const int32_t time_us_max_allowed_error = 2;
-} time_t;
+} software_realtime_counter_t;
 
 /* Packed 11-bit RC Channels. */
 struct rc_channels_packed_s
@@ -77,7 +77,7 @@ typedef union crsf_tx_frame_u
 } crsf_tx_frame_t;
 
 /* Time structure instance. */
-time_t *time = nullptr;
+software_realtime_counter_t *sw_timer = nullptr;
 
 crsf_tx_frame_t crsf_tx_frame;
 
@@ -117,7 +117,7 @@ void exit_success_handler()
 {
     /* Clean up and stop. */
     delete[] packet_rate_us;
-    delete time;
+    delete sw_timer;
 
     /* Print a message to the serial monitor. */
     Serial.println("Program has ended successfully.");
@@ -129,14 +129,14 @@ void exit_time_max_allowed_error_handler()
     Serial.print("Program has ended with an error: ");
     Serial.println("Time error is greater than the maximum allowed error.");
 
-    /* Print how far the time error is from the packet rate in microseconds. */
+    /* Print how far the sw_timer error is from the packet rate in microseconds. */
     Serial.print("Time Error: ");
-    Serial.print(time->time_us_error);
+    Serial.print(sw_timer->time_us_error);
     Serial.println(" us");
 
     /* Clean up and stop. */
     delete[] packet_rate_us;
-    delete time;
+    delete sw_timer;
 }
 
 #if ARDUINO_IS_INCLUDED == 1
@@ -149,7 +149,7 @@ void setup()
     }
 
     /* Dynamically allocate memory for the packet rate,
-    and calculate the time in microseconds for each packet rate. */
+    and calculate the sw_timer in microseconds for each packet rate. */
     packet_rate_us = new uint32_t[PACKET_RATE_COUNT];
     packet_rate_us[PACKET_RATE_4HZ] = (1000000UL / 4UL);
     packet_rate_us[PACKET_RATE_25HZ] = (1000000UL / 25UL);
@@ -162,8 +162,8 @@ void setup()
     packet_rate_us[PACKET_RATE_500HZ] = (1000000UL / 500UL);
     packet_rate_us[PACKET_RATE_1000HZ] = (1000000UL / 1000UL);
 
-    /* Initialize the time structure. */
-    time = new time_t;
+    /* Initialize the sw_timer structure. */
+    sw_timer = new software_realtime_counter_t;
 
     /* Initialise Serial1 with 1.87M baud rate. */
     Serial1.begin(1875000);
@@ -199,8 +199,8 @@ void setup()
     Serial.println("Testing CRSF Serial Transmitter Prototype...");
 
     /* Set the time in microseconds. */
-    time->time_us = micros();
-    time->time_us_last = time->time_us;
+    sw_timer->time_us = micros();
+    sw_timer->time_us_last = sw_timer->time_us;
 }
 
 void loop()
@@ -214,17 +214,17 @@ void loop()
     if (iteration < iterations)
     {
         /* Calculate the time delta in microseconds. */
-        time->time_us = micros();
-        time->time_us_delta = time->time_us - time->time_us_last;
+        sw_timer->time_us = micros();
+        sw_timer->time_us_delta = sw_timer->time_us - sw_timer->time_us_last;
 
         /* Calculate the time error in microseconds. */
-        time->time_us_error = time->time_us - (time->time_us_last + packet_rate_us[selected_packet_rate]);
+        sw_timer->time_us_error = sw_timer->time_us - (sw_timer->time_us_last + packet_rate_us[selected_packet_rate]);
 
         /* If the time delta is greater than or equal to the packet rate in microseconds and the time error is less than the maximum allowed error. */
-        if (time->time_us_delta >= packet_rate_us[selected_packet_rate] && time->time_us_error < time->time_us_max_allowed_error)
+        if (sw_timer->time_us_delta >= packet_rate_us[selected_packet_rate] && sw_timer->time_us_error < sw_timer->time_us_max_allowed_error)
         {
             /* Set the last time in microseconds. */
-            time->time_us_last = time->time_us;
+            sw_timer->time_us_last = sw_timer->time_us;
 
             /* Write 64 bytes to Serial1. */
             Serial1.write(crsf_tx_frame.buffer, crsf_tx_frame.frame.length + 1);
@@ -234,7 +234,7 @@ void loop()
         }
 
         /* If the time error is greater than or equal to the maximum allowed error. */
-        else if (time->time_us_error >= time->time_us_max_allowed_error)
+        else if (sw_timer->time_us_error >= sw_timer->time_us_max_allowed_error)
         {
             /* Exit the program. */
             atexit(exit_time_max_allowed_error_handler);
