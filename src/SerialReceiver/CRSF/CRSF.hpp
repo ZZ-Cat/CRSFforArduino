@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "../CRC/CRC.hpp"
+#include "../common/CRC/CRC.hpp"
 #include "CRSFProtocol.hpp"
 
 namespace serialReceiverLayer

@@ -26,7 +26,7 @@
 
 #include "Arduino.h"
 
-#include "../CRC/CRC.hpp"
+#include "../common/CRC/CRC.hpp"
 #include "../CRSF/CRSFProtocol.hpp"
 #include "../SerialBuffer/SerialBuffer.hpp"
 
