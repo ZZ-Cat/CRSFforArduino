@@ -9,6 +9,10 @@
 
 Cassandra "ZZ Cat" Robinson
 
+> [!NOTE]
+> CRSF for Arduino is now distributed under the [GNU Affero General Public License v3.](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md)
+> Please take the time to familiarise yourself with the terms of this license _before_ you use this library in your projects.
+
 ## Description
 
 CRSF for Arduino brings the Crossfire Protocol to the Arduino ecosystem.  
@@ -49,8 +53,12 @@ CRSF for Arduino comes packaged with these features:
 
 ## Software license
 
-As always, I believe in freedom and I want to pass that freedom onto you.
-Which is why I am proud to license CRSF for Arduino to you under the [GNU Affero GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).
+CRSF for Arduino is distributed under a new license: The [GNU Affero GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).  
+For regular users, this may be a non-issue for you, as you are already REQUIRED by existing licensing terms to make CRSF for Arduino's source code available (you're already doing this by linking back to its GitHub Repository).  
+With the upcoming Serial Transmitter Interface, this increases CRSF for Arduino's potential usage in the context of network servers. With the former GPL v3, you could use CRSF for Arduino as a dependency in your network host and never make the source code available to clients. Updating CRSF for Arduino's license to the Affero GPL v3 closes that loop hole, because you are REQUIRED to make the source code of CRSF for Arduino available in _all_ of its distributions.
+
+Not a lot has changed across licenses. The same basic four freedoms are upheld: Use, copy, modify, and re-distribute.  
+The only noteworthy change here you are REQUIRED to make the source code available to clients, if you choose to use CRSF for Arduino as a part of your server-side project. To do this, simply link back to this repository via its URL in addition to the terms outlined in the license.
 
 ## Attributions
 
