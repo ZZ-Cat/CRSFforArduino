@@ -2,8 +2,8 @@
  * @file CRSF.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This decodes CRSF frames from a serial port.
- * @version 1.1.0
- * @date 2024-4-18
+ * @version 1.0.3
+ * @date 2024-7-20
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

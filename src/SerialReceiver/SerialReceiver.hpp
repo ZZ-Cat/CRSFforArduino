@@ -2,8 +2,8 @@
  * @file SerialReceiver.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
- * @version 1.1.0
- * @date 2024-4-18
+ * @version 1.0.3
+ * @date 2024-7-20
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
