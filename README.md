@@ -50,7 +50,7 @@ CRSF for Arduino comes packaged with these features:
 ## Software license
 
 As always, I believe in freedom and I want to pass that freedom onto you.
-Which is why I am proud to license CRSF for Arduino to you under the [GNU GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).
+Which is why I am proud to license CRSF for Arduino to you under the [GNU Affero GPL v3](https://github.com/ZZ-Cat/CRSFforArduino/blob/Main-Trunk/LICENSE.md).
 
 ## Attributions
 
