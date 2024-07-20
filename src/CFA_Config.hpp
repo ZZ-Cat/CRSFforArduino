@@ -35,7 +35,7 @@ namespace crsfForArduinoConfig
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
 #define CRSFFORARDUINO_VERSION       "1.1.0"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-7-2"
+#define CRSFFORARDUINO_VERSION_DATE  "2024-7-21"
 #define CRSFFORARDUINO_VERSION_MAJOR 1
 #define CRSFFORARDUINO_VERSION_MINOR 1
 #define CRSFFORARDUINO_VERSION_PATCH 0
