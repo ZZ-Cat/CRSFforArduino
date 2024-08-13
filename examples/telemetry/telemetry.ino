@@ -2,8 +2,8 @@
  * @file flight_modes.ino
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief Example of how to send telemetry back to your RC handset using CRSF for Arduino.
- * @version 1.0.2
- * @date 2024-3-19
+ * @version 1.0.4
+ * @date 2024-8-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *

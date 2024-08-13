@@ -2,8 +2,8 @@
  * @file CFA_Config.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the configuration file for CRSF for Arduino.
- * @version 1.0.2
- * @date 2024-3-19
+ * @version 1.0.4
+ * @date 2024-8-14
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -36,11 +36,11 @@ namespace crsfForArduinoConfig
 /* CRSFforArduino version
 Versioning is done using Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION       "1.0.2"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-3-19"
+#define CRSFFORARDUINO_VERSION       "1.0.4"
+#define CRSFFORARDUINO_VERSION_DATE  "2024-8-14"
 #define CRSFFORARDUINO_VERSION_MAJOR 1
 #define CRSFFORARDUINO_VERSION_MINOR 0
-#define CRSFFORARDUINO_VERSION_PATCH 1
+#define CRSFFORARDUINO_VERSION_PATCH 4
 
 /* Failsafe Options
 - CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.
