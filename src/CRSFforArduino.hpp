@@ -39,7 +39,7 @@ namespace sketchLayer
         explicit CRSFforArduino(HardwareSerial *serialPort);
         CRSFforArduino(HardwareSerial *serialPort, int rxPin, int txPin);
         ~CRSFforArduino();
-        bool begin();
+        bool begin(const uint32_t baud_rate = crsfProtocol::BAUD_RATE);
         void end();
         void update();
 

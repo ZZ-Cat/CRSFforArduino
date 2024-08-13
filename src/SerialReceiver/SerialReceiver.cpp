@@ -212,7 +212,7 @@ namespace serialReceiverLayer
 #endif
     }
 
-    bool SerialReceiver::begin()
+    bool SerialReceiver::begin(const uint32_t baudRate)
     {
 #if CRSF_DEBUG_ENABLED > 0
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
@@ -279,11 +279,11 @@ namespace serialReceiverLayer
         /* Initialise the CRSF Protocol and Telemetry. */
         crsf = new CRSF();
         crsf->begin();
-        crsf->setFrameTime(BAUD_RATE, 10);
+        crsf->setFrameTime(baudRate, 10);
 #if defined(ARDUINO_ARCH_ESP32)
-        _uart->begin(BAUD_RATE, SERIAL_8N1, _rxPin, _txPin);
+        _uart->begin(baudRate, SERIAL_8N1, _rxPin, _txPin);
 #else
-        _uart->begin(BAUD_RATE);
+        _uart->begin(baudRate);
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
