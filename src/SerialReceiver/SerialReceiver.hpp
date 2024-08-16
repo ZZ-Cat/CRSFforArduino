@@ -82,7 +82,7 @@ namespace serialReceiverLayer
         SerialReceiver &operator=(const SerialReceiver &serialReceiver);
         virtual ~SerialReceiver();
 
-        bool begin();
+        bool begin(const uint32_t baudRate);
         void end();
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0

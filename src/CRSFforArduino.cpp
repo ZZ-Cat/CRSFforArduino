@@ -70,10 +70,10 @@ namespace sketchLayer
      * 
      * @return true if CRSF for Arduino was initialised successfully.
      */
-    bool CRSFforArduino::begin()
+    bool CRSFforArduino::begin(const uint32_t baud_rate)
     {
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
-        return this->SerialReceiver::begin();
+        return this->SerialReceiver::begin(baud_rate);
 #else
         // Return false if RC is disabled
         return false;
