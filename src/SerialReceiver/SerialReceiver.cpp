@@ -406,7 +406,7 @@ namespace serialReceiverLayer
             else
             {
                 /* Convert RC value from raw to microseconds.
-                - Mininum: 172 (988us)
+                - Minimum: 172 (988us)
                 - Middle: 992 (1500us)
                 - Maximum: 1811 (2012us)
                 - Scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241

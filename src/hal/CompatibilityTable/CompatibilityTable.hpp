@@ -102,7 +102,7 @@ namespace hal
             DEVBOARD_ARDUINO_PORTENTA_H7,
             DEVBOARD_ARDUINO_PORTENTA_H7_M4,
 
-            // Espresif ESP32 boards.
+            // Espressif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
 
