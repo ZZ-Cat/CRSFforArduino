@@ -213,6 +213,33 @@ namespace serialReceiverLayer
     bool SerialReceiver::begin(const uint32_t baudRate)
     {
 #if CRSF_DEBUG_ENABLED > 0
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("=");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println("Cassie Robinson's");
+        CRSF_DEBUG_SERIAL_PORT.println("CRSF for Arduino");
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.print("Version: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION);
+        CRSF_DEBUG_SERIAL_PORT.print("Build date: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION_DATE);
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("-");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
 
