@@ -106,10 +106,11 @@ and assign them to a switch on your controller. */
 /* Debug Options
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port.
 - CRSF_DEBUG_SERIAL_PORT: The serial port to use for debug output. Usually the native USB port.
-- CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT: Enables or disables debug output from the compatibility table. */
-#define CRSF_DEBUG_ENABLED                           0
+- CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT: Enables or disables debug output from the compatibility table.
+- CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP: When enabled, this will print the configuration of CFA to the Serial Monitor.*/
 #define CRSF_DEBUG_SERIAL_PORT                       Serial
 #define CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT 0
+#define CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP         0
 
 /* All warnings and asserts below this point are to ensure that the configuration is valid. */
 
