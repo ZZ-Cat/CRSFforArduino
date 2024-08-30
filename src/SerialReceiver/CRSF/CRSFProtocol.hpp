@@ -2,8 +2,6 @@
  * @file CRSFProtocol.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This file contains enums and structs for the CRSF protocol.
- * @version 1.1.0
- * @date 2024-7-2
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -263,6 +261,7 @@ namespace crsfProtocol
 
     enum baudRate_e
     {
-        BAUD_RATE = 420000
+        BAUD_RATE_LEGACY = 420000,
+        BAUD_RATE = 416666
     };
 } // namespace crsfProtocol

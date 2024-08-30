@@ -2,8 +2,6 @@
  * @file CompatibilityTable.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Compatibility Table determines if the target development board is compatible with CRSF for Arduino.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -104,7 +102,7 @@ namespace hal
             DEVBOARD_ARDUINO_PORTENTA_H7,
             DEVBOARD_ARDUINO_PORTENTA_H7_M4,
 
-            // Espresif ESP32 boards.
+            // Espressif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
 

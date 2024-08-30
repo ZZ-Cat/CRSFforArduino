@@ -3,8 +3,6 @@
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This is the Sketch Layer, which is a simplified API for CRSF for Arduino.
  * It is intended to be used by the user in their sketches.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -70,7 +68,7 @@ namespace sketchLayer
      * 
      * @return true if CRSF for Arduino was initialised successfully.
      */
-    bool CRSFforArduino::begin()
+    bool CRSFforArduino::begin(const uint32_t baud_rate)
     {
 #if CRSF_DEBUG_ENABLED > 0 && CRSF_DEBUG_ENABLE_VERSION_OUTPUT > 0
         CRSF_DEBUG_SERIAL_PORT.println("[CRSF for Arduino | INFO]: ");
@@ -89,7 +87,7 @@ namespace sketchLayer
 #endif
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
-        return this->SerialReceiver::begin();
+        return this->SerialReceiver::begin(baud_rate);
 #else
         // Return false if RC is disabled
         return false;

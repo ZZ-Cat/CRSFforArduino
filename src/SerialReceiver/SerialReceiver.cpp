@@ -2,8 +2,6 @@
  * @file SerialReceiver.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -212,9 +210,36 @@ namespace serialReceiverLayer
 #endif
     }
 
-    bool SerialReceiver::begin()
+    bool SerialReceiver::begin(const uint32_t baudRate)
     {
 #if CRSF_DEBUG_ENABLED > 0
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("=");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println("Cassie Robinson's");
+        CRSF_DEBUG_SERIAL_PORT.println("CRSF for Arduino");
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.print("Version: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION);
+        CRSF_DEBUG_SERIAL_PORT.print("Build date: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION_DATE);
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("-");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
         CRSF_DEBUG_SERIAL_PORT.print("[Serial Receiver | INFO]: Initialising... ");
 #endif
 
@@ -262,13 +287,23 @@ namespace serialReceiverLayer
         /* Check if the target development board is
         compatible with the CRSF Protocol, and return false if it isn't. */
         CompatibilityTable *ct = new CompatibilityTable();
-        if (!ct->isDevboardCompatible(ct->getDevboardName()))
+        const char *devboardName = ct->getDevboardName();
+        if (!ct->isDevboardCompatible(devboardName))
         {
             delete ct;
             ct = nullptr;
 
 #if CRSF_DEBUG_ENABLED > 0
-            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | FATAL ERROR]: Devboard is not compatible with CRSF Protocol.");
+#if CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT == 0
+            CRSF_DEBUG_SERIAL_PORT.println("\r\n[Serial Receiver | FATAL ERROR]: Your device is not compatible with CRSF for Arduino.");
+#endif
+
+            for (int i = 0; i < 93; i++)
+            {
+                CRSF_DEBUG_SERIAL_PORT.print("=");
+            }
+            CRSF_DEBUG_SERIAL_PORT.println();
+            CRSF_DEBUG_SERIAL_PORT.flush();
 #endif
             return false;
         }
@@ -279,11 +314,11 @@ namespace serialReceiverLayer
         /* Initialise the CRSF Protocol and Telemetry. */
         crsf = new CRSF();
         crsf->begin();
-        crsf->setFrameTime(BAUD_RATE, 10);
+        crsf->setFrameTime(baudRate, 10);
 #if defined(ARDUINO_ARCH_ESP32)
-        _uart->begin(BAUD_RATE, SERIAL_8N1, _rxPin, _txPin);
+        _uart->begin(baudRate, SERIAL_8N1, _rxPin, _txPin);
 #else
-        _uart->begin(BAUD_RATE);
+        _uart->begin(baudRate);
 #endif
 
 #if CRSF_TELEMETRY_ENABLED > 0
@@ -300,6 +335,152 @@ namespace serialReceiverLayer
 
 #if CRSF_DEBUG_ENABLED > 0
         CRSF_DEBUG_SERIAL_PORT.println("Done.");
+
+
+#if CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP > 0
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("-");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println("CRSF for Arduino initialised with the following configuration:");
+
+        CRSF_DEBUG_SERIAL_PORT.println(" - Device:");
+        CRSF_DEBUG_SERIAL_PORT.print("   - Name: ");
+        CRSF_DEBUG_SERIAL_PORT.println(devboardName);
+        CRSF_DEBUG_SERIAL_PORT.println("   - UART:");
+        CRSF_DEBUG_SERIAL_PORT.print("     - Baud rate: ");
+        CRSF_DEBUG_SERIAL_PORT.println(baudRate);
+        CRSF_DEBUG_SERIAL_PORT.print("     - Rx pin: ");
+        CRSF_DEBUG_SERIAL_PORT.println(_rxPin == -1 ? PIN_SERIAL1_RX : _rxPin);
+        CRSF_DEBUG_SERIAL_PORT.print("     - Tx pin: ");
+        CRSF_DEBUG_SERIAL_PORT.println(_txPin == -1 ? PIN_SERIAL1_TX : _txPin);
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println(" - Failsafe thresholds:");
+        CRSF_DEBUG_SERIAL_PORT.print("   - LQI threshold: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSF_FAILSAFE_LQI_THRESHOLD);
+        CRSF_DEBUG_SERIAL_PORT.print("   - RSSI threshold: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSF_FAILSAFE_RSSI_THRESHOLD);
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println(" - RC Channels API:");
+        CRSF_DEBUG_SERIAL_PORT.print("   - Enabled: ");
+#if CRSF_RC_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - RC channels: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSF_RC_MAX_CHANNELS);
+        CRSF_DEBUG_SERIAL_PORT.print("     - Minimum RC Channel value: ");
+        CRSF_DEBUG_SERIAL_PORT.println((uint16_t)((CRSF_RC_CHANNEL_MIN * 0.62477120195241F) + 881));
+        CRSF_DEBUG_SERIAL_PORT.print("     - Maximum RC Channel value: ");
+        CRSF_DEBUG_SERIAL_PORT.println((uint16_t)((CRSF_RC_CHANNEL_MAX * 0.62477120195241F) + 881));
+        CRSF_DEBUG_SERIAL_PORT.print("     - Center RC Channel value: ");
+        CRSF_DEBUG_SERIAL_PORT.println((uint16_t)((CRSF_RC_CHANNEL_CENTER * 0.62477120195241F) + 881));
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - Initialise RC channels: ");
+#if CRSF_RC_INITIALISE_CHANNELS > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - Initialise Arm channel: ");
+#if CRSF_RC_INITIALISE_ARMCHANNEL > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+            
+        CRSF_DEBUG_SERIAL_PORT.print("     - Initialise Throttle channel: ");
+#if CRSF_RC_INITIALISE_THROTTLECHANNEL > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+#endif
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+        CRSF_DEBUG_SERIAL_PORT.println(" - Flight Modes API:");
+        CRSF_DEBUG_SERIAL_PORT.print("   - Enabled: ");
+#if CRSF_FLIGHTMODES_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - Custom Flight Modes enabled: ");
+#if CRSF_CUSTOM_FLIGHT_MODES_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
+
+
+        CRSF_DEBUG_SERIAL_PORT.println(" - Telemetry API:");
+        CRSF_DEBUG_SERIAL_PORT.print("   - Enabled: ");
+#if CRSF_TELEMETRY_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - Attitude telemetry enabled: ");
+#if CRSF_TELEMETRY_ATTITUDE_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+            
+        CRSF_DEBUG_SERIAL_PORT.print("     - Barometric altitude telemetry enabled: ");
+#if CRSF_TELEMETRY_BAROALTITUDE_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+                
+        CRSF_DEBUG_SERIAL_PORT.print("     - Battery telemetry enabled: ");
+#if CRSF_TELEMETRY_BATTERY_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+                    
+        CRSF_DEBUG_SERIAL_PORT.print("     - Flight Mode telemetry enabled: ");
+#if CRSF_TELEMETRY_FLIGHTMODE_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - GPS telemetry enabled: ");
+#if CRSF_TELEMETRY_GPS_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+
+        CRSF_DEBUG_SERIAL_PORT.print("     - Link Statistics telemetry enabled: ");
+#if CRSF_LINK_STATISTICS_ENABLED > 0
+        CRSF_DEBUG_SERIAL_PORT.println("Yes");
+#else
+        CRSF_DEBUG_SERIAL_PORT.println("No");
+#endif
+#endif
+        CRSF_DEBUG_SERIAL_PORT.println();
+#endif
+
+        for (int i = 0; i < 93; i++)
+        {
+            CRSF_DEBUG_SERIAL_PORT.print("=");
+        }
+        CRSF_DEBUG_SERIAL_PORT.println();
+        CRSF_DEBUG_SERIAL_PORT.flush();
 #endif
         return true;
     }
@@ -408,7 +589,7 @@ namespace serialReceiverLayer
             else
             {
                 /* Convert RC value from raw to microseconds.
-                - Mininum: 172 (988us)
+                - Minimum: 172 (988us)
                 - Middle: 992 (1500us)
                 - Maximum: 1811 (2012us)
                 - Scale factor = (2012 - 988) / (1811 - 172) = 0.62477120195241

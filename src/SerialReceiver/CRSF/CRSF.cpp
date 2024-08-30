@@ -2,8 +2,6 @@
  * @file CRSF.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief This decodes CRSF frames from a serial port.
- * @version 1.1.0
- * @date 2024-7-2
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -124,7 +122,7 @@ namespace serialReceiverLayer
             frameStartTime = currentTime;
         }
 
-        /* Assume the full frame lenthg is 5 bytes until the frame length byte is received. */
+        /* Assume the full frame length is 5 bytes until the frame length byte is received. */
         const int fullFrameLength = framePosition < 3 ? 5 : min(rxFrame.frame.frameLength + CRSF_FRAME_LENGTH_ADDRESS + CRSF_FRAME_LENGTH_FRAMELENGTH, (int)CRSF_FRAME_SIZE_MAX);
 
         if (framePosition < fullFrameLength)

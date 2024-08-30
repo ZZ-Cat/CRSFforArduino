@@ -2,8 +2,6 @@
  * @file SerialReceiver.hpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief The Serial Receiver layer for the CRSF for Arduino library.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
@@ -82,7 +80,7 @@ namespace serialReceiverLayer
         SerialReceiver &operator=(const SerialReceiver &serialReceiver);
         virtual ~SerialReceiver();
 
-        bool begin();
+        bool begin(const uint32_t baudRate);
         void end();
 
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0

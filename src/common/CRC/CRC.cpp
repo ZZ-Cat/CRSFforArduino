@@ -2,8 +2,6 @@
  * @file CRC.cpp
  * @author Cassandra "ZZ Cat" Robinson (nicad.heli.flier@gmail.com)
  * @brief A generic CRC8 implementation for the CRSF for Arduino library.
- * @version 1.1.0-1.0.0
- * @date 2024-7-21
  *
  * @copyright Copyright (c) 2024, Cassandra "ZZ Cat" Robinson. All rights reserved.
  *
