@@ -69,10 +69,16 @@ namespace serialReceiverLayer
     typedef void (*rcChannelsCallback_t)(rcChannels_t *);
     typedef void (*flightModeCallback_t)(flightModeId_t);
     typedef void (*linkStatisticsCallback_t)(link_statistics_t);
+    typedef void (*rawDataCallback_t)(int8_t);
+
+    typedef void (*linkUpCallback_t)();
+    typedef void (*linkDownCallback_t)();
 
     class SerialReceiver
     {
       public:
+        static const unsigned int CRSF_FAILSAFE_STAGE1_MS = 300;
+
         SerialReceiver();
         explicit SerialReceiver(HardwareSerial *hwUartPort);
         SerialReceiver(HardwareSerial *hwUartPort, int8_t rxPin, int8_t txPin);
@@ -86,6 +92,8 @@ namespace serialReceiverLayer
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0 || CRSF_LINK_STATISTICS_ENABLED > 0
         void processFrames();
 #endif
+
+
 
 #if CRSF_LINK_STATISTICS_ENABLED > 0
         void setLinkStatisticsCallback(linkStatisticsCallback_t callback);
@@ -106,6 +114,13 @@ namespace serialReceiverLayer
 #endif
 #endif
 
+        void setRawDataCallback(rawDataCallback_t callback);
+        void setLinkDownCallback(linkDownCallback_t callback);
+        void setLinkUpCallback(linkUpCallback_t callback);
+        bool isLinkUp() const;
+        void checkLinkDown();
+        void setLinkUp();
+
 #if CRSF_TELEMETRY_ENABLED > 0
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);
         void telemetryWriteBaroAltitude(uint16_t altitude, int16_t vario);
@@ -121,6 +136,8 @@ namespace serialReceiverLayer
 
         int8_t _rxPin = -1;
         int8_t _txPin = -1;
+        bool _linkIsUp;
+        uint32_t _lastChannelsPacket;
 
 #if CRSF_TELEMETRY_ENABLED > 0
         Telemetry *telemetry = nullptr;
@@ -156,5 +173,9 @@ namespace serialReceiverLayer
 #if CRSF_RC_ENABLED > 0 || CRSF_TELEMETRY_ENABLED > 0
         void flushRemainingFrames();
 #endif
+
+        rawDataCallback_t _rawDataCallback = nullptr;
+        linkUpCallback_t _linkUpCallback = nullptr;
+        linkDownCallback_t _linkDownCallback = nullptr; 
     };
 } // namespace serialReceiverLayer
