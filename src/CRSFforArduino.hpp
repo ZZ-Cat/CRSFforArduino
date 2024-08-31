@@ -54,6 +54,10 @@ namespace sketchLayer
         bool setFlightMode(serialReceiverLayer::flightModeId_t flightModeId, const char *flightModeName, uint8_t channel, uint16_t min, uint16_t max);
         bool setFlightMode(serialReceiverLayer::flightModeId_t flightMode, uint8_t channel, uint16_t min, uint16_t max);
         void setFlightModeCallback(void (*callback)(serialReceiverLayer::flightModeId_t flightMode));
+        void setRawDataCallback(void (*callback)(int8_t byteReceived));
+
+        void setLinkUpCallback(void (*callback)());
+        void setLinkDownCallback(void (*callback)());
 
         // Telemetry functions.
         void telemetryWriteAttitude(int16_t roll, int16_t pitch, int16_t yaw);

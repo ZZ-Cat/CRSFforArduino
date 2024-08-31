@@ -190,6 +190,21 @@ namespace sketchLayer
 #endif
     }
 
+    void CRSFforArduino::setRawDataCallback(void (*callback)(int8_t byteReceived))
+    {
+        this->SerialReceiver::setRawDataCallback(callback);
+    }
+
+    void CRSFforArduino::setLinkUpCallback(void (*callback)()) 
+    { 
+        this->SerialReceiver::setLinkUpCallback(callback); 
+    }
+    
+    void CRSFforArduino::setLinkDownCallback(void (*callback)()) 
+    { 
+        this->SerialReceiver::setLinkDownCallback(callback);
+    }
+
     void CRSFforArduino::setLinkStatisticsCallback(void (*callback)(serialReceiverLayer::link_statistics_t linkStatistics))
     {
 #if CRSF_LINK_STATISTICS_ENABLED > 0
