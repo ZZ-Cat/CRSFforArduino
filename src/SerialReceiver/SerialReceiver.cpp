@@ -233,12 +233,22 @@ namespace serialReceiverLayer
         CRSF_DEBUG_SERIAL_PORT.println();
         CRSF_DEBUG_SERIAL_PORT.flush();
 
+#if CRSF_DEBUG_ENABLE_VERSION_OUTPUT > 0
         CRSF_DEBUG_SERIAL_PORT.print("Version: ");
+#if CRSF_VERSION_IS_PRERELEASE > 0
+        CRSF_DEBUG_SERIAL_PORT.print(CRSFFORARDUINO_VERSION);
+        CRSF_DEBUG_SERIAL_PORT.print("-");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION_PRERELEASE);
+        CRSF_DEBUG_SERIAL_PORT.print("Build date: ");
+        CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION_BUILD_DATE);
+#else
         CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION);
         CRSF_DEBUG_SERIAL_PORT.print("Build date: ");
         CRSF_DEBUG_SERIAL_PORT.println(CRSFFORARDUINO_VERSION_DATE);
+#endif
         CRSF_DEBUG_SERIAL_PORT.println();
         CRSF_DEBUG_SERIAL_PORT.flush();
+#endif
 
         for (int i = 0; i < 93; i++)
         {

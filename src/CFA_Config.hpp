@@ -47,6 +47,7 @@ See https://semver.org/ for more information. */
 // NOTE: Pre-release versions are not recommended for production use.
 #if CRSFFORARDUINO_VERSION_IS_PRERELEASE == 1
 #define CRSFFORARDUINO_VERSION_PRE   "2024.9.3"
+#define CRSFFORARDUINO_VERSION_BUILD_DATE "2024-9-3"
 #define CRSFFORARDUINO_VERSION_BUILD_YEAR 2024
 #define CRSFFORARDUINO_VERSION_BUILD_MONTH 9
 #define CRSFFORARDUINO_VERSION_BUILD_DAY 3
