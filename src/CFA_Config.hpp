@@ -46,11 +46,11 @@ See https://semver.org/ for more information. */
 // These are the pre-release version details which are only used if CRSFFORARDUINO_VERSION_IS_PRERELEASE is set to 1.
 // NOTE: Pre-release versions are not recommended for production use.
 #if CRSFFORARDUINO_VERSION_IS_PRERELEASE == 1
-#define CRSFFORARDUINO_VERSION_PRE   "1.0.0"
-#define CRSFFORARDUINO_VERSION_BUILD_DATE "2024-7-21"
-#define CRSFFORARDUINO_VERSION_BUILD_MAJOR 1
-#define CRSFFORARDUINO_VERSION_BUILD_MINOR 0
-#define CRSFFORARDUINO_VERSION_BUILD_PATCH 0
+#define CRSFFORARDUINO_VERSION_PRE   "2024.9.3"
+#define CRSFFORARDUINO_VERSION_BUILD_DATE "2024-9-3"
+#define CRSFFORARDUINO_VERSION_BUILD_MAJOR 2024
+#define CRSFFORARDUINO_VERSION_BUILD_MINOR 9
+#define CRSFFORARDUINO_VERSION_BUILD_PATCH 3
 #endif
 
 /* Failsafe Options
