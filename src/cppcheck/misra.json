@@ -1,0 +1,18 @@
+{
+    "version": "2.0",
+    "script": "addons/misra.py",
+    "standard": "c2012",
+    "args":[
+        "--rule-texts=src/cppcheck/misra-rules.txt"
+    ],
+    "deviations": [
+        {
+            "deviation": "Rule 1.1",
+            "reason": "Rule 1.1 is not currently handled by Cppcheck, therefore it is not enforced here."
+        },
+        {
+            "deviation": "Rule 1.2",
+            "reason": "Rule 1.2 is not currently handled by Cppcheck, therefore it is not enforced here."
+        }
+    ]
+}
