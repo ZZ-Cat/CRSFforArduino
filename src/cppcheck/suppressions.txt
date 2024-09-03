@@ -1,2 +1,5 @@
 missingInclude:*/*.cpp
 missingInclude:*/*.hpp
+unmatchedSuppression:*/*.cpp
+unmatchedSuppression:*/*.hpp
+unmatchedSuppression:*/*.ino
