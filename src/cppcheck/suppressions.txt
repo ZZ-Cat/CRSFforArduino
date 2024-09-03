@@ -3,3 +3,5 @@ missingInclude:*/*.hpp
 unmatchedSuppression:*/*.cpp
 unmatchedSuppression:*/*.hpp
 unmatchedSuppression:*/*.ino
+unusedFunction:*/*.ino
+unusedFunction:*/*.cpp
