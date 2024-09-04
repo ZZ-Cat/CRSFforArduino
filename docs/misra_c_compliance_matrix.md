@@ -2,6 +2,89 @@
 
 This is a table of MISRA C guidelines that CRSF for Arduino is compliant with, along with how each guideline is checked and (if required) outlines manual review procedures.
 
-| Guideline | Compilers | Static Analysis Tools | Manual review procedures |
-| --------- | --------- | --------------------- | ------------------------ |
-|           |           |                       |                          |
+| Guideline | GCC Arm None EABI | Cppcheck | Manual review procedures |
+| --- | --- | --- | --- |
+| Rule 1.3  | | | |
+| Rule 2.1 | | | |
+| Rule 2.2 | | | |
+| Rule 2.3 | | | |
+| Rule 2.4 | | | |
+| Rule 2.5 | | | |
+| Rule 2.6 | | | |
+| Rule 2.7 | | | |
+| Rule 3.1 | | | |
+| Rule 3.2 | | | |
+| Rule 4.1 | | | |
+| Rule 4.2 | | | |
+| Rule 5.1 | | | |
+| Rule 5.2 | | | |
+| Rule 5.3 | | | |
+| Rule 5.4 | | | |
+| Rule 5.5 | | | |
+| Rule 5.6 | | | |
+| Rule 5.7 | | | |
+| Rule 5.8 | | | |
+| Rule 5.9 | | | |
+| Rule 6.1 | | | |
+| Rule 6.2 | | | |
+| Rule 7.1 | | | |
+| Rule 7.2 | | | |
+| Rule 7.3 | | | |
+| Rule 7.4 | | | |
+| Rule 8.1 | | | |
+| Rule 8.2 | | | |
+| Rule 8.3 | | | |
+| Rule 8.4 | | | |
+| Rule 8.5 | | | |
+| Rule 8.6 | | | |
+| Rule 8.7 | | | |
+| Rule 8.8 | | | |
+| Rule 8.9 | | | |
+| Rule 8.10 | | | |
+| Rule 8.11 | | | |
+| Rule 8.12 | | | |
+| Rule 8.13 | | | |
+| Rule 8.14 | | | |
+| Rule 9.1 | | | |
+| Rule 9.2 | | | |
+| Rule 9.3 | | | |
+| Rule 9.4 | | | |
+| Rule 9.5 | | | |
+| Rule 10.1 | | | |
+| Rule 10.2 | | | |
+| Rule 10.3 | | | |
+| Rule 10.4 | | | |
+| Rule 10.5 | | | |
+| Rule 10.6 | | | |
+| Rule 10.7 | | | |
+| Rule 10.8 | | | |
+| Rule 11.1 | | | |
+| Rule 11.2 | | | |
+| Rule 11.3 | | | |
+| Rule 11.4 | | | |
+| Rule 11.5 | | | |
+| Rule 11.6 | | | |
+| Rule 11.7 | | | |
+| Rule 11.8 | | | |
+| Rule 11.9 | | | |
+| Rule 12.1 | | | |
+| Rule 12.2 | | | |
+| Rule 12.3 | | | |
+| Rule 12.4 | | | |
+| Rule 13.1 | | | |
+| Rule 13.2 | | | |
+| Rule 13.3 | | | |
+| Rule 13.4 | | | |
+| Rule 13.5 | | | |
+| Rule 13.6 | | | |
+| Rule 14.1 | | | |
+| Rule 14.2 | | | |
+| Rule 14.3 | | | |
+| Rule 14.4 | | | |
+| Rule 15.1 | | | |
+| Rule 15.2 | | | |
+| Rule 15.3 | | | |
+| Rule 15.4 | | | |
+| Rule 15.5 | | | |
+| Rule 15.6 | | | |
+| Rule 15.7 | | | |
