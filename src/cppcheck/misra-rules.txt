@@ -217,3 +217,31 @@ Rule 19.1 Mandatory
 An object shall not be assigned or copied to an overlapping object.
 Rule 19.2 Advisory
 The union keyword should not be used.
+Rule 20.1 Advisory
+#include directives should only be preceded by preprocessor directives or comments.
+Rule 20.2 Required
+The ', " or \ characters and the /* or // character sequences shall not occur in a header file name.
+Rule 20.3 Required
+The #include directive shall be followed by either a <filename> or "filename" sequence.
+Rule 20.4 Required
+A macro shall not be defined with the same name as a keyword.
+Rule 20.5 Advisory
+#undef should not be used.
+Rule 20.6 Required
+Tokens that look like a preprocessing directive shall not occur within a macro argument.
+Rule 20.7 Required
+Expressions resulting from the expansion of macro parameters shall be enclosed in parentheses.
+Rule 20.8 Required
+The controlling expression of a #if or #elif preprocessing directive shall evaluate to 0 or 1.
+Rule 20.9 Required
+All identifiers used in the controlling expression of #if or #elif preprocessing directives shall be #define'd before evaluation.
+Rule 20.10 Advisory
+The # and ## preprocessor operators should not be used.
+Rule 20.11 Required
+A macro parameter immediately following a # operator shall not immediately be followed by a ## operator.
+Rule 20.12 Required
+A macro parameter used as an operand to the # or ## operators, which is itself subject to further macro replacement, shall only be used as an operand to these operators.
+Rule 20.13 Required
+A line whose first token is # shall be a valid preprocessing directive.
+Rule 20.14 Required
+All #else and #elif preprocessor directives shall reside in the same file as the #if, #ifdef or #ifndef directive to which they are related.
