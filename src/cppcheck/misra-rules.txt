@@ -213,3 +213,7 @@ Rule 18.7 Required
 Flexible array members shall not be declared.
 Rule 18.8 Required
 Variable length array types shall not be used.
+Rule 19.1 Mandatory
+An object shall not be assigned or copied to an overlapping object.
+Rule 19.2 Advisory
+The union keyword should not be used.
