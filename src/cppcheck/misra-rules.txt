@@ -167,3 +167,17 @@ Rule 15.6 Required
 The body of an iteration-statement or a selection-statement shall be a compound statement.
 Rule 15.7 Required
 All if ... else if constructs shall be terminated with an else clause.
+Rule 16.1 Required
+All switch statements shall be well-formed.
+Rule 16.2 Required
+A switch label shall only be used when the most closely-enclosing compound statement is the body of a switch statement.
+Rule 16.3 Required
+An unconditional break statement shall terminate every non-empty switch-clause.
+Rule 16.4 Required
+Every switch statement shall have a default label.
+Rule 16.5 Required
+A default label shall appear as either the first or the last switch label of a switch statement.
+Rule 16.6 Required
+Every switch statement shall have at least two switch-clauses.
+Rule 16.7 Required
+A switch-expression shall not have essentially Boolean type.
