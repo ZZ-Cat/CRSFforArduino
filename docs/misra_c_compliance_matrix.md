@@ -27,9 +27,9 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 1.3 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.2 | Required | :x: | :white_check_mark: | :x: |
-| Rule 2.3 | Advisory | :x: | :white_check_mark: | :x: |
-| Rule 2.4 | Advisory | :x: | :white_check_mark: | :x: |
-| Rule 2.5 | Advisory | :x: | :white_check_mark: | :x: |
+| Rule 2.3 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 2.4 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 2.5 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 2.6 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 2.7 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 3.1 | Required | :x: | :white_check_mark: | :x: |
@@ -43,7 +43,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 5.5 | Required | :x: | :white_check_mark: | :x: |
 | Rule 5.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 5.7 | Required | :x: | :white_check_mark: | :x: |
-| Rule 5.8 | Required | :x: | :white_check_mark: | :x: |
+| Rule 5.8 | Required | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 5.9 | Required | :x: | :white_check_mark: | :x: |
 | Rule 6.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 6.2 | Required | :x: | :white_check_mark: | :x: |
@@ -52,12 +52,12 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 7.3 | Required | :x: | :white_check_mark: | :x: |
 | Rule 7.4 | Required | :x: | :white_check_mark: | :x: |
 | Rule 8.1 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.2 | Required | :x: | :white_check_mark: | :x: |
+| Rule 8.2 | Required | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 8.3 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.4 | Required | :x: | :white_check_mark: | :x: |
+| Rule 8.4 | Required | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 8.5 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.6 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.7 | Advisory | :x: | :white_check_mark: | :x: |
+| Rule 8.6 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 8.7 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 8.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 8.9 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 8.10 | Required | :x: | :white_check_mark: | :x: |
@@ -73,7 +73,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 10.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.3 | Required | :x: | :white_check_mark: | :x: |
-| Rule 10.4 | Required | :x: | :white_check_mark: | :x: |
+| Rule 10.4 | Required | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 10.5 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 10.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.7 | Required | :x: | :white_check_mark: | :x: |
@@ -87,7 +87,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 11.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 11.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 11.9 | Required | :x: | :white_check_mark: | :x: |
-| Rule 12.1 | Advisory | :x: | :white_check_mark: | :x: |
+| Rule 12.1 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 12.2 | Required |:x: | :white_check_mark: | :x: |
 | Rule 12.3 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 12.4 | Advisory | :x: | :white_check_mark: | :x: |
@@ -122,7 +122,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 17.5 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 17.6 | Mandatory | :x: | :white_check_mark: | :x: |
 | Rule 17.7 | Required | :x: | :white_check_mark: | :x: |
-| Rule 17.8 | Advisory | :x: | :white_check_mark: | :x: |
+| Rule 17.8 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 18.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.3 | Required | :x: | :white_check_mark: | :x: |
@@ -132,7 +132,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 18.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 19.1 | Mandatory | :x: | :white_check_mark: | :x: |
-| Rule 19.2 | Advisory | :x: | :white_check_mark: | :x: |
+| Rule 19.2 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 20.1 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 20.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.3 | Required | :x: | :white_check_mark: | :x: |
@@ -141,7 +141,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 20.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.8 | Required | :x: | :white_check_mark: | :x: |
-| Rule 20.9 | Required | :x: | :white_check_mark: | :x: |
+| Rule 20.9 | Required | :x: | :white_check_mark: | :white_check_mark: |
 | Rule 20.10 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 20.11 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.12 | Required | :x: | :white_check_mark: | :x: |
