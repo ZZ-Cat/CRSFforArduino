@@ -8,7 +8,7 @@ The [deviations](#deviations) section lists any deviations from the MISRA C guid
 
 The following table is the MISRA C compliance matrix for CRSF for Arduino.  
 Each row corresponds to a MISRA C guideline, and each column corresponds to a tool or method used to ensure compliance with the guideline.  
-A checkmark :white_checkmark: in a cell indicates that the guideline is checked by the corresponding tool or method.  
+A checkmark :white_check_mark: in a cell indicates that the guideline is checked by the corresponding tool or method.  
 A cross :x: in a cell indicates that the guideline is not checked by the corresponding tool or method.  
 
 If a cross is present in any column that corresponds to either the GCC Arm None EABI compiler or Cppcheck static analysis tool, this means that checking the guideline is not possible with that tool or method because it is not supported.  
