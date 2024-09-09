@@ -1,6 +1,12 @@
-# MISRA C Compliance Matrix
+# MISRA C Compliance and Deviations
 
-This is a table of MISRA C guidelines that CRSF for Arduino is compliant with, along with how each guideline is checked and (if required) outlines manual review procedures.
+This document outlines the MISRA C compliance of CRSF for Arduino and documents any deviations from the MISRA C guidelines.  
+The [compliance](#compliance) section lists all of the MISRA C guidelines that CRSF for Arduino is compliant with.
+The [deviations](#deviations) section lists any deviations from the MISRA C guidelines.
+
+## Compliance
+
+The following table is the MISRA C compliance matrix for CRSF for Arduino.
 
 **Legend:**
 
@@ -151,3 +157,7 @@ This is a table of MISRA C guidelines that CRSF for Arduino is compliant with, a
 | Rule 22.4 | Mandatory | | | |
 | Rule 22.5 | Mandatory | | | |
 | Rule 22.6 | Mandatory | | | |
+
+## Deviations
+
+No deviations are documented at this time.
