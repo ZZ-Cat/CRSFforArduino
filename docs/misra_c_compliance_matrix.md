@@ -23,6 +23,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | MISRA Rule | Rule flag | GCC Arm None EABI | Cppcheck | Manual review |
 | --- | --- | --- | --- | --- |
 | Rule 1.1 | Required | :x: | :x: | :white_check_mark: |
+| Rule 1.2 | Required | :x: | :x: | :white_check_mark: |
 | Rule 1.3 | Required | | | |
 | Rule 2.1 | Required | | | |
 | Rule 2.2 | Required | | | |
