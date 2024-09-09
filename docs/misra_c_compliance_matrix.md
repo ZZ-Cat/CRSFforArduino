@@ -2,6 +2,12 @@
 
 This is a table of MISRA C guidelines that CRSF for Arduino is compliant with, along with how each guideline is checked and (if required) outlines manual review procedures.
 
+**Legend:**
+
+- **Advisory**: CRSF for Arduino follows this guideline wherever reasonable and practical, unless the relevant deviation is documented.
+- **Required**: CRSF for Arduino must follow this guideline, unless the relevant deviation is documented.
+- **Mandatory**: CRSF for Arduino must follow this guideline. No deviations are permitted.
+
 | MISRA Rule | Rule flag | GCC Arm None EABI | Cppcheck | Manual review |
 | --- | --- | --- | --- | --- |
 | Rule 1.3 | Required | | | |
