@@ -9,9 +9,9 @@ The [deviations](#deviations) section lists any deviations from the MISRA C guid
 The following tables represent the compliance level of CRSF for Arduino with the MISRA C guidelines, and the tools used to verify compliance.  
 The compliance level is determined by the following flags:
 
-- **Advisory**: CRSF for Arduino follows this guideline wherever reasonable and practical, unless the relevant deviation is documented.
-- **Required**: CRSF for Arduino must follow this guideline, unless the relevant deviation is documented.
-- **Mandatory**: CRSF for Arduino must follow this guideline. No deviations are permitted.
+- **Advisory**: CRSF for Arduino should follow this guideline wherever reasonable and practical, unless the relevant deviation is documented.
+- **Required**: CRSF for Arduino should follow this guideline without any deviations unless that deviation is already documented.
+- **Mandatory**: CRSF for Arduino must follow this guideline. Deviations are not permitted.
 
 The icons listed here are used in the [directives][#directives] and [rules](#rules) tables to represent the compliance level.
 An icon is placed in a cell that corresponds to the guideline and the method used to verify compliance. Each icon represents a different compliance level.
