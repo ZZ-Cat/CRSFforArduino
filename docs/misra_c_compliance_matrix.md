@@ -22,7 +22,7 @@ The icons are as follows:
 - :o: - A deviation from the guideline is documented. See [deviations](#deviations) for more information.
 - :no_entry_sign: - CRSF for Arduino violates the guideline and is yet to be fixed.
 - :x: - This method is not used.
-- :warning: - Rule status is unknown.
+- :warning: - Rule status is unknown and requires manual review.
 
 ### Directives
 
@@ -30,8 +30,8 @@ The icons are as follows:
 
 | MISRA Rule | Rule flag | GCC Arm None EABI | Cppcheck | Manual review |
 | --- | --- | --- | --- | --- |
-| Rule 1.1 | Required | :x: | :x: | :white_check_mark: |
-| Rule 1.2 | Required | :x: | :x: | :white_check_mark: |
+| Rule 1.1 | Required | :x: | :x: | :warning: |
+| Rule 1.2 | Required | :x: | :x: | :warning: |
 | Rule 1.3 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.2 | Required | :x: | :white_check_mark: | :x: |
@@ -125,7 +125,7 @@ The icons are as follows:
 | Rule 16.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 17.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 17.2 | Required | :x: | :white_check_mark: | :x: |
-| Rule 17.3 | Mandatory | :x: | :x: | :white_check_mark: |
+| Rule 17.3 | Mandatory | :x: | :x: | :warning: |
 | Rule 17.4 | Mandatory | :x: | :white_check_mark: | :x: |
 | Rule 17.5 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 17.6 | Mandatory | :x: | :white_check_mark: | :x: |
