@@ -4,21 +4,29 @@ This document outlines the MISRA C compliance of CRSF for Arduino and documents 
 The [compliance](#compliance) section lists all of the MISRA C guidelines that CRSF for Arduino is compliant with.
 The [deviations](#deviations) section lists any deviations from the MISRA C guidelines.
 
-## Compliance
+## Compliance Matrix
 
-The following table is the MISRA C compliance matrix for CRSF for Arduino.  
-Each row corresponds to a MISRA C guideline, and each column corresponds to a tool or method used to ensure compliance with the guideline.  
-A checkmark :white_check_mark: in a cell indicates that the guideline is checked by the corresponding tool or method.  
-A cross :x: in a cell indicates that the guideline is not checked by the corresponding tool or method.  
-
-If a cross is present in any column that corresponds to either the GCC Arm None EABI compiler or Cppcheck static analysis tool, this means that checking the guideline is not possible with that tool or method because it is not supported.  
-In this case, the guideline must be checked manually during code review, as indicated by a checkmark in the "Manual review" column.
-
-**Legend:**
+The following tables represent the compliance level of CRSF for Arduino with the MISRA C guidelines, and the tools used to verify compliance.  
+The compliance level is determined by the following flags:
 
 - **Advisory**: CRSF for Arduino follows this guideline wherever reasonable and practical, unless the relevant deviation is documented.
 - **Required**: CRSF for Arduino must follow this guideline, unless the relevant deviation is documented.
 - **Mandatory**: CRSF for Arduino must follow this guideline. No deviations are permitted.
+
+The icons listed here are used in the [directives][#directives] and [rules](#rules) tables to represent the compliance level.
+An icon is placed in a cell that corresponds to the guideline and the method used to verify compliance. Each icon represents a different compliance level.
+The icons are as follows:
+
+- :white_check_mark: - CRSF for Arduino is compliant with the guideline.
+- :negative_squared_cross_mark: - CRSF for Arduino violates the guideline. A deviation from the guideline is being reviewed and may be documented.
+- :o: - A deviation from the guideline is documented. See [deviations](#deviations) for more information.
+- :no_entry_sign: - CRSF for Arduino violates the guideline and is yet to be fixed.
+- :x: - This method is not used.
+- :warning: - Rule status is unknown.
+
+### Directives
+
+### Rules
 
 | MISRA Rule | Rule flag | GCC Arm None EABI | Cppcheck | Manual review |
 | --- | --- | --- | --- | --- |
@@ -27,9 +35,9 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 1.3 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 2.2 | Required | :x: | :white_check_mark: | :x: |
-| Rule 2.3 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
-| Rule 2.4 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
-| Rule 2.5 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 2.3 | Advisory | :x: | :no_entry_sign: | :x: |
+| Rule 2.4 | Advisory | :x: | :no_entry_sign: | :x: |
+| Rule 2.5 | Advisory | :x: | :no_entry_sign: | :x: |
 | Rule 2.6 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 2.7 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 3.1 | Required | :x: | :white_check_mark: | :x: |
@@ -43,7 +51,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 5.5 | Required | :x: | :white_check_mark: | :x: |
 | Rule 5.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 5.7 | Required | :x: | :white_check_mark: | :x: |
-| Rule 5.8 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 5.8 | Required | :x: | :no_entry_sign: | :x: |
 | Rule 5.9 | Required | :x: | :white_check_mark: | :x: |
 | Rule 6.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 6.2 | Required | :x: | :white_check_mark: | :x: |
@@ -52,12 +60,12 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 7.3 | Required | :x: | :white_check_mark: | :x: |
 | Rule 7.4 | Required | :x: | :white_check_mark: | :x: |
 | Rule 8.1 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.2 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 8.2 | Required | :x: | :no_entry_sign: | :x: |
 | Rule 8.3 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.4 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 8.4 | Required | :x: | :no_entry_sign: | :x: |
 | Rule 8.5 | Required | :x: | :white_check_mark: | :x: |
-| Rule 8.6 | Required | :x: | :white_check_mark: | :white_check_mark: |
-| Rule 8.7 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 8.6 | Required | :x: | :no_entry_sign: | :x: |
+| Rule 8.7 | Advisory | :x: | :no_entry_sign: | :x: |
 | Rule 8.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 8.9 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 8.10 | Required | :x: | :white_check_mark: | :x: |
@@ -73,7 +81,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 10.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.3 | Required | :x: | :white_check_mark: | :x: |
-| Rule 10.4 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 10.4 | Required | :x: | :no_entry_sign: | :x: |
 | Rule 10.5 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 10.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 10.7 | Required | :x: | :white_check_mark: | :x: |
@@ -87,7 +95,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 11.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 11.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 11.9 | Required | :x: | :white_check_mark: | :x: |
-| Rule 12.1 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 12.1 | Advisory | :x: | :no_entry_sign: | :x: |
 | Rule 12.2 | Required |:x: | :white_check_mark: | :x: |
 | Rule 12.3 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 12.4 | Advisory | :x: | :white_check_mark: | :x: |
@@ -122,7 +130,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 17.5 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 17.6 | Mandatory | :x: | :white_check_mark: | :x: |
 | Rule 17.7 | Required | :x: | :white_check_mark: | :x: |
-| Rule 17.8 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 17.8 | Advisory | :x: | :no_entry_sign: | :x: |
 | Rule 18.1 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.3 | Required | :x: | :white_check_mark: | :x: |
@@ -132,7 +140,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 18.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 18.8 | Required | :x: | :white_check_mark: | :x: |
 | Rule 19.1 | Mandatory | :x: | :white_check_mark: | :x: |
-| Rule 19.2 | Advisory | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 19.2 | Advisory | :x: | :no_entry_sign: | :x: |
 | Rule 20.1 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 20.2 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.3 | Required | :x: | :white_check_mark: | :x: |
@@ -141,7 +149,7 @@ In this case, the guideline must be checked manually during code review, as indi
 | Rule 20.6 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.7 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.8 | Required | :x: | :white_check_mark: | :x: |
-| Rule 20.9 | Required | :x: | :white_check_mark: | :white_check_mark: |
+| Rule 20.9 | Required | :x: | :no_entry_sign: | :x: |
 | Rule 20.10 | Advisory | :x: | :white_check_mark: | :x: |
 | Rule 20.11 | Required | :x: | :white_check_mark: | :x: |
 | Rule 20.12 | Required | :x: | :white_check_mark: | :x: |
