@@ -13,7 +13,7 @@ The compliance level is determined by the following flags:
 - **Required**: CRSF for Arduino should follow this guideline without any deviations unless that deviation is already documented.
 - **Mandatory**: CRSF for Arduino must follow this guideline. Deviations are not permitted.
 
-The icons listed here are used in the [directives][#directives] and [rules](#rules) tables to represent the compliance level.
+The icons listed here are used in the [directives](#directives) and [rules](#rules) tables to represent the compliance level.
 An icon is placed in a cell that corresponds to the guideline and the method used to verify compliance. Each icon represents a different compliance level.
 The icons are as follows:
 
