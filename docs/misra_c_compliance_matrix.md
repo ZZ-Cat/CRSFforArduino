@@ -26,6 +26,25 @@ The icons are as follows:
 
 ### Directives
 
+| MISRA Directive | Rule flag | Manual review |
+| --- | --- | --- |
+| Directive 1.1 | Required | :warning: |
+| Directive 2.1 | Required | :no_entry_sign: |
+| Directive 3.1 | Required | :warning: |
+| Directive 4.1 | Required | :white_check_mark: |
+| Directive 4.2 | Advisory | :white_check_mark: |
+| Directive 4.3 | Required | :white_check_mark: |
+| Directive 4.4 | Advisory | :warning: |
+| Directive 4.5 | Advisory | :white_check_mark: |
+| Directive 4.6 | Advisory | :white_check_mark: |
+| Directive 4.7 | Required | :white_check_mark: |
+| Directive 4.8 | Advisory | :warning: |
+| Directive 4.9 | Advisory | :white_check_mark: |
+| Directive 4.10 | Required | :white_check_mark: |
+| Directive 4.11 | Required | :no_entry_sign: |
+| Directive 4.12 | Required | :no_entry_sign: |
+| Directive 4.13 | Advisory | :warning: |
+
 ### Rules
 
 | MISRA Rule | Rule flag | GCC Arm None EABI | Cppcheck | Manual review |
