@@ -15,6 +15,29 @@ if __name__ == "__main__":
             print(f"{e.stderr.strip()}")
             print("Deployment failed. Please resolve the issues before proceeding.")
             exit(1)
+
+    # If --deploy-and-monitor was specified as a command line argument,
+    # deploy the code to the device, wait for it to finish, and then start the serial monitor.
+    elif "--deploy-and-monitor" in args:
+        # Run the PlatformIO upload command.
+        command = "pio run -e development -t upload"
+        try:
+            subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
+        except subprocess.CalledProcessError as e:
+            print(f"{e.stdout.strip()}")
+            print(f"{e.stderr.strip()}")
+            print("Deployment failed. Please resolve the issues before proceeding.")
+            exit(1)
+        # Start the serial monitor.
+        command = "pio device monitor"
+        try:
+            subprocess.run(command, shell=True, check=True, text=True)
+        except subprocess.CalledProcessError as e:
+            print(f"{e.stdout.strip()}")
+            print(f"{e.stderr.strip()}")
+            print("Failed to start the serial monitor. Please resolve the issues before proceeding.")
+            exit(1)
+
     # If no arguments were specified, run the build command.
     else:
         # Run the PlatformIO build command.
