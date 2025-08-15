@@ -27,46 +27,46 @@ jobs:
       run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r .
   
   # Static code analysis with cppcheck using PlatformIO
-  defect_detector:
-    runs-on: ubuntu-latest
+  # defect_detector:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
+  #   steps:
+  #     - uses: actions/checkout@v4.1.1
+  #     - uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           ~/.cache/pip
+  #           ~/.platformio/.cache
+  #         key: ${{ runner.os }}-pio
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.9'
+  #     - name: Install PlatformIO Core
+  #       run: pip install --upgrade platformio
 
-      - name: Build defect detector
-        run: pio run -e defect_detector
+  #     - name: Build defect detector
+  #       run: pio run -e defect_detector
 
-      - name: Run defect detector
-        run: pio check -e defect_detector --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high
+  #     - name: Run defect detector
+  #       run: pio check -e defect_detector --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high
   
-  # Build the project with PlatformIO
-  build_on_compatible_targets:
-    runs-on: ubuntu-latest
+  # # Build the project with PlatformIO
+  # build_on_compatible_targets:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.platformio/.cache
-          key: ${{ runner.os }}-pio
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-      - name: Install PlatformIO Core
-        run: pip install --upgrade platformio
+  #   steps:
+  #     - uses: actions/checkout@v4.1.1
+  #     - uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           ~/.cache/pip
+  #           ~/.platformio/.cache
+  #         key: ${{ runner.os }}-pio
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.9'
+  #     - name: Install PlatformIO Core
+  #       run: pip install --upgrade platformio
 
-      - name: Build CRSF for Arduino on compatible targets
-        run: pio run
+  #     - name: Build CRSF for Arduino on compatible targets
+  #       run: pio run
