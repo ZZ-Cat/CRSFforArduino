@@ -26,6 +26,25 @@ jobs:
     - name: Check for correct formatting with clang-format
       run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r .
   
+  # New quality control script using Python and PlatformIO.
+  defect_detector:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{runner.os}}-pio
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install PlatformIO
+        run: pip install --upgrade platformio
+      - name: Run Quality Control script
+        run: cd src/build/scripts && python build.py
+
   # Static code analysis with cppcheck using PlatformIO
   # defect_detector:
   #   runs-on: ubuntu-latest
