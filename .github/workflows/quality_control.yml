@@ -44,5 +44,5 @@ jobs:
         run: pip install --upgrade platformio
       - name: Run Quality Control script
         run: |
-          cd src/build/scripts
+          cd /workspaces/CRSFforArduino/src/build/scripts
           python build.py
