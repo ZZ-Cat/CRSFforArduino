@@ -93,7 +93,7 @@ jobs:
     
     # Build the Defect Detector with PlatformIO
     - name: Build defect detector
-      run: pio run -e defect_detector
+      run: cd src/build/scripts && python build.py
 
     # Perform CodeQL Analysis
     - name: Perform CodeQL Analysis
