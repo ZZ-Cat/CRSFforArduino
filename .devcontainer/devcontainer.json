@@ -15,6 +15,7 @@
         "ms-vscode.cpptools-themes",
         "platformio.platformio-ide",
         "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-australian-english",
         "vivaxy.vscode-conventional-commits",
         "xaver.clang-format"
       ]
