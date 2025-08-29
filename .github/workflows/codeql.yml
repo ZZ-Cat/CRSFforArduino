@@ -94,7 +94,7 @@ jobs:
     # Build the Defect Detector with PlatformIO
     - name: Build defect detector
       run: |
-        cd /workspaces/CRSFforArduino/src/build/scripts
+        cd src/build/scripts
         python build.py
 
     # Perform CodeQL Analysis
