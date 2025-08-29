@@ -43,7 +43,7 @@ jobs:
       - name: Install PlatformIO
         run: pip install --upgrade platformio
       - name: Run Quality Control script
-        run: cd src/build/scripts && python build.py
+        run: cd src/build/scripts && python build.py --build-on-compatible-devices
 
   # Static code analysis with cppcheck using PlatformIO
   # defect_detector:

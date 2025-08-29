@@ -47,6 +47,23 @@ if __name__ == "__main__":
             print(f"{e.stderr.strip()}")
             print("Failed to start the serial monitor. Please resolve the issues before proceeding.")
             exit(1)
+    
+    # Check compatibility across verified devices.
+    # TO-DO:
+    #   - Conduct static analysis across verified devices.
+    #   - May need to update platformio.ini and the other targets files for this.
+    #   - For now, this just works.
+    elif "--build-on-compatible-devices" in args:
+        # No arguments provided—defaults to building across commonly used devices.
+        # Because these are the ones that are tested and verified It Just Works.
+        command = "pio run"
+        try:
+            subprocess.run(command, shell=True, check=True, capture_output=True)
+        except subprocess.CalledProcessError as e:
+            print(f"{e.stdout.strip()}")
+            print(f"{e.stderr.strip()}")
+            print("Build failed. One or more devices are not compatible.")
+            exit(1)
 
     # If no arguments were specified, run the build command.
     else:
