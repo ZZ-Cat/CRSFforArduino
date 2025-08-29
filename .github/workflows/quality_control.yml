@@ -41,12 +41,8 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install PlatformIO
+        run: pip install --upgrade platformio
+      - name: Run Quality Control script
         run: |
-          pip install --upgrade platformio
           cd src/build/scripts
-          pio run -e defect_detector
-
-      # - name: Run Quality Control script
-      #   run: |
-      #     cd src/build/scripts
-      #     python build.py
+          python build.py
