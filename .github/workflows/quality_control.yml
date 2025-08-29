@@ -45,4 +45,4 @@ jobs:
       - name: Run Quality Control script
         run: |
           cd src/build/scripts
-          python build.py
+          python build.py --build-on-compatible-devices
