@@ -43,4 +43,6 @@ jobs:
       - name: Install PlatformIO
         run: pip install --upgrade platformio
       - name: Run Quality Control script
-        run: cd src/build/scripts && python build.py --build-on-compatible-devices
+        run: |
+          cd src/build/scripts
+          python build.py --build-on-compatible-devices
