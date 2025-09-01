@@ -2,9 +2,9 @@ name: Quality Control
 
 on:
   push:
-    branches: [ "Main-Trunk", "Version-1.1.0-Development" ]
+    branches: [ "Main-Trunk" ]
   pull_request:
-    branches: [ "Main-Trunk", "Version-1.1.0-Development" ]
+    branches: [ "Main-Trunk" ]
 
 jobs:
   # Code formatting with clang-format
