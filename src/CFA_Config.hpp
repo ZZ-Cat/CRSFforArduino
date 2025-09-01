@@ -32,13 +32,14 @@ You can change these values to suit your needs. */
 namespace crsfForArduinoConfig
 {
 /* CRSFforArduino version
-Versioning is done using Semantic Versioning 2.0.0.
+Versioning is based on a rolling release model
+and is backwards-compatible with Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION       "1.1.0"
-#define CRSFFORARDUINO_VERSION_DATE  "2025-08-30"
-#define CRSFFORARDUINO_VERSION_MAJOR 1
-#define CRSFFORARDUINO_VERSION_MINOR 1
-#define CRSFFORARDUINO_VERSION_PATCH 0
+#define CRSFFORARDUINO_VERSION       "2025.9.2"
+#define CRSFFORARDUINO_VERSION_DATE  "2025-09-02"
+#define CRSFFORARDUINO_VERSION_MAJOR 2025
+#define CRSFFORARDUINO_VERSION_MINOR 9
+#define CRSFFORARDUINO_VERSION_PATCH 2
 
 // This is set to 1 if the version is a pre-release version.
 #define CRSFFORARDUINO_VERSION_IS_PRERELEASE 0
