@@ -1,0 +1,31 @@
+{
+  "name": "CRSFforArduino development container",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install platformio",
+  "postStartCommand": "sudo groupadd -g 986 uucp || true && sudo usermod -aG uucp vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cpptools-themes",
+        "platformio.platformio-ide",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-australian-english",
+        "vivaxy.vscode-conventional-commits",
+        "xaver.clang-format"
+      ]
+    }
+  },
+  "runArgs": [
+    "--device=/dev/ttyACM0",
+    "--group-add=986"
+  ],
+  "mounts": [
+    "source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
+  ]
+}

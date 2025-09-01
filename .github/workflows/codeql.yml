@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "Main-Trunk", "Version-1.1.0-Development" ]
+    branches: [ "Main-Trunk" ]
   pull_request:
-    branches: [ "Main-Trunk", "Version-1.1.0-Development" ]
+    branches: [ "Main-Trunk" ]
   schedule:
     - cron: '31 20 * * 6'
 
@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'c-cpp' ]
+        language: [ 'c-cpp', 'python' ]
         # CodeQL supports [ 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift' ]
         # Use only 'java-kotlin' to analyze code written in Java, Kotlin or both
         # Use only 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
@@ -93,7 +93,9 @@ jobs:
     
     # Build the Defect Detector with PlatformIO
     - name: Build defect detector
-      run: pio run -e defect_detector
+      run: |
+        cd src/build/scripts
+        python build.py
 
     # Perform CodeQL Analysis
     - name: Perform CodeQL Analysis

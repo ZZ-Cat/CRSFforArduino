@@ -32,13 +32,27 @@ You can change these values to suit your needs. */
 namespace crsfForArduinoConfig
 {
 /* CRSFforArduino version
-Versioning is done using Semantic Versioning 2.0.0.
+Versioning is based on a rolling release model
+and is backwards-compatible with Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION       "1.0.4"
-#define CRSFFORARDUINO_VERSION_DATE  "2024-8-17"
-#define CRSFFORARDUINO_VERSION_MAJOR 1
-#define CRSFFORARDUINO_VERSION_MINOR 0
-#define CRSFFORARDUINO_VERSION_PATCH 4
+#define CRSFFORARDUINO_VERSION       "2025.9.2"
+#define CRSFFORARDUINO_VERSION_DATE  "2025-09-02"
+#define CRSFFORARDUINO_VERSION_MAJOR 2025
+#define CRSFFORARDUINO_VERSION_MINOR 9
+#define CRSFFORARDUINO_VERSION_PATCH 2
+
+// This is set to 1 if the version is a pre-release version.
+#define CRSFFORARDUINO_VERSION_IS_PRERELEASE 0
+
+// These are the pre-release version details which are only used if CRSFFORARDUINO_VERSION_IS_PRERELEASE is set to 1.
+// NOTE: Pre-release versions are not recommended for production use.
+// #if CRSFFORARDUINO_VERSION_IS_PRERELEASE == 1
+// #define CRSFFORARDUINO_VERSION_PRE   "2025.8.30"
+// #define CRSFFORARDUINO_VERSION_BUILD_DATE "2025-08-30"
+// #define CRSFFORARDUINO_VERSION_BUILD_MAJOR 2025
+// #define CRSFFORARDUINO_VERSION_BUILD_MINOR 8
+// #define CRSFFORARDUINO_VERSION_BUILD_PATCH 30
+// #endif
 
 /* Failsafe Options
 - CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.
@@ -107,10 +121,13 @@ and assign them to a switch on your controller. */
 - DEBUG_ENABLED: Enables or disables debug output over the selected serial port.
 - CRSF_DEBUG_SERIAL_PORT: The serial port to use for debug output. Usually the native USB port.
 - CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT: Enables or disables debug output from the compatibility table.
-- CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP: When enabled, this will print the configuration of CFA to the Serial Monitor.*/
+- CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP: When enabled, this will print the configuration of CFA to the Serial Monitor.
+- CRSF_DEBUG_ENABLE_VERSION_OUTPUT: When enabled, this will print the version of CFA to the Serial Monitor. */
+#define CRSF_DEBUG_ENABLED                           0
 #define CRSF_DEBUG_SERIAL_PORT                       Serial
 #define CRSF_DEBUG_ENABLE_COMPATIBILITY_TABLE_OUTPUT 0
 #define CRSF_DEBUG_ENABLE_CONFIGURATION_DUMP         0
+#define CRSF_DEBUG_ENABLE_VERSION_OUTPUT             1
 
 /* All warnings and asserts below this point are to ensure that the configuration is valid. */
 
