@@ -1,0 +1,16 @@
+---
+Checks:
+  - 'bugprone-*'
+  - 'cert-*'
+  - 'clang-diagnostic-*'
+  - 'clang-analyzer-*'
+  - 'cppcoreguidelines-*'
+  - 'hicpp-*'
+  - 'misc-*'
+  - 'modernize-*'
+  - 'performance-*'
+  - 'portability-*'
+  - 'readability-*'
+HeaderFileExtensions: ['h', 'hpp']
+ImplementationFileExtensions: ['c', 'cpp']
+...

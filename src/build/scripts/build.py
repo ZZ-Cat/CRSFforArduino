@@ -3,7 +3,7 @@ import sys
 
 if __name__ == "__main__":
     # Run the defect detector to check for any issues in the code.
-    command = "pio check -e defect_detector --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high"
+    command = "pio check -e defect_detector_clangtidy --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high"
     try:
         subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
     except subprocess.CalledProcessError as e:
