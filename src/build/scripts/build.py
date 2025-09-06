@@ -14,6 +14,15 @@ if __name__ == "__main__":
         print("There were issues detected in the code-base. Please resolve them before proceeding.")
         exit(1)
 
+    command = "pio check -e defect_detector_cppcheck --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high"
+    try:
+        subprocess.run(command, shell=True, check=True, text=True, capture_output=True)
+    except subprocess.CalledProcessError as e:
+        print(f"{e.stdout.strip()}")
+        print(f"{e.stderr.strip()}")
+        print("There were issues detected in the code-base. Please resolve them before proceeding.")
+        exit(1)
+
     # Get the command line arguments.
     args = sys.argv[1:]
     # If --deploy was specified as a command line argument, deploy the code to the device.
