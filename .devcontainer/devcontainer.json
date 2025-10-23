@@ -2,7 +2,7 @@
   "name": "CRSFforArduino development container",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "postCreateCommand": "pip install platformio",
-  "postStartCommand": "sudo groupadd -g 986 uucp || true && sudo usermod -aG uucp vscode",
+  "postStartCommand": "sudo groupadd -g 985 uucp || true && sudo usermod -aG uucp vscode",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -23,7 +23,7 @@
   },
   "runArgs": [
     "--device=/dev/ttyACM0",
-    "--group-add=986"
+    "--group-add=985"
   ],
   "mounts": [
     "source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
