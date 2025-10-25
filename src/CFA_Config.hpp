@@ -35,11 +35,11 @@ namespace crsfForArduinoConfig
 Versioning is based on a rolling release model
 and is backwards-compatible with Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION       "2025.9.2"
-#define CRSFFORARDUINO_VERSION_DATE  "2025-09-02"
+#define CRSFFORARDUINO_VERSION       "2025.10.26"
+#define CRSFFORARDUINO_VERSION_DATE  "2025-10-26"
 #define CRSFFORARDUINO_VERSION_MAJOR 2025
-#define CRSFFORARDUINO_VERSION_MINOR 9
-#define CRSFFORARDUINO_VERSION_PATCH 2
+#define CRSFFORARDUINO_VERSION_MINOR 10
+#define CRSFFORARDUINO_VERSION_PATCH 26
 
 // This is set to 1 if the version is a pre-release version.
 #define CRSFFORARDUINO_VERSION_IS_PRERELEASE 0
