@@ -105,6 +105,7 @@ namespace hal
             // Espressif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
+            DEVBOARD_ESPRESSIF_ESP32DOIT_DEVKIT_V1,
 
             // Raspberry Pi RP2040 boards.
             DEVBOARD_RASPBERRYPI_PICO,
@@ -297,6 +298,7 @@ namespace hal
             "Arduino Portenta H7 (M4 Core)",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
+            "Espressif ESP32 DOIT DevKit V1",
             "Raspberry Pi Pico",
             "Seeed Studio Xiao ESP32-C3",
             "Seeed Studio Xiao ESP32-S3",
