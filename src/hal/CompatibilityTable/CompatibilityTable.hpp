@@ -24,6 +24,19 @@
 
 #pragma once
 
+/* ESP32 workarounds for non-compliant generic UART definitions. */
+#if defined(ARDUINO_ARCH_ESP32)
+
+#ifndef PIN_SERIAL1_RX
+#define PIN_SERIAL1_RX RX
+#endif
+
+#ifndef PIN_SERIAL1_TX
+#define PIN_SERIAL1_TX TX
+#endif
+
+#endif
+
 namespace hal
 {
     class CompatibilityTable
