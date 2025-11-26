@@ -44,20 +44,23 @@ namespace serialReceiverLayer
 #elif defined(ARDUINO_ARCH_ESP32)
         _uart = &Serial1;
 
-#if defined(D0)
-        _rxPin = D0;
-#else
-        _rxPin = 0;
-#endif
+// #if defined(D0)
+//         _rxPin = D0;
+// #else
+//         _rxPin = 0;
+// #endif
 
-#if defined(D1)
-        _txPin = D1;
-#else
-        _txPin = 1;
-#endif
+// #if defined(D1)
+//         _txPin = D1;
+// #else
+//         _txPin = 1;
+// #endif
 #else
         _uart = &Serial1;
 #endif
+
+    _rxPin = PIN_SERIAL1_RX;
+    _txPin = PIN_SERIAL1_TX;
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;
@@ -74,19 +77,22 @@ namespace serialReceiverLayer
     {
         _uart = hwUartPort;
 
-#if defined(ARDUINO_ARCH_ESP32)
-        #if defined(D0)
-        _rxPin = D0;
-#else
-        _rxPin = 0;
-#endif
+// #if defined(ARDUINO_ARCH_ESP32)
+// #if defined(RX)
+//         _rxPin = RX;
+// #else
+//         _rxPin = 0;
+// #endif
 
-#if defined(D1)
-        _txPin = D1;
-#else
-        _txPin = 1;
-#endif
-#endif
+// #if defined(TX)
+//         _txPin = TX;
+// #else
+//         _txPin = 1;
+// #endif
+// #endif
+
+        _rxPin = PIN_SERIAL1_RX;
+        _txPin = PIN_SERIAL1_TX;
 
 #if CRSF_RC_ENABLED > 0
         _rcChannels = new rcChannels_t;

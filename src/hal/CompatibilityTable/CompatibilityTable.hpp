@@ -24,6 +24,27 @@
 
 #pragma once
 
+/* ESP32 workarounds for non-compliant generic UART definitions. */
+#if defined(ARDUINO_ARCH_ESP32)
+
+#ifndef PIN_SERIAL1_RX
+#define PIN_SERIAL1_RX RX
+#endif
+
+#ifndef PIN_SERIAL1_TX
+#define PIN_SERIAL1_TX TX
+#endif
+
+/* Serial1 workarounds for everything else. */
+#else
+
+#if (defined(PIN_SERIAL_RX) && defined(PIN_SERIAL_TX))
+#define PIN_SERIAL1_RX PIN_SERIAL_RX
+#define PIN_SERIAL1_TX PIN_SERIAL_TX
+#endif
+
+#endif
+
 namespace hal
 {
     class CompatibilityTable
@@ -105,6 +126,7 @@ namespace hal
             // Espressif ESP32 boards.
             DEVBOARD_ESPRESSIF_ESP32C3_DEVKIT,
             DEVBOARD_ESPRESSIF_ESP32S3_DEVKIT,
+            DEVBOARD_ESPRESSIF_ESP32DOIT_DEVKIT_V1,
 
             // Raspberry Pi RP2040 boards.
             DEVBOARD_RASPBERRYPI_PICO,
@@ -297,6 +319,7 @@ namespace hal
             "Arduino Portenta H7 (M4 Core)",
             "Espressif ESP32-C3 DevKit",
             "Espressif ESP32-S3 DevKit",
+            "Espressif ESP32 DOIT DevKit V1",
             "Raspberry Pi Pico",
             "Seeed Studio Xiao ESP32-C3",
             "Seeed Studio Xiao ESP32-S3",
