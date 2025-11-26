@@ -35,6 +35,14 @@
 #define PIN_SERIAL1_TX TX
 #endif
 
+/* Serial1 workarounds for everything else. */
+#else
+
+#if (defined(PIN_SERIAL_RX) && defined(PIN_SERIAL_TX))
+#define PIN_SERIAL1_RX PIN_SERIAL_RX
+#define PIN_SERIAL1_TX PIN_SERIAL_TX
+#endif
+
 #endif
 
 namespace hal
