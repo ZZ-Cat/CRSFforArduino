@@ -35,24 +35,11 @@ namespace crsfForArduinoConfig
 Versioning is based on a rolling release model
 and is backwards-compatible with Semantic Versioning 2.0.0.
 See https://semver.org/ for more information. */
-#define CRSFFORARDUINO_VERSION       "2025.10.26"
-#define CRSFFORARDUINO_VERSION_DATE  "2025-10-26"
+#define CRSFFORARDUINO_VERSION       "2025.12.02"
+#define CRSFFORARDUINO_VERSION_DATE  "2025-12-02"
 #define CRSFFORARDUINO_VERSION_MAJOR 2025
-#define CRSFFORARDUINO_VERSION_MINOR 10
-#define CRSFFORARDUINO_VERSION_PATCH 26
-
-// This is set to 1 if the version is a pre-release version.
-#define CRSFFORARDUINO_VERSION_IS_PRERELEASE 0
-
-// These are the pre-release version details which are only used if CRSFFORARDUINO_VERSION_IS_PRERELEASE is set to 1.
-// NOTE: Pre-release versions are not recommended for production use.
-// #if CRSFFORARDUINO_VERSION_IS_PRERELEASE == 1
-// #define CRSFFORARDUINO_VERSION_PRE   "2025.8.30"
-// #define CRSFFORARDUINO_VERSION_BUILD_DATE "2025-08-30"
-// #define CRSFFORARDUINO_VERSION_BUILD_MAJOR 2025
-// #define CRSFFORARDUINO_VERSION_BUILD_MINOR 8
-// #define CRSFFORARDUINO_VERSION_BUILD_PATCH 30
-// #endif
+#define CRSFFORARDUINO_VERSION_MINOR 12
+#define CRSFFORARDUINO_VERSION_PATCH 2
 
 /* Failsafe Options
 - CRSF_FAILSAFE_LQI_THRESHOLD: The minimum LQI value for the receiver to be considered connected.
