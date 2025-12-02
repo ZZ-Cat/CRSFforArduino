@@ -37,8 +37,12 @@ namespace hal
     CompatibilityTable::CompatibilityTable()
     {
 
+#if defined(ARDUINO_ARCH_AVR)
+
+        device.type.devboard = DEVBOARD_ARDUINO_AVR_UNOR3;
+
 // Arduino ESP32 Architecture
-#if defined(ARDUINO_ARCH_ESP32)
+#elif defined(ARDUINO_ARCH_ESP32)
 
 // Adafruit devboards
 #if defined(ARDUINO_FEATHER_ESP32)

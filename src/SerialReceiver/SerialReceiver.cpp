@@ -33,7 +33,9 @@ namespace serialReceiverLayer
 {
     SerialReceiver::SerialReceiver(): _linkIsUp(false), _lastChannelsPacket(0)
     {
-#if defined(ARDUINO_ARCH_STM32)
+#if defined(ARDUINO_ARCH_AVR)
+        _uart = &Serial;
+#elif defined(ARDUINO_ARCH_STM32)
 #if defined(HAVE_HWSERIAL1)
         _uart = &Serial1;
 #elif defined(HAVE_HWSERIAL2)

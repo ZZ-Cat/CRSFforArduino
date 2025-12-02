@@ -22,8 +22,9 @@
  * 
  */
 
+#include "Arduino.h"
 #include "SerialBuffer.hpp"
-#include "cstring"
+// #include "cstring"
 
 namespace genericStreamBuffer
 {

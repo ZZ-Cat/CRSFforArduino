@@ -77,6 +77,9 @@ namespace hal
             // Adafruit SAME51 boards.
             DEVBOARD_ADAFRUIT_FEATHER_M4_CAN,
 
+            // Arduino AVR boards.
+            DEVBOARD_ARDUINO_AVR_UNOR3,
+
             // Arduino ESP32 boards.
             DEVBOARD_ARDUINO_NANO_ESP32,
 
@@ -278,6 +281,7 @@ namespace hal
             "Adafruit Metro M4 AirLift Lite",
             "Adafruit Metro M4 Express",
             "Adafruit Feather M4 CAN",
+            "Arduino Uno R3",
             "Arduino Nano ESP32",
             "Arduino Nano RP2040 Connect",
             "Arduino MKR1000",
