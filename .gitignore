@@ -17,5 +17,9 @@ templates/
 # Arduino IDE artefacts
 .development
 
+# Deprecated directories
+.*.deprecated
+.*.deprecated.d/
+
 # Developer's notes
 notes/
