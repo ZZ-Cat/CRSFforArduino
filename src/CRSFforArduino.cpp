@@ -20,6 +20,6 @@ namespace crsf_for_arduino
 
     void CRSFforArduino::update() // cppcheck-suppress unusedFunction
     {
-        Serial.println("CRSFforArduino update");
+        // Serial.println("CRSFforArduino update");
     }
 } // namespace crsf_for_arduino

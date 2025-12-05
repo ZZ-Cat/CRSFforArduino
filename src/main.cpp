@@ -31,8 +31,8 @@ void loop()
     cfa_global->update();
 
     // Just to keep the example simple, we won't do anything else here.
-    while (true)
-    {
-        yield();
-    }
+    // while (true)
+    // {
+    //     yield();
+    // }
 }
