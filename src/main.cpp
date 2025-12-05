@@ -1,4 +1,8 @@
-#include "Arduino.h"
+#include <Arduino.h>
+// NOLINTBEGIN(misc-include-cleaner)
+#include <CRSFforArduino.hpp>
+#include <gsl/gsl>
+// NOLINTEND(misc-include-cleaner)
 
 namespace my_namespace
 {
@@ -33,6 +37,13 @@ namespace my_namespace
 extern void setup();
 extern void loop();
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
+namespace
+{
+    gsl::owner<CRSFforArduino *> cfa_global = nullptr;
+} // namespace
+// NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
+
 void setup()
 {
     Serial.begin(115200);
@@ -46,6 +57,9 @@ void setup()
 
     my_namespace::class_a_derived obj;
     obj.do_something();
+
+    cfa_global = gsl::owner<CRSFforArduino *>(new CRSFforArduino());
+    cfa_global->receive_data();
 }
 
 void loop()
