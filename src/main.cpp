@@ -59,7 +59,16 @@ void setup()
     // obj.do_something();
 
     cfa_global = gsl::owner<CRSFforArduino *>(new CRSFforArduino());
+    cfa_global->begin();
 }
 
 void loop()
-{}
+{
+    cfa_global->update();
+
+    // Just to keep the example simple, we won't do anything else here.
+    while (true)
+    {
+        yield();
+    }
+}
