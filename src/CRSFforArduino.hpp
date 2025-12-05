@@ -9,12 +9,6 @@ namespace crsf_for_arduino
     public:
         CRSFforArduino() = default;
         ~CRSFforArduino() override = default;
-
-        void receive_data()
-        {
-            Serial.println("Receiving data via CRSFforArduino...");
-            serial_receiver_interface::receive_data();
-        }
     };
 } // namespace crsf_for_arduino
 
