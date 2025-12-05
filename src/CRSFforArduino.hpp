@@ -24,6 +24,26 @@ namespace crsf_for_arduino
         });
 
         void update();
+
+    private:
+        // using serial_receiver_interface::read;
+        // using serial_receiver_interface::write;
+        // using serial_receiver_interface::available;
+
+        // Buffer index.
+        uint8_t buffer_index = 0;
+
+        // Buffer length (variable length packets) - assumed minimum length of 5 bytes until length byte is read.
+        uint8_t buffer_length = 5;
+
+        // Maximum buffer size.
+        static constexpr uint8_t MAX_BUFFER_SIZE = 64;
+
+        // Sync byte detection flag.
+        bool sync_byte_detected = false;
+
+        // Sync byte value.
+        static constexpr uint8_t SYNC_BYTE = 0xC8;
     };
 } // namespace crsf_for_arduino
 
