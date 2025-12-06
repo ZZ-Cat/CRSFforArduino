@@ -38,6 +38,8 @@ namespace crsf_for_arduino
         // Buffer length (variable length packets) - assumed minimum length of 5 bytes until length byte is read.
         unsigned char buffer_length = 5;
 
+        // Minimum buffer size.
+        static constexpr unsigned char MIN_BUFFER_SIZE = 5;
 
         // Maximum buffer size.
         static constexpr unsigned char MAX_BUFFER_SIZE = 64;

@@ -39,7 +39,7 @@ namespace crsf_for_arduino
                 // If less than three bytes have been read, set the buffer length to minimum.
                 if (buffer_index < 3)
                 {
-                    buffer_length = 5; // Minimum length
+                    buffer_length = MIN_BUFFER_SIZE; // Minimum length
                 }
                 // Otherwise, read the length byte.
                 else
