@@ -13,8 +13,7 @@ namespace crsf_for_arduino
         // TO-DO: Need to find a way to pass these parameters to the underlying
         // serial receiver interface middleware.
 
-        // Will attempt a Serial1 begin with these parameters, and see
-        // if it works.
+        // Initialise Serial1 with the provided configuration, for now.
         Serial1.begin(cfg.baud_rate, cfg.config);
     }
 
@@ -29,8 +28,9 @@ namespace crsf_for_arduino
             {
                 sync_byte_detected = true;
                 buffer.fill(0);
-                // buffer_length = 5; // Reset to minimum length
                 buffer_index = 0;
+
+                // Debug output.
                 // Serial.println("Sync byte detected");
             }
 
@@ -60,6 +60,7 @@ namespace crsf_for_arduino
                 // Check if we've read the full packet.
                 if (buffer_index >= buffer_length)
                 {
+                    // Debug output of the complete packet.
                     Serial.print("Complete packet received: [");
                     for (uint8_t i = 0; i < buffer_length; ++i)
                     {
