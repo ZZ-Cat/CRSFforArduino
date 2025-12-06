@@ -1,6 +1,4 @@
 #include <CRSFforArduino.hpp>
-// NOLINTNEXTLINE(misc-include-cleaner)
-#include <array> // cppcheck-suppress missingIncludeSystem
 
 namespace crsf_for_arduino
 {
@@ -23,8 +21,6 @@ namespace crsf_for_arduino
     // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     void CRSFforArduino::update() // cppcheck-suppress unusedFunction
     {
-        std::array<uint8_t, MAX_BUFFER_SIZE> buffer;
-
         while (Serial1.available() > 0)
         {
             uint8_t byte_read = Serial1.read();

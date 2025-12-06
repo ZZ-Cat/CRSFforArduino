@@ -1,5 +1,7 @@
 #pragma once
 #include <Arduino.h>
+// NOLINTNEXTLINE(misc-include-cleaner)
+#include <array> // cppcheck-suppress missingIncludeSystem
 #include <serial_receiver_interface/serial_receiver_interface.hpp>
 
 namespace crsf_for_arduino
@@ -38,6 +40,8 @@ namespace crsf_for_arduino
 
         // Maximum buffer size.
         static constexpr uint8_t MAX_BUFFER_SIZE = 64;
+
+        std::array<uint8_t, MAX_BUFFER_SIZE> buffer {};
 
         // Sync byte detection flag.
         bool sync_byte_detected = false;
