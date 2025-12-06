@@ -35,7 +35,7 @@ namespace crsf_for_arduino
                 buffer.fill(0);
                 // buffer_length = 5; // Reset to minimum length
                 buffer_index = 0;
-                Serial.println("Sync byte detected");
+                // Serial.println("Sync byte detected");
             }
 
             if (sync_byte_detected)
