@@ -33,21 +33,22 @@ namespace crsf_for_arduino
         // using serial_receiver_interface::available;
 
         // Buffer index.
-        uint8_t buffer_index = 0;
+        unsigned char buffer_index = 0;
 
         // Buffer length (variable length packets) - assumed minimum length of 5 bytes until length byte is read.
-        uint8_t buffer_length = 5;
+        unsigned char buffer_length = 5;
+
 
         // Maximum buffer size.
-        static constexpr uint8_t MAX_BUFFER_SIZE = 64;
+        static constexpr unsigned char MAX_BUFFER_SIZE = 64;
 
-        std::array<uint8_t, MAX_BUFFER_SIZE> buffer {};
+        std::array<unsigned char, MAX_BUFFER_SIZE> buffer {};
 
         // Sync byte detection flag.
         bool sync_byte_detected = false;
 
         // Sync byte value.
-        static constexpr uint8_t SYNC_BYTE = 0xC8;
+        static constexpr unsigned char SYNC_BYTE = 0xC8;
     };
 } // namespace crsf_for_arduino
 
