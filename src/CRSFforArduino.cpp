@@ -22,7 +22,7 @@ namespace crsf_for_arduino
     {
         while (Serial1.available() > 0)
         {
-            uint8_t byte_read = Serial1.read();
+            byte_read = Serial1.read();
 
             if (!sync_byte_detected && byte_read == SYNC_BYTE)
             {

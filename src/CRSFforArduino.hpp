@@ -32,6 +32,9 @@ namespace crsf_for_arduino
         // using serial_receiver_interface::write;
         // using serial_receiver_interface::available;
 
+        // Byte read from Serial1.
+        unsigned char byte_read = 0;
+
         // Buffer index.
         unsigned char buffer_index = 0;
 
