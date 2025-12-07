@@ -19,3 +19,6 @@ templates/
 
 # Developer's notes
 notes/
+
+# Deprecated
+.src.deprecated.d/
