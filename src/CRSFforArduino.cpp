@@ -17,7 +17,7 @@ namespace crsf_for_arduino
         Serial1.begin(cfg.baud_rate, cfg.config);
     }
 
-    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static, readability-function-cognitive-complexity)
     void CRSFforArduino::update() // cppcheck-suppress unusedFunction
     {
         while (Serial1.available() > 0)
@@ -60,15 +60,32 @@ namespace crsf_for_arduino
                 // Check if we've read the full packet.
                 if (buffer_index >= buffer_length)
                 {
-                    // Debug output of the complete packet.
-                    Serial.print("Complete packet received: [");
-                    for (uint8_t i = 0; i < buffer_length; ++i)
+                    // Validate CRC8
+                    computed_crc = crc8((const unsigned char)2, buffer.data(), buffer_length - 1);
+                    received_crc = buffer[buffer_length - 1];
+
+                    if (computed_crc == received_crc)
                     {
-                        Serial.print("0x");
-                        Serial.print(buffer[i], HEX);
-                        Serial.print(" ");
+                        // Valid packet received
+                        // Further processing can be done here.
+
+                        // Debug output.
+                        Serial.print("Packet data: [");
+                        for (unsigned char i = 0; i < buffer_length; ++i)
+                        {
+                            Serial.print("0x");
+                            Serial.print(buffer[i], HEX);
+                            Serial.print(" ");
+                        }
+                        Serial.println("]");
                     }
-                    Serial.println("]");
+                    else
+                    {
+                        Serial.print("CRC mismatch! Computed: 0x");
+                        Serial.print(computed_crc, HEX);
+                        Serial.print(", Received: 0x");
+                        Serial.println(received_crc, HEX);
+                    }
 
                     // Reset for next packet
                     sync_byte_detected = false;
