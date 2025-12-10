@@ -32,5 +32,25 @@
         "teensy"
     ],
     "examples": [
+      {
+        "name": "flight_modes",
+        "base": "examples/flight_modes",
+        "files": ["flight_modes.ino"]
+      },
+      {
+        "name": "link_stats",
+        "base": "examples/link_stats",
+        "files": ["link_stats.ino"]
+      },
+      {
+        "name": "rc_channels",
+        "base": "examples/rc_channels",
+        "files": ["rc_channels.ino"]
+      },
+      {
+        "name": "telemetry",
+        "base": "examples/telemetry",
+        "files": ["telemetry.ino"]
+      }
     ]
   }
