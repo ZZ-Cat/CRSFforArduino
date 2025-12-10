@@ -18,7 +18,7 @@
         "maintainer": true
       }
     ],
-    "license": "GNU AGPLv3",
+    "license": "AGPL-3.0-or-later",
     "homepage": "https://github.com/ZZ-Cat/CRSFforArduino",
     "dependencies": {
     },
