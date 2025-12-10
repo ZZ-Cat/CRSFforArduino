@@ -20,6 +20,7 @@
     ],
     "license": "AGPL-3.0-or-later",
     "homepage": "https://github.com/ZZ-Cat/CRSFforArduino",
+    "headers" : "CRSFforArduino.hpp",
     "dependencies": {
     },
     "frameworks": "Arduino",
