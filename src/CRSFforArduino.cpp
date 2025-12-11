@@ -1,6 +1,6 @@
 #include <CRSFforArduino.hpp>
 
-namespace crsf_for_arduino
+namespace CRSF_for_Arduino
 {
     // NOLINTNEXTLINE(readability-convert-member-functions-to-static, readability-function-cognitive-complexity)
     void CRSFforArduino::update() // cppcheck-suppress unusedFunction
@@ -12,4 +12,4 @@ namespace crsf_for_arduino
             parse_data_frame();
         }
     }
-} // namespace crsf_for_arduino
+} // namespace CRSF_for_Arduino

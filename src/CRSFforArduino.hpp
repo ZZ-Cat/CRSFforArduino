@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <serial_receiver_interface/serial_receiver_interface.hpp>
 
-namespace crsf_for_arduino
+namespace CRSF_for_Arduino
 {
     class CRSFforArduino : private __cfa_internal_middleware_serial_receiver_interface::serial_receiver_interface
     {
@@ -16,6 +16,6 @@ namespace crsf_for_arduino
 
     private:
     };
-} // namespace crsf_for_arduino
+} // namespace CRSF_for_Arduino
 
-using namespace crsf_for_arduino;
+using namespace CRSF_for_Arduino;
