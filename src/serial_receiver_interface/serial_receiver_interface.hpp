@@ -78,5 +78,51 @@ namespace __cfa_internal_middleware_serial_receiver_interface
             }
             return crc;
         }
+
+        typedef struct crsf_broadcast_frame_structure_s
+        {
+            unsigned char sync_byte;
+            unsigned char length;
+            unsigned char type;
+            std::array<unsigned char, 59> payload;
+        } crsf_broadcast_frame_structure_t;
+
+        typedef union crsf_broadcast_frame_u
+        {
+            std::array<unsigned char, MAX_BUFFER_SIZE> raw_data;
+            crsf_broadcast_frame_structure_t frame;
+        } crsf_broadcast_frame_t;
+
+        crsf_broadcast_frame_t crsf_broadcast_frame;
+
+        static constexpr unsigned char CRSF_FRAME_TYPE_RC_CHANNELS_PACKED = 0x16;
+
+        const unsigned char CHANNEL_COUNT = 16;
+
+        const unsigned short CHANNEL_VALUE_MIN = 172;
+        const unsigned short CHANNEL_VALUE_MID = 992;
+        const unsigned short CHANNEL_VALUE_MAX = 1811;
+
+        struct rc_channels_packed_s
+        {
+            unsigned short rc_channel_1  : 11;
+            unsigned short rc_channel_2  : 11;
+            unsigned short rc_channel_3  : 11;
+            unsigned short rc_channel_4  : 11;
+            unsigned short rc_channel_5  : 11;
+            unsigned short rc_channel_6  : 11;
+            unsigned short rc_channel_7  : 11;
+            unsigned short rc_channel_8  : 11;
+            unsigned short rc_channel_9  : 11;
+            unsigned short rc_channel_10 : 11;
+            unsigned short rc_channel_11 : 11;
+            unsigned short rc_channel_12 : 11;
+            unsigned short rc_channel_13 : 11;
+            unsigned short rc_channel_14 : 11;
+            unsigned short rc_channel_15 : 11;
+            unsigned short rc_channel_16 : 11;
+        } __attribute__((packed));
+
+        typedef struct rc_channels_packed_s rc_channels_t;
     };
 } // namespace __cfa_internal_middleware_serial_receiver_interface
