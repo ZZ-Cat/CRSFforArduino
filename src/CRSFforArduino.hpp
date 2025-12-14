@@ -4,13 +4,13 @@
 
 namespace CRSF_for_Arduino
 {
-    class CRSFforArduino : private __cfa_internal_middleware_serial_receiver_interface::serial_receiver_interface
+    class CRSFforArduino : private __cfa_internal::serial_receiver_interface
     {
     public:
         CRSFforArduino() = default;
         ~CRSFforArduino() override = default;
 
-        using __cfa_internal_middleware_serial_receiver_interface::serial_receiver_interface::begin;
+        using __cfa_internal::serial_receiver_interface::begin;
 
         void update();
 

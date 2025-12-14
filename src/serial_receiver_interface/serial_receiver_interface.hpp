@@ -2,7 +2,7 @@
 #include <Arduino.h>
 // NOLINTNEXTLINE(misc-include-cleaner)
 #include <array> // cppcheck-suppress missingIncludeSystem
-namespace __cfa_internal_middleware_serial_receiver_interface
+namespace __cfa_internal
 {
     class serial_receiver_interface
     {
