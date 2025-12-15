@@ -89,6 +89,7 @@ namespace cfa_internal
         // NOLINTBEGIN(modernize-use-using, cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
         typedef struct crsf_broadcast_frame_structure_s
         {
+            // Initialising members causes this struct to be ill-formed, and would be implicitly deleted by the compiler.
             unsigned char sync_byte;
             unsigned char length;
             unsigned char type;
