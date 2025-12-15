@@ -4,12 +4,17 @@
 
 namespace CRSF_for_Arduino
 {
-    // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
     class CRSFforArduino : private cfa_internal::serial_receiver_interface
     {
     public:
         CRSFforArduino() = default;
         ~CRSFforArduino() override = default;
+
+        // Copy constructor, move constructor, copy assignment operator, and move assignment operator.
+        CRSFforArduino(const CRSFforArduino &) = delete;
+        CRSFforArduino(CRSFforArduino &&) = delete;
+        auto operator=(const CRSFforArduino &) -> CRSFforArduino & = delete;
+        auto operator=(CRSFforArduino &&) -> CRSFforArduino & = delete;
 
         using cfa_internal::serial_receiver_interface::begin;
 
