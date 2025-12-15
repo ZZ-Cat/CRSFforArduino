@@ -104,13 +104,11 @@ namespace cfa_internal
 
         static constexpr unsigned char CRSF_FRAME_TYPE_RC_CHANNELS_PACKED = 0x16;
 
-        // NOLINTBEGIN(cppcoreguidelines-avoid-const-or-ref-data-members)
-        const unsigned char CHANNEL_COUNT = 16;
+        static constexpr unsigned char CHANNEL_COUNT = 16;
 
-        const unsigned short CHANNEL_VALUE_MIN = 172;
-        const unsigned short CHANNEL_VALUE_MID = 992;
-        const unsigned short CHANNEL_VALUE_MAX = 1811;
-        // NOLINTEND(cppcoreguidelines-avoid-const-or-ref-data-members)
+        static constexpr unsigned short CHANNEL_VALUE_MIN = 172;
+        static constexpr unsigned short CHANNEL_VALUE_MID = 992;
+        static constexpr unsigned short CHANNEL_VALUE_MAX = 1811;
 
         struct rc_channels_packed_s
         {
