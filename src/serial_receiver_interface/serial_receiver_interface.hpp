@@ -11,12 +11,11 @@ namespace cfa_internal
         serial_receiver_interface() = default;
         virtual ~serial_receiver_interface() = default;
 
-        // NOLINTNEXTLINE(modernize-use-using)
-        typedef struct config_s
+        using config_t = struct config_s
         {
             unsigned long baud_rate = 0;
             unsigned long config = 0;
-        } config_t;
+        };
 
         /* BREAKING API CHANGE:
         Use config_t struct for configuration instead of separate
@@ -35,8 +34,7 @@ namespace cfa_internal
         static constexpr unsigned char MAX_BUFFER_SIZE = 64;
         static constexpr unsigned char SYNC_BYTE = 0xC8;
 
-        // NOLINTNEXTLINE(modernize-use-using)
-        typedef struct rx_data_s
+        using rx_data_t = struct rx_data_s
         {
             unsigned char byte_read = 0;
             unsigned char index = 0;
@@ -44,11 +42,10 @@ namespace cfa_internal
             std::array<unsigned char, MAX_BUFFER_SIZE> buffer {};
             bool sync_byte_detected = false;
             bool is_valid = false;
-        } rx_data_t;
+        };
         rx_data_t rx_data;
 
-        // NOLINTNEXTLINE(modernize-use-using)
-        typedef struct crc8_data_s
+        using crc8_data_t = struct crc8_s
         {
             static constexpr std::array<unsigned char, 256> CRC8_TABLE = {
                 0x00, 0xD5, 0x7F, 0xAA, 0xFE, 0x2B, 0x81, 0x54, 0x29, 0xFC, 0x56, 0x83, 0xD7, 0x02, 0xA8, 0x7D,
@@ -70,7 +67,7 @@ namespace cfa_internal
             };
             unsigned char computed = 0;
             unsigned char received = 0;
-        } crc8_data_t;
+        };
 
         crc8_data_t crc8;
 
@@ -86,23 +83,22 @@ namespace cfa_internal
         }
         // NOLINTEND(hicpp-signed-bitwise, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
-        // NOLINTBEGIN(modernize-use-using, cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
-        typedef struct crsf_broadcast_frame_structure_s
+        // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
+        using crsf_broadcast_frame_structure_t = struct crsf_broadcast_frame_structure_s
         {
             // Initialising members causes this struct to be ill-formed, and would be implicitly deleted by the compiler.
             unsigned char sync_byte;
             unsigned char length;
             unsigned char type;
             std::array<unsigned char, 59> payload;
-        } crsf_broadcast_frame_structure_t;
-        // NOLINTEND(modernize-use-using, cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
+        };
+        // NOLINTEND(cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
 
-        // NOLINTNEXTLINE(modernize-use-using)
-        typedef union crsf_broadcast_frame_u
+        using crsf_broadcast_frame_t = union crsf_broadcast_frame_u
         {
             std::array<unsigned char, MAX_BUFFER_SIZE> raw_data;
             crsf_broadcast_frame_structure_t frame;
-        } crsf_broadcast_frame_t;
+        };
 
         crsf_broadcast_frame_t crsf_broadcast_frame;
 
@@ -136,7 +132,6 @@ namespace cfa_internal
             unsigned short rc_channel_16 : 11;
         } __attribute__((packed));
 
-        // NOLINTNEXTLINE(modernize-use-using)
-        typedef struct rc_channels_packed_s rc_channels_t;
+        using rc_channels_t = struct rc_channels_packed_s;
     };
 } // namespace cfa_internal
