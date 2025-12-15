@@ -4,12 +4,17 @@
 #include <array> // cppcheck-suppress missingIncludeSystem
 namespace cfa_internal
 {
-    // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
     class serial_receiver_interface
     {
     public:
         serial_receiver_interface() = default;
         virtual ~serial_receiver_interface() = default;
+
+        // Copy constructor, move constructor, copy assignment operator, and move assignment operator.
+        serial_receiver_interface(const serial_receiver_interface &) = delete;
+        serial_receiver_interface(serial_receiver_interface &&) = delete;
+        auto operator=(const serial_receiver_interface &) -> serial_receiver_interface & = delete;
+        auto operator=(serial_receiver_interface &&) -> serial_receiver_interface & = delete;
 
         using config_t = struct config_s
         {
