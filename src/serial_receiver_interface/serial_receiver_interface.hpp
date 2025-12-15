@@ -76,17 +76,16 @@ namespace cfa_internal
 
         crc8_data_t crc8;
 
-        // NOLINTBEGIN(hicpp-signed-bitwise, cppcoreguidelines-pro-bounds-pointer-arithmetic)
-        auto crc8_calculate(unsigned char start, const unsigned char *data, unsigned char length) -> unsigned char
+        auto crc8_calculate(unsigned char start, std::array<unsigned char, MAX_BUFFER_SIZE> data, unsigned char length) -> unsigned char
         {
             unsigned char crc = 0;
             for (unsigned char i = start; i < length; ++i)
             {
-                crc = crc8.CRC8_TABLE[crc ^ data[i]];
+                const unsigned char index = crc ^ data[i];
+                crc = crc8.CRC8_TABLE[index];
             }
             return crc;
         }
-        // NOLINTEND(hicpp-signed-bitwise, cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
         using crsf_broadcast_frame_structure_t = struct crsf_broadcast_frame_structure_s

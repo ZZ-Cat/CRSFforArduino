@@ -48,7 +48,7 @@ namespace cfa_internal
 
                 if (this->rx_data.index >= this->rx_data.length && this->rx_data.length >= MIN_BUFFER_SIZE)
                 {
-                    crc8.computed = crc8_calculate(2, this->rx_data.buffer.data(), this->rx_data.length - 1);
+                    crc8.computed = crc8_calculate(2, this->rx_data.buffer, this->rx_data.length - 1);
                     crc8.received = this->rx_data.buffer[this->rx_data.length - 1];
                     this->rx_data.sync_byte_detected = false;
                     this->rx_data.index = 0;
