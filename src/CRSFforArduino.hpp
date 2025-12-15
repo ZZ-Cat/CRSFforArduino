@@ -4,6 +4,7 @@
 
 namespace CRSF_for_Arduino
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions, hicpp-special-member-functions)
     class CRSFforArduino : private cfa_internal::serial_receiver_interface
     {
     public:
