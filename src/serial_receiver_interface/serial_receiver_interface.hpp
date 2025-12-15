@@ -79,10 +79,10 @@ namespace cfa_internal
         // NOLINTBEGIN(hicpp-signed-bitwise, cppcoreguidelines-pro-bounds-pointer-arithmetic)
         auto crc8_calculate(unsigned char start, const unsigned char *data, unsigned char length) -> unsigned char
         {
-            unsigned char crc = crc8.CRC8_TABLE[0 ^ data[start]];
-            for (unsigned char i = start + 1; i < length; ++i)
+            unsigned char crc = 0;
+            for (unsigned char i = start; i < length; ++i)
             {
-                crc = crc8_data_t::CRC8_TABLE[crc ^ data[i]];
+                crc = crc8.CRC8_TABLE[crc ^ data[i]];
             }
             return crc;
         }
