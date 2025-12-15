@@ -2,7 +2,7 @@
 #include <Arduino.h>
 // NOLINTNEXTLINE(misc-include-cleaner)
 #include <array> // cppcheck-suppress missingIncludeSystem
-namespace __cfa_internal
+namespace cfa_internal
 {
     class serial_receiver_interface
     {
@@ -125,4 +125,4 @@ namespace __cfa_internal
 
         typedef struct rc_channels_packed_s rc_channels_t;
     };
-} // namespace __cfa_internal_middleware_serial_receiver_interface
+} // namespace cfa_internal
