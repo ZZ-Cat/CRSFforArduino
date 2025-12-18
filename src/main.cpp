@@ -4,15 +4,15 @@
 #include <gsl/gsl>
 // NOLINTEND(misc-include-cleaner)
 
+using namespace std;
+
 extern void setup();
 extern void loop();
 
-// NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
 namespace
 {
-    gsl::owner<CRSFforArduino *> cfa_global = nullptr;
+    const unique_ptr<CRSFforArduino> cfa_global = make_unique<CRSFforArduino>();
 } // namespace
-// NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
 void setup()
 {
@@ -22,7 +22,6 @@ void setup()
         yield();
     }
 
-    cfa_global = gsl::owner<CRSFforArduino *>(new CRSFforArduino());
     cfa_global->begin();
 }
 
