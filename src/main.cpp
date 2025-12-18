@@ -9,10 +9,7 @@ using namespace std;
 extern void setup();
 extern void loop();
 
-namespace
-{
-    const auto cfa_global = make_unique<CRSFforArduino>();
-} // namespace
+const auto cfa_global = make_unique<CRSFforArduino>();
 
 void setup()
 {
