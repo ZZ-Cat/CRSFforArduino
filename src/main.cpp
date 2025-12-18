@@ -11,7 +11,7 @@ extern void loop();
 
 namespace
 {
-    const unique_ptr<CRSFforArduino> cfa_global = make_unique<CRSFforArduino>();
+    const auto cfa_global = make_unique<CRSFforArduino>();
 } // namespace
 
 void setup()
