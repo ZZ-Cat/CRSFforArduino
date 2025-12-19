@@ -88,19 +88,26 @@ namespace cfa_internal
             return crc;
         }
 
-        // NOLINTBEGIN(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
         using crsf_broadcast_frame_structure_t = struct crsf_broadcast_frame_structure_s
         {
-            // Initialising members causes this struct to be ill-formed, and would be implicitly deleted by the compiler.
-            unsigned char sync_byte;
-            unsigned char length;
-            unsigned char type;
-            std::array<unsigned char, CRSF_PAYLOAD_SIZE> payload;
+            unsigned char sync_byte = 0;
+            unsigned char length = 0;
+            unsigned char type = 0;
+            std::array<unsigned char, CRSF_PAYLOAD_SIZE> payload = {0};
         };
-        // NOLINTEND(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
 
         using crsf_broadcast_frame_t = union crsf_broadcast_frame_u
         {
+            // Explicitly add default constructor and destructor to avoid ill-formedness due to non-trivial members.
+            crsf_broadcast_frame_u() {};
+            ~crsf_broadcast_frame_u() {};
+
+            // Add copy constructor, move constructor, copy assignment operator, and move assignment operator.
+            crsf_broadcast_frame_u(const crsf_broadcast_frame_u &) = default;
+            crsf_broadcast_frame_u(crsf_broadcast_frame_u &&) = default;
+            auto operator=(const crsf_broadcast_frame_u &) -> crsf_broadcast_frame_u & = default;
+            auto operator=(crsf_broadcast_frame_u &&) -> crsf_broadcast_frame_u & = default;
+
             std::array<unsigned char, MAX_BUFFER_SIZE> raw_data;
             crsf_broadcast_frame_structure_t frame;
         };
