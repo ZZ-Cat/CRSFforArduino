@@ -38,6 +38,7 @@ namespace cfa_internal
         static constexpr unsigned char MIN_BUFFER_SIZE = 5;
         static constexpr unsigned char MAX_BUFFER_SIZE = 64;
         static constexpr unsigned char SYNC_BYTE = 0xC8;
+        static constexpr unsigned char CRSF_PAYLOAD_SIZE = 59;
 
         using rx_data_t = struct rx_data_s
         {
@@ -87,16 +88,16 @@ namespace cfa_internal
             return crc;
         }
 
-        // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
+        // NOLINTBEGIN(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
         using crsf_broadcast_frame_structure_t = struct crsf_broadcast_frame_structure_s
         {
             // Initialising members causes this struct to be ill-formed, and would be implicitly deleted by the compiler.
             unsigned char sync_byte;
             unsigned char length;
             unsigned char type;
-            std::array<unsigned char, 59> payload;
+            std::array<unsigned char, CRSF_PAYLOAD_SIZE> payload;
         };
-        // NOLINTEND(cppcoreguidelines-avoid-magic-numbers, cppcoreguidelines-pro-type-member-init, hicpp-member-init, readability-magic-numbers)
+        // NOLINTEND(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
 
         using crsf_broadcast_frame_t = union crsf_broadcast_frame_u
         {
