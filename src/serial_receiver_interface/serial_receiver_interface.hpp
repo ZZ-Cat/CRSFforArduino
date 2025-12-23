@@ -96,23 +96,23 @@ namespace cfa_internal
             std::array<unsigned char, CRSF_PAYLOAD_SIZE> payload = {0};
         };
 
-        using crsf_broadcast_frame_t = union crsf_broadcast_frame_u
-        {
-            // Explicitly add default constructor and destructor to avoid ill-formedness due to non-trivial members.
-            crsf_broadcast_frame_u() {};
-            ~crsf_broadcast_frame_u() {};
+        // using crsf_broadcast_frame_t = union crsf_broadcast_frame_u
+        // {
+        //     // Explicitly add default constructor and destructor to avoid ill-formedness due to non-trivial members.
+        //     crsf_broadcast_frame_u() {};
+        //     ~crsf_broadcast_frame_u() {};
 
-            // Add copy constructor, move constructor, copy assignment operator, and move assignment operator.
-            crsf_broadcast_frame_u(const crsf_broadcast_frame_u &) = default;
-            crsf_broadcast_frame_u(crsf_broadcast_frame_u &&) = default;
-            auto operator=(const crsf_broadcast_frame_u &) -> crsf_broadcast_frame_u & = default;
-            auto operator=(crsf_broadcast_frame_u &&) -> crsf_broadcast_frame_u & = default;
+        //     // Add copy constructor, move constructor, copy assignment operator, and move assignment operator.
+        //     crsf_broadcast_frame_u(const crsf_broadcast_frame_u &) = default;
+        //     crsf_broadcast_frame_u(crsf_broadcast_frame_u &&) = default;
+        //     auto operator=(const crsf_broadcast_frame_u &) -> crsf_broadcast_frame_u & = default;
+        //     auto operator=(crsf_broadcast_frame_u &&) -> crsf_broadcast_frame_u & = default;
 
-            std::array<unsigned char, MAX_BUFFER_SIZE> raw_data;
-            crsf_broadcast_frame_structure_t frame;
-        };
+        //     std::array<unsigned char, MAX_BUFFER_SIZE> raw_data;
+        //     crsf_broadcast_frame_structure_t frame;
+        // };
 
-        crsf_broadcast_frame_t crsf_broadcast_frame;
+        // crsf_broadcast_frame_t crsf_broadcast_frame;
 
         static constexpr unsigned char CRSF_FRAME_TYPE_RC_CHANNELS_PACKED = 0x16;
 

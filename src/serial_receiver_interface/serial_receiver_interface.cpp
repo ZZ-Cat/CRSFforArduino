@@ -86,48 +86,48 @@ namespace cfa_internal
 
     void serial_receiver_interface::parse_data_frame() // cppcheck-suppress unusedFunction
     {
-        // Clear the crsf_broadcast_frame raw data buffer.
-        this->crsf_broadcast_frame.raw_data.fill(0);
+        // // Clear the crsf_broadcast_frame raw data buffer.
+        // this->crsf_broadcast_frame.raw_data.fill(0);
 
-        // Copy the data frame to the crsf_broadcast_frame union for further processing.
-        std::copy(
-            this->rx_data.buffer.begin(),
-            this->rx_data.buffer.begin() + this->rx_data.length,
-            this->crsf_broadcast_frame.raw_data.begin()
-        );
+        // // Copy the data frame to the crsf_broadcast_frame union for further processing.
+        // std::copy(
+        //     this->rx_data.buffer.begin(),
+        //     this->rx_data.buffer.begin() + this->rx_data.length,
+        //     this->crsf_broadcast_frame.raw_data.begin()
+        // );
 
-        switch (this->crsf_broadcast_frame.frame.type)
-        {
-            case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
-            {
-                // Extract RC channel data from the payload.
-                rc_channels_t rc_channels;
-                std::memcpy(&rc_channels, this->crsf_broadcast_frame.frame.payload.data(), sizeof(rc_channels_t));
+        // switch (this->crsf_broadcast_frame.frame.type)
+        // {
+        //     case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
+        //     {
+        //         // Extract RC channel data from the payload.
+        //         rc_channels_t rc_channels;
+        //         std::memcpy(&rc_channels, this->crsf_broadcast_frame.frame.payload.data(), sizeof(rc_channels_t));
 
-                // Debug output of channel values.
-                Serial.print("RC Channel Values:[");
-                Serial.print(" ch1: "); Serial.print(rc_channels.rc_channel_1);
-                Serial.print(" ch2: "); Serial.print(rc_channels.rc_channel_2);
-                Serial.print(" ch3: "); Serial.print(rc_channels.rc_channel_3);
-                Serial.print(" ch4: "); Serial.print(rc_channels.rc_channel_4);
-                Serial.print(" ch5: "); Serial.print(rc_channels.rc_channel_5);
-                Serial.print(" ch6: "); Serial.print(rc_channels.rc_channel_6);
-                Serial.print(" ch7: "); Serial.print(rc_channels.rc_channel_7);
-                Serial.print(" ch8: "); Serial.print(rc_channels.rc_channel_8);
-                // Serial.print(" ch9: "); Serial.print(rc_channels.rc_channel_9);
-                // Serial.print(" ch10: "); Serial.print(rc_channels.rc_channel_10);
-                // Serial.print(" ch11: "); Serial.print(rc_channels.rc_channel_11);
-                // Serial.print(" ch12: "); Serial.print(rc_channels.rc_channel_12);
-                // Serial.print(" ch13: "); Serial.print(rc_channels.rc_channel_13);
-                // Serial.print(" ch14: "); Serial.print(rc_channels.rc_channel_14);
-                // Serial.print(" ch15: "); Serial.print(rc_channels.rc_channel_15);
-                // Serial.print(" ch16: "); Serial.println(rc_channels.rc_channel_16);
-                Serial.println("]");
-                break;
-            }
-            default:
-                // Unknown or unhandled frame type.
-                break;
-        }
+        //         // Debug output of channel values.
+        //         Serial.print("RC Channel Values:[");
+        //         Serial.print(" ch1: "); Serial.print(rc_channels.rc_channel_1);
+        //         Serial.print(" ch2: "); Serial.print(rc_channels.rc_channel_2);
+        //         Serial.print(" ch3: "); Serial.print(rc_channels.rc_channel_3);
+        //         Serial.print(" ch4: "); Serial.print(rc_channels.rc_channel_4);
+        //         Serial.print(" ch5: "); Serial.print(rc_channels.rc_channel_5);
+        //         Serial.print(" ch6: "); Serial.print(rc_channels.rc_channel_6);
+        //         Serial.print(" ch7: "); Serial.print(rc_channels.rc_channel_7);
+        //         Serial.print(" ch8: "); Serial.print(rc_channels.rc_channel_8);
+        //         // Serial.print(" ch9: "); Serial.print(rc_channels.rc_channel_9);
+        //         // Serial.print(" ch10: "); Serial.print(rc_channels.rc_channel_10);
+        //         // Serial.print(" ch11: "); Serial.print(rc_channels.rc_channel_11);
+        //         // Serial.print(" ch12: "); Serial.print(rc_channels.rc_channel_12);
+        //         // Serial.print(" ch13: "); Serial.print(rc_channels.rc_channel_13);
+        //         // Serial.print(" ch14: "); Serial.print(rc_channels.rc_channel_14);
+        //         // Serial.print(" ch15: "); Serial.print(rc_channels.rc_channel_15);
+        //         // Serial.print(" ch16: "); Serial.println(rc_channels.rc_channel_16);
+        //         Serial.println("]");
+        //         break;
+        //     }
+        //     default:
+        //         // Unknown or unhandled frame type.
+        //         break;
+        // }
     }
 } // namespace cfa_internal
