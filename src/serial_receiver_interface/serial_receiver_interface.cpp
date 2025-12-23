@@ -86,6 +86,51 @@ namespace cfa_internal
 
     void serial_receiver_interface::parse_data_frame() // cppcheck-suppress unusedFunction
     {
+        // Copy the received data into the frame structure.
+        crsf_broadcast_frame_structure_t crsf_broadcast_frame;
+        crsf_broadcast_frame.sync_byte = this->rx_data.buffer[0];
+        crsf_broadcast_frame.length = this->rx_data.buffer[1];
+        crsf_broadcast_frame.type = this->rx_data.buffer[2];
+        std::copy(
+            this->rx_data.buffer.begin() + 3,
+            this->rx_data.buffer.begin() + 3 + CRSF_PAYLOAD_SIZE,
+            crsf_broadcast_frame.payload.begin()
+        );
+
+        switch(crsf_broadcast_frame.type)
+        {
+            case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
+            {
+                // Extract RC channel data from the payload.
+                rc_channels_t rc_channels;
+                std::memcpy(&rc_channels, crsf_broadcast_frame.payload.data(), sizeof(rc_channels));
+
+                // Debug output of channel values.
+                Serial.print("RC Channel Values:[");
+                Serial.print(" ch1: "); Serial.print(rc_channels.rc_channel_1);
+                Serial.print(" ch2: "); Serial.print(rc_channels.rc_channel_2);
+                Serial.print(" ch3: "); Serial.print(rc_channels.rc_channel_3);
+                Serial.print(" ch4: "); Serial.print(rc_channels.rc_channel_4);
+                Serial.print(" ch5: "); Serial.print(rc_channels.rc_channel_5);
+                Serial.print(" ch6: "); Serial.print(rc_channels.rc_channel_6);
+                Serial.print(" ch7: "); Serial.print(rc_channels.rc_channel_7);
+                Serial.print(" ch8: "); Serial.print(rc_channels.rc_channel_8);
+                // Serial.print(" ch9: "); Serial.print(rc_channels.rc_channel_9);
+                // Serial.print(" ch10: "); Serial.print(rc_channels.rc_channel_10);
+                // Serial.print(" ch11: "); Serial.print(rc_channels.rc_channel_11);
+                // Serial.print(" ch12: "); Serial.print(rc_channels.rc_channel_12);
+                // Serial.print(" ch13: "); Serial.print(rc_channels.rc_channel_13);
+                // Serial.print(" ch14: "); Serial.print(rc_channels.rc_channel_14);
+                // Serial.print(" ch15: "); Serial.print(rc_channels.rc_channel_15);
+                // Serial.print(" ch16: "); Serial.println(rc_channels.rc_channel_16);
+                Serial.println("]");
+                break;
+            }
+            default:
+                // Unknown or unhandled frame type.
+                break;
+        }
+
         // // Clear the crsf_broadcast_frame raw data buffer.
         // this->crsf_broadcast_frame.raw_data.fill(0);
 
