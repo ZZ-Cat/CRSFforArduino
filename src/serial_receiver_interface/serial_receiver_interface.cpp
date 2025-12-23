@@ -102,27 +102,26 @@ namespace cfa_internal
             case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
             {
                 // Extract RC channel data from the payload.
-                rc_channels_t rc_channels;
-                std::memcpy(&rc_channels, crsf_broadcast_frame.payload.data(), sizeof(rc_channels));
+                std::memcpy(&control_data.rc_channels, crsf_broadcast_frame.payload.data(), sizeof(rc_channels_t));
 
                 // Debug output of channel values.
                 // Serial.print("RC Channel Values:[");
-                // Serial.print(" ch1: "); Serial.print(rc_channels.rc_channel_1);
-                // Serial.print(" ch2: "); Serial.print(rc_channels.rc_channel_2);
-                // Serial.print(" ch3: "); Serial.print(rc_channels.rc_channel_3);
-                // Serial.print(" ch4: "); Serial.print(rc_channels.rc_channel_4);
-                // Serial.print(" ch5: "); Serial.print(rc_channels.rc_channel_5);
-                // Serial.print(" ch6: "); Serial.print(rc_channels.rc_channel_6);
-                // Serial.print(" ch7: "); Serial.print(rc_channels.rc_channel_7);
-                // Serial.print(" ch8: "); Serial.print(rc_channels.rc_channel_8);
-                // Serial.print(" ch9: "); Serial.print(rc_channels.rc_channel_9);
-                // Serial.print(" ch10: "); Serial.print(rc_channels.rc_channel_10);
-                // Serial.print(" ch11: "); Serial.print(rc_channels.rc_channel_11);
-                // Serial.print(" ch12: "); Serial.print(rc_channels.rc_channel_12);
-                // Serial.print(" ch13: "); Serial.print(rc_channels.rc_channel_13);
-                // Serial.print(" ch14: "); Serial.print(rc_channels.rc_channel_14);
-                // Serial.print(" ch15: "); Serial.print(rc_channels.rc_channel_15);
-                // Serial.print(" ch16: "); Serial.println(rc_channels.rc_channel_16);
+                // Serial.print(" ch1: "); Serial.print(control_data.rc_channels.rc_channel_1);
+                // Serial.print(" ch2: "); Serial.print(control_data.rc_channels.rc_channel_2);
+                // Serial.print(" ch3: "); Serial.print(control_data.rc_channels.rc_channel_3);
+                // Serial.print(" ch4: "); Serial.print(control_data.rc_channels.rc_channel_4);
+                // Serial.print(" ch5: "); Serial.print(control_data.rc_channels.rc_channel_5);
+                // Serial.print(" ch6: "); Serial.print(control_data.rc_channels.rc_channel_6);
+                // Serial.print(" ch7: "); Serial.print(control_data.rc_channels.rc_channel_7);
+                // Serial.print(" ch8: "); Serial.print(control_data.rc_channels.rc_channel_8);
+                // Serial.print(" ch9: "); Serial.print(control_data.rc_channels.rc_channel_9);
+                // Serial.print(" ch10: "); Serial.print(control_data.rc_channels.rc_channel_10);
+                // Serial.print(" ch11: "); Serial.print(control_data.rc_channels.rc_channel_11);
+                // Serial.print(" ch12: "); Serial.print(control_data.rc_channels.rc_channel_12);
+                // Serial.print(" ch13: "); Serial.print(control_data.rc_channels.rc_channel_13);
+                // Serial.print(" ch14: "); Serial.print(control_data.rc_channels.rc_channel_14);
+                // Serial.print(" ch15: "); Serial.print(control_data.rc_channels.rc_channel_15);
+                // Serial.print(" ch16: "); Serial.println(control_data.rc_channels.rc_channel_16);
                 // Serial.println("]");
                 break;
             }

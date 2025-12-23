@@ -125,5 +125,13 @@ namespace cfa_internal
         } __attribute__((packed));
 
         using rc_channels_t = struct rc_channels_packed_s;
+
+        using control_data_t = struct control_data_s
+        {
+            bool armed_state = false;
+            rc_channels_t rc_channels{};
+        };
+
+        control_data_t control_data;
     };
 } // namespace cfa_internal
