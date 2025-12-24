@@ -99,6 +99,12 @@ namespace cfa_internal
 
         switch(crsf_broadcast_frame.type)
         {
+            case CRSF_FRAME_TYPE_LINK_STATISTICS:
+            {
+                // Link statistics frame received. Currently not processed.
+                // Could extract RSSI, SNR, etc. from payload if needed.
+                break;
+            }
             case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
             {
                 // Extract RC channel data from the payload.

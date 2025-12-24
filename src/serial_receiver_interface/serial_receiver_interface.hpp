@@ -96,6 +96,7 @@ namespace cfa_internal
             std::array<unsigned char, CRSF_PAYLOAD_SIZE> payload = {0};
         };
 
+        static constexpr unsigned char CRSF_FRAME_TYPE_LINK_STATISTICS = 0x14;
         static constexpr unsigned char CRSF_FRAME_TYPE_RC_CHANNELS_PACKED = 0x16;
 
         static constexpr unsigned char CHANNEL_COUNT = 16;
