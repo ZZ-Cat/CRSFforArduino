@@ -93,7 +93,7 @@ namespace cfa_internal
         crsf_broadcast_frame.type = this->rx_data.buffer[2];
         std::copy(
             this->rx_data.buffer.begin() + 3,
-            this->rx_data.buffer.begin() + 3 + CRSF_PAYLOAD_SIZE,
+            this->rx_data.buffer.begin() + crsf_broadcast_frame.length,
             crsf_broadcast_frame.payload.begin()
         );
 
@@ -108,7 +108,7 @@ namespace cfa_internal
             case CRSF_FRAME_TYPE_RC_CHANNELS_PACKED:
             {
                 // Extract RC channel data from the payload.
-                std::memcpy(&control_data.rc_channels, crsf_broadcast_frame.payload.data(), sizeof(rc_channels_t));
+                std::memcpy(&control_data.rc_channels, crsf_broadcast_frame.payload.data(), crsf_broadcast_frame.length - 2);
 
                 // Debug output of channel values.
                 // Serial.print("RC Channel Values:[");
