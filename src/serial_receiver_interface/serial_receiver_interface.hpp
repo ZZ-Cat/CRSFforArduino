@@ -38,6 +38,36 @@ namespace cfa_internal
 
         void set_rc_channels_callback(rc_channels_callback_t callback);
 
+        struct rc_channels_packed_s
+        {
+            unsigned short rc_channel_1  : 11;
+            unsigned short rc_channel_2  : 11;
+            unsigned short rc_channel_3  : 11;
+            unsigned short rc_channel_4  : 11;
+            unsigned short rc_channel_5  : 11;
+            unsigned short rc_channel_6  : 11;
+            unsigned short rc_channel_7  : 11;
+            unsigned short rc_channel_8  : 11;
+            unsigned short rc_channel_9  : 11;
+            unsigned short rc_channel_10 : 11;
+            unsigned short rc_channel_11 : 11;
+            unsigned short rc_channel_12 : 11;
+            unsigned short rc_channel_13 : 11;
+            unsigned short rc_channel_14 : 11;
+            unsigned short rc_channel_15 : 11;
+            unsigned short rc_channel_16 : 11;
+        } __attribute__((packed));
+
+        using rc_channels_t = struct rc_channels_packed_s;
+
+        using control_data_t = struct control_data_s
+        {
+            bool armed_state = false;
+            rc_channels_t rc_channels{};
+        };
+
+        control_data_t control_data;
+
     private:
         static constexpr unsigned char MIN_BUFFER_SIZE = 5;
         static constexpr unsigned char MAX_BUFFER_SIZE = 64;
@@ -108,34 +138,6 @@ namespace cfa_internal
         static constexpr unsigned short CHANNEL_VALUE_MIN = 172;
         static constexpr unsigned short CHANNEL_VALUE_MID = 992;
         static constexpr unsigned short CHANNEL_VALUE_MAX = 1811;
-
-        struct rc_channels_packed_s
-        {
-            unsigned short rc_channel_1  : 11;
-            unsigned short rc_channel_2  : 11;
-            unsigned short rc_channel_3  : 11;
-            unsigned short rc_channel_4  : 11;
-            unsigned short rc_channel_5  : 11;
-            unsigned short rc_channel_6  : 11;
-            unsigned short rc_channel_7  : 11;
-            unsigned short rc_channel_8  : 11;
-            unsigned short rc_channel_9  : 11;
-            unsigned short rc_channel_10 : 11;
-            unsigned short rc_channel_11 : 11;
-            unsigned short rc_channel_12 : 11;
-            unsigned short rc_channel_13 : 11;
-            unsigned short rc_channel_14 : 11;
-            unsigned short rc_channel_15 : 11;
-            unsigned short rc_channel_16 : 11;
-        } __attribute__((packed));
-
-        using rc_channels_t = struct rc_channels_packed_s;
-
-        using control_data_t = struct control_data_s
-        {
-            bool armed_state = false;
-            rc_channels_t rc_channels{};
-        };
 
         control_data_t control_data;
 
