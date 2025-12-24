@@ -26,7 +26,7 @@ namespace cfa_internal
         Use config_t struct for configuration instead of separate
         parameters for CRSFforArduino::begin(). */
         static void begin(config_t cfg = {
-            .baud_rate = 420000,
+            .baud_rate = 416666,
             .config = SERIAL_8N1
         });
 
