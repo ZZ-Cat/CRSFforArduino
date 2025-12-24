@@ -132,8 +132,13 @@ namespace cfa_internal
                 break;
             }
             default:
-                // Unknown or unhandled frame type.
+            {
+                // Unknown frame type received.
+                Serial.print("Unknown frame type: 0x");
+                if (crsf_broadcast_frame.type < (unsigned char)0x10) Serial.print("0");
+                Serial.println(crsf_broadcast_frame.type, HEX);
                 break;
+            }
         }
     }
 } // namespace cfa_internal
