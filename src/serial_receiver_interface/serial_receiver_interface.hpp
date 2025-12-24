@@ -4,6 +4,8 @@
 #include <array> // cppcheck-suppress missingIncludeSystem
 namespace cfa_internal
 {
+    using rc_channels_callback_t = void (*)();
+
     class serial_receiver_interface
     {
     public:
@@ -33,6 +35,8 @@ namespace cfa_internal
         auto receive_data_frame() -> bool;
 
         void parse_data_frame();
+
+        void set_rc_channels_callback(rc_channels_callback_t callback);
 
     private:
         static constexpr unsigned char MIN_BUFFER_SIZE = 5;
@@ -134,5 +138,7 @@ namespace cfa_internal
         };
 
         control_data_t control_data;
+
+        rc_channels_callback_t rc_channels_callback = nullptr;
     };
 } // namespace cfa_internal

@@ -129,6 +129,12 @@ namespace cfa_internal
                 // Serial.print(" ch15: "); Serial.print(control_data.rc_channels.rc_channel_15);
                 // Serial.print(" ch16: "); Serial.println(control_data.rc_channels.rc_channel_16);
                 // Serial.println("]");
+
+                // Invoke the RC channels callback if set.
+                if (rc_channels_callback != nullptr)
+                {
+                    rc_channels_callback();
+                }
                 break;
             }
             default:
@@ -140,5 +146,11 @@ namespace cfa_internal
                 break;
             }
         }
+    }
+
+    void serial_receiver_interface::set_rc_channels_callback(rc_channels_callback_t callback) // cppcheck-suppress unusedFunction
+    {
+        // Store the provided callback function.
+        rc_channels_callback = callback;
     }
 } // namespace cfa_internal
