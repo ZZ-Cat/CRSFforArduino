@@ -115,6 +115,20 @@ private:
 const auto watchdog = make_unique<watchdog_timer>();
 const auto cfa_global = make_unique<CRSFforArduino>();
 
+namespace
+{
+    void rc_channels_callback()
+    {
+        // Callback function invoked when new RC channel data is available.
+        // Can be used to process or log the channel data as needed.
+        // For example, print the first channel value:
+        // Serial.print("RC Channel 1 Value: ");
+        // Serial.println(cfa_global->control_data.rc_channels.rc_channel_1);
+
+        Serial.println("RC Channels Updated");
+    }
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -140,6 +154,7 @@ void setup()
     watchdog->begin();
     watchdog->interrupt_enable();
     cfa_global->begin();
+    cfa_global->set_rc_channels_callback(rc_channels_callback);
 }
 
 void loop()

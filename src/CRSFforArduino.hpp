@@ -17,6 +17,7 @@ namespace CRSF_for_Arduino
         auto operator=(CRSFforArduino &&) -> CRSFforArduino & = delete;
 
         using cfa_internal::serial_receiver_interface::begin;
+        using cfa_internal::serial_receiver_interface::set_rc_channels_callback;
 
         void update();
 
