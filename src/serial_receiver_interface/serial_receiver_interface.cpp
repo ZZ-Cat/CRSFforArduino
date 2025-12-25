@@ -133,7 +133,7 @@ namespace cfa_internal
                 // Invoke the RC channels callback if set.
                 if (rc_channels_callback != nullptr)
                 {
-                    rc_channels_callback();
+                    rc_channels_callback(control_data);
                 }
                 break;
             }
