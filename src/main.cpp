@@ -114,19 +114,34 @@ private:
 
 const auto watchdog = make_unique<watchdog_timer>();
 const auto cfa_global = make_unique<CRSFforArduino>();
+const unsigned char RC_CHANNEL_COUNT = 16;
 
 namespace
 {
-    void rc_channels_callback()
+    // NOLINTBEGIN(misc-include-cleaner)
+    void rc_channels_callback(const cfa_internal::control_data_t &control_data)
     {
-        // Callback function invoked when new RC channel data is available.
-        // Can be used to process or log the channel data as needed.
-        // For example, print the first channel value:
-        // Serial.print("RC Channel 1 Value: ");
-        // Serial.println(cfa_global->control_data.rc_channels.rc_channel_1);
-
-        Serial.println("RC Channels Updated");
+        // Example callback implementation: print channel values to Serial
+        Serial.print("RC Channel Values:[");
+        Serial.print(" ch1: "); Serial.print(control_data.rc_channels.rc_channel_1);
+        Serial.print(" ch2: "); Serial.print(control_data.rc_channels.rc_channel_2);
+        Serial.print(" ch3: "); Serial.print(control_data.rc_channels.rc_channel_3);
+        Serial.print(" ch4: "); Serial.print(control_data.rc_channels.rc_channel_4);
+        Serial.print(" ch5: "); Serial.print(control_data.rc_channels.rc_channel_5);
+        Serial.print(" ch6: "); Serial.print(control_data.rc_channels.rc_channel_6);
+        Serial.print(" ch7: "); Serial.print(control_data.rc_channels.rc_channel_7);
+        Serial.print(" ch8: "); Serial.print(control_data.rc_channels.rc_channel_8);
+        // Serial.print(" ch9: "); Serial.print(control_data.rc_channels.rc_channel_9);
+        // Serial.print(" ch10: "); Serial.print(control_data.rc_channels.rc_channel_10);
+        // Serial.print(" ch11: "); Serial.print(control_data.rc_channels.rc_channel_11);
+        // Serial.print(" ch12: "); Serial.print(control_data.rc_channels.rc_channel_12);
+        // Serial.print(" ch13: "); Serial.print(control_data.rc_channels.rc_channel_13);
+        // Serial.print(" ch14: "); Serial.print(control_data.rc_channels.rc_channel_14);
+        // Serial.print(" ch15: "); Serial.print(control_data.rc_channels.rc_channel_15);
+        // Serial.print(" ch16: "); Serial.print(control_data.rc_channels.rc_channel_16);
+        Serial.println(" ]");
     }
+    // NOLINTEND(misc-include-cleaner)
 }
 
 void setup()
