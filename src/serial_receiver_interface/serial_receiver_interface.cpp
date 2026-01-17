@@ -1,5 +1,6 @@
 #include <cstring> // cppcheck-suppress missingIncludeSystem
-#include <serial_receiver_interface.hpp>
+// #include <serial_receiver_interface.hpp> // "No such file or directory" Why?
+#include <serial_receiver_interface/serial_receiver_interface.hpp> // Workaround for the issue above.
 
 namespace cfa_internal
 {
