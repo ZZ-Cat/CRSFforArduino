@@ -131,14 +131,14 @@ namespace
         Serial.print(" ch6: "); Serial.print(control_data.rc_channels.rc_channel_6);
         Serial.print(" ch7: "); Serial.print(control_data.rc_channels.rc_channel_7);
         Serial.print(" ch8: "); Serial.print(control_data.rc_channels.rc_channel_8);
-        // Serial.print(" ch9: "); Serial.print(control_data.rc_channels.rc_channel_9);
-        // Serial.print(" ch10: "); Serial.print(control_data.rc_channels.rc_channel_10);
-        // Serial.print(" ch11: "); Serial.print(control_data.rc_channels.rc_channel_11);
-        // Serial.print(" ch12: "); Serial.print(control_data.rc_channels.rc_channel_12);
-        // Serial.print(" ch13: "); Serial.print(control_data.rc_channels.rc_channel_13);
-        // Serial.print(" ch14: "); Serial.print(control_data.rc_channels.rc_channel_14);
-        // Serial.print(" ch15: "); Serial.print(control_data.rc_channels.rc_channel_15);
-        // Serial.print(" ch16: "); Serial.print(control_data.rc_channels.rc_channel_16);
+        Serial.print(" ch9: "); Serial.print(control_data.rc_channels.rc_channel_9);
+        Serial.print(" ch10: "); Serial.print(control_data.rc_channels.rc_channel_10);
+        Serial.print(" ch11: "); Serial.print(control_data.rc_channels.rc_channel_11);
+        Serial.print(" ch12: "); Serial.print(control_data.rc_channels.rc_channel_12);
+        Serial.print(" ch13: "); Serial.print(control_data.rc_channels.rc_channel_13);
+        Serial.print(" ch14: "); Serial.print(control_data.rc_channels.rc_channel_14);
+        Serial.print(" ch15: "); Serial.print(control_data.rc_channels.rc_channel_15);
+        Serial.print(" ch16: "); Serial.print(control_data.rc_channels.rc_channel_16);
         Serial.println(" ]");
     }
     // NOLINTEND(misc-include-cleaner)
