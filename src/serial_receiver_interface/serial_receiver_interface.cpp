@@ -1,6 +1,6 @@
 #include <cstring> // cppcheck-suppress missingIncludeSystem
-// #include <serial_receiver_interface.hpp> // "No such file or directory" Why?
-#include <serial_receiver_interface/serial_receiver_interface.hpp> // Workaround for the issue above.
+#include <serial_receiver_interface.hpp> // "No such file or directory" Why?
+// #include <serial_receiver_interface/serial_receiver_interface.hpp> // Workaround for the issue above.
 
 namespace cfa_internal
 {
@@ -70,7 +70,7 @@ namespace cfa_internal
         crsf_broadcast_frame.type = this->rx_data.buffer[2];
         std::copy(
             this->rx_data.buffer.begin() + 3,
-            this->rx_data.buffer.begin() + crsf_broadcast_frame.length,
+            this->rx_data.buffer.begin() + (crsf_broadcast_frame.length + 1),
             crsf_broadcast_frame.payload.begin()
         );
 
