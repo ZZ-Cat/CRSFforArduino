@@ -26,8 +26,8 @@ public:
         if ((WDT->CTRLA.reg & WDT_CTRLA_ENABLE) == 0)
         {
             // Set up the watchdog timer with the specified timeout
-            WDT->CONFIG.reg = WDT_CONFIG_PER_CYC32; // Example: set period to 32K cycles
-            WDT->EWCTRL.reg = WDT_EWCTRL_EWOFFSET_CYC16; // Example: set early warning to 16K cycles
+            WDT->CONFIG.reg = WDT_CONFIG_PER_CYC128; // Example: set period to 128K cycles
+            WDT->EWCTRL.reg = WDT_EWCTRL_EWOFFSET_CYC64; // Example: set early warning to 64K cycles
 
             // Enable the watchdog timer
             WDT->CTRLA.reg |= WDT_CTRLA_ENABLE;    // Enable the watchdog timer
